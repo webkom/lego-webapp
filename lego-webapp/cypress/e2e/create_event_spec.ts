@@ -174,7 +174,7 @@ describe('Create event', () => {
 
     // Select type
     selectField('eventType').click();
-    cy.focused().type('be{enter}', { force: true });
+    cy.focused().type('bedriftspres{enter}', { force: true });
 
     field('location').type('DT').blur();
 
@@ -222,7 +222,7 @@ describe('Create event', () => {
 
     // Select type
     selectField('eventType').click();
-    cy.focused().type('be{enter}', { force: true });
+    cy.focused().type('bedriftspres{enter}', { force: true });
 
     // Select regitrationType
     selectField('eventStatusType').click();
@@ -253,7 +253,7 @@ describe('Create event', () => {
 
     // Select type
     selectField('eventType').click();
-    cy.focused().type('be{enter}', { force: true });
+    cy.focused().type('bedriftspres{enter}', { force: true });
 
     // Always select one day into the future to avoid test issues with "Påmelding åpner/stenger" variants changing
     const dateObject = new Date();

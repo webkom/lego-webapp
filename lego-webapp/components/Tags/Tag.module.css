@@ -13,8 +13,9 @@
   --label-s: 79;
   --label-l: 47;
 
-  --lightness-threshold: 0.59;
-  --border-threshold: 0.96;
+  --lightness-threshold: 0.55;
+  --background-alpha: 0.22;
+  --border-alpha: 0.55;
   --perceived-lightness: calc(
     (
         (var(--label-r) * 0.2126) + (var(--label-g) * 0.7152) +
@@ -29,25 +30,31 @@
       1
     )
   );
-  --border-alpha: max(
-    0,
-    min(calc((var(--perceived-lightness) - var(--border-threshold)) * 100), 1)
+  --lighten-by: calc(
+    ((var(--lightness-threshold) - var(--perceived-lightness)) * 100) *
+      var(--lightness-switch)
   );
+  --tag-lightness: clamp(12%, calc((var(--label-l) - 18) * 1%), 42%);
 
   display: inline-flex;
-  color: hsl(0deg, 0%, calc(var(--lightness-switch) * 100%));
-  background: rgb(var(--label-r), var(--label-g), var(--label-b));
+  color: hsl(var(--label-h), calc(var(--label-s) * 1%), var(--tag-lightness));
+  background: rgba(
+    var(--label-r),
+    var(--label-g),
+    var(--label-b),
+    var(--background-alpha)
+  );
+  border: 1px solid transparent;
   border-color: hsla(
     var(--label-h),
     calc(var(--label-s) * 1%),
-    calc((var(--label-l) - 25) * 1%),
+    var(--tag-lightness),
     var(--border-alpha)
   );
   padding: 2.5px 7px;
-  border: 1px solid transparent;
   border-radius: var(--border-radius-lg);
   font-size: var(--font-size-xs);
-  font-weight: 500;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
   line-height: 1.5;
   transition: var(--easing-fast);
@@ -58,28 +65,7 @@ html[data-theme='dark'] .tag {
   --lightness-threshold: 0.6;
   --background-alpha: 0.18;
   --border-alpha: 0.3;
-  --lighten-by: calc(
-    ((var(--lightness-threshold) - var(--perceived-lightness)) * 100) *
-      var(--lightness-switch)
-  );
-
-  color: hsl(
-    var(--label-h),
-    calc(var(--label-s) * 1%),
-    calc((var(--label-l) + var(--lighten-by)) * 1%)
-  );
-  background: rgba(
-    var(--label-r),
-    var(--label-g),
-    var(--label-b),
-    var(--background-alpha)
-  );
-  border-color: hsla(
-    var(--label-h),
-    calc(var(--label-s) * 1%),
-    calc((var(--label-l) + var(--lighten-by)) * 1%),
-    var(--border-alpha)
-  );
+  --tag-lightness: calc((var(--label-l) + var(--lighten-by)) * 1%);
 }
 
 .active,
@@ -89,14 +75,11 @@ html[data-theme='dark'] .tag {
 }
 
 .active {
-  box-shadow: 0 0 0 2.3px
-    rgba(var(--label-r), var(--label-g), var(--label-b), 40%);
-}
-
-html[data-theme='dark'] .active {
   color: hsl(0deg, 0%, calc(var(--lightness-switch) * 100%));
   background: rgb(var(--label-r), var(--label-g), var(--label-b));
   border-color: rgb(var(--label-r), var(--label-g), var(--label-b));
+  box-shadow: 0 0 0 2.3px
+    rgba(var(--label-r), var(--label-g), var(--label-b), 40%);
 }
 
 .gray {

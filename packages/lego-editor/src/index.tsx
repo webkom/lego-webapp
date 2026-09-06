@@ -13,12 +13,12 @@ import Toolbar from './components/Toolbar';
 import styles from './Editor.module.css';
 import { useEffect, useState } from 'react';
 import cx from 'classnames';
-import { Figure } from './extensions/figure.tsx';
-import { ImageWithFileKey } from './extensions/image.ts';
+import { Figure } from './extensions/figure';
+import { ImageWithFileKey } from './extensions/image';
 import { Link } from '@tiptap/extension-link';
-import { Diff } from './extensions/diff.ts';
-import { Strike } from './extensions/strike.ts';
-import { ImageMenu } from './components/ImageMenu.tsx';
+import { Diff } from './extensions/diff';
+import { Strike } from './extensions/strike';
+import { ImageMenu } from './components/ImageMenu';
 
 export type ImageUploadFn = (
   file: File,

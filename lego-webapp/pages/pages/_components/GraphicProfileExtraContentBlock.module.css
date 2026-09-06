@@ -1,0 +1,8 @@
+.heading {
+  margin-top: 0;
+}
+
+.imageLogos {
+  border-radius: var(--border-radius-sm);
+  background-color: var(--color-absolute-white);
+}

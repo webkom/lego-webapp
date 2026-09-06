@@ -1,0 +1,6 @@
+.lendingRequestsContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--spacing-xs);
+  gap: var(--spacing-sm);
+}

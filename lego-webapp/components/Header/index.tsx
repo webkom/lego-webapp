@@ -1,7 +1,7 @@
-import { Icon, LoadingIndicator, Image } from '@webkom/lego-bricks';
+import { Icon, Image, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { Menu, CircleUser, LogOut, Settings, Users, X } from 'lucide-react';
+import { CircleUser, LogOut, Menu, Settings, Users, X } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { navigate } from 'vike/client/router';
@@ -14,7 +14,6 @@ import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';
 import { selectUpcomingMeetingId } from '~/redux/slices/meetings';
 import utilStyles from '~/styles/utilities.module.css';
 import { Keyboard } from '~/utils/constants';
-import { applySelectedTheme, getOSTheme, getTheme } from '~/utils/themeUtils';
 import Dropdown from '../Dropdown';
 import NotificationsDropdown from '../HeaderNotifications';
 import { ProfilePicture } from '../Image';
@@ -154,6 +153,7 @@ const AccountDropdown = () => {
     <Dropdown
       show={accountOpen}
       toggle={() => setAccountOpen(!accountOpen)}
+      className={styles.hideOnDesktop}
       contentClassName={styles.dropdown}
       triggerComponent={<Icon iconNode={<CircleUser />} />}
     >
@@ -165,23 +165,14 @@ const AccountDropdown = () => {
 const Header = () => {
   const dispatch = useAppDispatch();
   const loggedIn = useIsLoggedIn();
-  const currentUser = useCurrentUser();
   const searchOpen = useAppSelector((state) => state.search.open);
+  const [renderSearch, setRenderSearch] = useState(searchOpen);
 
   useEffect(() => {
-    if (
-      !import.meta.env.SSR &&
-      loggedIn &&
-      currentUser &&
-      (currentUser.selectedTheme === 'auto'
-        ? getTheme() !== getOSTheme()
-        : getTheme() !== currentUser.selectedTheme)
-    ) {
-      applySelectedTheme(currentUser.selectedTheme || 'light', {
-        updateUserTheme: false,
-      });
+    if (searchOpen) {
+      setRenderSearch(true);
     }
-  }, [loggedIn, currentUser]);
+  }, [searchOpen]);
 
   useEffect(() => {
     if (searchOpen) {
@@ -225,7 +216,12 @@ const Header = () => {
               className={styles.searchButton}
               data-test-id="search-menu-icon"
             >
-              <div className={styles.iconWrapper}>
+              <div
+                className={cx(
+                  styles.iconWrapper,
+                  searchOpen && styles.searching,
+                )}
+              >
                 <Icon
                   iconNode={<Menu />}
                   size={24}
@@ -244,7 +240,9 @@ const Header = () => {
           </div>
         </div>
       </div>
-      {searchOpen && <Search />}
+      {renderSearch && (
+        <Search closing={!searchOpen} onClosed={() => setRenderSearch(false)} />
+      )}
     </header>
   );
 };

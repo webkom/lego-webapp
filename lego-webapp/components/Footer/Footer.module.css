@@ -20,6 +20,7 @@
   padding: var(--spacing-md);
   margin-bottom: -1px; /* In case of glitchy render */
   background: url('../../assets/skyline.svg') bottom center no-repeat;
+  background-size: min(775px, 100%) auto;
 
   @media (--small-viewport) {
     justify-content: center;
@@ -122,6 +123,9 @@ img.octocat {
   margin-left: 1px;
   transition: transform var(--easing-slow);
   transform-style: preserve-3d;
+}
+.gitHubLink {
+  display: inline-block;
 }
 
 .gitHubLink:hover .octocat {

@@ -7,6 +7,7 @@
     'info header'
     'info events';
   grid-template-columns: 348.53px 1fr; /* The width of the info cards below */
+  grid-template-rows: auto auto 1fr; /* A tall info column must stretch the events row, not the header row */
   gap: var(--spacing-md) var(--spacing-lg);
 
   @media (--medium-viewport) {
@@ -16,6 +17,7 @@
       'info'
       'events';
     grid-template-columns: 1fr;
+    grid-template-rows: none;
   }
 }
 

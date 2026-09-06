@@ -1,0 +1,113 @@
+@import url('styles/custom-media.css');
+
+.headerRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+
+  @media (--small-viewport) {
+    align-items: center;
+    flex-direction: row;
+  }
+}
+
+.lendingRequestMailBoxTitle {
+  display: flex;
+  align-items: center;
+  padding-left: var(--spacing-sm);
+  gap: var(--spacing-sm);
+}
+
+.lendingRequestsContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--spacing-xs);
+  gap: var(--spacing-sm);
+}
+
+.requestCardWrapper {
+  transform-origin: top center;
+}
+
+.loadingState {
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-xl) 0;
+}
+
+.lendingRequestEmpty {
+  padding-top: var(--spacing-xl);
+}
+
+.loadMoreRequest {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: -17px;
+}
+
+.header {
+  margin: 0;
+}
+
+.loadMoreButton {
+  background-color: var(--color-gray-2);
+  font-size: var(--font-size-sm);
+}
+
+.loadMoreButton:hover {
+  background-color: var(--color-gray-3);
+}
+
+.lendingRequestCard {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: var(--spacing-md);
+  color: var(--lego-font-color);
+  transition:
+    box-shadow var(--easing-fast),
+    background-color var(--easing-fast);
+}
+
+.lendingRequestCard:hover {
+  background-color: var(--additive-background);
+}
+
+img.lendingRequestImage {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: var(--border-radius-lg);
+}
+
+.thumbnail {
+  width: 250px;
+  flex-shrink: 0;
+}
+
+.detailsContainer {
+  flex: 1;
+}
+
+.statusTag {
+  width: 100%;
+  font-size: var(--font-size-xs);
+  padding: var(--spacing-xs) var(--spacing-md);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.statusTag .rotate {
+  animation: spinner 5s linear infinite;
+}

@@ -40,11 +40,29 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
             }}
             component={TextInput.Field}
           />
-          {['NORMAL'].includes(eventStatusType) && (
+          {['NORMAL', 'INFINITE'].includes(eventStatusType) && (
             <Field
               label="Kapasitet"
+              description={
+                eventStatusType === 'INFINITE'
+                  ? '0 eller tomt gir ubegrenset antall plasser'
+                  : undefined
+              }
               name={`pools[${index}].capacity`}
               validate={(value) => {
+                if (eventStatusType === 'INFINITE') {
+                  // Empty or 0 means unlimited
+                  if (value === undefined || value === null || value === '') {
+                    return undefined;
+                  }
+                  if (isNaN(Number(value))) {
+                    return 'Kapasitet må være et tall';
+                  }
+                  if (Number(value) < 0) {
+                    return 'Kapasitet kan ikke være negativt';
+                  }
+                  return undefined;
+                }
                 if (!value || isNaN(parseInt(value, 10))) {
                   return 'Kapasitet er påkrevd og må være et tall';
                 }
@@ -57,7 +75,9 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
                 return undefined;
               }}
               type="number"
-              placeholder="20,30,50"
+              placeholder={
+                eventStatusType === 'INFINITE' ? '0 = ubegrenset' : '20,30,50'
+              }
               component={TextInput.Field}
             />
           )}

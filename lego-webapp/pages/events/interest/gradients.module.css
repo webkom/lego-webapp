@@ -1,0 +1,7 @@
+.gradient {
+  background: linear-gradient(
+    135deg,
+    var(--color-orange-2),
+    var(--color-orange-6)
+  );
+}

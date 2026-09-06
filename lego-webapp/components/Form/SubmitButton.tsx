@@ -1,7 +1,7 @@
 import { Button } from '@webkom/lego-bricks';
 import { spySubmittable } from '~/utils/formSpyUtils';
 import type { PressEvent } from '@webkom/lego-bricks';
-import type { ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 
 type Props = {
   children: ReactNode;
@@ -11,6 +11,7 @@ type Props = {
   danger?: boolean;
   disabled?: boolean;
   dark?: boolean;
+  size?: ComponentProps<typeof Button>['size'];
 };
 
 export const SubmitButton = ({
@@ -21,6 +22,7 @@ export const SubmitButton = ({
   danger = false,
   disabled = false,
   dark = false,
+  size,
 }: Props) =>
   spySubmittable(
     (submittable) => (
@@ -31,6 +33,7 @@ export const SubmitButton = ({
         className={className}
         danger={danger}
         dark={dark}
+        size={size}
       >
         {children}
       </Button>

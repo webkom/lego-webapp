@@ -16,7 +16,10 @@ const AchievementsPageWrapper = ({ children }: PropsWithChildren) => {
   const isLeaderboardPage = pageContext.urlPathname.startsWith(
     '/achievements/leaderboard',
   );
-  const isOverviewPage = !isLeaderboardPage;
+  const isStatisticsPage = pageContext.urlPathname.startsWith(
+    '/achievements/statistics',
+  );
+  const isOverviewPage = !isLeaderboardPage && !isStatisticsPage;
 
   const { query, setQueryValue } = useQuery({
     ...leaderboardDefaultSearch,

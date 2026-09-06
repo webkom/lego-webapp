@@ -230,12 +230,12 @@ const HeadCell = <T extends { id: EntityId }>({
           >
             {showColumn &&
               columnChoices.map(({ title }, index) => (
-                <div key={title}>
+                <div key={title?.toString()}>
                   <RadioButton
                     id={dataIndexColumnChoices + index}
                     name={dataIndexColumnChoices}
                     value={index}
-                    label={title}
+                    label={title?.toString()}
                     checked={showColumn[dataIndexColumnChoices] === index}
                     onChange={() => null}
                     onClick={() => {

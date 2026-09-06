@@ -1,14 +1,48 @@
 .label {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.labelRow {
+  margin-bottom: var(--spacing-sm);
+}
+
+.inlineRow {
+  margin-bottom: 0;
+}
+
+.descriptionText {
+  margin-bottom: var(--spacing-sm);
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-sm);
+}
+
+.labelRow:has(+ .descriptionText) {
   margin-bottom: var(--spacing-xs);
 }
 
 .inline {
+  .label {
+    font-size: inherit;
+  }
+
+  .descriptionText {
+    margin-top: var(--spacing-xs);
+    margin-bottom: 0;
+  }
+}
+
+.inlineColumn {
+  min-width: 0;
+}
+
+.inlineLabel {
+  display: flex;
+  flex-direction: column;
   cursor: pointer;
 
   .label {
-    font-size: inherit;
-    margin-bottom: 0;
+    font-weight: 600;
   }
 }
 
@@ -21,5 +55,17 @@
 .description {
   display: inline-block;
   vertical-align: top;
-  margin-left: var(--spacing-sm);
+}
+
+.screenReaderOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  border: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
 }

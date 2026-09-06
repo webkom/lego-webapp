@@ -1,7 +1,8 @@
 import { Flex } from '@webkom/lego-bricks';
 import Circle from '~/components/Circle';
-import { EventTypeConfig } from '~/pages/events/utils';
+import { nonInterestEventTypes } from '~/pages/events/utils';
 import { appConfig } from '~/utils/appConfig';
+import styles from './EventFooter.module.css';
 import type { IcalToken } from 'app/models';
 
 const icalTypes: { name: IcalType; title: string }[] = [
@@ -72,14 +73,14 @@ const EventFooter = ({ icalToken }: Props) => (
 
     <div>
       <h3>Fargekoder</h3>
-      <Flex column gap="var(--spacing-sm)">
-        {Object.entries(EventTypeConfig).map(([key, config]) => (
+      <div className={styles.legend}>
+        {nonInterestEventTypes.map(([key, config]) => (
           <Flex key={key} alignItems="center" gap="var(--spacing-sm)">
             <Circle color={config.color} />
             <span>{config.displayName}</span>
           </Flex>
         ))}
-      </Flex>
+      </div>
     </div>
   </Flex>
 );

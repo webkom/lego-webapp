@@ -59,7 +59,7 @@ const LandingPage: PageRenderer<null> = () => {
       >
         <Statistic statistic="10" label="Komiteer" />
         <Statistic statistic="5" label="Undergrupper" />
-        <Statistic statistic="32" label="Interessegrupper" />
+        <Statistic statistic="19" label="Interessegrupper" />
         <Statistic statistic="1000+" label="Medlemmer" />
         <Statistic
           topLabel="Stiftet i"

@@ -24,7 +24,7 @@ import { useAppDispatch } from '~/redux/hooks';
 import { AutocompleteContentType } from '~/redux/models/Autocomplete';
 import { MeetingInvitationStatus } from '~/redux/models/MeetingInvitation';
 import { statusesText } from '~/redux/slices/meetingInvitations';
-import { selectAutocomplete } from '~/redux/slices/search';
+import { transformAutocompletes } from '~/redux/slices/search';
 import { spyValues } from '~/utils/formSpyUtils';
 import {
   atLeastOneFieldRequired,
@@ -33,22 +33,10 @@ import {
 } from '~/utils/validation';
 import styles from './AnnouncementsList.module.css';
 import type { FormApi } from 'final-form';
-import type {
-  AutocompleteEvent,
-  SearchEvent,
-  UnknownEvent,
-} from '~/redux/models/Event';
-import type {
-  AutocompleteGroup,
-  SearchGroup,
-  UnknownGroup,
-} from '~/redux/models/Group';
-import type {
-  AutocompleteMeeting,
-  SearchMeeting,
-  UnknownMeeting,
-} from '~/redux/models/Meeting';
-import type { AutocompleteUser } from '~/redux/models/User';
+import type { UnknownEvent } from '~/redux/models/Event';
+import type { UnknownGroup } from '~/redux/models/Group';
+import type { UnknownMeeting } from '~/redux/models/Meeting';
+import type { SearchResult } from '~/redux/slices/search';
 
 export type AnnouncementCreateLocationState = {
   group?: UnknownGroup;
@@ -58,13 +46,13 @@ export type AnnouncementCreateLocationState = {
 
 export type FormValues = {
   message: string;
-  users?: AutocompleteUser[];
-  groups?: (AutocompleteGroup | SearchGroup)[];
-  events?: (AutocompleteEvent | SearchEvent)[];
+  users?: SearchResult[];
+  groups?: SearchResult[];
+  events?: SearchResult[];
   excludeWaitingList?: boolean;
-  meetings?: (AutocompleteMeeting | SearchMeeting)[];
-  meetingInvitationStatus?: MeetingInvitationStatus;
-  fromGroup?: AutocompleteGroup;
+  meetings?: SearchResult[];
+  meetingInvitationStatus?: { label: string; value: MeetingInvitationStatus };
+  fromGroup?: SearchResult;
   send: boolean;
 };
 
@@ -88,7 +76,7 @@ const AnnouncementsCreate = () => {
 
   const initialValues: FormValues = {
     groups: state?.group
-      ? selectAutocomplete([
+      ? transformAutocompletes([
           {
             contentType: AutocompleteContentType.Group,
             ...state.group,
@@ -96,7 +84,7 @@ const AnnouncementsCreate = () => {
         ])
       : [],
     events: state?.event
-      ? selectAutocomplete([
+      ? transformAutocompletes([
           {
             contentType: AutocompleteContentType.Event,
             ...state.event,
@@ -104,7 +92,7 @@ const AnnouncementsCreate = () => {
         ])
       : [],
     meetings: state?.meeting
-      ? selectAutocomplete([
+      ? transformAutocompletes([
           {
             contentType: AutocompleteContentType.Meeting,
             ...state.meeting,

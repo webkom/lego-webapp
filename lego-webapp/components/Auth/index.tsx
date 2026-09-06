@@ -1,11 +1,4 @@
-import {
-  Button,
-  ButtonGroup,
-  Card,
-  Flex,
-  Icon,
-  Page,
-} from '@webkom/lego-bricks';
+import { Button, Card, Flex, Icon, Page } from '@webkom/lego-bricks';
 import { ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
 import {
@@ -14,6 +7,7 @@ import {
   RegisterForm,
 } from '~/components/LoginForm';
 import { ContentMain } from '../Content';
+import styles from './Auth.module.css';
 import type { ComponentType } from 'react';
 
 enum AuthMode {
@@ -26,6 +20,12 @@ const titles: { [M in AuthMode]: string } = {
   [AuthMode.LOGIN]: 'Logg inn',
   [AuthMode.REGISTER]: 'Registrer bruker',
   [AuthMode.FORGOT_PASSWORD]: 'Glemt passord',
+};
+
+const subtitles: { [M in AuthMode]?: string } = {
+  [AuthMode.REGISTER]: 'Vi sender deg en e-post for å fullføre registreringen.',
+  [AuthMode.FORGOT_PASSWORD]:
+    'Skriv inn e-posten din, så sender vi deg en lenke for å tilbakestille det.',
 };
 
 const forms: { [M in AuthMode]: ComponentType } = {
@@ -81,33 +81,42 @@ const Auth = ({ asPage = false, loginRequired = false }: Props) => {
 
   return (
     <Flex column gap="var(--spacing-sm)">
-      <Flex
-        wrap
-        gap="var(--spacing-sm)"
-        justifyContent="space-between"
-        alignItems="center"
-      >
+      {authMode !== AuthMode.LOGIN && (
+        <button
+          type="button"
+          className={styles.backLink}
+          onClick={() => setAuthMode(AuthMode.LOGIN)}
+        >
+          <Icon iconNode={<ArrowLeft />} size={14} />
+          Tilbake til innlogging
+        </button>
+      )}
+      <Flex column gap="var(--spacing-xs)">
         <h2>{title}</h2>
-        {authMode === AuthMode.LOGIN ? (
-          <ButtonGroup>
-            <Button
-              size="small"
-              onPress={() => setAuthMode(AuthMode.FORGOT_PASSWORD)}
-            >
-              Glemt passord
-            </Button>
-            <Button size="small" onPress={() => setAuthMode(AuthMode.REGISTER)}>
-              Jeg er ny
-            </Button>
-          </ButtonGroup>
-        ) : (
-          <Button size="small" onPress={() => setAuthMode(AuthMode.LOGIN)}>
-            <Icon iconNode={<ArrowLeft />} size={18} />
-            Tilbake
-          </Button>
+        {subtitles[authMode] && (
+          <span className={styles.subtitle}>{subtitles[authMode]}</span>
         )}
       </Flex>
-      <Form />
+      {authMode === AuthMode.LOGIN ? (
+        <LoginForm
+          afterFields={
+            <button
+              type="button"
+              className={styles.forgotPassword}
+              onClick={() => setAuthMode(AuthMode.FORGOT_PASSWORD)}
+            >
+              Glemt passord?
+            </button>
+          }
+          secondaryAction={
+            <Button onPress={() => setAuthMode(AuthMode.REGISTER)}>
+              Jeg er ny
+            </Button>
+          }
+        />
+      ) : (
+        <Form />
+      )}
     </Flex>
   );
 };

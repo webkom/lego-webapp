@@ -5,8 +5,7 @@ import { Quote } from '~/redux/actionTypes';
 import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
 import { EntityType } from '~/redux/models/entities';
 import { addReactionCases } from '~/redux/slices/reactions';
-import type { EntityId } from '@reduxjs/toolkit';
-import type { AnyAction } from 'redux';
+import type { EntityId, AnyAction } from '@reduxjs/toolkit';
 import type { RootState } from '~/redux/rootReducer';
 
 const legoAdapter = createLegoAdapter(EntityType.Quotes, {

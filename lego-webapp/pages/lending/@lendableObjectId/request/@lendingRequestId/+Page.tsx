@@ -28,9 +28,10 @@ import { ProfilePicture } from '~/components/Image';
 import { Tag } from '~/components/Tags';
 import TextWithIcon from '~/components/TextWithIcon';
 import Time, { FromToTime } from '~/components/Time';
-import LendingCalendar from '~/pages/lending/@lendableObjectId/LendingCalendar';
-import LendingStatusTag, { statusMap } from '~/pages/lending/LendingStatusTag';
-import { useIsCurrentUser } from '~/pages/users/utils';
+import LendingCalendar from '~/pages/lending/_components/LendingCalendar';
+import LendingStatusTag, {
+  statusMap,
+} from '~/pages/lending/_components/LendingStatusTag';
 import {
   fetchLendingRequestById,
   editLendingRequest,
@@ -45,6 +46,7 @@ import {
   TimelineEntry,
 } from '~/redux/models/LendingRequest';
 import { PublicUserWithGroups } from '~/redux/models/User';
+import { useCurrentUser } from '~/redux/slices/auth';
 import { selectLendableObjectById } from '~/redux/slices/lendableObjects';
 import { selectLendingRequestById } from '~/redux/slices/lendingRequests';
 import { selectUserById } from '~/redux/slices/users';
@@ -89,13 +91,17 @@ const LendingRequest = () => {
   const createdByUser = useAppSelector((state) =>
     selectUserById<PublicUserWithGroups>(state, lendingRequest?.createdBy),
   );
-  const isCurrentUser = useIsCurrentUser(createdByUser?.username);
+  const currentUser = useCurrentUser();
 
   if (fetching) {
     return <LoadingIndicator loading />;
   }
 
   const isAdmin = lendingRequest?.actionGrant?.includes('edit');
+  const isRequestOwner = currentUser?.id === lendingRequest?.createdBy;
+  const canRequestChanges =
+    lendingRequest?.createdBy != currentUser?.id &&
+    lendingRequest?.actionGrant?.includes('edit');
 
   const title = `Forespørsel ${lendableObject?.title ? ` - ${lendableObject.title}` : ''}`;
 
@@ -156,7 +162,7 @@ const LendingRequest = () => {
             />
             <h3>Status</h3>
             <LendingStatusTag lendingRequestStatus={lendingRequest.status} />
-            {isCurrentUser && (
+            {isRequestOwner && (
               <Flex
                 column
                 gap="var(--spacing-sm)"
@@ -195,10 +201,12 @@ const LendingRequest = () => {
                     toStatus={LendingRequestStatus.Denied}
                     lendingRequest={lendingRequest}
                   />
-                  <UpdateButton
-                    toStatus={LendingRequestStatus.ChangesRequested}
-                    lendingRequest={lendingRequest}
-                  />
+                  {canRequestChanges && (
+                    <UpdateButton
+                      toStatus={LendingRequestStatus.ChangesRequested}
+                      lendingRequest={lendingRequest}
+                    />
+                  )}
                 </Flex>
               </>
             )}

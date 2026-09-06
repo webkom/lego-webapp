@@ -1,14 +1,6 @@
 import qs from 'qs';
 import { CompanyInterestEventType } from '~/redux/models/CompanyInterest';
 import { appConfig } from '~/utils/appConfig';
-import {
-  COLLABORATION_TYPES,
-  EVENTS,
-  SURVEY_OFFERS,
-  OTHER_OFFERS,
-  TARGET_GRADES,
-  COLLABORATION_DESCRIPTIONS,
-} from './Translations';
 import type CompanySemester from '~/redux/models/CompanySemester';
 
 export const sortSemesterChronologically = (
@@ -74,28 +66,6 @@ export const EVENT_TYPE_OPTIONS: CompanyInterestEventTypeOption[] = [
   },
 ];
 
-export const eventToString = (event) =>
-  Object.keys(EVENTS)[Number(event.charAt(event.length - 2))];
-
-export const surveyOffersToString = (offer) =>
-  Object.keys(SURVEY_OFFERS)[Number(offer.charAt(offer.length - 2))];
-
-export const otherOffersToString = (offer) =>
-  Object.keys(OTHER_OFFERS)[Number(offer.charAt(offer.length - 2))];
-
-export const collaborationToString = (collab) =>
-  Object.keys(COLLABORATION_TYPES)[Number(collab.charAt(collab.length - 2))];
-
-export const targetGradeToString = (targetGrade) =>
-  Object.keys(TARGET_GRADES)[
-    Number(targetGrade.charAt(targetGrade.length - 2))
-  ];
-
-export const collaborationDescriptionToString = (collab) =>
-  Object.keys(COLLABORATION_DESCRIPTIONS)[
-    Number(collab.charAt(collab.length - 2))
-  ];
-
 export const getCsvUrl = (
   year: number | string,
   semester: string,
@@ -107,7 +77,7 @@ export const getCsvUrl = (
     event,
   })}`;
 
-export const SEMESTER_TRANSLATION = {
+const SEMESTER_TRANSLATION = {
   spring: {
     norwegian: 'Vår',
     english: 'Spring',
@@ -169,23 +139,6 @@ export const interestText = {
     norwegian: 'Skriv litt om hva slags bedriftspresentasjon dere ønsker.',
     english: 'Write a litte about the company presentation event you wish for.',
   },
-  bedex: {
-    norwegian:
-      '«Husk å ranger datoer og gruppestørrelse dersom du har huket av for BedEx»',
-    english: '«Remember to rank dates and groupsize if you have checked BedEx»',
-  },
-  anniversaryCollaboration: {
-    norwegian:
-      '*Samarbeid med Jubileum vil si promoteringsmuligheter på Abakus sitt jubileum i vår, eller Revyen sitt Jubileum i november 2021. Dersom det er av interesse, vil dere informeres om hva et slikt samarbeid vil innebære.',
-    english:
-      '*A collaboration with the anniversary committees would mean great opportunities  for your company to promote oneself. Either while Abakus has its anniversary in the  spring, or while the revue´s anniversary is celebrated in November 2021. If this is of  interest, we will further inform you what exactly is offered your company.',
-  },
-  revueCollaboration: {
-    norwegian:
-      '**Samarbeid med Revyen innebærer at dere får holde bedriftspresentasjon på datoen for Revyen, samt gode promoteringsmuligheter (logo på revy-gensere, logo på revyplakater o.l.)',
-    english:
-      '**A collaboration with the Revue means being their main sponsor. The Revue is a “show”, made and starred by students, and is widely popular within Abakus. As part of the collaboration, we offer you to give a Company presentation the same date as the revue. The company proceeds to join the students at the show after the presentation, guaranteeing a popular event. We also offer promotion opportunities, including your logo on merch/posters associated with the revue, etc.',
-  },
   priorityReasoningTitle: {
     norwegian: 'Abakus sin begrunnelse for prioritering',
     english: 'How we in Abakus prioritize',
@@ -203,17 +156,11 @@ export const interestText = {
       'We would like for you to describe the type of company presentation you want. Do you have any thoughts about the content of the presentation that you want to focus on or the type of networking afterwards?',
   },
 
-  lunchPresentationDescriptiont: {
+  lunchPresentationDescription: {
     norwegian:
       'Skriv gjerne litt om hvordan presentasjon dere ønsker i forhold til innhold og mingling. I motsetning til bedriftspresentasjon legger denne opp til å starte ved lunsjtider og holder minglingen på Gløshaugen.',
     english:
       'Please write a little bit about the type of presentation you would like in terms of content and networking. In contrast to the company presentation, this is scheduled to start at lunchtime and will hold networking at Gløshaugen.',
-  },
-  courseDescription: {
-    norwegian:
-      'På et faglig arrangement skal dere lære bort noe til studentene. Dette kan være gjennom foredrag, workshops eller lignende. Fortell hva dere kan holde kurs i, og pitch gjerne en fullstendig idé til gjennomføring av kurset. Er det noe dere kan lære bort som sammenfaller med temaene studentene har svart at de ønsker seg, eller driver dere med noe annet studentene vil være interesserte i?',
-    english:
-      'At a course or workshop, you must teach something to the students. This can be through talks or interactive workshops. Tell us what you can hold a course about, and feel free to pitch a complete idea for carrying out the course. Is there something you can teach that coincides with the topics the students have answered that they want, or do you do something else the students will be interested in?',
   },
   breakfastTalkDescription: {
     norwegian:
@@ -227,11 +174,17 @@ export const interestText = {
     english:
       "BedEx is Abakus' company excursion to Oslo for students in their 4th and 5th year of study. During a four-day stay in Oslo, students have the opportunity to visit 6 prominent companies. These companies welcome the students to their premises, where, through carefully planned activities and direct dialogue with employees, they provide in-depth insight into both their operations and work culture. The BedEx team organizes a group flight from Trondheim to Oslo on the morning of tuesday September 10, as well as hotel accommodation until friday September 13. Each student is free to arrange their journey back to Trondheim, allowing those who wish to spend extra time with family in the area or enjoy an extended weekend in Oslo.",
   },
+  courseDescription: {
+    norwegian:
+      'Fortell hva dere kan holde kurs i, og pitch gjerne en fullstendig idé til gjennomføring av kurset. Er det noe dere kan lære bort som sammenfaller med temaene studentene har svart at de ønsker seg, eller driver dere med noe annet studentene vil være interesserte i?',
+    english:
+      'Tell us what you can hold a course about, and feel free to pitch a complete idea for carrying out the course. Is there something you can teach that coincides with the topics the students have answered that they want, or do you do something else the students will be interested in?',
+  },
   otherEventDescription: {
     norwegian:
-      'Har dere ønsker om å arrangere noe mer enn en vanlig bedriftspresentasjon eller noe som ikke helt passer som et faglig arrangement? Skriv en beskrivelse av hva dere har tenkt eller ønsker. Også mulig å sparre med oss så kan vi finne på spennende arrangementer.',
+      'Skriv en beskrivelse av hva dere har tenkt eller ønsker. Også mulig å sparre med oss så kan vi finne på spennende arrangementer.',
     english:
-      "Do you have any wishes to arrange something more than a regular company presentation or something that doesn't quite fit as a professional event? Write a description of what you have in mind or want. It is also possible to brainstorm with us so that we can come up with exciting events.",
+      'Write a description of what you have in mind or want. It is also possible to brainstorm with us so that we can come up with exciting events.',
   },
   startUpDescription: {
     norwegian:

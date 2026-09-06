@@ -3,7 +3,7 @@ import callAPI from '~/redux/actions/callAPI';
 import { eventSchema, eventAdministrateSchema } from '~/redux/schemas';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Thunk, Action } from 'app/types';
-import type { DetailedEvent, UnknownEvent } from '~/redux/models/Event';
+import type { DetailedEvent } from '~/redux/models/Event';
 import type { Presence, ReadRegistration } from '~/redux/models/Registration';
 
 export const waitinglistPoolId = -1;
@@ -119,6 +119,7 @@ export function editPartialEvent(
     body: { ...event, cover: event.cover || undefined },
     meta: {
       errorMessage: 'Endring av arrangement feilet',
+      successMessage: 'Endring av arrangement fullført',
     },
   });
 }
@@ -165,11 +166,9 @@ export function register({
 export function unregister({
   eventId,
   registrationId,
-  admin = false,
 }: {
   eventId: EntityId;
   registrationId: EntityId;
-  admin?: boolean;
 }) {
   return callAPI({
     types: Event.REQUEST_UNREGISTER,
@@ -178,7 +177,6 @@ export function unregister({
     body: {},
     meta: {
       errorMessage: 'Avregistrering fra arrangement feilet',
-      admin,
       id: Number(registrationId),
     },
   });
@@ -204,6 +202,29 @@ export function adminRegister(
     meta: {
       errorMessage: 'Admin registrering feilet',
       successMessage: 'Brukeren ble registrert',
+    },
+  });
+}
+
+export function adminUnregister(
+  eventId: EntityId,
+  userId: EntityId,
+  registrationId: EntityId,
+  adminUnregistrationReason: string,
+) {
+  return callAPI({
+    types: Event.REQUEST_UNREGISTER,
+    endpoint: `/events/${eventId}/registrations/admin_unregister/`,
+    method: 'POST',
+    body: {
+      user: userId,
+      adminUnregistrationReason,
+    },
+    meta: {
+      errorMessage: 'Admin avregistrering feilet',
+      successMessage: 'Brukeren ble avregistrert',
+      admin: true,
+      id: Number(registrationId),
     },
   });
 }

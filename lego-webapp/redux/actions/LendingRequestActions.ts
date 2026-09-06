@@ -9,12 +9,20 @@ import { LendingRequests } from '../actionTypes';
 import { lendingRequestSchema } from '../schemas';
 import callAPI from './callAPI';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { ParsedQs } from 'qs';
 
-export const fetchLendingRequests = ({ next = false }) =>
+export const fetchLendingRequests = ({
+  query,
+  next = false,
+}: {
+  query?: ParsedQs;
+  next?: boolean;
+} = {}) =>
   callAPI<ListLendingRequest[]>({
     types: LendingRequests.FETCH,
     endpoint: '/lending/requests/',
     schema: [lendingRequestSchema],
+    query,
     meta: {
       errorMessage: 'Henting av utlånsforespørsler feilet',
     },
@@ -24,7 +32,13 @@ export const fetchLendingRequests = ({ next = false }) =>
     propagateError: true,
   });
 
-export const fetchLendingRequestsAdmin = ({ query, next = false }) =>
+export const fetchLendingRequestsAdmin = ({
+  query,
+  next = false,
+}: {
+  query?: ParsedQs;
+  next?: boolean;
+} = {}) =>
   callAPI<AdminLendingRequest[]>({
     types: LendingRequests.FETCH_ADMIN,
     endpoint: '/lending/requests/admin/',

@@ -1,0 +1,145 @@
+.label {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-xs);
+}
+
+.themes {
+  margin-bottom: var(--spacing-md);
+}
+
+.optionWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.themeOption {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  border: 1.5px solid var(--border-gray);
+  border-radius: var(--border-radius-md);
+  transition: border-color var(--easing-fast);
+  overflow: hidden;
+}
+
+.themeOption[data-selected='true'],
+.themeOption:hover:not(:disabled),
+.themeOption:focus:not(:disabled) {
+  border-color: var(--color-gray-4);
+}
+
+.previewContent {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.previewBackground {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.previewCard {
+  position: relative;
+  margin: var(--spacing-sm);
+  flex-grow: 1;
+  border-radius: var(--border-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.previewText {
+  font-size: var(--font-size-lg);
+  font-weight: 500;
+}
+
+.auto .previewBackground {
+  background: linear-gradient(
+    135deg,
+    var(--light-background-color) 0%,
+    var(--light-background-color) 50%,
+    var(--dark-background-color) 50%,
+    var(--dark-background-color) 100%
+  );
+}
+
+.auto .previewCard {
+  background: linear-gradient(
+    135deg,
+    var(--light-card-color) 0%,
+    var(--light-card-color) 50%,
+    var(--dark-card-color) 50%,
+    var(--dark-card-color) 100%
+  );
+}
+
+.auto .previewText {
+  background: linear-gradient(
+    135deg,
+    var(--light-font-color) 0%,
+    var(--light-font-color) 50%,
+    var(--dark-font-color) 50%,
+    var(--dark-font-color) 100%
+  );
+  background-clip: text;
+  color: transparent;
+}
+
+.light .previewBackground {
+  background-color: var(--light-background-color);
+}
+
+.light .previewCard {
+  background-color: var(--light-card-color);
+}
+
+.light .previewText {
+  color: var(--light-font-color);
+}
+
+.dark .previewBackground {
+  background-color: var(--dark-background-color);
+}
+
+.dark .previewCard {
+  background-color: var(--dark-card-color);
+}
+
+.dark .previewText {
+  color: var(--dark-font-color);
+}
+
+.checkIcon {
+  position: absolute;
+  bottom: var(--spacing-xs);
+  right: var(--spacing-xs);
+  padding: calc(var(--spacing-xs) / 2);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity var(--easing-fast);
+}
+
+.light .checkIcon {
+  color: var(--dark-font-color);
+  background: var(--dark-card-color);
+}
+
+.auto .checkIcon,
+.dark .checkIcon {
+  color: var(--light-font-color);
+  background: var(--light-card-color);
+}
+
+.themeOption[data-selected='true'] .checkIcon {
+  opacity: 1;
+}
+
+.optionLabel {
+  font-size: var(--font-size-sm);
+}

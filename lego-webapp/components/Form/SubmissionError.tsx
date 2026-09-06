@@ -7,7 +7,7 @@ const SubmissionError = () =>
     <>
       {error && (
         <div className={styles.submissionErrorContainer}>
-          <RenderErrorMessage error={error} />
+          <RenderErrorMessage error={error} variant="inline" />
         </div>
       )}
     </>

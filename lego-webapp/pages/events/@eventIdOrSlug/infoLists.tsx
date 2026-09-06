@@ -9,6 +9,7 @@ import {
   unregistrationCloseTime,
 } from '~/pages/events/utils';
 import { useAppSelector } from '~/redux/hooks';
+import { EventType } from '~/redux/models/Event';
 import { useCurrentUser } from '~/redux/slices/auth';
 import { resolveGroupLink } from '~/redux/slices/groups';
 import { selectPenaltyByUserId } from '~/redux/slices/penalties';
@@ -20,7 +21,9 @@ export const useDeadlineInfoList = (event?: DetailedEvent) => {
   const penalties = useAppSelector((state) =>
     selectPenaltyByUserId(state, currentUser?.id),
   );
-  if (!event) {
+  // Interest event deadlines are forced constants: registration is open
+  // from creation until start, so the rows carry no information
+  if (!event || event.eventType === EventType.INTEREST_EVENT) {
     return [];
   }
 

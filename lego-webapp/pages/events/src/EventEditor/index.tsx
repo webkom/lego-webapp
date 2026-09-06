@@ -31,6 +31,7 @@ import {
   setSaveForUse,
 } from '~/redux/actions/FileActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EventType } from '~/redux/models/Event';
 import {
   selectPoolsWithRegistrationsForEvent,
   selectEventByIdOrSlug,
@@ -187,12 +188,22 @@ const EventEditor = () => {
   };
 
   useEffect(() => {
-    if (isEditPage && event?.slug && event?.slug !== eventIdOrSlug) {
+    if (!isEditPage || !event?.slug) {
+      return;
+    }
+
+    // Interest events accept a narrower set of fields than this form offers,
+    // so they are edited in their own editor
+    if (event.eventType === EventType.INTEREST_EVENT) {
+      navigate(`/events/interest/${event.slug}/edit`, {
+        overwriteLastHistoryEntry: true,
+      });
+    } else if (event.slug !== eventIdOrSlug) {
       navigate(`/events/${event.slug}/edit`, {
         overwriteLastHistoryEntry: true,
       });
     }
-  }, [event?.slug, eventIdOrSlug, isEditPage]);
+  }, [event?.slug, event?.eventType, eventIdOrSlug, isEditPage]);
 
   const [useImageGallery, setUseImageGallery] = useState(false);
   const [imageGalleryUrl, setImageGalleryUrl] = useState('');
@@ -203,6 +214,11 @@ const EventEditor = () => {
 
   if (isEditPage && !actionGrant.includes('edit')) {
     return null;
+  }
+
+  // Held until the effect above has moved on to the interest editor
+  if (isEditPage && event.eventType === EventType.INTEREST_EVENT) {
+    return <LoadingPage loading />;
   }
 
   const onSubmit = (values: EditingEvent) => {

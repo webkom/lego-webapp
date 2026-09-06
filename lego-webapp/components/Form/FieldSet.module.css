@@ -1,3 +1,13 @@
 .fieldSet {
   border: 0;
+
+  & legend {
+    margin-bottom: var(--spacing-sm);
+  }
+}
+
+.description {
+  margin-bottom: var(--spacing-sm);
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-sm);
 }

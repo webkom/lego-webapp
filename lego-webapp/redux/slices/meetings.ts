@@ -9,9 +9,8 @@ import { addCommentCases } from '~/redux/slices/comments';
 import { fetchMeeting } from '../actions/MeetingActions';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { addReactionCases } from './reactions';
-import type { EntityId } from '@reduxjs/toolkit';
+import type { EntityId, AnyAction } from '@reduxjs/toolkit';
 import type { Moment } from 'moment-timezone';
-import type { AnyAction } from 'redux';
 import type { DetailedMeeting, ListMeeting } from '~/redux/models/Meeting';
 import type { MeetingInvitationStatus } from '~/redux/models/MeetingInvitation';
 import type { PublicUser } from '~/redux/models/User';
@@ -194,12 +193,15 @@ export const selectGroupedMeetings = createSelector(
   },
 );
 
-export const selectUpcomingMeetings = (state: RootState) =>
-  selectMeetingsByField('endTime', (endTime, filterTime) =>
-    moment(endTime).isAfter(filterTime),
-  )(state, moment())
-    .sort((a, b) => moment(a.startTime).diff(moment(b.startTime)))
-    .filter((meeting: ListMeeting) => !meeting.isTemplate);
+export const selectUpcomingMeetings = createSelector(
+  selectAllMeetings,
+  (meetings) => {
+    const now = moment();
+    return (meetings as ListMeeting[])
+      .filter((m) => !m.isTemplate && moment(m.endTime).isAfter(now))
+      .sort((a, b) => moment(a.startTime).diff(moment(b.startTime)));
+  },
+);
 
 export const selectUpcomingMeetingId = createSelector(
   selectUpcomingMeetings,

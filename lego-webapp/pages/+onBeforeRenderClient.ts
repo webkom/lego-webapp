@@ -3,11 +3,18 @@ import cookie from 'js-cookie';
 import moment from 'moment-timezone';
 import { PageContextClient } from 'vike/types';
 import { maybeRefreshToken } from '~/redux/actions/UserActions';
-import createStore from '../redux/createStore';
+import { setTheme } from '~/redux/slices/theme';
+import createStore, { Store } from '../redux/createStore';
 import 'moment/dist/locale/nb';
 
+// The store must be shared across every client-side pageContext. Vike renders
+// with isHydration=false both for its error page and after an aborted
+// hydration, so a store created only during hydration leaves those renders
+// without one.
+let store: Store | undefined;
+
 export async function onBeforeRenderClient(pageContext: PageContextClient) {
-  if (pageContext.isHydration) {
+  if (!store) {
     !import.meta.env.DEV &&
       console.error(`
                      \`smMMms\`
@@ -38,11 +45,20 @@ export async function onBeforeRenderClient(pageContext: PageContextClient) {
 `);
     moment.locale('nb-NO');
 
-    pageContext.store = createStore(pageContext.storeInitialState, {
+    store = createStore(pageContext.storeInitialState, {
       Sentry,
       getCookie: (key) => cookie.get(key),
     });
-    pageContext.store.dispatch(maybeRefreshToken());
-    pageContext.store.dispatch({ type: 'REHYDRATED' });
+    store.dispatch(
+      setTheme(
+        document.documentElement.getAttribute('data-theme') === 'dark'
+          ? 'dark'
+          : 'light',
+      ),
+    );
+    store.dispatch(maybeRefreshToken());
+    store.dispatch({ type: 'REHYDRATED' });
   }
+
+  pageContext.store = store;
 }

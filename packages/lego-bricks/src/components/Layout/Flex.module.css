@@ -80,6 +80,9 @@
   align-items: stretch;
 }
 
-.basis__small .flex {
+/* The basis belongs to this flex's own items. Left as a descendant selector it
+   also reached nested flexes, zeroing the height of anything laid out in a
+   column further down. */
+.basis__small > .flex {
   flex-basis: 0;
 }

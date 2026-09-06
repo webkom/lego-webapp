@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { keyBy } from 'lodash-es';
 import { createSelector } from 'reselect';
 import { NotificationSettings } from '~/redux/actionTypes';
-import type { AnyAction } from 'redux';
+import type { AnyAction } from '@reduxjs/toolkit';
 import type { RootState } from '~/redux/rootReducer';
 
 type State = {

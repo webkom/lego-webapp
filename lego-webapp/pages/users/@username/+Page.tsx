@@ -3,7 +3,6 @@ import {
   DialogTrigger,
   Flex,
   Icon,
-  Modal,
   Image,
   Page,
   LoadingPage,
@@ -15,11 +14,11 @@ import { uniqBy, orderBy } from 'lodash-es';
 import { QrCode, SettingsIcon } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
-import { QRCode } from 'react-qrcode-logo';
 import { GroupType } from 'app/models';
 import frame from '~/assets/frame.png';
 import EventListCompact from '~/components/EventListCompact';
 import { ProfilePicture } from '~/components/Image';
+import AbaIdCard from '~/pages/users/@username/_components/AbaIdCard';
 import { Achievements } from '~/pages/users/@username/_components/Achievements';
 import { EmailLists } from '~/pages/users/@username/_components/EmailLists';
 import { GSuiteInfo } from '~/pages/users/@username/_components/GSuiteInfo';
@@ -34,9 +33,10 @@ import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
 import { useCurrentUser } from '~/redux/slices/auth';
 import { selectAllEvents } from '~/redux/slices/events';
-import { selectGroupsByType } from '~/redux/slices/groups';
+import { selectGroupsByType, selectGroupEntities } from '~/redux/slices/groups';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import { selectUserByUsername } from '~/redux/slices/users';
+import { getGroupsWithLogo } from '~/utils/getGroupsWithLogo';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import { useParams } from '~/utils/useParams';
 import GroupChange from './_components/GroupChange';
@@ -104,6 +104,8 @@ const UserProfile = () => {
     selectGroupsByType<PublicGroup>(state, GroupType.Grade),
   );
 
+  const groupEntities = useAppSelector(selectGroupEntities);
+
   const dispatch = useAppDispatch();
 
   usePreparedEffect(
@@ -150,6 +152,19 @@ const UserProfile = () => {
     ({ abakusGroup }) => abakusGroup,
   );
 
+  const gradeGroup = abakusGroups
+    .map((groupId) => groupEntities[groupId])
+    .find((group) => group?.type === GroupType.Grade);
+
+  const abaIdGroups = uniqBy(
+    getGroupsWithLogo(memberships, groupEntities).filter((m) => m.isActive),
+    (m) => m.abakusGroup.id,
+  ).map(({ abakusGroup }) => ({
+    id: abakusGroup.id,
+    name: abakusGroup.name,
+    logo: abakusGroup.logo!,
+  }));
+
   const hasFrame = FRAMEID.includes(user.id as number);
 
   return (
@@ -172,7 +187,6 @@ const UserProfile = () => {
       }
     >
       <Helmet title={`${firstName} ${lastName}`} />
-
       <div className={styles.pageGrid}>
         <Flex
           column
@@ -196,12 +210,12 @@ const UserProfile = () => {
                 <Icon iconNode={<QrCode />} size={19} />
                 Vis ABA-ID
               </Button>
-              <Modal title="ABA-ID">
-                <Flex column alignItems="center">
-                  <QRCode value={user.username ?? ''} />
-                  <h2>{user.username}</h2>
-                </Flex>
-              </Modal>
+              <AbaIdCard
+                fullName={user.fullName}
+                username={user.username}
+                grade={gradeGroup?.name}
+                groups={abaIdGroups}
+              />
             </DialogTrigger>
           )}
         </Flex>

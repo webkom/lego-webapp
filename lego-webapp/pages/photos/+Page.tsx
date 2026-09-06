@@ -1,6 +1,6 @@
-import { LinkButton, Page } from '@webkom/lego-bricks';
+import { LinkButton, Page, Flex, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { Images } from 'lucide-react';
+import { Images, Pin } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { navigate } from 'vike/client/router';
 import EmptyState from '~/components/EmptyState';
@@ -50,6 +50,17 @@ const Overview = () => {
           )
         }
         onClick={(gallery) => navigate(`/photos/${gallery.id}#list`)}
+        renderOverlay={(gallery) =>
+          gallery.isPinned && (
+            <Flex>
+              <Icon
+                className={styles.pinnedBadge}
+                iconNode={<Pin fill="currentColor" />}
+                size={18}
+              />
+            </Flex>
+          )
+        }
         renderBottom={(photo) => (
           <div className={styles.galleryInfo}>
             <h4 className={styles.galleryTitle}>{photo.title}</h4>

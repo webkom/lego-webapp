@@ -1,10 +1,11 @@
+import cx from 'classnames';
 import { debounce } from 'lodash-es';
 import { useMemo, useState } from 'react';
 import { navigate } from 'vike/client/router';
 import { autocomplete, toggleSearch } from '~/redux/actions/SearchActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { useIsLoggedIn } from '~/redux/slices/auth';
-import { selectAutocompleteRedux } from '~/redux/slices/search';
+import { selectAutocomplete } from '~/redux/slices/search';
 import { Keyboard } from '~/utils/constants';
 import QuickLinks from './QuickLinks';
 import styles from './Search.module.css';
@@ -17,9 +18,14 @@ import {
   getAllLinksFiltered,
 } from './utils';
 
-const Search = () => {
+type SearchProps = {
+  closing: boolean;
+  onClosed: () => void;
+};
+
+const Search = ({ closing, onClosed }: SearchProps) => {
   const loggedIn = useIsLoggedIn();
-  const results = useAppSelector(selectAutocompleteRedux);
+  const results = useAppSelector(selectAutocomplete);
   const searching = useAppSelector((state) => state.search.searching);
   const allowed = useAppSelector((state) => state.allowed);
   const [query, setQuery] = useState('');
@@ -97,7 +103,15 @@ const Search = () => {
   );
 
   return (
-    <div className={styles.wrapper} tabIndex={-1}>
+    <div
+      className={cx(styles.wrapper, closing && styles.closing)}
+      onAnimationEnd={(e) => {
+        if (closing && e.target === e.currentTarget) {
+          onClosed();
+        }
+      }}
+      tabIndex={-1}
+    >
       <div className={styles.content}>
         <SearchBar
           query={query}

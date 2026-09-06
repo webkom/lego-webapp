@@ -50,14 +50,14 @@ describe('Create meeting', () => {
     fieldError('date').should('not.exist');
     fieldError('description').should('not.exist');
 
-    setDatePickerTime('date', '19', '30', false);
-    setDatePickerTime('date', '20', '00', true);
+    setDatePickerTime('date', '18', '30', false);
+    setDatePickerTime('date', '19', '00', true);
 
     fieldError('date').should('not.exist');
-    field('date').should('contain.value', '19:30');
-    field('date').should('contain.value', '20:00');
+    field('date').should('contain.value', '18:30');
+    field('date').should('contain.value', '19:00');
 
-    setDatePickerTime('date', '20', '30', true);
+    setDatePickerTime('date', '19', '30', true);
 
     fieldError('date').should('not.exist');
 
@@ -203,7 +203,7 @@ describe('Create meeting', () => {
     cy.get(t('Modal__closeButton')).click();
 
     setDatePickerTime('date', '17', '15', false);
-    setDatePickerTime('date', '20', '00', true);
+    setDatePickerTime('date', '19', '00', true);
     field('useMazemap').click();
     selectFromSelectField('mazemapPoi', 'Abakus, Realfagbygget', 'abakus');
     selectFromSelectField('users', 'bedkom bedkom (bedkom)', 'bedkom');
@@ -231,7 +231,7 @@ describe('Create meeting', () => {
       'be.visible',
     );
     cy.contains('div', 'Når')
-      .should('contain.text', '17:15 - 20:00')
+      .should('contain.text', '17:15 - 19:00')
       .should('be.visible');
     cy.contains('div', 'Sted')
       .should('contain.text', 'Abakus, Realfagbygget')

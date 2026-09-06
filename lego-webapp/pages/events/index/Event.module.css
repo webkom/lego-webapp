@@ -37,3 +37,7 @@
   margin: 0 auto;
   border-bottom: 1px solid #6772e585;
 }
+
+.warningBox {
+  margin: var(--spacing-md);
+}

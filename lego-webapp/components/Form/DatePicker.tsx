@@ -18,6 +18,7 @@ type BaseDatePickerProps = {
   showTimePicker?: boolean;
   dateFormat?: string;
   name?: string;
+  id?: string;
   dropdownClassName?: string;
   onFocus: () => void;
   disabled?: boolean;
@@ -48,6 +49,7 @@ const DatePicker = ({
   showTimePicker = true,
   dateFormat = 'lll',
   name,
+  id,
   range = false,
   disabled = false,
 }: Props) => {
@@ -285,6 +287,7 @@ const DatePicker = ({
           prefixIconNode={<Calendar />}
           value={displayValue}
           name={name}
+          id={id}
           readOnly
           disabled={disabled}
         />

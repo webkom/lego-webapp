@@ -155,7 +155,7 @@ const Overview = () => {
   const userAchievements = user?.achievements;
 
   const getAchievedLevel = (identifier: AchievementIdentifier) => {
-    return !userAchievements
+    const achievedLevel = !userAchievements
       ? -1
       : userAchievements
           .filter((achievement) => achievement.identifier === identifier)
@@ -164,27 +164,33 @@ const Overview = () => {
               max.level > achievement.level ? max : achievement,
             { level: -1 },
           ).level;
+
+    return achievedLevel >=
+      GroupedAchievementsInfo.find((group) => group.identifier === identifier)!
+        .achievements.length
+      ? -1
+      : achievedLevel;
   };
 
   // Map group fields to achieved level or use default values
   const groupedAchievements = GroupedAchievementsInfo.map((group) => {
     const { identifier, achievements } = group;
     const achievedLevel = getAchievedLevel(identifier);
+    const achievedAchievement =
+      achievedLevel >= 0 ? achievements[achievedLevel] : undefined;
 
     // Use value from achievement if user has achieved it
     // or group only has that one achievement
-    const mappedName =
-      achievedLevel >= 0
-        ? achievements[achievedLevel].name
-        : group.isLeveled
-          ? achievements[0].name
-          : group.name;
-    const mappedDescription =
-      achievedLevel >= 0
-        ? achievements[achievedLevel].description
-        : group.isLeveled
-          ? achievements[0].description
-          : group.description;
+    const mappedName = achievedAchievement
+      ? achievedAchievement.name
+      : group.isLeveled
+        ? achievements[0].name
+        : group.name;
+    const mappedDescription = achievedAchievement
+      ? achievedAchievement.description
+      : group.isLeveled
+        ? achievements[0].description
+        : group.description;
 
     return {
       ...group,

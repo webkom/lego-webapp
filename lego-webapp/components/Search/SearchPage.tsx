@@ -3,13 +3,11 @@ import { usePageContext } from 'vike-react/usePageContext';
 import SearchPageInput from '~/components/Search/SearchPageInput';
 import SearchPageResults from '~/components/Search/SearchPageResults';
 import { Keyboard } from '~/utils/constants';
-import type { ChangeEventHandler, KeyboardEvent } from 'react';
+import type { ChangeEventHandler, KeyboardEvent, Ref } from 'react';
 import type { SearchResult } from '~/redux/slices/search';
 
 type Props<T> = {
-  inputRef?: {
-    current: HTMLInputElement | null | undefined;
-  };
+  inputRef?: Ref<HTMLInputElement>;
   onQueryChanged: (arg0: string) => void;
   placeholder?: string;
   results: Array<T>;
@@ -82,7 +80,7 @@ const SearchPage = <SearchType extends SearchResult>(
         onChange={handleQueryChange}
       />
 
-      <SearchPageResults
+      <SearchPageResults<SearchType>
         onKeyDown={handleKeyDown}
         onSelect={handleSelect}
         query={query}

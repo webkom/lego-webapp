@@ -1,64 +1,425 @@
 @import url('styles/custom-media.css');
 
-.interestBox {
-  width: 32%;
-  min-width: 300px;
+.layout {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  grid-template-areas:
+    'back header'
+    'rail content';
+  gap: var(--spacing-md) var(--spacing-xxl);
+  align-items: start;
+
+  @media (--mobile-device) {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'back'
+      'header'
+      'content';
+  }
+}
+
+.pageContent.pageContent {
+  padding: var(--spacing-md);
+}
+
+.hiddenTabs {
+  display: none;
+}
+
+.header {
+  grid-area: header;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+
+  & h1 {
+    margin: 0;
+  }
+}
+
+.back {
+  grid-area: back;
+  align-self: end;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  width: fit-content;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.backIcon {
+  transition: transform var(--easing-medium);
+}
+
+.back:hover .backIcon,
+.back:focus .backIcon {
+  transform: translateX(calc(-1 * var(--spacing-xs)));
+}
+
+.infoCard.infoCard {
+  padding: var(--spacing-md);
+}
+
+/* Keep the icon beside the text instead of the stacked small-screen layout. */
+@media (--small-viewport) {
+  .infoCard :global([class*='withIcon']) {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+.content {
+  grid-area: content;
+  font-size: var(--font-size-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  min-width: 0;
+}
+
+.rail {
+  --rail-step-height: 40px;
+  --rail-progress: 0;
+
+  grid-area: rail;
+  position: sticky;
+  top: var(--spacing-md);
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+
+  @media (--mobile-device) {
+    display: none;
+  }
+}
+
+.railTrack,
+.railTrackFill {
+  position: absolute;
+  top: calc(var(--rail-step-height) / 2);
+  left: calc(var(--spacing-sm) + 11px);
+  width: 2px;
+  border-radius: 2px;
+}
+
+.railTrack {
+  height: calc(100% - var(--rail-step-height));
+  background-color: var(--border-gray);
+}
+
+.railTrackFill {
+  height: calc((100% - var(--rail-step-height)) * var(--rail-progress));
+  background-color: var(--lego-red-color);
+}
+
+.railStep {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  height: var(--rail-step-height);
+  padding: 0 var(--spacing-sm);
+  border-radius: var(--border-radius-md);
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-sm);
+
+  &:hover {
+    background-color: var(--additive-background);
+    color: var(--lego-font-color);
+  }
+}
+
+.railStepActive {
+  color: var(--lego-font-color);
+  font-weight: 600;
+}
+
+.railNode {
+  z-index: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border: 1.5px solid var(--border-gray);
+  border-radius: 50%;
+  background-color: var(--lego-background-color);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  transition: border-color var(--easing-medium);
+}
+
+.railStepActive .railNode {
+  border-color: var(--lego-font-color);
+}
+
+.railNodeDone {
+  border-color: var(--lego-red-color);
+}
+
+.railNodeFill {
+  position: absolute;
+  inset: -1.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--lego-red-color);
+  color: var(--color-absolute-white);
+  animation: railNodePop var(--bounce) both;
+}
+
+@keyframes railNodePop {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+.sectionAnchor {
+  scroll-margin-top: var(--spacing-md);
+}
+
+.section {
+  gap: var(--spacing-lg);
+}
+
+.sectionHeader {
+  margin-bottom: var(--spacing-xs);
+
+  & h2 {
+    font-size: var(--font-size-lg);
+  }
+}
+
+.sectionNumber {
+  color: var(--lego-red-color);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+}
+
+.optionRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.toggleGroup {
+  display: flex;
+  flex-direction: column;
+  border: 1.5px solid var(--border-gray);
+  border-radius: var(--border-radius-lg);
+
+  & > * {
+    padding: var(--spacing-md);
+  }
+
+  & > * + * {
+    border-top: 1.5px solid var(--border-gray);
+  }
+}
+
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  cursor: pointer;
+}
+
+.toggleText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.toggleLabel {
+  font-weight: 600;
+}
+
+.toggleDescription {
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-sm);
+}
+
+.toggleControl {
+  width: auto;
+  flex: none;
+}
+
+.participantSlider {
+  width: 60%;
+
+  @media (--medium-viewport) {
+    width: 100%;
+  }
+}
+
+.cardList {
+  width: 100%;
+}
+
+.eventCard {
+  padding: var(--spacing-md);
+  border: 1.5px solid var(--border-gray);
+  border-radius: var(--border-radius-lg);
+  transition:
+    border-color var(--easing-fast),
+    background-color var(--easing-fast);
+}
+
+/* The whole card selects, via the label's overlay below. */
+.optionCard {
+  position: relative;
+  cursor: pointer;
+}
+
+.optionLabel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+/* Unpositioned, so the label's overlay stretches to the card around it rather
+   than to the field. */
+.optionField {
+  position: static;
+}
+
+.eventCard:has(input:checked) {
+  border-color: var(--lego-red-color);
+  background-color: var(--selected-background);
+}
+
+.eventPitch {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
+}
+
+.eventsFootnote {
+  font-size: var(--font-size-sm);
+  color: var(--secondary-font-color);
+  padding-top: var(--spacing-xs);
+}
+
+.otherOffers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.priorityReasoning {
+  font-weight: 600;
+  margin-bottom: var(--spacing-sm);
+}
+
+.mutedText {
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-sm);
+}
+
+.submitButton {
+  align-self: flex-start;
+}
+
+/* Inputs inherit their background, which on a tinted card hides the field. */
+.textEditor {
+  background-color: var(--lego-card-color);
+  width: 100%;
+}
+
+.readmePromo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-lg);
+  background-color: var(--additive-background);
+  transition: background-color var(--easing-fast);
+}
+
+.readmePromoOn {
+  background-color: var(--selected-background);
+}
+
+.readmeCovers {
+  display: flex;
+  flex: none;
+  padding-right: var(--spacing-sm);
+}
+
+.readmeCover {
+  width: 110px;
+  overflow: hidden;
+
+  &:first-child {
+    rotate: -4deg;
+  }
+
+  &:last-child {
+    margin-top: var(--spacing-sm);
+    margin-left: calc(-1 * var(--spacing-lg));
+    rotate: 3deg;
+  }
+}
+
+.readmeWordmark {
+  font-size: var(--font-size-xl);
+
+  a {
+    color: var(--lego-font-color);
+  }
+}
+
+.readmeDot {
+  color: var(--lego-red-color);
+}
+
+.readmeTagline {
+  margin: var(--spacing-xs) 0 var(--spacing-sm);
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-sm);
+}
+
+.readmeStats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  color: var(--color-gray-8);
+  font-size: var(--font-size-sm);
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  li::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: var(--lego-red-color);
+    flex: none;
+  }
 }
 
 .yearForm {
   width: 100px;
   display: block;
-}
-
-.textEditor {
-  @media (--small-viewport) {
-    width: 300px;
-  }
-}
-
-.semesterBox {
-  justify-content: space-between;
-  width: 125px;
-}
-
-.topline {
-  height: 1px;
-  background-color: var(--border-gray);
-  margin: var(--spacing-md) 0;
-}
-
-.companyInterestList {
-  @media (--small-viewport) {
-    display: none;
-  }
-}
-
-.companyInterestList table {
-  width: 900px;
-}
-
-.companyList th {
-  padding: 5px 0;
-  border-top: 1px solid var(--border-gray);
-  border-bottom: 1px solid var(--border-gray);
-}
-
-.companyInterestList th,
-.companyInterestList td {
-  width: 275px;
-  justify-content: space-between;
-  padding-left: 7px;
-  text-align: left;
-  display: table-cell;
-  border-bottom: 1px dashed var(--color-black);
-}
-
-.flag {
-  height: 3em;
-  width: 5em;
-  object-fit: cover;
-}
-
-.label {
-  color: var(--danger-color);
 }

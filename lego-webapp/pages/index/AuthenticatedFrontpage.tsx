@@ -8,10 +8,17 @@ import Banner from '~/components/Banner';
 import HsSectionContent from '~/components/HsSection/HsSection';
 import Poll from '~/components/Poll';
 import RandomQuote from '~/components/RandomQuote';
+import CompactEvents from '~/pages/index/_components/CompactEvents';
+import Pinned from '~/pages/index/_components/Pinned';
+import ArticleItem from '~/pages/index/_components/authenticated/ArticleItem';
+import FrontpageEventItem from '~/pages/index/_components/authenticated/FrontpageEventItem';
+import LatestReadme from '~/pages/index/_components/authenticated/LatestReadme';
+import UpcomingRegistrations from '~/pages/index/_components/authenticated/UpcomingRegistrations';
 import { fetchCurrentPrivateBanner } from '~/redux/actions/BannerActions';
 import { fetchData, fetchReadmes } from '~/redux/actions/FrontpageActions';
 import { fetchRandomQuote } from '~/redux/actions/QuoteActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EventType } from '~/redux/models/Event';
 import { selectArticles } from '~/redux/slices/articles';
 import { useIsLoggedIn } from '~/redux/slices/auth';
 import { selectCurrentPrivateBanner } from '~/redux/slices/banner';
@@ -25,13 +32,7 @@ import { selectPinnedPoll } from '~/redux/slices/polls';
 import { selectRandomQuote } from '~/redux/slices/quotes';
 import utilStyles from '~/styles/utilities.module.css';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
-import ArticleItem from './ArticleItem';
 import styles from './AuthenticatedFrontpage.module.css';
-import CompactEvents from './CompactEvents';
-import FrontpageEventItem from './FrontpageEventItem';
-import LatestReadme from './LatestReadme';
-import Pinned from './Pinned';
-import UpcomingRegistrations from './UpcomingRegistrations';
 import { itemUrl, renderMeta } from './utils';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { FrontpageEvent } from '~/redux/models/Event';
@@ -72,7 +73,7 @@ const AuthenticatedFrontpage = () => {
   );
 
   const currentPrivateBanner = useAppSelector((state) =>
-    selectCurrentPrivateBanner(state, true),
+    selectCurrentPrivateBanner(state),
   );
 
   const scrollToTop = () => {
@@ -142,6 +143,7 @@ const Events = ({
     () =>
       allEvents
         .filter((item) => item.id !== pinnedId)
+        .filter((item) => item.eventType !== EventType.INTEREST_EVENT)
         .filter((item) => moment(item.startTime).isAfter(moment()))
         .sort((a, b) => moment(a.startTime).diff(moment(b.startTime)))
         .slice(0, numberToShow)

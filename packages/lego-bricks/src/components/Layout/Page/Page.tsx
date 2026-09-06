@@ -60,6 +60,7 @@ const Page = ({
       <Flex
         wrap
         gap="var(--spacing-sm)"
+        justifyContent="space-between"
         className={title ? styles.title : undefined}
       >
         {sidebar?.side === 'left' && <SidebarTrigger />}

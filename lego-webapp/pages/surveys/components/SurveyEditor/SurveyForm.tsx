@@ -24,7 +24,7 @@ import {
 } from '~/pages/surveys/components/SurveyEditor/utils';
 import styles from '~/pages/surveys/components/surveys.module.css';
 import { spyValues } from '~/utils/formSpyUtils';
-import { createValidator, required } from '~/utils/validation';
+import { createValidator, required, requiredIf } from '~/utils/validation';
 import type { FieldArrayRenderProps } from 'react-final-form-arrays';
 import type {
   FormSurvey,
@@ -38,7 +38,7 @@ const TypedLegoForm = LegoFinalForm<FormSurvey>;
 const validate = createValidator(
   {
     title: [required()],
-    event: [required()],
+    event: [requiredIf((values: FormSurvey) => !values.isTemplate)],
   },
   hasOptions,
 );

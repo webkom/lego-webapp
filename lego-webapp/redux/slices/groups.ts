@@ -10,7 +10,7 @@ import type { RootState } from '~/redux/rootReducer';
 export const resolveGroupLink = (group: { type: GroupType; id: EntityId }) => {
   switch (group.type) {
     case GroupType.Interest:
-      return `/interest-groups/${group.id}`;
+      return `/events/interest/interest-groups/${group.id}`;
 
     case GroupType.Committee:
       return `/pages/komiteer/${group.id}`;

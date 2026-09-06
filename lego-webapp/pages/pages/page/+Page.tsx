@@ -15,6 +15,7 @@ import DisplayContent from '~/components/DisplayContent';
 import GroupMember from '~/components/GroupMember';
 import { readmeIfy } from '~/components/ReadmeLogo';
 import HTTPError from '~/components/errors/HTTPError';
+import GraphicProfileExtraContentBlock from '~/pages/pages/_components/GraphicProfileExtraContentBlock';
 import LandingPage from '~/pages/pages/_components/LandingPage';
 import PageHierarchy from '~/pages/pages/_components/PageHierarchy';
 import { postGettingWood } from '~/redux/actions/AchievementActions';
@@ -67,6 +68,62 @@ const FlatpageRenderer: PageRenderer<Flatpage> = ({ page }) => (
     <DisplayContent content={page.content} />
   </article>
 );
+
+type FlatPageExtraContentComponent = ComponentType;
+type FlatPageExtraContentConfig = {
+  section: string;
+  slug: string;
+  ExtraContentComponent: FlatPageExtraContentComponent;
+};
+
+const flatPageExtraContentConfigs: FlatPageExtraContentConfig[] = [
+  {
+    section: 'organisasjon',
+    slug: '108-grafisk-profil',
+    ExtraContentComponent: GraphicProfileExtraContentBlock,
+  },
+];
+
+type FlatPageExtraContentBlockProps = {
+  ExtraContentComponent: FlatPageExtraContentComponent;
+};
+const FlatPageExtraContentBlock = ({
+  ExtraContentComponent,
+}: FlatPageExtraContentBlockProps) => (
+  <section className={styles.extraContentSection}>
+    <ExtraContentComponent />
+  </section>
+);
+
+const createFlatPageExtraContentRenderer = (
+  ExtraContentComponent: FlatPageExtraContentComponent,
+): PageRenderer<Flatpage> =>
+  function FlatPageExtraContentRenderer({ page }) {
+    return (
+      <article>
+        <DisplayContent content={page.content} />
+        <FlatPageExtraContentBlock
+          ExtraContentComponent={ExtraContentComponent}
+        />
+      </article>
+    );
+  };
+
+const getFlatPageExtraContentRenderer = (
+  section: string,
+  pageSlug?: string,
+): PageRenderer<Flatpage> | undefined => {
+  if (!pageSlug) {
+    return undefined;
+  }
+
+  const config = flatPageExtraContentConfigs.find(
+    (entry) => entry.section === section && entry.slug === pageSlug,
+  );
+  return config
+    ? createFlatPageExtraContentRenderer(config.ExtraContentComponent)
+    : undefined;
+};
 
 export type GroupPage = {
   membershipsByRole: {
@@ -454,6 +511,8 @@ const PageDetail = () => {
   const actionGrant = pageInfo?.actionGrant || [];
 
   const showSkeleton = page === undefined;
+  const activePageRenderer =
+    getFlatPageExtraContentRenderer(sectionName, pageSlug) ?? PageRenderer;
 
   return (
     <Page
@@ -499,7 +558,7 @@ const PageDetail = () => {
           page={page}
           PageRenderer={
             // typescript is being stupid
-            PageRenderer as PageRenderer<typeof page>
+            activePageRenderer as PageRenderer<typeof page>
           }
         />
       )}

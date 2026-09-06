@@ -14,6 +14,7 @@ export const COLORS = {
   itdageneBlue: styles.itdageneBlue,
   buddyweek2024: styles.buddyweek2024,
   easter: styles.easter,
+  christmas: styles.christmas,
 };
 export type Color = $Keys<typeof COLORS>;
 type LinkComponentProps = {
@@ -32,6 +33,10 @@ type Props = {
 };
 
 const LinkComponent = ({ link, children, className }: LinkComponentProps) => {
+  if (!link) {
+    return <span className={cx(styles.noLink, className)}>{children}</span>;
+  }
+
   return (
     <a
       href={link}

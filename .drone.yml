@@ -10,12 +10,12 @@ trigger:
 
 steps:
   - name: postgres
-    image: postgres:12.3
+    image: postgres:17
     detach: true
     environment:
       POSTGRES_USER: lego
       POSTGRES_HOST_AUTH_METHOD: trust
-    when:
+    when: &checks
       event: [push]
       branch:
         exclude: [build]
@@ -28,10 +28,7 @@ steps:
       MINIO_SECRET_KEY: lego-dev
     commands:
       - /usr/bin/docker-entrypoint.sh server /export
-    when:
-      event: [push]
-      branch:
-        exclude: [build]
+    when: *checks
 
   - name: thumbor
     image: apsl/thumbor:latest
@@ -51,18 +48,12 @@ steps:
       LOADER: tc_aws.loaders.s3_loader
     links:
       - minio
-    when:
-      event: [push]
-      branch:
-        exclude: [build]
+    when: *checks
 
   - name: redis
     image: redis
     detach: true
-    when:
-      event: [push]
-      branch:
-        exclude: [build]
+    when: *checks
 
   - name: api
     image: registry.webkom.dev/webkom/lego:latest
@@ -76,9 +67,7 @@ steps:
       - cd /app
       - python manage.py reset_db --noinput
       - python manage.py migrate
-      - python manage.py migrate_search
       - python manage.py load_fixtures --development
-      - python manage.py rebuild_index
       - python manage.py runserver 0.0.0.0:8000
     environment:
       PORT: '8000'
@@ -111,19 +100,13 @@ steps:
       SEARCH_BACKEND: 'postgres'
       ELASTICSEARCH_HOST: 'ignored'
       CORS_ORIGIN_DOMAINS: 'frontend:3000'
-    when:
-      event: [push]
-      branch:
-        exclude: [build]
+    when: *checks
 
   - name: legocypresshelper
     image: abakus/lego-cypress-helper:latest
     detach: true
     pull: true
-    when:
-      event: [push]
-      branch:
-        exclude: [build]
+    when: *checks
     environment:
       PG_HOST: postgres
       PG_USERNAME: lego
@@ -136,16 +119,9 @@ steps:
 
   - name: setup
     image: node:20-alpine
-    when:
-      event: [push]
-      branch:
-        exclude: [build]
+    when: *checks
     depends_on:
-      - postgres
-      - minio
-      - thumbor
-      - redis
-      - api
+      - clone
     volumes:
       - name: pnpm-store
         path: /drone/src/.pnpm-store
@@ -160,10 +136,7 @@ steps:
 
   - name: build
     image: node:20-alpine
-    when:
-      event: [push]
-      branch:
-        exclude: [build]
+    when: *checks
     depends_on:
       - setup
     commands:
@@ -173,10 +146,7 @@ steps:
 
   - name: test
     image: node:20-alpine
-    when:
-      event: [push]
-      branch:
-        exclude: [build]
+    when: *checks
     depends_on:
       - setup
     commands:
@@ -186,10 +156,7 @@ steps:
 
   - name: lint
     image: node:20-alpine
-    when:
-      event: [push]
-      branch:
-        exclude: [build]
+    when: *checks
     depends_on:
       - setup
     commands:
@@ -199,10 +166,7 @@ steps:
 
   - name: typescript
     image: node:20-slim
-    when:
-      event: [push]
-      branch:
-        exclude: [build]
+    when: *checks
     depends_on:
       - setup
     commands:
@@ -211,16 +175,27 @@ steps:
       - pnpm types
     failure: ignore
 
+  - name: audit
+    image: node:20-alpine
+    when: *checks
+    depends_on:
+      - clone
+    commands:
+      - npm i -g corepack
+      - corepack enable
+      - pnpm audit --prod
+    failure: ignore
+
   - name: install_cypress
     image: node:20-alpine
-    when:
-      event: [push]
-      branch:
-        exclude: [build]
+    when: *checks
     depends_on:
       - setup
+    volumes:
+      - name: cypress-cache
+        path: /cypress-cache
     environment:
-      CYPRESS_CACHE_FOLDER: /drone/src/.cypress_cache
+      CYPRESS_CACHE_FOLDER: /cypress-cache
     commands:
       - npm i -g corepack
       - corepack enable
@@ -229,10 +204,7 @@ steps:
   - name: frontend
     image: node:20-alpine
     detach: true
-    when:
-      event: [push]
-      branch:
-        exclude: [build]
+    when: *checks
     depends_on:
       - build
     environment:
@@ -249,41 +221,42 @@ steps:
     image: cypress/browsers:node-20.18.0-chrome-130.0.6723.69-1-ff-131.0.3-edge-130.0.2849.52-1
     shm_size: 512m
     ipc: host
-    when:
-      event: [push]
-      branch:
-        exclude: [build]
+    when: *checks
     depends_on:
       - legocypresshelper
       - install_cypress
       - frontend
+    volumes:
+      - name: cypress-cache
+        path: /cypress-cache
     environment:
       TZ: Europe/Oslo
       CYPRESS_API_BASE_URL: http://api:8000
       CYPRESS_RESET_DB_API: http://legocypresshelper:3030
       CYPRESS_BASE_URL: http://frontend:3000
-      CYPRESS_CACHE_FOLDER: /drone/src/.cypress_cache
+      CYPRESS_CACHE_FOLDER: /cypress-cache
       CYPRESS_RECORD_KEY:
         from_secret: cypress_record_key
     commands:
       - ./wait-for-it.sh -t 180 frontend:3000
-      - ./wait-for-it.sh -t 180 legocypresshelper:3030
+      - ./wait-for-it.sh -t 480 api:8000
+      - ./wait-for-it.sh -t 60 legocypresshelper:3030
       - npm i -g corepack
       - corepack enable
       - pnpm --filter lego-webapp exec cypress run --e2e --record
-  
+
   - name: cypress_component
     image: cypress/browsers:node-20.18.0-chrome-130.0.6723.69-1-ff-131.0.3-edge-130.0.2849.52-1
-    when:
-      event: [push]
-      branch:
-        exclude: [build]
+    when: *checks
     depends_on:
       - install_cypress
       - build
-    environment: 
-        TZ: Europe/Oslo
-        CYPRESS_CACHE_FOLDER: /drone/src/.cypress_cache
+    volumes:
+      - name: cypress-cache
+        path: /cypress-cache
+    environment:
+      TZ: Europe/Oslo
+      CYPRESS_CACHE_FOLDER: /cypress-cache
     commands:
       - npm i -g corepack
       - corepack enable
@@ -353,10 +326,15 @@ volumes:
   - name: pnpm-store
     host:
       path: /tmp/drone-cache/pnpm
+  - name: cypress-cache
+    host:
+      path: /tmp/drone-cache/cypress
 
 image_pull_secrets:
   - dockerconfigjson
 
 ---
 kind: signature
-hmac: 7bf0adf7b27047cb60cdd92bb14a5ad05b7d09395ae81309bb8e750171be7eae
+hmac: 38879c03334760e06fbe43ae23dbdfcaebdd8d73b265f98b644f86d21019cad3
+
+...

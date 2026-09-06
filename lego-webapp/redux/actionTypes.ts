@@ -321,6 +321,16 @@ export const Reaction = {
 export const Achievement = {
   CREATE: generateStatuses('Achievement.CREATE'),
   RECHECK: generateStatuses('Achievement.RECHECK'),
+  FETCH_RANK_HISTORY: generateStatuses('Achievement.FETCH_RANK_HISTORY'),
+  FETCH_DISTRIBUTION: generateStatuses('Achievement.FETCH_DISTRIBUTION'),
+  FETCH_RARITY: generateStatuses('Achievement.FETCH_RARITY'),
+  FETCH_TOP_CLIMBERS: generateStatuses('Achievement.FETCH_TOP_CLIMBERS'),
+  FETCH_USER_ACHIEVEMENTS: generateStatuses(
+    'Achievement.FETCH_USER_ACHIEVEMENTS',
+  ),
+  GRANT: generateStatuses('Achievement.GRANT'),
+  REVOKE: generateStatuses('Achievement.REVOKE'),
+  GRANT_BULK: generateStatuses('Achievement.GRANT_BULK'),
 };
 
 export const Banner = {

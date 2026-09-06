@@ -316,7 +316,10 @@ const JoinEventForm = ({
       ),
     ],
     captchaResponse: [
-      requiredIf(() => !registration, 'Captcha er ikke validert'),
+      requiredIf(
+        () => !registration && event.useCaptcha,
+        'Captcha er ikke validert',
+      ),
     ],
   });
 

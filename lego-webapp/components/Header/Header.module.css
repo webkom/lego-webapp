@@ -57,6 +57,14 @@
   }
 }
 
+.hideOnDesktop {
+  display: none;
+
+  @media (--mobile-device) {
+    display: inline-block;
+  }
+}
+
 .content {
   composes: container from '../../styles/utilities.module.css';
   position: relative;
@@ -97,7 +105,12 @@ html[data-theme='dark'] img.logoDarkMode {
   display: block;
 }
 
-.searchButton {
+.searchButton.searchButton {
+  display: flex;
+  width: 24px;
+  align-items: center;
+  box-sizing: content-box;
+  padding-right: 0;
   z-index: 301;
 }
 
@@ -105,6 +118,10 @@ html[data-theme='dark'] img.logoDarkMode {
   position: relative;
   width: 24px;
   height: 24px;
+}
+
+.searching {
+  position: fixed;
 }
 
 .menuIcon,

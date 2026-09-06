@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { RouterProvider } from 'react-aria-components';
 import { RouterContext } from './RouterContext';
 import { ThemeContext } from './ThemeContext';
@@ -11,10 +12,16 @@ type Props = {
   children: ReactNode;
 };
 
-export const Provider = ({ theme, navigate, useLocation, children }: Props) => (
-  <RouterProvider navigate={navigate}>
-    <RouterContext.Provider value={{ navigate, useLocation }}>
-      <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>
-    </RouterContext.Provider>
-  </RouterProvider>
-);
+export const Provider = ({ theme, navigate, useLocation, children }: Props) => {
+  const routerContextValue = useMemo(
+    () => ({ navigate, useLocation }),
+    [navigate, useLocation],
+  );
+  return (
+    <RouterProvider navigate={navigate}>
+      <RouterContext.Provider value={routerContextValue}>
+        <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>
+      </RouterContext.Provider>
+    </RouterProvider>
+  );
+};

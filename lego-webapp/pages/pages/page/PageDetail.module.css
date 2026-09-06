@@ -42,6 +42,10 @@
   margin-right: -20px;
 }
 
+.extraContentSection {
+  margin-top: var(--spacing-xl);
+}
+
 @media (--mobile-device) {
   .header {
     word-break: break-word;

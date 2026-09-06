@@ -39,6 +39,16 @@
   height: 1px;
 }
 
+.editableCellContent {
+  width: 100%;
+  min-width: 0;
+}
+
+.actionHeader,
+.actionCell {
+  white-space: nowrap;
+}
+
 @-moz-document url-prefix() {
   .td {
     height: 100%;

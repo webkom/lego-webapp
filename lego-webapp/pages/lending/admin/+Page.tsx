@@ -12,8 +12,8 @@ import { FolderOpen } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import EmptyState from '~/components/EmptyState';
 import { CheckBox } from '~/components/Form';
-import LendingRequestCard from '~/pages/lending/LendingRequestCard';
-import { statusMap } from '~/pages/lending/LendingStatusTag';
+import LendingRequestCard from '~/pages/lending/_components/LendingRequestCard';
+import { statusMap } from '~/pages/lending/_components/LendingStatusTag';
 import { fetchLendingRequestsAdmin } from '~/redux/actions/LendingRequestActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { LendingRequestStatus } from '~/redux/models/LendingRequest';
@@ -21,7 +21,7 @@ import { EntityType } from '~/redux/models/entities';
 import { selectTransformedLendingRequests } from '~/redux/slices/lendingRequests';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import useQuery from '~/utils/useQuery';
-import styles from '../LendingPage.module.css';
+import styles from './AdminPage.module.css';
 
 const LendingAdmin = () => {
   const { query, setQueryValue } = useQuery({

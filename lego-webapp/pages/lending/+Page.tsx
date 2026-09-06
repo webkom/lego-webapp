@@ -1,28 +1,43 @@
 import { PageContainer, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
+import FilterSearch from '~/pages/lending/_components/FilterSearch';
+import HowToSection from '~/pages/lending/_components/HowToSection';
+import ItemIndex from '~/pages/lending/_components/ItemIndex';
+import RequestInbox, {
+  type LendingRequestOrdering,
+} from '~/pages/lending/_components/RequestInbox';
+import {
+  REQUEST_INBOX_PAGE_SIZE,
+  getNextVisibleCount,
+  getVisibleRequestCount,
+  shouldFetchMoreRequests,
+} from '~/pages/lending/_components/requestInboxPagination';
 import { fetchAllLendableObjects } from '~/redux/actions/LendableObjectActions';
 import { fetchLendingRequests } from '~/redux/actions/LendingRequestActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
-import { selectAllLendableObjects } from '~/redux/slices/lendableObjects';
+import { selectLendableObjectsForIndex } from '~/redux/slices/lendableObjects';
 import { selectTransformedLendingRequests } from '~/redux/slices/lendingRequests';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import { FilterLendingCategory } from '~/utils/constants';
 import useQuery from '~/utils/useQuery';
-import FilterSearch from './FilterSearch';
-import ItemIndex from './ItemIndex';
 import styles from './LendingPage.module.css';
-import RequestInbox from './RequestInbox';
 
 const defaultLendingQuery = {
   search: '',
   lendingCategories: [] as FilterLendingCategory[],
+  ordering: '-created_at' as LendingRequestOrdering,
 };
 
 const LendableObjectList = () => {
   const { query, setQueryValue } = useQuery(defaultLendingQuery);
+  const requestOrdering: LendingRequestOrdering =
+    query.ordering === 'created_at' ? 'created_at' : '-created_at';
+  const requestQuery = {
+    ordering: requestOrdering,
+  };
 
   const dispatch = useAppDispatch();
 
@@ -34,47 +49,61 @@ const LendableObjectList = () => {
 
   usePreparedEffect(
     'fetchAllLendingRequests',
-    () => dispatch(fetchLendingRequests({})),
-    [],
+    () =>
+      dispatch(
+        fetchLendingRequests({
+          query: requestQuery,
+        }),
+      ),
+    [requestOrdering],
   );
 
   const { pagination: requestsPagination } = useAppSelector((state) =>
     selectPaginationNext({
       endpoint: '/lending/requests/',
       entity: EntityType.LendingRequests,
-      query,
+      query: requestQuery,
     })(state),
   );
 
   const fetchMoreLendingRequests = () => {
     return dispatch(
       fetchLendingRequests({
+        query: requestQuery,
         next: true,
       }),
     );
   };
-  const lendableObjects = useAppSelector(selectAllLendableObjects);
+  const lendableObjects = useAppSelector(selectLendableObjectsForIndex);
 
-  const originalLendingRequests = useAppSelector(
-    selectTransformedLendingRequests,
-  );
-  const [visibleCount, setVisibleCount] = useState(4);
-
-  const lendingRequests = originalLendingRequests.slice(0, visibleCount);
-
-  const handleLoadMore = () => {
-    if (requestsPagination.hasMore) {
-      fetchMoreLendingRequests();
-    }
-    setVisibleCount((prev) => prev + 4);
-  };
-
-  /*
-  This is to be fixed
-  const lendingRequests = useAppSelector((state) =>
+  const originalLendingRequests = useAppSelector((state) =>
     selectTransformedLendingRequests(state, { pagination: requestsPagination }),
   );
-  */
+  const [visibleCount, setVisibleCount] = useState(REQUEST_INBOX_PAGE_SIZE);
+  const previousRequestOrderingRef = useRef(requestOrdering);
+  const visibleRequestCount = getVisibleRequestCount({
+    visibleCount,
+    currentOrdering: requestOrdering,
+    previousOrdering: previousRequestOrderingRef.current,
+  });
+
+  const lendingRequests = originalLendingRequests.slice(0, visibleRequestCount);
+
+  const handleLoadMore = () => {
+    const nextVisibleCount = getNextVisibleCount(visibleRequestCount);
+
+    if (
+      shouldFetchMoreRequests({
+        nextVisibleCount,
+        fetchedCount: originalLendingRequests.length,
+        hasMore: requestsPagination.hasMore,
+        isFetching: requestsPagination.fetching,
+      })
+    ) {
+      fetchMoreLendingRequests();
+    }
+    setVisibleCount(nextVisibleCount);
+  };
 
   const objectsActionGrant = useAppSelector(
     (state) => state.lendableObjects.actionGrant,
@@ -106,6 +135,11 @@ const LendableObjectList = () => {
     );
   };
 
+  useEffect(() => {
+    previousRequestOrderingRef.current = requestOrdering;
+    setVisibleCount(REQUEST_INBOX_PAGE_SIZE);
+  }, [requestOrdering]);
+
   const title = 'Utlån';
   return (
     <PageContainer card={false}>
@@ -122,6 +156,9 @@ const LendableObjectList = () => {
         <div className={styles.divider}></div>
       </div>
       <section className={styles.wrapper}>
+        <div className={styles.topText}>
+          <HowToSection />
+        </div>
         <FilterSearch
           search={query.search}
           onSearchChange={setQueryValue('search')}
@@ -135,6 +172,8 @@ const LendableObjectList = () => {
           isFetching={requestsPagination.fetching}
           hasMore={requestsPagination.hasMore}
           onLoadMore={handleLoadMore}
+          ordering={requestOrdering}
+          onOrderingChange={setQueryValue('ordering')}
           className={styles.requestInbox}
         />
         <ItemIndex
@@ -142,7 +181,7 @@ const LendableObjectList = () => {
           isFetching={fetchingObjects}
           searchQuery={query.search}
           canCreate={objectsActionGrant.includes('create')}
-          className={styles.lendingIndex}
+          className={styles.itemIndex}
         />
       </section>
     </PageContainer>

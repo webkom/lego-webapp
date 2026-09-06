@@ -1,4 +1,9 @@
-import { type ComponentProps, createContext, useContext } from 'react';
+import {
+  type ComponentProps,
+  createContext,
+  useCallback,
+  useContext,
+} from 'react';
 import type { RouterOptions } from '@react-types/shared';
 import type { RouterProvider } from 'react-aria-components';
 
@@ -43,12 +48,21 @@ export const useClearSearchParams = (options: RouterOptions = {}) => {
   const {
     overwriteLastHistoryEntry = true,
     keepScrollPosition = true,
-    ...rest
+    navigationState,
   } = options;
-  return () =>
-    navigate(pathname, {
+  return useCallback(
+    () =>
+      navigate(pathname, {
+        overwriteLastHistoryEntry,
+        keepScrollPosition,
+        navigationState,
+      }),
+    [
+      navigate,
+      pathname,
       overwriteLastHistoryEntry,
       keepScrollPosition,
-      ...rest,
-    });
+      navigationState,
+    ],
+  );
 };

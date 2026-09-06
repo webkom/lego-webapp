@@ -20,6 +20,7 @@ import {
 import { recordCommandUsage } from '~/redux/actions/UserActions';
 import { useAppDispatch } from '~/redux/hooks';
 import { useCurrentUser } from '~/redux/slices/auth';
+import { useTheme } from '~/utils/themeUtils';
 import styles from './CommandPalette.module.css';
 import createCommands from './commands';
 
@@ -31,9 +32,14 @@ const CommandPalette = () => {
   const [isOpen, setOpen] = useState(false);
   const { contains } = useFilter({ sensitivity: 'base' });
   const dispatch = useAppDispatch();
-  const suggestionIds = useCurrentUser()?.commandSuggestions;
+  const currentUser = useCurrentUser();
+  const theme = useTheme();
 
-  const commands = createCommands(dispatch, suggestionIds);
+  const commands = createCommands(
+    dispatch,
+    currentUser?.commandSuggestions,
+    theme,
+  );
   const allItems = commands.flatMap((s) => s.items);
 
   const isMac =
@@ -49,11 +55,11 @@ const CommandPalette = () => {
       const cmd = allItems.find((c) => c.id === id);
       if (!cmd) return;
 
-      dispatch(recordCommandUsage(cmd.id));
+      if (currentUser) dispatch(recordCommandUsage(cmd.id));
       cmd.action();
       closePalette();
     },
-    [allItems, dispatch, closePalette],
+    [allItems, currentUser, dispatch, closePalette],
   );
 
   useEffect(() => {
@@ -135,7 +141,7 @@ const CommandPalette = () => {
                     </Header>
                     <Collection items={section.items}>
                       {(item) => (
-                        <CommandItem id={item.id} textValue={item.label}>
+                        <CommandItem id={item.id} textValue={item.searchText}>
                           {({ isFocused }) => (
                             <div className={styles.itemRow}>
                               <div
@@ -146,7 +152,7 @@ const CommandPalette = () => {
                                 }
                               >
                                 {item.icon && <span>{item.icon}</span>}
-                                <span>{item.label}</span>
+                                <span>{item.renderLabel}</span>
                               </div>
                               {isFocused && (
                                 <Icon

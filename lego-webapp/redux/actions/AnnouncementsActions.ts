@@ -2,11 +2,23 @@ import { Announcements } from '~/redux/actionTypes';
 import callAPI from '~/redux/actions/callAPI';
 import { announcementsSchema } from '~/redux/schemas';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { FormValues as CreateAnnouncementFormValues } from '~/pages/announcements/AnnouncementsCreate';
 import type {
   DetailedAnnouncement,
   ListAnnouncement,
 } from '~/redux/models/Announcement';
+import type { MeetingInvitationStatus } from '~/redux/models/MeetingInvitation';
+
+export type CreateAnnouncementPayload = {
+  message: string;
+  users?: (string | undefined)[];
+  groups?: (string | undefined)[];
+  events?: (string | undefined)[];
+  meetings?: (string | undefined)[];
+  excludeWaitingList?: boolean;
+  meetingInvitationStatus?: MeetingInvitationStatus;
+  fromGroup?: string;
+  send: boolean;
+};
 
 export function fetchAll() {
   return callAPI<ListAnnouncement[]>({
@@ -20,7 +32,7 @@ export function fetchAll() {
   });
 }
 
-export function createAnnouncement(body: CreateAnnouncementFormValues) {
+export function createAnnouncement(body: CreateAnnouncementPayload) {
   return callAPI<DetailedAnnouncement>({
     types: Announcements.CREATE,
     endpoint: '/announcements/',

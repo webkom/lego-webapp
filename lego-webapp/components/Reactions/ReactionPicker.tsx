@@ -19,8 +19,8 @@ const searchEmojis = (
   emojis: EmojiWithReactionData[],
   searchString: string,
 ) => {
-  const matchingEmojis = [];
-  let currentEmojis = emojis;
+  const matchingEmojis: EmojiWithReactionData[] = [];
+  let currentEmojis: EmojiWithReactionData[] = emojis;
 
   /*
    * STEP 1
@@ -181,7 +181,7 @@ const ReactionPicker = ({ emojis, contentTarget }: Props) => {
   return (
     <Card className={styles.reactionPicker}>
       <ReactionPickerHeader
-        activeCategory={activeCategory}
+        activeCategory={activeCategory ? activeCategory : null}
         categories={Object.keys(categories)}
         onCategoryClick={onCategoryClick}
         isSearching={searchString !== ''}
