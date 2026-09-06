@@ -1,7 +1,7 @@
 import WebSocketClient from '@gamestdio/websocket';
 import { isAction } from '@reduxjs/toolkit';
 import { addToast } from '~/components/Toast/ToastProvider';
-import { User, Event } from '~/redux/actionTypes';
+import { User, Event, Websockets as WebsocketsAT } from '~/redux/actionTypes';
 import { fetchFollowers } from '~/redux/actions/EventActions';
 import { selectCurrentUser } from '~/redux/slices/auth';
 import { appConfig } from '~/utils/appConfig';
@@ -59,19 +59,19 @@ const createWebSocketMiddleware = (): Middleware<
 
       socket.onopen = () => {
         dispatch({
-          type: 'WS_CONNECTED',
+          type: WebsocketsAT.CONNECTED,
         });
       };
 
       socket.onclose = () => {
         dispatch({
-          type: 'WS_CLOSED',
+          type: WebsocketsAT.CLOSED,
         });
       };
 
       socket.onerror = () => {
         dispatch({
-          type: 'WS_ERROR',
+          type: WebsocketsAT.ERROR,
         });
       };
     };
@@ -99,6 +99,20 @@ const createWebSocketMiddleware = (): Middleware<
         }
 
         socket = null;
+        return next(action);
+      }
+
+      if (socket && socket.readyState === 1) {
+        switch (action.type) {
+          case WebsocketsAT.GROUP_JOIN.BEGIN:
+          case WebsocketsAT.GROUP_LEAVE.BEGIN:
+            socket.send(
+              JSON.stringify({
+                type: action.type,
+                payload: action.payload,
+              }),
+            );
+        }
         return next(action);
       }
 
