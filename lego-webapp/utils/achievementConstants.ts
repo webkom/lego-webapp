@@ -383,7 +383,7 @@ export const AchievementsInfo: Record<
   ],
   perfect_week: [
     {
-      name: 'Strykmesteren',
+      name: 'Helvetesuka',
       description: 'Deltatt på alle arrangementer (min. 3) i løpet av en uke',
       rarity: 3,
       hidden: false,
