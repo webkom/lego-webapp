@@ -354,4 +354,7 @@ export const Websockets = {
   ERROR: 'Websockets.ERROR',
   GROUP_JOIN: generateStatuses('Websockets.GROUP_JOIN'),
   GROUP_LEAVE: generateStatuses('Websockets.GROUP_LEAVE'),
+  TRANSIENT: {
+    ATTENDANCE_REGISTERED: 'Websockets.TRANSIENT.ATTENDANCE_REGISTERED',
+  }
 };

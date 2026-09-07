@@ -4,6 +4,7 @@ import { addToast } from '~/components/Toast/ToastProvider';
 import { User, Event, Websockets as WebsocketsAT } from '~/redux/actionTypes';
 import { fetchFollowers } from '~/redux/actions/EventActions';
 import { selectCurrentUser } from '~/redux/slices/auth';
+import { dispatchSocketTransientEvent } from '~/redux/websocketTransientEvent';
 import { appConfig } from '~/utils/appConfig';
 import createQueryString from '~/utils/createQueryString';
 import type { Middleware } from '@reduxjs/toolkit';
@@ -54,6 +55,10 @@ const createWebSocketMiddleware = (): Middleware<
                 ? 'error'
                 : undefined,
           });
+        }
+
+        if (type.startsWith('Websockets.TRANSIENT')) {
+          dispatchSocketTransientEvent(type, payload);
         }
       };
 
