@@ -60,7 +60,7 @@
     "normalizr": "^3.6.2",
     "postcss-custom-media": "catalog:",
     "postcss-nested": "catalog:",
-    "qs": "^6.15.3",
+    "qs": "^6.16.0",
     "react": "catalog:",
     "react-aria-components": "catalog:",
     "react-canvas-confetti": "^2.0.7",
