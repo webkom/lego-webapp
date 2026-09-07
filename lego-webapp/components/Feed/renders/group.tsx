@@ -57,7 +57,7 @@ const GroupJoinRenderer: ActivityRenderer<FeedActivityVerb.GroupJoin> = {
 
     switch (group.type) {
       case GroupType.Interest:
-        return `/events/interest/interest-groups/${group.id}`;
+        return `/interest-groups/${group.id}`;
 
       case GroupType.Committee:
         return `/pages/komiteer/${group.id}`;

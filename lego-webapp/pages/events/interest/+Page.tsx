@@ -52,7 +52,7 @@ const InterestEvents = () => {
               >
                 Bli med i en gruppe
               </Button>
-              <LinkButton ghost href="/events/interest/info">
+              <LinkButton ghost href="/interest-groups/info">
                 Praktisk info
               </LinkButton>
             </div>

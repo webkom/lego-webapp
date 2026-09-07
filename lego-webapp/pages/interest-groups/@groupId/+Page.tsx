@@ -195,9 +195,7 @@ const InterestGroupDetail = () => {
               <h3>Admin</h3>
               <ButtonGroup>
                 {canEdit && (
-                  <LinkButton
-                    href={`/events/interest/interest-groups/${group.id}/edit`}
-                  >
+                  <LinkButton href={`/interest-groups/${group.id}/edit`}>
                     <Icon iconNode={<Pencil />} size={19} />
                     Rediger
                   </LinkButton>
