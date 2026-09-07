@@ -70,7 +70,7 @@ const RequestInbox = ({
           onChange={(value) =>
             onArchivedChange(value === 'true' ? 'true' : 'false')
           }
-          ariaLabel="Sorter utlånsforespørsler"
+          ariaLabel="Filtrer utlånsforespørsler"
         />
       </div>
       {showInitialLoading && (
@@ -80,20 +80,15 @@ const RequestInbox = ({
       )}
       {hasRequests && (
         <div ref={listRef} className={styles.lendingRequestsContainer}>
-          {lendingRequests
-            .filter((req) => req.archived === (archived === 'true'))
-            .map((req) => (
-              <div
-                key={req.id}
-                data-request-id={String(req.id)}
-                className={styles.requestCardWrapper}
-              >
-                <LendingRequestCard
-                  lendingRequest={req}
-                  onArchive={onArchive}
-                />
-              </div>
-            ))}
+          {lendingRequests.map((req) => (
+            <div
+              key={req.id}
+              data-request-id={String(req.id)}
+              className={styles.requestCardWrapper}
+            >
+              <LendingRequestCard lendingRequest={req} onArchive={onArchive} />
+            </div>
+          ))}
         </div>
       )}
       {showEmptyState && (

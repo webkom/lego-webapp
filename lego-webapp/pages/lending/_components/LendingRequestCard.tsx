@@ -5,7 +5,6 @@ import { TransformedLendingRequest } from '~/redux/models/LendingRequest';
 import truncateString from '~/utils/truncateString';
 import LendingStatusTag from './LendingStatusTag';
 import styles from './RequestInbox.module.css';
-import type { MouseEvent } from 'react';
 
 const LendingRequestCard = ({
   lendingRequest,
@@ -23,41 +22,30 @@ const LendingRequestCard = ({
     return null;
   }
 
-  const preventCardNavigation = (event: MouseEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    event.stopPropagation();
-  };
-
   return (
     <Card className={styles.lendingRequestCard}>
       <Flex column width="100%" gap="var(--spacing-sm)">
         <a
-          href={`/lending/${lendingRequest.lendableObject.id}/request/${lendingRequest.id} ${
-            isFromAdmin ? '?fromAdmin=true' : ''
-          }
+          href={`/lending/${lendingRequest.lendableObject.id}/request/${lendingRequest.id}${isFromAdmin ? '?fromAdmin=true' : ''}
         `}
         >
           <Flex width="100%">
-            <Flex width="100%">
-              <Flex>
-                <Flex column gap="var(--spacing-sm)">
-                  <Flex column gap="var(--spacing-xs)">
-                    <h4>
-                      {truncateString(lendingRequest.lendableObject.title, 30)}
-                    </h4>
-                    <Flex gap="var(--spacing-sm)">
-                      <Time time={lendingRequest.startDate} format="DD. MMM" />
-                      <Icon iconNode={<MoveRight />} size={19} />
-                      <Time time={lendingRequest.endDate} format="DD. MMM" />
-                    </Flex>
-                  </Flex>
-                  <div className={styles.tagContainer}>
-                    <LendingStatusTag
-                      lendingRequestStatus={lendingRequest.status}
-                    />
-                  </div>
+            <Flex width="100%" column gap="var(--spacing-sm)">
+              <Flex column gap="var(--spacing-xs)">
+                <h4>
+                  {truncateString(lendingRequest.lendableObject.title, 30)}
+                </h4>
+                <Flex gap="var(--spacing-sm)">
+                  <Time time={lendingRequest.startDate} format="DD. MMM" />
+                  <Icon iconNode={<MoveRight />} size={19} />
+                  <Time time={lendingRequest.endDate} format="DD. MMM" />
                 </Flex>
               </Flex>
+              <div>
+                <LendingStatusTag
+                  lendingRequestStatus={lendingRequest.status}
+                />
+              </div>
             </Flex>
             <Image
               className={styles.lendingRequestImage}
@@ -68,10 +56,10 @@ const LendingRequestCard = ({
             />
           </Flex>
         </a>
-        {!isFromAdmin && (
+        {onArchive && (
           <div
             className={styles.archiveButtonWrapper}
-            onClick={preventCardNavigation}
+
           >
             <Button
               flat

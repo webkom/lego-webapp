@@ -41,12 +41,6 @@ const LendableObjectList = () => {
   const requestQuery = {
     archived: requestArchived,
   };
-  const activeRequestQuery = {
-    archived: 'false' as const,
-  };
-  const archivedRequestQuery = {
-    archived: 'true' as const,
-  };
 
   const dispatch = useAppDispatch();
 
@@ -96,7 +90,10 @@ const LendableObjectList = () => {
     previousArchived: previousRequestArchivedRef.current,
   });
 
-  const lendingRequests = originalLendingRequests.slice(0, visibleRequestCount);
+  const visibleRequests = originalLendingRequests.filter(
+    (request) => request.archived === (requestArchived === 'true'),
+  );
+  const lendingRequests = visibleRequests.slice(0, visibleRequestCount);
 
   const handleLoadMore = () => {
     const nextVisibleCount = getNextVisibleCount(visibleRequestCount);
@@ -104,7 +101,7 @@ const LendableObjectList = () => {
     if (
       shouldFetchMoreRequests({
         nextVisibleCount,
-        fetchedCount: originalLendingRequests.length,
+        fetchedCount: visibleRequests.length,
         hasMore: requestsPagination.hasMore,
         isFetching: requestsPagination.fetching,
       })
@@ -118,11 +115,12 @@ const LendableObjectList = () => {
     requestId: TransformedLendingRequest['id'],
     archived: boolean,
   ) => {
-    await dispatch(editLendingRequest({ id: requestId, archived }));
-    await Promise.all([
-      dispatch(fetchLendingRequests({ query: activeRequestQuery })),
-      dispatch(fetchLendingRequests({ query: archivedRequestQuery })),
-    ]);
+    try {
+      await dispatch(editLendingRequest({ id: requestId, archived }));
+    } catch {
+      // editLendingRequest carries an errorMessage meta, so the failure has
+      // already been toasted - the card just stays where it is
+    }
   };
 
   const objectsActionGrant = useAppSelector(
@@ -188,7 +186,7 @@ const LendableObjectList = () => {
         />
         <RequestInbox
           lendingRequests={lendingRequests}
-          totalFetched={originalLendingRequests.length}
+          totalFetched={visibleRequests.length}
           isFetching={requestsPagination.fetching}
           hasMore={requestsPagination.hasMore}
           onLoadMore={handleLoadMore}
