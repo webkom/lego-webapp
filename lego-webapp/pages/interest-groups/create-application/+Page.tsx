@@ -1,6 +1,6 @@
 import { Page } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
-import styles from '../InterestGroup.module.css';
+import styles from '../InterestInfo.module.css';
 
 const InterestGroupApplyCreate = () => {
   return (

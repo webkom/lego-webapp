@@ -54,7 +54,7 @@ const GroupTile = ({
   pending,
   onToggleMembership,
 }: TileProps) => {
-  const link = resolveGroupLink(group);
+  const link = resolveGroupLink(group) ?? `/interest-groups/${group.id}`;
   const markRef = useRef<HTMLButtonElement>(null);
 
   useLayoutEffect(() => {
@@ -170,6 +170,7 @@ const GroupsSection = () => {
     selectGroupsByType<PublicListGroup>(state, GroupType.Interest),
   );
   const fetching = useAppSelector((state) => state.groups.fetching);
+  const actionGrant = useAppSelector((state) => state.groups.actionGrant);
   const currentUser = useCurrentUser();
 
   const dispatch = useAppDispatch();
@@ -260,10 +261,15 @@ const GroupsSection = () => {
           {isInterestGroupLeader && (
             <LinkButton
               dark
-              href="/events/interest/money-application"
+              href="/interest-groups/money-application"
               size="small"
             >
               Send pengesøknad
+            </LinkButton>
+          )}
+          {actionGrant.includes('create') && (
+            <LinkButton dark href="/interest-groups/new" size="small">
+              Lag ny interessegruppe
             </LinkButton>
           )}
         </Flex>
@@ -291,7 +297,7 @@ const GroupsSection = () => {
       <div ref={gridRef} className={styles.grid}>
         {currentPage === 0 && (
           <a
-            href="/events/interest/create-application"
+            href="/interest-groups/create-application"
             title="Start en ny gruppe"
             className={cx(styles.tile, styles.createTile)}
           >
