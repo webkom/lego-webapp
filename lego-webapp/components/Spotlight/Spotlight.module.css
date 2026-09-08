@@ -1,11 +1,5 @@
 .card {
   position: relative;
-  border-radius: var(--border-radius-lg);
-  background: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 2%);
-
-  --corner-inset: var(--spacing-lg);
-  --corner-width: 150px;
-  --segment-height: 5px;
 
   &:hover .coverImage {
     transform: scale(1.015);
@@ -22,10 +16,6 @@
   position: relative;
   min-width: 0;
   color: var(--lego-font-color);
-
-  &:hover {
-    color: var(--lego-font-color);
-  }
 }
 
 .slideAnimated {
@@ -58,30 +48,16 @@
 }
 
 .caption {
-  background: var(--lego-card-color);
   border-top: 1.5px solid var(--border-gray);
-
-  padding: var(--spacing-md) calc(var(--corner-inset) + var(--corner-width))
-    var(--spacing-md) var(--spacing-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
   flex: 1;
 }
 
 .category {
-  position: absolute;
-  right: var(--corner-inset);
-  bottom: var(--corner-inset);
-  margin-bottom: var(--spacing-sm);
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-xs);
   white-space: nowrap;
-  font-size: var(--font-size-sm);
-  color: var(--secondary-font-color);
-}
-
-/* Clears the slider so it sits directly on top of it */
-.categoryAboveSlider {
-  bottom: calc(var(--corner-inset) + var(--segment-height) + var(--spacing-xs));
 }
 
 .date {
@@ -98,7 +74,6 @@
   margin: 0;
   font-size: var(--font-size-lg);
   font-weight: 500;
-  color: var(--lego-font-color);
 }
 
 .title {
@@ -106,8 +81,6 @@
   min-width: 0;
   font-size: var(--font-size-lg);
   font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
   text-wrap: pretty;
 }
 
@@ -120,7 +93,7 @@
   position: absolute;
   inset: 0 0 auto;
   aspect-ratio: 10 / 3;
-  z-index: 20;
+  z-index: 3;
   pointer-events: none;
 }
 
@@ -133,13 +106,14 @@
   height: 38px;
   border-radius: 50%;
 
-  background: rgba(12, 12, 14, 42%);
+  background: rgba(0, 0, 0, 42%);
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   color: var(--color-absolute-white);
   transition: background var(--easing-fast);
 
   &:hover {
-    background: rgba(12, 12, 14, 68%);
+    background: rgba(0, 0, 0, 68%);
   }
 }
 
@@ -153,17 +127,17 @@
 
 .segments {
   position: absolute;
-  right: var(--corner-inset);
-  bottom: var(--corner-inset);
-  z-index: 20;
+  right: var(--spacing-md);
+  bottom: var(--spacing-md);
+  pointer-events: auto;
 }
 
 .segment {
   width: 12px;
-  height: var(--segment-height);
+  height: 5px;
   padding: 0;
-  border-radius: 3px;
-  background: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 10%);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 55%);
   transition:
     width var(--easing-medium),
     background var(--easing-medium);

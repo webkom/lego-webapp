@@ -81,10 +81,8 @@ export const toSpotlightItems = (
     categoryColor: isEvent(item)
       ? (colorForEventType(item.eventType) ?? 'var(--lego-font-color)')
       : 'var(--lego-font-color)',
-    // '-' is the stand-in for an event with nowhere to be
     location:
       isEvent(item) && item.location !== '-' ? item.location : undefined,
-    // Raw, not a moment: <Time> stringifies this into the datetime attribute
     time: isEvent(item) ? item.startTime : item.createdAt,
     timeFormat: itemTimeFormat(item),
     pinned: item.pinned,

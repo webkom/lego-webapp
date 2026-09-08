@@ -118,6 +118,14 @@ const Spotlight = ({ items, fetching = false, className, style }: Props) => {
                       gap="var(--spacing-xs) var(--spacing-sm)"
                       className={styles.meta}
                     >
+                      <span className={styles.category}>
+                        <Circle
+                          size="var(--font-size-xs)"
+                          color={item.categoryColor}
+                        />
+                        {item.category}
+                      </span>
+                      <span aria-hidden>•</span>
                       <span className={styles.date}>
                         <Calendar size={15} strokeWidth={1.75} aria-hidden />
                         <Time time={item.time} format={item.timeFormat} />
@@ -132,18 +140,6 @@ const Spotlight = ({ items, fetching = false, className, style }: Props) => {
                       )}
                     </Flex>
                   </Flex>
-                  <span
-                    className={cx(
-                      styles.category,
-                      hasMultiple && styles.categoryAboveSlider,
-                    )}
-                  >
-                    <Circle
-                      size="var(--font-size-xs)"
-                      color={item.categoryColor}
-                    />
-                    {item.category}
-                  </span>
                 </Flex>
               );
             })}
@@ -151,31 +147,29 @@ const Spotlight = ({ items, fetching = false, className, style }: Props) => {
         )}
 
         {hasMultiple && (
-          <>
-            <div className={styles.coverControls}>
-              <Flex
-                component="button"
-                type="button"
-                alignItems="center"
-                justifyContent="center"
-                aria-label="Forrige oppslag"
-                className={cx(styles.arrow, styles.arrowPrevious)}
-                onClick={previous}
-              >
-                <ChevronLeft size={19} strokeWidth={1.75} />
-              </Flex>
-              <Flex
-                component="button"
-                type="button"
-                alignItems="center"
-                justifyContent="center"
-                aria-label="Neste oppslag"
-                className={cx(styles.arrow, styles.arrowNext)}
-                onClick={next}
-              >
-                <ChevronRight size={19} strokeWidth={1.75} />
-              </Flex>
-            </div>
+          <div className={styles.coverControls}>
+            <Flex
+              component="button"
+              type="button"
+              alignItems="center"
+              justifyContent="center"
+              aria-label="Forrige oppslag"
+              className={cx(styles.arrow, styles.arrowPrevious)}
+              onClick={previous}
+            >
+              <ChevronLeft size={19} strokeWidth={1.75} />
+            </Flex>
+            <Flex
+              component="button"
+              type="button"
+              alignItems="center"
+              justifyContent="center"
+              aria-label="Neste oppslag"
+              className={cx(styles.arrow, styles.arrowNext)}
+              onClick={next}
+            >
+              <ChevronRight size={19} strokeWidth={1.75} />
+            </Flex>
             <Flex
               alignItems="center"
               gap="var(--spacing-xs)"
@@ -195,7 +189,7 @@ const Spotlight = ({ items, fetching = false, className, style }: Props) => {
                 />
               ))}
             </Flex>
-          </>
+          </div>
         )}
       </BaseCard>
     </Flex>

@@ -113,7 +113,6 @@ export const selectFeaturedItems = createSelector(
       .filter((object) => object.pinned || isCurrent(object))
       .slice(0, MAX_FEATURED);
 
-    // The slot has never been empty
     return featured.length > 0 ? featured : items.slice(0, 1);
   },
 );
