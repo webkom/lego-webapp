@@ -80,17 +80,27 @@ describe('selectors', () => {
       expect(selectFeaturedItems(state).map((o) => o.id)).toEqual([3]);
     });
 
-    it('sorts pinned frontpage objects first', () => {
+    it('shows every pinned object, article and event alike', () => {
       const state = createState({
         articleIds: [6],
         eventIds: [3],
         articles: { 6: article(6, true, 30) },
-        events: { 3: event(3, false, 1) },
+        events: { 3: event(3, true, 1) },
       });
-      expect(selectFeaturedItems(state).map((o) => o.id)).toEqual([6, 3]);
+      expect(selectFeaturedItems(state).map((o) => o.id)).toEqual([3, 6]);
     });
 
-    it('keeps a pinned object even when it falls outside the window', () => {
+    it('shows only the pinned object when a single one is pinned', () => {
+      const state = createState({
+        articleIds: [6],
+        eventIds: [3, 4],
+        articles: { 6: article(6, true, 30) },
+        events: { 3: event(3, false, 1), 4: event(4, false, 2) },
+      });
+      expect(selectFeaturedItems(state).map((o) => o.id)).toEqual([6]);
+    });
+
+    it('keeps a pinned object however old it is', () => {
       const state = createState({
         articleIds: [6],
         eventIds: [],
@@ -100,39 +110,34 @@ describe('selectors', () => {
       expect(selectFeaturedItems(state).map((o) => o.id)).toEqual([6]);
     });
 
-    it('drops unpinned objects that fall outside the window', () => {
+    it('falls back to the nearest upcoming event when nothing is pinned', () => {
       const state = createState({
         articleIds: [6],
         eventIds: [3, 4],
-        articles: { 6: article(6, false, 2) },
-        events: { 3: event(3, false, 2), 4: event(4, false, 30) },
+        articles: { 6: article(6, false, 1) },
+        events: { 3: event(3, false, 30), 4: event(4, false, 2) },
       });
-      expect(selectFeaturedItems(state).map((o) => o.id)).toEqual([3, 6]);
+      expect(selectFeaturedItems(state).map((o) => o.id)).toEqual([4]);
     });
 
-    it('shows at most three objects', () => {
-      const state = createState({
-        articleIds: [],
-        eventIds: [1, 2, 3, 4],
-        articles: {},
-        events: {
-          1: event(1, false, 1),
-          2: event(2, false, 2),
-          3: event(3, false, 3),
-          4: event(4, false, 4),
-        },
-      });
-      expect(selectFeaturedItems(state).map((o) => o.id)).toEqual([1, 2, 3]);
-    });
-
-    it('falls back to the nearest object when nothing is current', () => {
+    it('ignores events that have already started when falling back', () => {
       const state = createState({
         articleIds: [],
         eventIds: [3, 4],
         articles: {},
-        events: { 3: event(3, false, 30), 4: event(4, false, 60) },
+        events: { 3: event(3, false, -1), 4: event(4, false, 5) },
       });
-      expect(selectFeaturedItems(state).map((o) => o.id)).toEqual([3]);
+      expect(selectFeaturedItems(state).map((o) => o.id)).toEqual([4]);
+    });
+
+    it('never falls back to an article', () => {
+      const state = createState({
+        articleIds: [6],
+        eventIds: [],
+        articles: { 6: article(6, false, 1) },
+        events: {},
+      });
+      expect(selectFeaturedItems(state)).toEqual([]);
     });
 
     it('is empty before the frontpage has been fetched', () => {

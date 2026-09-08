@@ -95,24 +95,19 @@ export const selectFrontpageItems = createSelector(
   },
 );
 
-const FEATURED_WINDOW_DAYS = 7;
-const MAX_FEATURED = 3;
-
-const isCurrent = (object: ArticleWithType | EventWithType) => {
-  const date = frontpageObjectDate(object);
-
-  return isEvent(object)
-    ? date.isBefore(moment().add(FEATURED_WINDOW_DAYS, 'days'))
-    : date.isAfter(moment().subtract(FEATURED_WINDOW_DAYS, 'days'));
-};
-
 export const selectFeaturedItems = createSelector(
   selectFrontpageItems,
   (items) => {
-    const featured = items
-      .filter((object) => object.pinned || isCurrent(object))
-      .slice(0, MAX_FEATURED);
+    const pinned = items.filter((object) => object.pinned);
 
-    return featured.length > 0 ? featured : items.slice(0, 1);
+    if (pinned.length > 0) {
+      return pinned;
+    }
+
+    const nextEvent = items.find(
+      (object) => isEvent(object) && moment(object.startTime).isAfter(moment()),
+    );
+
+    return nextEvent ? [nextEvent] : [];
   },
 );
