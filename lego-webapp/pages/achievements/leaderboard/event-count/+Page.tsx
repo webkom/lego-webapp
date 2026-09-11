@@ -1,5 +1,5 @@
 import LeaderboardTable from '../LeaderboardTable';
 
-const EventCountLeaderboard = () => <LeaderboardTable type="event_count" />;
+const EventCountLeaderboard = () => <LeaderboardTable metric="event_count" />;
 
 export default EventCountLeaderboard;

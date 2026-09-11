@@ -122,12 +122,15 @@ export const selectUserWithGroups = createSelector(
   },
 );
 
-export const selectUsersWithAchievementsScore = createSelector(
+export const selectUsersRankedBy = createSelector(
   selectUserEntities,
-  (userEntities): PublicUserWithAbakusGroups[] => {
+  (_: RootState, rankingKey: keyof PublicUserWithAbakusGroups['ranking']) =>
+    rankingKey,
+  (userEntities, rankingKey): PublicUserWithAbakusGroups[] => {
     return Object.values(userEntities).filter(
       (user): user is PublicUserWithAbakusGroups =>
-        user.achievementScore?.value != null,
+        (user as PublicUserWithAbakusGroups).ranking?.[rankingKey]?.rank !=
+        null,
     );
   },
 );

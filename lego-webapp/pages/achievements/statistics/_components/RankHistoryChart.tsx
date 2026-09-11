@@ -28,7 +28,7 @@ type HistoryPoint = { date: string; rank: number; value: number };
 const RankHistoryChart = ({ type }: Props) => {
   const dispatch = useAppDispatch();
   const [history, setHistory] = useState<HistoryPoint[]>();
-  const isPercentage = type === 'achievement_score';
+  const isPercentage = type.startsWith('achievement_score');
   const valueLabel = isPercentage
     ? 'Fullføringsprosent'
     : 'Antall arrangementer';
@@ -52,6 +52,13 @@ const RankHistoryChart = ({ type }: Props) => {
     },
     [dispatch, type],
   );
+
+  const ranks = history?.map((point) => point.rank) ?? [];
+  const minRank = Math.min(...ranks);
+  const maxRank = Math.max(...ranks);
+  const padding = Math.max(1, Math.round((maxRank - minRank) * 0.15));
+  const domainMin = Math.max(1, minRank - padding);
+  const domainMax = maxRank + padding;
 
   return (
     <div>
@@ -82,7 +89,7 @@ const RankHistoryChart = ({ type }: Props) => {
             <YAxis
               reversed
               allowDecimals={false}
-              domain={[1, 'dataMax']}
+              domain={[domainMin, domainMax]}
               tick={{ fill: 'var(--secondary-font-color)' }}
               stroke="var(--border-gray)"
               label={{
