@@ -1,5 +1,5 @@
 import LeaderboardTable from './LeaderboardTable';
 
-const Leaderboard = () => <LeaderboardTable type="achievement_score" />;
+const Leaderboard = () => <LeaderboardTable metric="achievement_score" />;
 
 export default Leaderboard;

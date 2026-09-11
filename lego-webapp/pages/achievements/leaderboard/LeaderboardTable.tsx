@@ -4,17 +4,23 @@ import { Trophy } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { ContentMain } from '~/components/Content';
 import Table from '~/components/Table';
-import { RankChange, RankTypeToggle } from '~/pages/achievements/utils';
+import {
+  PopulationToggle,
+  RankChange,
+  RankTypeToggle,
+  rankingKey,
+  toRankType,
+} from '~/pages/achievements/utils';
 import { fetchLeaderboardUsers } from '~/redux/actions/AchievementActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
 import { selectPaginationNext } from '~/redux/slices/selectors';
-import { selectUsersWithAchievementsScore } from '~/redux/slices/users';
+import { selectUsersRankedBy } from '~/redux/slices/users';
 import { rarityMap } from '~/utils/achievementConstants';
 import { useIsMobileViewport } from '~/utils/isMobileViewport';
 import useQuery from '~/utils/useQuery';
 import type { ColumnProps } from '~/components/Table';
-import type { RankType } from '~/pages/achievements/utils';
+import type { Metric, Population } from '~/pages/achievements/utils';
 import type { PublicUserWithAbakusGroups } from '~/redux/models/User';
 
 // Reuses the app's existing bronze/silver/gold rarity-tier colors so a top-3
@@ -47,17 +53,32 @@ const RankBadge = ({ rank }: { rank: number | null }) => {
   );
 };
 
+const parseGroupIds = (csv: string): number[] =>
+  csv ? csv.split(',').map((id) => Number(id.trim())) : [];
+
+const matchesGroupFilter = (
+  user: PublicUserWithAbakusGroups,
+  groupIds: number[],
+) =>
+  groupIds.length === 0 ||
+  groupIds.some((id) => user.abakusGroups.includes(id));
+
 type Props = {
-  type: RankType;
+  metric: Metric;
 };
 
-const LeaderboardTable = ({ type }: Props) => {
+const LeaderboardTable = ({ metric }: Props) => {
   const dispatch = useAppDispatch();
 
-  const { query: leaderboardQuery } = useQuery({
+  const { query: leaderboardQuery, setQueryValue } = useQuery({
     userFullName: '',
     abakusGroupIds: '',
+    programGroupIds: '',
+    population: 'active' as Population,
   });
+  const population = leaderboardQuery.population;
+  const rankType = toRankType(metric, population);
+  const key = rankingKey(metric, population);
 
   const [debouncedSearch, setDebouncedSearch] = useState('');
 
@@ -73,9 +94,15 @@ const LeaderboardTable = ({ type }: Props) => {
     () => ({
       userFullName: debouncedSearch,
       abakusGroupIds: leaderboardQuery.abakusGroupIds,
-      type,
+      programGroupIds: leaderboardQuery.programGroupIds,
+      type: rankType,
     }),
-    [debouncedSearch, leaderboardQuery.abakusGroupIds, type],
+    [
+      debouncedSearch,
+      leaderboardQuery.abakusGroupIds,
+      leaderboardQuery.programGroupIds,
+      rankType,
+    ],
   );
 
   const { pagination } = useAppSelector((state) =>
@@ -99,40 +126,38 @@ const LeaderboardTable = ({ type }: Props) => {
     [dispatch, memoizedQuery],
   );
 
-  const users = useAppSelector((state) =>
-    selectUsersWithAchievementsScore(state),
-  );
+  const users = useAppSelector((state) => selectUsersRankedBy(state, key));
 
-  const rankedUsers: PublicUserWithAbakusGroups[] = users
-    .filter((user: PublicUserWithAbakusGroups) => {
-      if (leaderboardQuery.userFullName) {
-        const search = leaderboardQuery.userFullName.toLowerCase();
-        const fullName = `${user.firstName} ${user.lastName}`.toLowerCase();
-        if (!fullName.includes(search)) {
-          return false;
+  const rankedUsers: PublicUserWithAbakusGroups[] = useMemo(() => {
+    const search = leaderboardQuery.userFullName.toLowerCase();
+    const groupIds = parseGroupIds(leaderboardQuery.abakusGroupIds);
+    const programIds = parseGroupIds(leaderboardQuery.programGroupIds);
+
+    return users
+      .filter((user) => {
+        if (search) {
+          const fullName = `${user.firstName} ${user.lastName}`.toLowerCase();
+          if (!fullName.includes(search)) return false;
         }
-      }
-      if (leaderboardQuery.abakusGroupIds) {
-        const groupIds = leaderboardQuery.abakusGroupIds
-          .split(',')
-          .map((id) => Number(id.trim()));
-        if (!groupIds.some((id) => user.abakusGroups.includes(id))) {
-          return false;
-        }
-      }
-      return true;
-    })
-    .sort((a, b) =>
-      type === 'event_count'
-        ? (b.eventCount?.value ?? 0) - (a.eventCount?.value ?? 0)
-        : (b.achievementScore.value ?? 0) - (a.achievementScore.value ?? 0),
-    );
+        if (!matchesGroupFilter(user, groupIds)) return false;
+        if (!matchesGroupFilter(user, programIds)) return false;
+        return true;
+      })
+      .sort(
+        (a, b) => (b.ranking[key]?.value ?? 0) - (a.ranking[key]?.value ?? 0),
+      );
+  }, [
+    users,
+    leaderboardQuery.userFullName,
+    leaderboardQuery.abakusGroupIds,
+    leaderboardQuery.programGroupIds,
+    key,
+  ]);
 
   const isMobile = useIsMobileViewport();
-  const isEventCountType = type === 'event_count';
+  const isEventCountType = metric === 'event_count';
 
-  const getRankScore = (user: PublicUserWithAbakusGroups) =>
-    isEventCountType ? user.eventCount : user.achievementScore;
+  const getRankScore = (user: PublicUserWithAbakusGroups) => user.ranking[key];
 
   const columns: ColumnProps<PublicUserWithAbakusGroups>[] = [
     {
@@ -162,7 +187,7 @@ const LeaderboardTable = ({ type }: Props) => {
             search: false,
             inlineFiltering: false,
             render: (_, user: PublicUserWithAbakusGroups) => (
-              <>{user.achievementScore.value}%</>
+              <>{user.ranking[key]?.value}%</>
             ),
           } as ColumnProps<PublicUserWithAbakusGroups>,
         ]
@@ -173,7 +198,7 @@ const LeaderboardTable = ({ type }: Props) => {
             search: false,
             inlineFiltering: false,
             render: (_, user: PublicUserWithAbakusGroups) => (
-              <>{user.eventCount?.value ?? 0}</>
+              <>{user.ranking[key]?.value ?? 0}</>
             ),
           } as ColumnProps<PublicUserWithAbakusGroups>,
         ]),
@@ -211,7 +236,13 @@ const LeaderboardTable = ({ type }: Props) => {
 
   return (
     <ContentMain>
-      <RankTypeToggle type={type} basePath="/achievements/leaderboard" />
+      <Flex justifyContent="space-between" wrap gap="var(--spacing-md)">
+        <RankTypeToggle metric={metric} basePath="/achievements/leaderboard" />
+        <PopulationToggle
+          population={population}
+          onChange={setQueryValue('population')}
+        />
+      </Flex>
 
       <Table
         columns={columns}

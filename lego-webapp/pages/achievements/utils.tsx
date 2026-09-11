@@ -1,5 +1,7 @@
 import { Tab, TabContainer } from '@webkom/lego-bricks';
 import { NavigationTab } from '~/components/NavigationTab/NavigationTab';
+import styles from './utils.module.css';
+import type { Ranking } from '~/redux/models/User';
 
 export const AchievementTabs = () => (
   <>
@@ -13,48 +15,84 @@ export const AchievementTabs = () => (
   </>
 );
 
-export type RankType = 'achievement_score' | 'event_count';
+export type Metric = 'achievement_score' | 'event_count';
 
-export const RANK_TYPE_LABELS: Record<RankType, string> = {
+export const METRIC_LABELS: Record<Metric, string> = {
   achievement_score: 'Fullføringsprosent',
   event_count: 'Arrangementer',
 };
 
-/**
- * Same achievement_score/event_count switch used on both /achievements/leaderboard
- * and /achievements/statistics - basePath points at whichever feature is active,
- * e.g. "/achievements/leaderboard" -> "/achievements/leaderboard/event-count".
- */
+export type Population = 'classic' | 'active';
+
+export const POPULATION_LABELS: Record<Population, string> = {
+  active: 'Aktive',
+  classic: 'Klassisk',
+};
+
+export type RankType =
+  | 'achievement_score'
+  | 'achievement_score_active'
+  | 'event_count'
+  | 'event_count_active';
+
+export const toRankType = (metric: Metric, population: Population): RankType =>
+  population === 'active' ? (`${metric}_active` as RankType) : metric;
+
+const RANKING_KEY_BY_TYPE: Record<RankType, keyof Ranking> = {
+  achievement_score: 'achievementScore',
+  achievement_score_active: 'achievementScoreActive',
+  event_count: 'eventCount',
+  event_count_active: 'eventCountActive',
+};
+
+export const rankingKey = (
+  metric: Metric,
+  population: Population,
+): keyof Ranking => RANKING_KEY_BY_TYPE[toRankType(metric, population)];
+
 export const RankTypeToggle = ({
-  type,
+  metric,
   basePath,
 }: {
-  type: RankType;
+  metric: Metric;
   basePath: string;
 }) => (
   <TabContainer>
-    {(Object.keys(RANK_TYPE_LABELS) as RankType[]).map((rankType) => (
+    {(Object.keys(METRIC_LABELS) as Metric[]).map((m) => (
       <Tab
-        key={rankType}
-        active={type === rankType}
-        href={
-          rankType === 'achievement_score'
-            ? basePath
-            : `${basePath}/event-count`
-        }
+        key={m}
+        active={metric === m}
+        href={m === 'achievement_score' ? basePath : `${basePath}/event-count`}
       >
-        {RANK_TYPE_LABELS[rankType]}
+        {METRIC_LABELS[m]}
       </Tab>
     ))}
   </TabContainer>
 );
 
-/**
- * Rank delta since some earlier baseline, shared by the leaderboard table's
- * "Siste uke"/"Siste måned" columns and the statistics page's top-climbers
- * list. null current/previous means "no history to compare against yet"
- * rather than "no change".
- */
+// Not Tab/TabContainer - its active indicator only moves on route change.
+export const PopulationToggle = ({
+  population,
+  onChange,
+}: {
+  population: Population;
+  onChange: (population: Population) => void;
+}) => (
+  <div className={styles.populationToggle}>
+    {(Object.keys(POPULATION_LABELS) as Population[]).map((p) => (
+      <button
+        key={p}
+        type="button"
+        data-active={population === p}
+        className={styles.populationButton}
+        onClick={() => onChange(p)}
+      >
+        {POPULATION_LABELS[p]}
+      </button>
+    ))}
+  </div>
+);
+
 export const RankChange = ({
   current,
   previous,
@@ -96,6 +134,7 @@ export const RankChange = ({
 export const overviewDefaultSearch = {
   userFullName: '',
   abakusGroupIds: '',
+  programGroupIds: '',
   completed: 'all',
 };
 

@@ -43,7 +43,7 @@ const findYourBinIndex = (distribution: ScoreDistribution) => {
 const ScoreDistributionChart = ({ type }: Props) => {
   const dispatch = useAppDispatch();
   const [distribution, setDistribution] = useState<ScoreDistribution>();
-  const isPercentage = type === 'achievement_score';
+  const isPercentage = type.startsWith('achievement_score');
   const title = isPercentage
     ? 'Fordeling av fullføringsprosent'
     : 'Fordeling av antall arrangementer';

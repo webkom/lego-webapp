@@ -2,13 +2,46 @@ import { FilterSection, filterSidebar, Flex, Page } from '@webkom/lego-bricks';
 import { PropsWithChildren } from 'react';
 import { usePageContext } from 'vike-react/usePageContext';
 import { RadioButton, TextInput } from '~/components/Form';
-import { filterableGroups } from '~/components/UserAttendance/GroupFilter';
+import {
+  filterableGroups,
+  programFilterGroups,
+} from '~/components/UserAttendance/GroupFilter';
 import useQuery from '~/utils/useQuery';
 import {
   overviewDefaultSearch,
   AchievementTabs,
   leaderboardDefaultSearch,
 } from './utils';
+
+const GroupRadioSection = ({
+  title,
+  groups,
+  radioName,
+  value,
+  onSelect,
+}: {
+  title: string;
+  groups: { name: string; ids: number[] }[];
+  radioName: string;
+  value: string;
+  onSelect: (groupValue: string) => void;
+}) => (
+  <FilterSection title={title}>
+    {groups.map((group) => {
+      const groupValue = group.ids.join(',');
+      return (
+        <RadioButton
+          key={groupValue}
+          name={radioName}
+          id={groupValue}
+          label={group.name}
+          onChange={() => onSelect(groupValue)}
+          checked={value === groupValue}
+        />
+      );
+    })}
+  </FilterSection>
+);
 
 const AchievementsPageWrapper = ({ children }: PropsWithChildren) => {
   const pageContext = usePageContext();
@@ -108,23 +141,21 @@ const AchievementsPageWrapper = ({ children }: PropsWithChildren) => {
                 value={query.userFullName}
                 onChange={(e) => setQueryValue('userFullName')(e.target.value)}
               />
-              <FilterSection title="Klasse">
-                {filterableGroups.map((group) => {
-                  const groupValue = group.ids.join(',');
-                  return (
-                    <RadioButton
-                      key={groupValue}
-                      name="gradeLevel"
-                      id={groupValue}
-                      label={group.name}
-                      onChange={() =>
-                        setQueryValue('abakusGroupIds')(groupValue)
-                      }
-                      checked={query.abakusGroupIds === groupValue}
-                    />
-                  );
-                })}
-              </FilterSection>
+              <GroupRadioSection
+                title="Klasse"
+                groups={filterableGroups}
+                radioName="gradeLevel"
+                value={query.abakusGroupIds}
+                onSelect={setQueryValue('abakusGroupIds')}
+              />
+
+              <GroupRadioSection
+                title="Linje"
+                groups={programFilterGroups}
+                radioName="program"
+                value={query.programGroupIds}
+                onSelect={setQueryValue('programGroupIds')}
+              />
             </FilterSection>
           ),
         })

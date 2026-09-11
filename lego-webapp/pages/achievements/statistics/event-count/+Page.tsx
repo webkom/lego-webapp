@@ -1,5 +1,5 @@
 import Statistics from '../Statistics';
 
-const EventCountStatistics = () => <Statistics type="event_count" />;
+const EventCountStatistics = () => <Statistics metric="event_count" />;
 
 export default EventCountStatistics;
