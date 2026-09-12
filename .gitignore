@@ -30,8 +30,8 @@ lego-webapp/cypress/screenshots
 lego-webapp/cypress/videos
 
 # Playwright
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
-/playwright/.auth/
+lego-webapp/test-results
+lego-webapp/playwright-report
+lego-webapp/blob-report
+lego-webapp/playwright/.cache
+lego-webapp/playwright/.auth

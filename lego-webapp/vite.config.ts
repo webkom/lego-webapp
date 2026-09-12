@@ -6,7 +6,7 @@ import postcssNested from 'postcss-nested';
 import vike from 'vike/plugin';
 import { patchCssModules } from 'vite-css-modules';
 import { cjsInterop } from 'vite-plugin-cjs-interop';
-import { defineConfig } from 'vitest/config';
+import { configDefaults, defineConfig } from 'vitest/config';
 
 export default defineConfig({
   plugins: [
@@ -57,5 +57,6 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
+    exclude: [...configDefaults.exclude, 'playwright/**'],
   },
 });
