@@ -44,7 +44,6 @@
   transition: transform var(--easing-medium);
 }
 
-/* Dark-on-colour rather than a fixed token, so it reads on any coverColor. */
 .coverMonogram {
   display: grid;
   place-items: center;

@@ -16,7 +16,6 @@ export type SpotlightItem = {
   title: string;
   cover?: string;
   coverPlaceholder?: string;
-  /* Shown in place of the cover when an item has no image of its own. */
   coverMonogram?: string;
   coverColor?: string;
   category: string;
