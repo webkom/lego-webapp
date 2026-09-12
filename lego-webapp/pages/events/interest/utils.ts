@@ -134,6 +134,9 @@ export const toInterestSpotlightItem = (event: ListEvent): SpotlightItem => ({
   category:
     event.responsibleGroup?.name ?? displayNameForEventType(event.eventType),
   categoryColor: colorForEventType(event.eventType) ?? 'var(--lego-font-color)',
+  coverMonogram:
+    event.responsibleGroup && groupMonogram(event.responsibleGroup),
+  coverColor: 'var(--color-orange-6)',
   location: event.location !== '-' ? event.location : undefined,
   time: event.startTime,
   timeFormat: spotlightTimeFormat(event.startTime),

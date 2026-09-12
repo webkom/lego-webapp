@@ -16,6 +16,9 @@ export type SpotlightItem = {
   title: string;
   cover?: string;
   coverPlaceholder?: string;
+  /* Shown in place of the cover when an item has no image of its own. */
+  coverMonogram?: string;
+  coverColor?: string;
   category: string;
   categoryColor: string;
   location?: string;
@@ -103,14 +106,26 @@ const Spotlight = ({
                   tabIndex={active ? undefined : -1}
                 >
                   <div className={styles.cover}>
-                    <Image
-                      className={styles.coverImage}
-                      src={item.cover || ''}
-                      placeholder={item.coverPlaceholder}
-                      height={500}
-                      width={1667}
-                      alt={`Forsidebildet til ${item.title}`}
-                    />
+                    {item.cover ? (
+                      <Image
+                        className={styles.coverImage}
+                        src={item.cover}
+                        placeholder={item.coverPlaceholder}
+                        height={500}
+                        width={1667}
+                        alt={`Forsidebildet til ${item.title}`}
+                      />
+                    ) : (
+                      item.coverMonogram && (
+                        <span
+                          className={styles.coverMonogram}
+                          style={{ backgroundColor: item.coverColor }}
+                          aria-hidden
+                        >
+                          {item.coverMonogram}
+                        </span>
+                      )
+                    )}
                   </div>
                   <Flex
                     column
