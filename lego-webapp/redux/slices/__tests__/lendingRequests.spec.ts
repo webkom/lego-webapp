@@ -13,6 +13,7 @@ const createLendingRequest = (
   id,
   createdBy: 1,
   lendableObject: lendableObjectId,
+  archived: false,
   status: LendingRequestStatus.Created,
   startDate: '2026-01-01',
   endDate: '2026-01-02',
