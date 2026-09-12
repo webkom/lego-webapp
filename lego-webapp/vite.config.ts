@@ -7,6 +7,7 @@ import vike from 'vike/plugin';
 import { defineConfig } from 'vite';
 import { patchCssModules } from 'vite-css-modules';
 import { cjsInterop } from 'vite-plugin-cjs-interop';
+import { configDefaults } from 'vitest/config';
 
 export default defineConfig({
   plugins: [
@@ -57,5 +58,6 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
+    exclude: [...configDefaults.exclude, 'playwright/**'],
   },
 });
