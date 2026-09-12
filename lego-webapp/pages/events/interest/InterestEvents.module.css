@@ -1,16 +1,25 @@
+@import url('styles/custom-media.css');
+
 .page {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(24px, 4vw, 48px);
+  gap: var(--spacing-xxl);
   padding: 0 0 var(--footer-spacing-lg);
+
+  @media (--mobile-device) {
+    gap: var(--spacing-xl);
+  }
+
+  @media (--small-viewport) {
+    gap: var(--spacing-lg);
+  }
 }
 
 .hero {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: clamp(24px, 3vw, 44px);
+  gap: var(--spacing-xl);
   padding: 0 var(--spacing-md);
+
+  @media (--mobile-device) {
+    gap: var(--spacing-lg);
+  }
 }
 
 .heroText {
@@ -19,10 +28,22 @@
 
   h1 {
     margin: 0;
-    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-size: 3.5rem;
     font-weight: 800;
     letter-spacing: -0.03em;
     line-height: 1.05;
+
+    @media (--mobile-device) {
+      font-size: 2.75rem;
+    }
+
+    @media (--medium-viewport) {
+      font-size: 2.25rem;
+    }
+
+    @media (--small-viewport) {
+      font-size: 2rem;
+    }
   }
 }
 
@@ -40,10 +61,6 @@
 }
 
 .heroActions {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-md);
   margin-top: var(--spacing-lg);
 }
 
