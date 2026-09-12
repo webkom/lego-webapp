@@ -16,9 +16,6 @@
   position: relative;
   min-width: 0;
   color: var(--lego-font-color);
-}
-
-.slideAnimated {
   transition: opacity var(--easing-slow);
 }
 

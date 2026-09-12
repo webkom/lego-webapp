@@ -1,7 +1,13 @@
 import moment from 'moment-timezone';
+import {
+  colorForEventType,
+  displayNameForEventType,
+} from '~/pages/events/utils';
 import { capitalize } from '~/utils';
+import type { Dateish } from 'app/models';
 import type { Moment } from 'moment-timezone';
 import type { KeyboardEvent } from 'react';
+import type { SpotlightItem } from '~/components/Spotlight';
 import type { ListEvent } from '~/redux/models/Event';
 import type { PublicGroup } from '~/redux/models/Group';
 
@@ -110,3 +116,25 @@ export const groupEvents = (
 
   return order.map((key) => groups[key]);
 };
+
+export const nextUpcomingEvent = (events: ListEvent[]) =>
+  events.find((event) => moment(event.startTime).isAfter(moment()));
+
+const spotlightTimeFormat = (time: Dateish) =>
+  moment().year() === moment(time).year()
+    ? 'DD. MMM HH:mm'
+    : 'DD. MMM YYYY HH:mm';
+
+export const toInterestSpotlightItem = (event: ListEvent): SpotlightItem => ({
+  id: event.id,
+  url: `/events/${event.slug}`,
+  title: event.title,
+  cover: event.cover,
+  coverPlaceholder: event.coverPlaceholder ?? undefined,
+  category:
+    event.responsibleGroup?.name ?? displayNameForEventType(event.eventType),
+  categoryColor: colorForEventType(event.eventType) ?? 'var(--lego-font-color)',
+  location: event.location !== '-' ? event.location : undefined,
+  time: event.startTime,
+  timeFormat: spotlightTimeFormat(event.startTime),
+});

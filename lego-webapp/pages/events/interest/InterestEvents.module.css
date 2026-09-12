@@ -8,7 +8,7 @@
 .hero {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
   gap: clamp(24px, 3vw, 44px);
   padding: 0 var(--spacing-md);
 }
@@ -24,6 +24,11 @@
     letter-spacing: -0.03em;
     line-height: 1.05;
   }
+}
+
+.spotlight {
+  flex: 1;
+  min-width: min(360px, 100%);
 }
 
 .lead {
