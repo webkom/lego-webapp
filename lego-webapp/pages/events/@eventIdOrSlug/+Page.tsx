@@ -35,6 +35,7 @@ import { AttendeeSection } from './AttendeeSection';
 import styles from './EventDetail.module.css';
 import { InterestedButton } from './InterestedButton';
 import JoinEventForm from './JoinEventForm';
+import { ShareButton } from './ShareButton';
 import { SidebarInfo } from './SidebarInfo';
 import { UnansweredSurveys } from './UnansweredSurveys';
 import { useDeadlineInfoList, useEventCreatorInfoList } from './infoLists';
@@ -169,6 +170,7 @@ const EventDetail = () => {
           <Flex alignItems="center" gap="var(--spacing-sm)">
             {loggedIn && <InterestedButton event={event} />}
             {event.title}
+            <ShareButton event={event} />
           </Flex>
         )
       }
