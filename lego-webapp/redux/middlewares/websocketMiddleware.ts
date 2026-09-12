@@ -6,6 +6,7 @@ import { fetchFollowers } from '~/redux/actions/EventActions';
 import { selectCurrentUser } from '~/redux/slices/auth';
 import { appConfig } from '~/utils/appConfig';
 import createQueryString from '~/utils/createQueryString';
+import { emitSocketEvent } from '~/utils/socket/useTransientSocketEvent';
 import type { Middleware } from '@reduxjs/toolkit';
 import type { AppDispatch } from '~/redux/createStore';
 import type { RootState } from '~/redux/rootReducer';
@@ -55,6 +56,8 @@ const createWebSocketMiddleware = (): Middleware<
                 : undefined,
           });
         }
+
+        emitSocketEvent({ type, payload, meta });
       };
 
       socket.onopen = () => {
@@ -102,7 +105,7 @@ const createWebSocketMiddleware = (): Middleware<
         return next(action);
       }
 
-      if (socket && socket.readyState === 1) {
+      if (socket?.readyState === WebSocket.OPEN) {
         switch (action.type) {
           case WebsocketsAT.GROUP_JOIN.BEGIN:
           case WebsocketsAT.GROUP_LEAVE.BEGIN:
