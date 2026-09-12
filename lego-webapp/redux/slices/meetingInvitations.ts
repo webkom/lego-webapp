@@ -5,6 +5,7 @@ import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
 import { EntityType } from '~/redux/models/entities';
 import { createMeetingInvitationId } from '~/redux/schemas';
 import { selectUserEntities } from '~/redux/slices/users';
+import { DetailedMeeting } from '../models/Meeting';
 import { selectMeetingById } from './meetings';
 import type { AnyAction, EntityId } from '@reduxjs/toolkit';
 import type {
@@ -14,9 +15,7 @@ import type {
 import type { PublicUser } from '~/redux/models/User';
 import type { RootState } from '~/redux/rootReducer';
 
-export const statusesText: {
-  [value in MeetingInvitationStatus]: string;
-} = {
+export const statusesText: Record<MeetingInvitationStatus, string> = {
   NO_ANSWER: 'Ikke svart',
   ATTENDING: 'Deltar',
   NOT_ATTENDING: 'Deltar ikke',
@@ -70,18 +69,18 @@ export type MeetingInvitationWithUser = Omit<MeetingInvitation, 'user'> & {
 };
 
 export const selectMeetingInvitationsForMeeting = createSelector(
-  selectMeetingById,
+  (state: RootState, meetingId: EntityId) =>
+    selectMeetingById<DetailedMeeting>(state, meetingId),
   selectMeetingInvitationEntities,
   selectUserEntities,
   (meeting, meetingInvitationEntities, userEntities) => {
     const meetingInvitationIds = meeting?.invitations;
     if (!meetingInvitationIds) return [];
-    return meetingInvitationIds
-      .map((invitationId) => meetingInvitationEntities[invitationId])
-      .map((invitation) => {
-        const userId = invitation.user;
-        const user = userEntities[userId];
-        return { ...invitation, user };
-      }) satisfies MeetingInvitationWithUser[];
+    return meetingInvitationIds.map((invitationId) => {
+      const invitation = meetingInvitationEntities[invitationId];
+      const userId = invitation.user;
+      const user = userEntities[userId];
+      return { ...invitation, id: invitationId, user };
+    }) satisfies MeetingInvitationWithUser[];
   },
 );

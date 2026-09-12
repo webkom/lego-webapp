@@ -56,7 +56,10 @@ export type AdminLendingRequest = DetailLendingRequest;
 
 export type UnknownLendingRequest = ListLendingRequest | AdminLendingRequest;
 
-export type TransformedLendingRequest = ListLendingRequest & {
+export type TransformedLendingRequest = Omit<
+  ListLendingRequest,
+  'lendableObject'
+> & {
   lendableObject: ListLendableObject;
 };
 
