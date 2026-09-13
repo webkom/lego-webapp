@@ -28,3 +28,10 @@ localhost-key.pem
 # Cypress
 lego-webapp/cypress/screenshots
 lego-webapp/cypress/videos
+
+# Playwright
+lego-webapp/test-results
+lego-webapp/playwright-report
+lego-webapp/blob-report
+lego-webapp/playwright/.cache
+lego-webapp/playwright/.auth
