@@ -1,81 +1,35 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Websockets as WebsocketsAT } from '../actionTypes';
-import { Websockets, WebsocketsGroup } from '../models/Websockets';
-import { EntityType } from '../models/entities';
+import { Websockets as WebsocketsAT } from '~/redux/actionTypes';
 
-const STATUS_INITIAL = {
+export type WebsocketsStatus = {
+  connected: boolean;
+  error: boolean;
+};
+
+const STATUS_INITIAL: WebsocketsStatus = {
   connected: false,
-  pending: false,
   error: false,
 };
 
-const STATUS_CONNECTED = {
-  ...STATUS_INITIAL,
+const STATUS_CONNECTED: WebsocketsStatus = {
   connected: true,
+  error: false,
 };
 
-export const STATUS_PENDING = {
-  ...STATUS_INITIAL,
-  pending: true,
-};
-
-export const STATUS_ERROR = {
-  ...STATUS_INITIAL,
+const STATUS_ERROR: WebsocketsStatus = {
+  connected: false,
   error: true,
 };
 
-const initialState: Websockets = {
-  status: STATUS_INITIAL,
-  groups: [] as WebsocketsGroup[],
-};
-
 const websocketsSlice = createSlice({
-  name: EntityType.Websockets,
-  initialState,
+  name: 'websockets',
+  initialState: STATUS_INITIAL,
   reducers: {},
   extraReducers: ({ addCase }) => {
-    addCase(WebsocketsAT.CONNECTED, (state) => {
-      state.status = STATUS_CONNECTED;
-    });
-    addCase(WebsocketsAT.CLOSED, (state) => {
-      state.status = STATUS_INITIAL;
-      state.groups = [];
-    });
-    addCase(WebsocketsAT.ERROR, (state) => {
-      state.status = STATUS_ERROR;
-      state.groups = [];
-    });
-    addCase(WebsocketsAT.GROUP_JOIN.BEGIN, (state, action) => {
-      if (!setGroupStatus(state, action, STATUS_PENDING))
-        state.groups.push({
-          group: action.payload.group,
-          status: STATUS_PENDING,
-        });
-    });
-    addCase(WebsocketsAT.GROUP_JOIN.SUCCESS, (state, action) => {
-      setGroupStatus(state, action, STATUS_CONNECTED);
-    });
-    addCase(WebsocketsAT.GROUP_JOIN.FAILURE, (state, action) => {
-      setGroupStatus(state, action, STATUS_ERROR);
-    });
-    addCase(WebsocketsAT.GROUP_LEAVE.BEGIN, (state, action) => {
-      setGroupStatus(state, action, STATUS_PENDING);
-    });
-    addCase(WebsocketsAT.GROUP_LEAVE.SUCCESS, (state, action) => {
-      setGroupStatus(state, action, STATUS_INITIAL);
-    });
+    addCase(WebsocketsAT.CONNECTED, () => STATUS_CONNECTED);
+    addCase(WebsocketsAT.CLOSED, () => STATUS_INITIAL);
+    addCase(WebsocketsAT.ERROR, () => STATUS_ERROR);
   },
 });
-
-const setGroupStatus = (state, action, status): boolean => {
-  const group = state.groups.find(
-    (item) => item.group === action.payload.group,
-  );
-  if (group) {
-    group.status = status;
-    return true;
-  }
-  return false;
-};
 
 export default websocketsSlice.reducer;
