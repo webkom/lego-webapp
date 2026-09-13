@@ -49,7 +49,6 @@ const AuthenticatedFrontpage = () => {
     setArticlesToShow(articlesToShow + 2);
   };
 
-  // Only the leading object is held back from the lists below
   const featuredId = useAppSelector(selectFeaturedItems)[0]?.id;
   const shouldFetchQuote = useAppSelector(selectRandomQuote) === undefined;
   const loggedIn = useIsLoggedIn();

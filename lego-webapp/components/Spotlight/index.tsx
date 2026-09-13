@@ -16,6 +16,8 @@ export type SpotlightItem = {
   title: string;
   cover?: string;
   coverPlaceholder?: string;
+  coverMonogram?: string;
+  coverColor?: string;
   category: string;
   categoryColor: string;
   location?: string;
@@ -27,12 +29,19 @@ export type SpotlightItem = {
 type Props = {
   items: SpotlightItem[];
   fetching?: boolean;
+  heading?: string;
   className?: string;
   style?: CSSProperties;
 };
 
-const Spotlight = ({ items, fetching = false, className, style }: Props) => {
-  const { index, animated, goTo, next, previous } = useCarousel(items.length);
+const Spotlight = ({
+  items,
+  fetching = false,
+  heading,
+  className,
+  style,
+}: Props) => {
+  const { index, goTo, next, previous } = useCarousel(items.length);
 
   const current = items[index];
   const hasMultiple = items.length > 1;
@@ -49,7 +58,8 @@ const Spotlight = ({ items, fetching = false, className, style }: Props) => {
     >
       <Flex alignItems="baseline" gap="var(--spacing-sm)">
         <h3 className={styles.heading}>
-          {fetching || current?.pinned ? 'Festet oppslag' : 'Oppslag'}
+          {heading ??
+            (fetching || current?.pinned ? 'Festet oppslag' : 'Oppslag')}
         </h3>
         {hasMultiple && (
           <Pill>
@@ -90,20 +100,31 @@ const Spotlight = ({ items, fetching = false, className, style }: Props) => {
                   className={cx(
                     styles.slide,
                     active ? styles.slideActive : styles.slideHidden,
-                    animated && styles.slideAnimated,
                   )}
                   aria-hidden={!active}
                   tabIndex={active ? undefined : -1}
                 >
                   <div className={styles.cover}>
-                    <Image
-                      className={styles.coverImage}
-                      src={item.cover || ''}
-                      placeholder={item.coverPlaceholder}
-                      height={500}
-                      width={1667}
-                      alt={`Forsidebildet til ${item.title}`}
-                    />
+                    {item.cover ? (
+                      <Image
+                        className={styles.coverImage}
+                        src={item.cover}
+                        placeholder={item.coverPlaceholder}
+                        height={500}
+                        width={1667}
+                        alt={`Forsidebildet til ${item.title}`}
+                      />
+                    ) : (
+                      item.coverMonogram && (
+                        <span
+                          className={styles.coverMonogram}
+                          style={{ backgroundColor: item.coverColor }}
+                          aria-hidden
+                        >
+                          {item.coverMonogram}
+                        </span>
+                      )
+                    )}
                   </div>
                   <Flex
                     column

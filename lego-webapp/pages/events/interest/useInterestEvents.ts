@@ -18,8 +18,6 @@ const interestEventsQuery = (isPast: boolean) => ({
   page_size: PAGE_SIZE,
 });
 
-// Backends without the responsible_group_type filter return mixed pages, so
-// the type check must also happen client-side
 const isInterestEvent = (event: ListEvent) =>
   event.responsibleGroup?.type === GroupType.Interest;
 
