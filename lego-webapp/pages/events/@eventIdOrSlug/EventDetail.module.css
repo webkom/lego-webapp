@@ -5,6 +5,10 @@
   color: var(--color-orange-6);
 }
 
+.shareButton {
+  margin-left: auto;
+}
+
 .eventType {
   height: 100%;
   display: flex;
