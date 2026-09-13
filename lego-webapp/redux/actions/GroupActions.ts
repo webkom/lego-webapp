@@ -45,6 +45,7 @@ export const deleteMembershipHistory = ({
     meta: {
       userId: userId,
       groupId: groupId,
+      errorMessage: 'Sletting av medlemshistorikk feilet',
     },
   });
 };

@@ -55,7 +55,7 @@ export function createGallery(gallery: GalleryEditorFormValues) {
     endpoint: '/galleries/',
     method: 'POST',
     schema: gallerySchema,
-    body: gallery,
+    body: { ...gallery },
     meta: {
       errorMessage: 'Opprettelse av galleri feilet',
     },
@@ -71,7 +71,7 @@ export function updateGallery(
     endpoint: `/galleries/${galleryId}/`,
     method: 'PUT',
     schema: gallerySchema,
-    body: gallery,
+    body: { ...gallery },
     meta: {
       errorMessage: 'Endring av galleri feilet',
     },
