@@ -1,17 +1,24 @@
-import { Flex, Icon } from '@webkom/lego-bricks';
+import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { flatMap } from 'lodash-es';
-import { Check, ChevronDown, Send, X } from 'lucide-react';
+import { Send } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { GroupType } from 'app/models';
+import { TextInput } from '~/components/Form';
 import { ProfilePicture } from '~/components/Image';
-import PillSwitch, { type PillSwitchOption } from '~/components/PillSwitch';
 import {
+  buildGroupFilterOptions,
   getActiveGroupKeyword,
   getGroupKeywordSuggestions,
   getGroupKeywordTypeLabel,
+  matchesGroupKeywords,
+  parseGroupSearchQuery,
   replaceActiveGroupKeyword,
+  serializeGroupSearchQuery,
   type SearchGroupKeyword,
 } from '~/components/Search/searchGroupTags';
+import { AttendanceFilterPicker } from '~/components/UserAttendance/AttendanceFilterPicker';
+import { gradeGroupFilters } from '~/components/UserAttendance/gradeGroupFilters';
 import { useAppSelector } from '~/redux/hooks';
 import { useCurrentUser } from '~/redux/slices/auth';
 import { selectGroupEntities } from '~/redux/slices/groups';
@@ -44,28 +51,26 @@ type Props = {
   isMeeting?: boolean;
 };
 
-const filterableGroups = [
-  {
-    name: '1. Klasse',
-    ids: [16, 22],
-  },
-  {
-    name: '2. Klasse',
-    ids: [17, 23],
-  },
-  {
-    name: '3. Klasse',
-    ids: [18, 24],
-  },
-  {
-    name: '4. Klasse',
-    ids: [19, 25],
-  },
-  {
-    name: '5. Klasse',
-    ids: [20, 26],
-  },
-];
+type TabProps = {
+  name: string;
+  index: number;
+  activePoolIndex: number;
+  togglePool: (pool: number) => void;
+};
+
+const Tab = ({ name, index, activePoolIndex, togglePool }: TabProps) => (
+  <button
+    type="button"
+    onClick={() => togglePool(index)}
+    aria-pressed={activePoolIndex === index}
+    className={cx(
+      styles.navButton,
+      activePoolIndex === index && styles.activeItem,
+    )}
+  >
+    {name}
+  </button>
+);
 
 const generateAmendedPools = (pools: AttendanceModalPool[]) => {
   if (pools.length === 1) return pools;
@@ -82,236 +87,151 @@ const generateAmendedPools = (pools: AttendanceModalPool[]) => {
 const normalizeSearchValue = (value: string) =>
   value.toLowerCase().trim().replace(/\s+/g, ' ');
 
-const getGroupTypeClass = (type: string) => {
-  switch (type) {
-    case 'komite':
-      return styles.chipCommittee;
-    case 'interesse':
-      return styles.chipInterestGroup;
-    case 'styre':
-      return styles.chipBoard;
-    case 'revy':
-      return styles.chipRevue;
-    case 'gruppe':
-      return styles.chipGroup;
-    default:
-      return '';
-  }
-};
-
-const GROUP_SUGGESTION_STAGGER_BASE_DELAY_MS = 20;
-const GROUP_SUGGESTION_STAGGER_STEP_MS = 50;
-const GROUP_SUGGESTION_STAGGER_MAX_INDEX = 5;
-const CLASS_FILTER_STAGGER_BASE_DELAY_MS = 20;
-const CLASS_FILTER_STAGGER_STEP_MS = 50;
-
-const getGroupSuggestionAnimationDelay = (index: number) =>
-  GROUP_SUGGESTION_STAGGER_BASE_DELAY_MS +
-  Math.min(index, GROUP_SUGGESTION_STAGGER_MAX_INDEX) *
-    GROUP_SUGGESTION_STAGGER_STEP_MS;
-
-const getClassFilterAnimationDelay = (index: number) =>
-  CLASS_FILTER_STAGGER_BASE_DELAY_MS + index * CLASS_FILTER_STAGGER_STEP_MS;
-
 const AttendanceModalContent = ({
   pools,
   togglePool,
   selectedPool,
-  isMeeting,
+  isMeeting = false,
 }: Props) => {
-  const [search, setSearch] = useState<string>('');
-  const [groupTags, setGroupTags] = useState<SearchGroupKeyword[]>([]);
-  const [selectedSuggestionIndex, setSelectedSuggestionIndex] =
-    useState<number>(0);
-  const [groupFilter, setGroupFilter] = useState<EntityId[] | null>(null);
-  const [isClassFilterOpen, setIsClassFilterOpen] = useState(false);
+  const [search, setSearch] = useState('');
   const [isGroupSuggestionsOpen, setIsGroupSuggestionsOpen] = useState(false);
-  const [showActiveFiltersLeftShadow, setShowActiveFiltersLeftShadow] =
-    useState(false);
-  const [showActiveFiltersRightShadow, setShowActiveFiltersRightShadow] =
-    useState(false);
-  const [showSearchAnchor, setShowSearchAnchor] = useState(false);
-  const [showBottomBarShadow, setShowBottomBarShadow] = useState(false);
-
+  const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(0);
   const groupEntities = useAppSelector(selectGroupEntities);
   const currentUser = useCurrentUser();
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const classFilterRef = useRef<HTMLDivElement>(null);
   const groupSuggestionRefs = useRef<Array<HTMLButtonElement | null>>([]);
-  const activeFiltersScrollRef = useRef<HTMLDivElement>(null);
-  const listRef = useRef<HTMLUListElement>(null);
 
   const amendedPools = useMemo(() => generateAmendedPools(pools), [pools]);
 
-  const poolOptions = useMemo<PillSwitchOption<string>[]>(
-    () =>
-      amendedPools.map((pool, index) => ({
-        label: pool.name,
-        value: String(index),
-      })),
-    [amendedPools],
-  );
-
   const registrations = useMemo(
-    () => amendedPools[selectedPool]?.registrations,
+    () => amendedPools[selectedPool]?.registrations ?? [],
     [amendedPools, selectedPool],
   );
 
   const currentUserGroups = useMemo(
     () =>
-      (currentUser?.abakusGroups ?? [])
-        .map((groupId) => groupEntities[groupId])
-        .filter(isNotNullish)
-        .map((group) => ({
-          id: group.id,
-          name: group.name,
-          type: String(group.type),
-        })),
+      buildGroupFilterOptions(
+        (currentUser?.abakusGroups ?? [])
+          .map((groupId) => groupEntities[groupId])
+          .filter(isNotNullish)
+          .map((group) => ({
+            id: group.id,
+            groupIds: [group.id],
+            name: group.name,
+            type: String(group.type),
+          })),
+      ),
     [currentUser?.abakusGroups, groupEntities],
   );
 
-  const groupSuggestions = useMemo(
+  const availableGroupFilters = useMemo(
     () =>
-      getGroupKeywordSuggestions({
-        availableGroups: currentUserGroups,
-        selectedTags: groupTags,
-        text: search,
-      }),
-    [currentUserGroups, groupTags, search],
+      buildGroupFilterOptions([
+        ...(!isMeeting ? gradeGroupFilters : []),
+        ...currentUserGroups.filter((group) => group.type !== GroupType.Grade),
+      ]),
+    [currentUserGroups, isMeeting],
   );
 
-  const activeClassFilter = useMemo(
-    () => filterableGroups.find((group) => groupFilter === group.ids),
-    [groupFilter],
+  const parsedSearch = useMemo(
+    () => parseGroupSearchQuery(search, availableGroupFilters),
+    [availableGroupFilters, search],
   );
 
   const activeGroupKeyword = getActiveGroupKeyword(search);
-  const isGroupKeywordActive = Boolean(activeGroupKeyword);
+  const groupSuggestions = useMemo(
+    () =>
+      getGroupKeywordSuggestions({
+        availableGroups: availableGroupFilters,
+        selectedTags: parsedSearch.tags,
+        text: search,
+      }),
+    [availableGroupFilters, parsedSearch.tags, search],
+  );
+  const activeKeywordIsSelected =
+    activeGroupKeyword &&
+    parsedSearch.tags.some(
+      (group) =>
+        normalizeSearchValue(group.name) ===
+        normalizeSearchValue(activeGroupKeyword.query),
+    );
   const showGroupSuggestions =
-    isGroupKeywordActive && isGroupSuggestionsOpen && !isClassFilterOpen;
-  const showGroupSuggestionList =
-    showGroupSuggestions && groupSuggestions.length > 0;
-  const showEmptyGroupSuggestions =
-    showGroupSuggestions && groupSuggestions.length === 0;
-  const showActiveFilters = groupTags.length > 0;
-  const groupSuggestionsStatusMessage = showGroupSuggestions
-    ? groupSuggestions.length > 0
-      ? `${groupSuggestions.length} forslag tilgjengelig. Bruk pilene for å navigere, Enter for å velge og Escape for å lukke.`
-      : 'Ingen grupper matcher akkurat nå.'
-    : '';
+    Boolean(activeGroupKeyword) &&
+    !activeKeywordIsSelected &&
+    isGroupSuggestionsOpen;
+  const textWithoutActiveKeyword = activeGroupKeyword
+    ? replaceActiveGroupKeyword(parsedSearch.text)
+    : parsedSearch.text;
 
   useEffect(() => {
     setSelectedSuggestionIndex((currentIndex) =>
       Math.min(currentIndex, Math.max(groupSuggestions.length - 1, 0)),
     );
-  }, [groupSuggestions]);
+  }, [groupSuggestions.length]);
 
   useEffect(() => {
-    if (isClassFilterOpen) {
-      setIsGroupSuggestionsOpen(false);
-    }
-  }, [isClassFilterOpen]);
+    if (!showGroupSuggestions) return;
 
-  useEffect(() => {
-    const selectedSuggestion =
-      groupSuggestionRefs.current[selectedSuggestionIndex];
-    if (!showGroupSuggestionList || !selectedSuggestion) {
-      return;
-    }
-
-    selectedSuggestion.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-  }, [groupSuggestions, selectedSuggestionIndex, showGroupSuggestionList]);
-
-  useEffect(() => {
-    const scrollElement = activeFiltersScrollRef.current;
-    if (!scrollElement || !showActiveFilters) {
-      setShowActiveFiltersLeftShadow(false);
-      setShowActiveFiltersRightShadow(false);
-      return;
-    }
-
-    const updateActiveFilterShadows = () => {
-      const maxScrollLeft =
-        scrollElement.scrollWidth - scrollElement.clientWidth;
-      const hasOverflow = maxScrollLeft > 1;
-
-      if (!hasOverflow) {
-        setShowActiveFiltersLeftShadow(false);
-        setShowActiveFiltersRightShadow(false);
-        return;
-      }
-
-      setShowActiveFiltersLeftShadow(scrollElement.scrollLeft > 1);
-      setShowActiveFiltersRightShadow(
-        scrollElement.scrollLeft < maxScrollLeft - 1,
-      );
-    };
-
-    updateActiveFilterShadows();
-    scrollElement.addEventListener('scroll', updateActiveFilterShadows, {
-      passive: true,
+    groupSuggestionRefs.current[selectedSuggestionIndex]?.scrollIntoView({
+      block: 'nearest',
     });
-    window.addEventListener('resize', updateActiveFilterShadows);
+  }, [selectedSuggestionIndex, showGroupSuggestions]);
 
-    const resizeObserver = new ResizeObserver(updateActiveFilterShadows);
-    resizeObserver.observe(scrollElement);
+  const updateGroupFilters = (
+    groups: SearchGroupKeyword[],
+    text = textWithoutActiveKeyword,
+  ) => {
+    const nextSearch = serializeGroupSearchQuery(groups, text);
 
-    return () => {
-      scrollElement.removeEventListener('scroll', updateActiveFilterShadows);
-      window.removeEventListener('resize', updateActiveFilterShadows);
-      resizeObserver.disconnect();
-    };
-  }, [groupTags, showActiveFilters]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        classFilterRef.current &&
-        !classFilterRef.current.contains(event.target as Node)
-      ) {
-        setIsClassFilterOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
-  const handleGroupTagSelect = (group: SearchGroupKeyword) => {
-    setGroupTags((currentTags) => [...currentTags, group]);
-    setSearch(replaceActiveGroupKeyword(search));
+    setSearch(groups.length > 0 && nextSearch ? `${nextSearch} ` : nextSearch);
     setSelectedSuggestionIndex(0);
     setIsGroupSuggestionsOpen(false);
+  };
+
+  const selectGroupSuggestion = (group: SearchGroupKeyword) => {
+    const nextGroups =
+      group.type === GroupType.Grade
+        ? [
+            group,
+            ...parsedSearch.tags.filter((tag) => tag.type !== GroupType.Grade),
+          ]
+        : [...parsedSearch.tags, group];
+
+    updateGroupFilters(nextGroups);
     searchInputRef.current?.focus();
   };
 
-  const handleGroupTagRemove = (groupId: EntityId) => {
-    setGroupTags((currentTags) =>
-      currentTags.filter((group) => String(group.id) !== String(groupId)),
+  const toggleGroupFilter = (group: SearchGroupKeyword) => {
+    const isSelected = parsedSearch.tags.some(
+      (tag) => String(tag.id) === String(group.id),
     );
-    searchInputRef.current?.focus();
+    const groupsWithoutSelected = parsedSearch.tags.filter(
+      (tag) => String(tag.id) !== String(group.id),
+    );
+
+    if (isSelected) {
+      updateGroupFilters(groupsWithoutSelected);
+      return;
+    }
+
+    if (group.type === GroupType.Grade) {
+      updateGroupFilters([
+        group,
+        ...parsedSearch.tags.filter((tag) => tag.type !== GroupType.Grade),
+      ]);
+      return;
+    }
+
+    updateGroupFilters([...parsedSearch.tags, group]);
   };
 
   const handleSearchKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (
-      event.key === 'Backspace' &&
-      search.length === 0 &&
-      groupTags.length > 0
-    ) {
-      event.preventDefault();
-      handleGroupTagRemove(groupTags[groupTags.length - 1].id);
-      return;
-    }
-
-    if (!isGroupKeywordActive) {
-      return;
-    }
+    if (!showGroupSuggestions) return;
 
     switch (event.key) {
       case Keyboard.ESCAPE:
         event.preventDefault();
+        event.stopPropagation();
         setIsGroupSuggestionsOpen(false);
         return;
 
@@ -334,7 +254,7 @@ const AttendanceModalContent = ({
       case Keyboard.ENTER:
         if (groupSuggestions.length === 0) return;
         event.preventDefault();
-        handleGroupTagSelect(groupSuggestions[selectedSuggestionIndex]);
+        selectGroupSuggestion(groupSuggestions[selectedSuggestionIndex]);
         return;
 
       default:
@@ -343,364 +263,187 @@ const AttendanceModalContent = ({
   };
 
   const filteredRegistrations = useMemo(() => {
-    const normalizedSearch = normalizeSearchValue(
-      replaceActiveGroupKeyword(search),
+    const normalizedSearch = normalizeSearchValue(textWithoutActiveKeyword);
+    const plainSearchGroups =
+      parsedSearch.tags.length === 0
+        ? currentUserGroups.filter(
+            (group) => normalizeSearchValue(group.name) === normalizedSearch,
+          )
+        : [];
+    const selectedGradeGroups = parsedSearch.tags.filter(
+      (group) => group.type === GroupType.Grade,
     );
-    const selectedGroupIds = new Set(
-      groupTags.map((group) => String(group.id)),
+    const selectedMembershipGroups = parsedSearch.tags.filter(
+      (group) => group.type !== GroupType.Grade,
     );
 
-    return (registrations ?? []).filter((registration) => {
+    return registrations.filter((registration) => {
       const nameMatch = normalizeSearchValue(
         registration.user.fullName,
       ).includes(normalizedSearch);
 
-      const groupKeywordMatch =
-        groupTags.length === 0 ||
-        ('abakusGroups' in registration.user &&
-          registration.user.abakusGroups.some((groupId) =>
-            selectedGroupIds.has(String(groupId)),
-          ));
+      const userGroupIds =
+        'abakusGroups' in registration.user
+          ? registration.user.abakusGroups
+          : [];
+      const gradeMatch = matchesGroupKeywords(
+        userGroupIds,
+        selectedGradeGroups,
+      );
+      const membershipMatch = matchesGroupKeywords(
+        userGroupIds,
+        selectedMembershipGroups,
+      );
+      const plainGroupMatch =
+        plainSearchGroups.length > 0 &&
+        matchesGroupKeywords(userGroupIds, plainSearchGroups);
 
-      const groupFilterMatch =
-        !groupFilter ||
-        ('abakusGroups' in registration.user &&
-          registration.user.abakusGroups.some((groupId) =>
-            groupFilter.includes(groupId),
-          ));
-
-      if (!normalizedSearch) return groupKeywordMatch && groupFilterMatch;
-      return nameMatch && groupKeywordMatch && groupFilterMatch;
+      return (nameMatch || plainGroupMatch) && gradeMatch && membershipMatch;
     });
-  }, [registrations, search, groupTags, groupFilter]);
+  }, [
+    currentUserGroups,
+    parsedSearch.tags,
+    registrations,
+    textWithoutActiveKeyword,
+  ]);
 
-  useEffect(() => {
-    const listElement = listRef.current;
-    if (!listElement) {
-      return;
-    }
-
-    const updateScrollChrome = () => {
-      const hasOverflow =
-        listElement.scrollHeight > listElement.clientHeight + 2;
-      const isScrolled = listElement.scrollTop > 4;
-
-      setShowSearchAnchor(hasOverflow && isScrolled);
-      setShowBottomBarShadow(hasOverflow && isScrolled);
-    };
-
-    updateScrollChrome();
-    listElement.addEventListener('scroll', updateScrollChrome, {
-      passive: true,
-    });
-    window.addEventListener('resize', updateScrollChrome);
-
-    const resizeObserver = new ResizeObserver(updateScrollChrome);
-    resizeObserver.observe(listElement);
-
-    return () => {
-      listElement.removeEventListener('scroll', updateScrollChrome);
-      window.removeEventListener('resize', updateScrollChrome);
-      resizeObserver.disconnect();
-    };
-  }, [filteredRegistrations.length, selectedPool]);
+  const suggestionStatus = showGroupSuggestions
+    ? groupSuggestions.length > 0
+      ? `${groupSuggestions.length} gruppeforslag tilgjengelig.`
+      : 'Ingen grupper matcher søket.'
+    : '';
 
   return (
     <Flex
       column
+      gap="var(--spacing-md)"
       className={styles.modalContent}
       data-test-id="attendance-modal-content"
     >
-      <div
-        className={cx(
-          styles.searchInput,
-          showSearchAnchor && styles.searchAnchored,
-        )}
-      >
-        <div
-          className={styles.topBar}
-          onClick={() => searchInputRef.current?.focus()}
-        >
-          <div
-            className={cx(
-              styles.searchField,
-              !isMeeting && styles.searchFieldJoined,
-            )}
-          >
-            <div className={styles.searchPrefix}>
-              <Icon name="search" size={16} />
-            </div>
+      <div className={styles.searchContainer}>
+        <div className={styles.searchControls}>
+          <TextInput
+            inputRef={searchInputRef}
+            type="text"
+            prefix="search"
+            placeholder="Søk etter navn eller skriv :gruppe"
+            value={search}
+            onChange={(event) => {
+              const nextSearch = event.target.value;
+              setSearch(nextSearch);
+              setIsGroupSuggestionsOpen(
+                Boolean(getActiveGroupKeyword(nextSearch)),
+              );
+              setSelectedSuggestionIndex(0);
+            }}
+            onFocus={() => {
+              if (getActiveGroupKeyword(search)) {
+                setIsGroupSuggestionsOpen(true);
+              }
+            }}
+            onBlur={() => setIsGroupSuggestionsOpen(false)}
+            onKeyDown={handleSearchKeyDown}
+            className={styles.searchInput}
+            role="combobox"
+            aria-autocomplete="list"
+            aria-expanded={showGroupSuggestions}
+            aria-controls={
+              showGroupSuggestions ? 'attendance-group-suggestions' : undefined
+            }
+            aria-activedescendant={
+              showGroupSuggestions && groupSuggestions.length > 0
+                ? `attendance-group-suggestion-${selectedSuggestionIndex}`
+                : undefined
+            }
+            aria-describedby="attendance-group-filter-hint attendance-group-filter-status"
+          />
 
-            <div className={styles.searchValue}>
-              <input
-                ref={searchInputRef}
-                type="text"
-                placeholder="Søk etter navn, eller skriv :gruppe"
-                value={search}
-                onChange={(event) => {
-                  const nextValue = event.target.value;
-                  setSearch(nextValue);
-                  setIsGroupSuggestionsOpen(
-                    Boolean(getActiveGroupKeyword(nextValue)),
-                  );
-                  setSelectedSuggestionIndex(0);
-                }}
-                onFocus={() => {
-                  if (getActiveGroupKeyword(search)) {
-                    setIsGroupSuggestionsOpen(true);
-                  }
-                }}
-                onBlur={() => setIsGroupSuggestionsOpen(false)}
-                onKeyDown={handleSearchKeyDown}
-                className={styles.searchFieldInput}
-                aria-autocomplete="list"
-                aria-expanded={showGroupSuggestions}
-                aria-controls={
-                  showGroupSuggestions ? 'group-suggestions-list' : undefined
-                }
-                aria-activedescendant={
-                  showGroupSuggestionList
-                    ? `group-suggestion-${selectedSuggestionIndex}`
-                    : undefined
-                }
-                aria-describedby="group-suggestions-hint group-suggestions-status"
-              />
-            </div>
-          </div>
-
-          {!isMeeting && (
-            <div
-              ref={classFilterRef}
-              className={styles.classFilterAnchor}
-              onClick={(event) => event.stopPropagation()}
-            >
-              <button
-                type="button"
-                className={cx(
-                  styles.classFilterButton,
-                  activeClassFilter && styles.classFilterButtonActive,
-                  isClassFilterOpen && styles.classFilterButtonOpen,
-                )}
-                onClick={() => setIsClassFilterOpen((open) => !open)}
-                aria-haspopup="menu"
-                aria-expanded={isClassFilterOpen}
-                aria-label={
-                  activeClassFilter
-                    ? `Filtrer på ${activeClassFilter.name}`
-                    : 'Filtrer på klasse'
-                }
-                title={
-                  activeClassFilter
-                    ? `Filtrerer på ${activeClassFilter.name}`
-                    : 'Filtrer på klasse'
-                }
-              >
-                <span className={styles.classFilterButtonLabel}>
-                  {activeClassFilter ? activeClassFilter.name : 'Klasse'}
-                </span>
-                <ChevronDown size={14} />
-              </button>
-
-              {isClassFilterOpen && (
-                <div className={styles.classFilterPopover} role="menu">
-                  <button
-                    type="button"
-                    className={cx(
-                      styles.classFilterOption,
-                      !groupFilter && styles.classFilterOptionActive,
-                    )}
-                    style={{
-                      animationDelay: `${getClassFilterAnimationDelay(0)}ms`,
-                    }}
-                    onClick={() => {
-                      setGroupFilter(null);
-                      setIsClassFilterOpen(false);
-                    }}
-                  >
-                    <span className={styles.classFilterOptionContent}>
-                      Alle kull
-                    </span>
-                    <Check
-                      size={16}
-                      aria-hidden="true"
-                      className={styles.classFilterOptionIcon}
-                    />
-                  </button>
-
-                  {filterableGroups.map((group, index) => {
-                    const active = groupFilter === group.ids;
-
-                    return (
-                      <button
-                        key={group.name}
-                        type="button"
-                        className={cx(
-                          styles.classFilterOption,
-                          active && styles.classFilterOptionActive,
-                        )}
-                        style={{
-                          animationDelay: `${getClassFilterAnimationDelay(index + 1)}ms`,
-                        }}
-                        onClick={() => {
-                          setGroupFilter(active ? null : group.ids);
-                          setIsClassFilterOpen(false);
-                        }}
-                      >
-                        <span className={styles.classFilterOptionContent}>
-                          {group.name}
-                        </span>
-                        <Check
-                          size={16}
-                          aria-hidden="true"
-                          className={styles.classFilterOptionIcon}
-                        />
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          )}
+          <AttendanceFilterPicker
+            groups={availableGroupFilters}
+            selectedGroups={parsedSearch.tags}
+            onToggleGroup={toggleGroupFilter}
+          />
         </div>
-
-        {showActiveFilters && (
-          <div
-            className={cx(
-              styles.activeFilters,
-              showActiveFiltersLeftShadow && styles.activeFiltersShadowLeft,
-              showActiveFiltersRightShadow && styles.activeFiltersShadowRight,
-            )}
-          >
-            <div
-              ref={activeFiltersScrollRef}
-              className={styles.activeFiltersScroll}
-            >
-              {groupTags.map((group) => (
-                <button
-                  key={group.id}
-                  type="button"
-                  className={cx(styles.chip, getGroupTypeClass(group.type))}
-                  onClick={() => handleGroupTagRemove(group.id)}
-                  aria-label={`Fjern gruppefilter ${group.name}`}
-                >
-                  <span className={styles.chipLabel}>{group.name}</span>
-                  <X size={12} />
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
 
         {showGroupSuggestions && (
           <div
-            id="group-suggestions-list"
+            id="attendance-group-suggestions"
             className={styles.groupSuggestions}
             role="listbox"
-            aria-label="Forslag til grupper"
+            aria-label="Gruppeforslag"
           >
-            {showEmptyGroupSuggestions && (
-              <div className={styles.groupSuggestionsEmpty}>
-                Ingen grupper matcher akkurat nå.
-              </div>
-            )}
-
-            {showGroupSuggestionList &&
+            {groupSuggestions.length > 0 ? (
               groupSuggestions.map((group, index) => (
                 <button
-                  key={`${group.id}-${search}`}
-                  id={`group-suggestion-${index}`}
+                  key={group.id}
+                  id={`attendance-group-suggestion-${index}`}
                   ref={(element) => {
                     groupSuggestionRefs.current[index] = element;
                   }}
                   type="button"
+                  role="option"
+                  tabIndex={-1}
+                  aria-selected={index === selectedSuggestionIndex}
                   className={cx(
                     styles.groupSuggestion,
                     index === selectedSuggestionIndex &&
                       styles.selectedGroupSuggestion,
                   )}
-                  style={{
-                    animationDelay: `${getGroupSuggestionAnimationDelay(index)}ms`,
-                  }}
-                  role="option"
-                  aria-selected={index === selectedSuggestionIndex}
                   onMouseEnter={() => setSelectedSuggestionIndex(index)}
-                  onMouseDown={(event) => {
+                  onPointerDown={(event) => {
                     event.preventDefault();
-                    handleGroupTagSelect(group);
                   }}
-                  onFocus={() => setSelectedSuggestionIndex(index)}
-                  onKeyDown={(event) => {
-                    if (event.key === Keyboard.ESCAPE) {
-                      event.preventDefault();
-                      setIsGroupSuggestionsOpen(false);
-                      searchInputRef.current?.focus();
-                    }
-                  }}
+                  onClick={() => selectGroupSuggestion(group)}
                 >
-                  <div className={styles.groupSuggestionContent}>
-                    <span className={styles.groupSuggestionName}>
-                      {group.name}
-                    </span>
-                  </div>
+                  <span>{group.name}</span>
                   <span
-                    className={cx(
-                      styles.groupSuggestionType,
-                      group.type === 'komite' &&
-                        styles.groupSuggestionTypeCommittee,
-                      group.type === 'interesse' &&
-                        styles.groupSuggestionTypeInterestGroup,
-                      group.type === 'styre' && styles.groupSuggestionTypeBoard,
-                      group.type === 'revy' && styles.groupSuggestionTypeRevue,
-                      group.type === 'gruppe' &&
-                        styles.groupSuggestionTypeGroup,
-                    )}
+                    className={styles.groupSuggestionType}
+                    data-group-type={group.type}
                   >
                     {getGroupKeywordTypeLabel(group.type)}
                   </span>
                 </button>
-              ))}
+              ))
+            ) : (
+              <div className={styles.emptyGroupSuggestions}>
+                Ingen grupper matcher søket.
+              </div>
+            )}
           </div>
         )}
 
-        <p id="group-suggestions-hint" className={styles.srOnly}>
-          Skriv kolon for å filtrere på grupper. Bruk pilene, Enter for å velge
-          og Escape for å lukke.
-        </p>
-
-        <div
-          id="group-suggestions-status"
+        <span id="attendance-group-filter-hint" className={styles.srOnly}>
+          Skriv kolon for å filtrere på klasse eller gruppe.
+        </span>
+        <span
+          id="attendance-group-filter-status"
           className={styles.srOnly}
           aria-live="polite"
           aria-atomic="true"
         >
-          {groupSuggestionsStatusMessage}
-        </div>
+          {suggestionStatus}
+        </span>
       </div>
 
-      <ul ref={listRef} className={styles.list}>
+      <ul className={styles.list}>
         {filteredRegistrations.length > 0 ? (
           filteredRegistrations.map((registration) => (
             <li key={registration.id}>
-              <a
-                href={`/users/${registration.user.username}`}
-                className={styles.rowLink}
+              <Flex
+                alignItems="center"
+                className={cx(
+                  styles.row,
+                  !isMeeting &&
+                    !registration.pool &&
+                    amendedPools[selectedPool]?.name === 'Alle' &&
+                    styles.opacity,
+                )}
               >
-                <Flex
-                  alignItems="center"
-                  className={cx(
-                    styles.row,
-                    !isMeeting &&
-                      !registration.pool &&
-                      amendedPools[selectedPool].name === 'Alle' &&
-                      styles.opacity,
-                  )}
-                >
-                  <ProfilePicture size={30} user={registration.user} />
-                  <span className={styles.rowName}>
-                    {registration.user.fullName}
-                  </span>
-                </Flex>
-              </a>
+                <ProfilePicture size={30} user={registration.user} />
+                <a href={`/users/${registration.user.username}`}>
+                  {registration.user.fullName}
+                </a>
+              </Flex>
             </li>
           ))
         ) : (
@@ -713,22 +456,17 @@ const AttendanceModalContent = ({
         )}
       </ul>
 
-      <div
-        className={cx(
-          styles.bottomBar,
-          showBottomBarShadow && styles.bottomBarElevated,
-        )}
-      >
-        <PillSwitch
-          className={styles.poolSwitch}
-          options={poolOptions}
-          value={String(selectedPool)}
-          onChange={(value) => togglePool(Number(value))}
-          ariaLabel={
-            isMeeting ? 'Velg invitasjonsliste' : 'Velg påmeldingsliste'
-          }
-        />
-      </div>
+      <Flex alignItems="stretch" className={styles.nav}>
+        {amendedPools.map((pool, index) => (
+          <Tab
+            name={pool.name}
+            key={pool.name}
+            index={index}
+            activePoolIndex={selectedPool}
+            togglePool={togglePool}
+          />
+        ))}
+      </Flex>
     </Flex>
   );
 };

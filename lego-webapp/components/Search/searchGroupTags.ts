@@ -1,12 +1,20 @@
+import { GroupType } from 'app/models';
 import type { EntityId } from '@reduxjs/toolkit';
+
+export type SupportedGroupType = Exclude<GroupType, GroupType.Other>;
 
 export type SearchGroupKeyword = {
   id: EntityId;
+  groupIds: EntityId[];
   name: string;
+  type: SupportedGroupType;
+};
+
+export type GroupFilterCandidate = Omit<SearchGroupKeyword, 'type'> & {
   type: string;
 };
 
-export type ParsedGroupSearchQuery = {
+type ParsedGroupSearchQuery = {
   text: string;
   tags: SearchGroupKeyword[];
 };
@@ -22,6 +30,51 @@ const normalizeComparisonValue = (value: string) =>
   normalizeValue(value).toLowerCase();
 
 const isBoundary = (value: string | undefined) => !value || /\s/.test(value);
+
+const uniqueEntityIds = (ids: EntityId[]) =>
+  Array.from(new Map(ids.map((id) => [String(id), id])).values());
+
+const supportedGroupTypes = [
+  GroupType.Grade,
+  GroupType.Committee,
+  GroupType.Interest,
+  GroupType.Revue,
+  GroupType.Board,
+  GroupType.SubGroup,
+  GroupType.Ordained,
+] as const satisfies readonly SupportedGroupType[];
+
+export const isSupportedGroupType = (
+  type: string,
+): type is SupportedGroupType =>
+  (supportedGroupTypes as readonly string[]).includes(type);
+
+const mergeDuplicateGroups = (groups: SearchGroupKeyword[]) => {
+  const groupsByName = new Map<string, SearchGroupKeyword>();
+
+  groups.forEach((group) => {
+    const nameKey = normalizeComparisonValue(group.name);
+    const existingGroup = groupsByName.get(nameKey);
+
+    groupsByName.set(
+      nameKey,
+      existingGroup
+        ? {
+            ...existingGroup,
+            groupIds: uniqueEntityIds([
+              ...existingGroup.groupIds,
+              ...group.groupIds,
+            ]),
+          }
+        : {
+            ...group,
+            groupIds: uniqueEntityIds(group.groupIds),
+          },
+    );
+  });
+
+  return Array.from(groupsByName.values());
+};
 
 export const serializeGroupSearchQuery = (
   tags: SearchGroupKeyword[],
@@ -43,7 +96,7 @@ export const parseGroupSearchQuery = (
     };
   }
 
-  const sortedGroups = [...availableGroups].sort(
+  const sortedGroups = buildGroupFilterOptions(availableGroups).sort(
     (left, right) => right.name.length - left.name.length,
   );
   const normalizedQuery = query.toLowerCase();
@@ -78,7 +131,7 @@ export const parseGroupSearchQuery = (
   }
 
   return {
-    tags,
+    tags: mergeDuplicateGroups(tags),
     text: normalizeValue(textSegments.join('')),
   };
 };
@@ -97,24 +150,43 @@ export const getActiveGroupKeyword = (
   };
 };
 
-const sortGroups = (
-  groups: SearchGroupKeyword[],
-  query: string,
-): SearchGroupKeyword[] => {
-  const normalizedQuery = normalizeComparisonValue(query);
+const sortGroups = (groups: SearchGroupKeyword[]): SearchGroupKeyword[] => {
+  const typeOrder: Record<SupportedGroupType, number> = {
+    [GroupType.Grade]: 0,
+    [GroupType.Committee]: 1,
+    [GroupType.Interest]: 2,
+    [GroupType.Revue]: 3,
+    [GroupType.Board]: 4,
+    [GroupType.SubGroup]: 5,
+    [GroupType.Ordained]: 6,
+  };
+
   return groups.toSorted((left, right) => {
+    const typeDifference = typeOrder[left.type] - typeOrder[right.type];
+
+    if (typeDifference !== 0) {
+      return typeDifference;
+    }
+
     const leftName = normalizeComparisonValue(left.name);
     const rightName = normalizeComparisonValue(right.name);
-    const leftStartsWith = leftName.startsWith(normalizedQuery);
-    const rightStartsWith = rightName.startsWith(normalizedQuery);
-
-    if (leftStartsWith !== rightStartsWith) {
-      return leftStartsWith ? -1 : 1;
-    }
 
     return leftName.localeCompare(rightName);
   });
 };
+
+export const buildGroupFilterOptions = (
+  groups: readonly GroupFilterCandidate[],
+): SearchGroupKeyword[] =>
+  sortGroups(
+    mergeDuplicateGroups(
+      groups.flatMap((group) =>
+        isSupportedGroupType(group.type)
+          ? [{ ...group, type: group.type }]
+          : [],
+      ),
+    ),
+  );
 
 export const getGroupKeywordSuggestions = ({
   availableGroups,
@@ -130,16 +202,30 @@ export const getGroupKeywordSuggestions = ({
     return [];
   }
 
-  const selectedIds = new Set(selectedTags.map((group) => String(group.id)));
-  const filteredGroups = availableGroups.filter(
+  const selectedNames = new Set(
+    selectedTags.map((group) => normalizeComparisonValue(group.name)),
+  );
+  const filteredGroups = buildGroupFilterOptions(availableGroups).filter(
     (group) =>
-      !selectedIds.has(String(group.id)) &&
+      !selectedNames.has(normalizeComparisonValue(group.name)) &&
       normalizeComparisonValue(group.name).includes(
         normalizeComparisonValue(activeKeyword.query),
       ),
   );
 
-  return sortGroups(filteredGroups, activeKeyword.query);
+  return sortGroups(filteredGroups);
+};
+
+export const matchesGroupKeywords = (
+  userGroupIds: EntityId[],
+  keywords: SearchGroupKeyword[],
+) => {
+  if (keywords.length === 0) return true;
+
+  const userGroupIdSet = new Set(userGroupIds.map(String));
+  return keywords.some((keyword) =>
+    keyword.groupIds.some((groupId) => userGroupIdSet.has(String(groupId))),
+  );
 };
 
 export const replaceActiveGroupKeyword = (
@@ -156,17 +242,15 @@ export const replaceActiveGroupKeyword = (
   );
 };
 
-export const getGroupKeywordTypeLabel = (type: string) => {
-  switch (type) {
-    case 'komite':
-      return 'Komite';
-    case 'interesse':
-      return 'Interessegruppe';
-    case 'styre':
-      return 'Styre';
-    case 'revy':
-      return 'Revy';
-    default:
-      return 'Gruppe';
-  }
+const groupTypeLabels: Record<SupportedGroupType, string> = {
+  [GroupType.Grade]: 'Klasse',
+  [GroupType.Committee]: 'Komite',
+  [GroupType.Interest]: 'Interessegruppe',
+  [GroupType.Revue]: 'Revy',
+  [GroupType.Board]: 'Styre',
+  [GroupType.SubGroup]: 'Undergruppe',
+  [GroupType.Ordained]: 'Ordenen',
 };
+
+export const getGroupKeywordTypeLabel = (type: SupportedGroupType) =>
+  groupTypeLabels[type];

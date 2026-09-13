@@ -2,7 +2,7 @@ import { FilterSection, filterSidebar, Flex, Page } from '@webkom/lego-bricks';
 import { PropsWithChildren } from 'react';
 import { usePageContext } from 'vike-react/usePageContext';
 import { RadioButton, TextInput } from '~/components/Form';
-import { filterableGroups } from '~/components/UserAttendance/GroupFilter';
+import { gradeGroupFilters } from '~/components/UserAttendance/gradeGroupFilters';
 import useQuery from '~/utils/useQuery';
 import {
   overviewDefaultSearch,
@@ -106,8 +106,8 @@ const AchievementsPageWrapper = ({ children }: PropsWithChildren) => {
                 onChange={(e) => setQueryValue('userFullName')(e.target.value)}
               />
               <FilterSection title="Klasse">
-                {filterableGroups.map((group) => {
-                  const groupValue = group.ids.join(',');
+                {gradeGroupFilters.map((group) => {
+                  const groupValue = group.groupIds.join(',');
                   return (
                     <RadioButton
                       key={groupValue}
