@@ -1,9 +1,15 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { QRCode } from 'react-qrcode-logo';
 import abakusBall from '~/assets/abakus-ball.png';
+import { Websockets as WebsocketsAT } from '~/redux/actionTypes';
+import { PublicEvent } from '~/redux/models/Event';
+import useTransientSocketEvent, {
+  TransientSocketEventTypes,
+} from '~/utils/socket/useTransientSocketEvent';
 import styles from './AbaIdCard.module.css';
+import useAttendanceCheckReveal from './useAttendanceCheckReveal';
 
 type Props = {
   fullName: string;
@@ -34,6 +40,17 @@ const AbaIdFront = ({ fullName, username, grade, hidden }: Props) => {
     ),
     [username],
   );
+  const [registeredAttendance, setRegisteredAttendance] =
+    useState<PublicEvent>();
+  const { fillRef, checkRef, labelRef, play } = useAttendanceCheckReveal();
+
+  useTransientSocketEvent<PublicEvent>(
+    TransientSocketEventTypes.ATTENDANCE_REGISTERED,
+    (payload) => {
+      setRegisteredAttendance(payload);
+      play(() => setRegisteredAttendance(undefined));
+    },
+  );
 
   return (
     <Flex
@@ -57,7 +74,25 @@ const AbaIdFront = ({ fullName, username, grade, hidden }: Props) => {
       </Flex>
 
       <Flex column justifyContent="center" className={styles.frontBody}>
-        <div className={styles.qrPlate}>{qrCode}</div>
+        <div className={styles.qrPlate}>
+          {qrCode}
+          <div className={styles.attendanceFill} ref={fillRef} />
+          <div className={styles.attendanceCircle}>
+            <svg
+              ref={checkRef}
+              className={styles.attendanceCheck}
+              viewBox="0 0 52 52"
+              aria-hidden
+            >
+              <polyline points="14,27 22,35 39,16" />
+            </svg>
+            <span className={styles.attendanceLabel} ref={labelRef}>
+              Ankomst registrert
+              <br />
+              {registeredAttendance?.title}
+            </span>
+          </div>
+        </div>
         <Flex column alignItems="center" gap="var(--spacing-sm)">
           <h2 className={styles.name}>{fullName}</h2>
           {grade && <span className={styles.gradePill}>{grade}</span>}
