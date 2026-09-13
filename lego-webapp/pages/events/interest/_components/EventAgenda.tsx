@@ -1,4 +1,4 @@
-import { Skeleton } from '@webkom/lego-bricks';
+import { Flex, Skeleton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { isEmpty } from 'lodash-es';
@@ -118,7 +118,13 @@ const EventAgenda = () => {
 
   return (
     <section className={styles.agenda}>
-      <div className={styles.header}>
+      <Flex
+        wrap
+        alignItems="baseline"
+        justifyContent="space-between"
+        gap="var(--spacing-sm)"
+        className={styles.header}
+      >
         <h2>Arrangementer</h2>
         <PillSwitch
           ariaLabel="Filtrer arrangementer"
@@ -134,7 +140,7 @@ const EventAgenda = () => {
             )
           }
         />
-      </div>
+      </Flex>
       <div
         className={cx(
           styles.list,
@@ -145,7 +151,7 @@ const EventAgenda = () => {
           {showCreateRow && <CreateEventRow />}
           {dayGroups.map((day) => (
             <div key={day.key} data-day-key={day.key} className={styles.dayRow}>
-              <div className={styles.dayLabel}>
+              <Flex column justifyContent="center" className={styles.dayLabel}>
                 <div
                   className={cx(
                     styles.dayName,
@@ -156,7 +162,7 @@ const EventAgenda = () => {
                   {day.label}
                 </div>
                 <div className={styles.dayDate}>{day.subLabel}</div>
-              </div>
+              </Flex>
               <div>
                 {day.events.map((event) => (
                   <EventRow
