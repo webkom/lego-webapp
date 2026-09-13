@@ -9,7 +9,7 @@ import HsSectionContent from '~/components/HsSection/HsSection';
 import Poll from '~/components/Poll';
 import RandomQuote from '~/components/RandomQuote';
 import CompactEvents from '~/pages/index/_components/CompactEvents';
-import Pinned from '~/pages/index/_components/Pinned';
+import FrontpageSpotlight from '~/pages/index/_components/FrontpageSpotlight';
 import ArticleItem from '~/pages/index/_components/authenticated/ArticleItem';
 import FrontpageEventItem from '~/pages/index/_components/authenticated/FrontpageEventItem';
 import LatestReadme from '~/pages/index/_components/authenticated/LatestReadme';
@@ -26,7 +26,7 @@ import { selectAllEvents } from '~/redux/slices/events';
 import {
   addArticleType,
   addEventType,
-  selectPinned,
+  selectFeaturedItems,
 } from '~/redux/slices/frontpage';
 import { selectPinnedPoll } from '~/redux/slices/polls';
 import { selectRandomQuote } from '~/redux/slices/quotes';
@@ -49,7 +49,8 @@ const AuthenticatedFrontpage = () => {
     setArticlesToShow(articlesToShow + 2);
   };
 
-  const pinned = useAppSelector(selectPinned);
+  // Only the leading object is held back from the lists below
+  const featuredId = useAppSelector(selectFeaturedItems)[0]?.id;
   const shouldFetchQuote = useAppSelector(selectRandomQuote) === undefined;
   const loggedIn = useIsLoggedIn();
 
@@ -109,13 +110,13 @@ const AuthenticatedFrontpage = () => {
       <section className={styles.wrapper}>
         <CompactEvents className={styles.compactEvents} />
         <UpcomingRegistrationsSection />
-        <Events pinnedId={pinned?.id} numberToShow={eventsToShow} />
-        <Pinned item={pinned} url={itemUrl(pinned)} meta={renderMeta(pinned)} />
+        <Events pinnedId={featuredId} numberToShow={eventsToShow} />
+        <FrontpageSpotlight style={{ gridArea: 'pinned' }} />
         <PollItem />
         <QuoteItem />
         {readMe}
         <HSSection />
-        <Articles pinnedId={pinned?.id} numberToShow={articlesToShow} />
+        <Articles pinnedId={featuredId} numberToShow={articlesToShow} />
       </section>
 
       <ShowMoreButton

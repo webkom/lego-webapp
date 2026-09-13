@@ -31,11 +31,7 @@ const MODE_ORDER = ['', 'mine', 'tidligere'] as const;
 const MAX_ROWS = 6;
 const MORE_STEP = 5;
 
-type Props = {
-  spotlightEventId?: EntityId;
-};
-
-const EventAgenda = ({ spotlightEventId }: Props) => {
+const EventAgenda = () => {
   const { query, setQueryValue } = useQuery(agendaDefaultQuery);
   const currentUser = useCurrentUser();
 
@@ -76,9 +72,7 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const upcomingEvents = upcoming.events.filter(
-    (event) => event.id !== spotlightEventId,
-  );
+  const upcomingEvents = upcoming.events;
   const memberEvents = upcomingEvents.filter(
     (event) =>
       event.responsibleGroup && memberGroupIds.has(event.responsibleGroup.id),

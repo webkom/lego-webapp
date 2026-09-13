@@ -1,7 +1,7 @@
 import moment from 'moment-timezone';
 import { describe, it, expect } from 'vitest';
 import { Frontpage } from '~/redux/actionTypes';
-import frontpage, { selectPinned } from '../frontpage';
+import frontpage, { selectFeaturedItems } from '../frontpage';
 import type { RootState } from '~/redux/rootReducer';
 
 describe('reducers', () => {
@@ -58,64 +58,96 @@ describe('selectors', () => {
       },
     }) as unknown as RootState;
 
-  describe('selectPinned', () => {
+  const article = (id: number, pinned: boolean, ago: number) => ({
+    id,
+    pinned,
+    createdAt: moment().subtract(ago, 'days').toISOString(),
+  });
+  const event = (id: number, pinned: boolean, ahead: number) => ({
+    id,
+    pinned,
+    startTime: moment().add(ahead, 'days').toISOString(),
+  });
+
+  describe('selectFeaturedItems', () => {
     it('ignores entities in the store that were not part of the frontpage response', () => {
       const state = createState({
         articleIds: [],
         eventIds: [3],
         articles: {},
-        events: {
-          3: {
-            id: 3,
-            pinned: false,
-            startTime: moment().add(1, 'day').toISOString(),
-          },
-          99: {
-            id: 99,
-            pinned: false,
-            startTime: moment().add(1, 'minute').toISOString(),
-          },
-        },
+        events: { 3: event(3, false, 1), 99: event(99, false, 0) },
       });
-      expect(selectPinned(state)?.id).toBe(3);
+      expect(selectFeaturedItems(state).map((o) => o.id)).toEqual([3]);
     });
 
-    it('sorts pinned frontpage objects first', () => {
+    it('shows every pinned object, article and event alike', () => {
       const state = createState({
         articleIds: [6],
         eventIds: [3],
-        articles: {
-          6: {
-            id: 6,
-            pinned: true,
-            createdAt: moment().subtract(1, 'month').toISOString(),
-          },
-        },
-        events: {
-          3: {
-            id: 3,
-            pinned: false,
-            startTime: moment().add(1, 'minute').toISOString(),
-          },
-        },
+        articles: { 6: article(6, true, 30) },
+        events: { 3: event(3, true, 1) },
       });
-      expect(selectPinned(state)?.id).toBe(6);
+      expect(selectFeaturedItems(state).map((o) => o.id)).toEqual([3, 6]);
     });
 
-    it('returns undefined before the frontpage has been fetched', () => {
+    it('shows only the pinned object when a single one is pinned', () => {
+      const state = createState({
+        articleIds: [6],
+        eventIds: [3, 4],
+        articles: { 6: article(6, true, 30) },
+        events: { 3: event(3, false, 1), 4: event(4, false, 2) },
+      });
+      expect(selectFeaturedItems(state).map((o) => o.id)).toEqual([6]);
+    });
+
+    it('keeps a pinned object however old it is', () => {
+      const state = createState({
+        articleIds: [6],
+        eventIds: [],
+        articles: { 6: article(6, true, 400) },
+        events: {},
+      });
+      expect(selectFeaturedItems(state).map((o) => o.id)).toEqual([6]);
+    });
+
+    it('falls back to the nearest upcoming event when nothing is pinned', () => {
+      const state = createState({
+        articleIds: [6],
+        eventIds: [3, 4],
+        articles: { 6: article(6, false, 1) },
+        events: { 3: event(3, false, 30), 4: event(4, false, 2) },
+      });
+      expect(selectFeaturedItems(state).map((o) => o.id)).toEqual([4]);
+    });
+
+    it('ignores events that have already started when falling back', () => {
+      const state = createState({
+        articleIds: [],
+        eventIds: [3, 4],
+        articles: {},
+        events: { 3: event(3, false, -1), 4: event(4, false, 5) },
+      });
+      expect(selectFeaturedItems(state).map((o) => o.id)).toEqual([4]);
+    });
+
+    it('never falls back to an article', () => {
+      const state = createState({
+        articleIds: [6],
+        eventIds: [],
+        articles: { 6: article(6, false, 1) },
+        events: {},
+      });
+      expect(selectFeaturedItems(state)).toEqual([]);
+    });
+
+    it('is empty before the frontpage has been fetched', () => {
       const state = createState({
         articleIds: [],
         eventIds: [],
         articles: {},
-        events: {
-          99: {
-            id: 99,
-            pinned: false,
-            startTime: moment().add(1, 'minute').toISOString(),
-          },
-        },
+        events: { 99: event(99, false, 1) },
       });
-      expect(selectPinned(state)).toBeUndefined();
+      expect(selectFeaturedItems(state)).toEqual([]);
     });
   });
 });

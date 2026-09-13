@@ -1,0 +1,149 @@
+.card {
+  position: relative;
+
+  &:hover .coverImage {
+    transform: scale(1.015);
+  }
+}
+
+.stage {
+  display: grid;
+  grid-template-areas: 'slide';
+}
+
+.slide {
+  grid-area: slide;
+  position: relative;
+  min-width: 0;
+  color: var(--lego-font-color);
+}
+
+.slideAnimated {
+  transition: opacity var(--easing-slow);
+}
+
+.slideActive {
+  opacity: 1;
+  z-index: 2;
+}
+
+.slideHidden {
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.cover {
+  position: relative;
+  aspect-ratio: 10 / 3;
+  flex: none;
+  overflow: hidden;
+}
+
+.coverImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--easing-medium);
+}
+
+.caption {
+  border-top: 1.5px solid var(--border-gray);
+  padding: var(--spacing-md) var(--spacing-lg);
+  flex: 1;
+}
+
+.category {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  white-space: nowrap;
+}
+
+.date {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.location {
+  white-space: nowrap;
+}
+
+.heading {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: 500;
+}
+
+.title {
+  margin: 0;
+  min-width: 0;
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  text-wrap: pretty;
+}
+
+.meta {
+  font-size: var(--font-size-sm);
+  color: var(--secondary-font-color);
+}
+
+.coverControls {
+  position: absolute;
+  inset: 0 0 auto;
+  aspect-ratio: 10 / 3;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: auto;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+
+  background: rgba(0, 0, 0, 42%);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: var(--color-absolute-white);
+  transition: background var(--easing-fast);
+
+  &:hover {
+    background: rgba(0, 0, 0, 68%);
+  }
+}
+
+.arrowPrevious {
+  left: var(--spacing-md);
+}
+
+.arrowNext {
+  right: var(--spacing-md);
+}
+
+.segments {
+  position: absolute;
+  right: var(--spacing-md);
+  bottom: var(--spacing-md);
+  pointer-events: auto;
+}
+
+.segment {
+  width: 12px;
+  height: 5px;
+  padding: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 55%);
+  transition:
+    width var(--easing-medium),
+    background var(--easing-medium);
+}
+
+.segmentActive {
+  width: 34px;
+  background: var(--lego-red-color);
+}
