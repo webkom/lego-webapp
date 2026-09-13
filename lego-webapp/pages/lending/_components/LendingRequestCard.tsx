@@ -1,5 +1,5 @@
-import { Card, Flex, Icon, Image } from '@webkom/lego-bricks';
-import { MoveRight } from 'lucide-react';
+import { Button, Card, Flex, Icon, Image } from '@webkom/lego-bricks';
+import { Archive, MoveRight } from 'lucide-react';
 import Time from '~/components/Time';
 import { TransformedLendingRequest } from '~/redux/models/LendingRequest';
 import truncateString from '~/utils/truncateString';
@@ -9,25 +9,28 @@ import styles from './RequestInbox.module.css';
 const LendingRequestCard = ({
   lendingRequest,
   isFromAdmin,
+  onArchive,
 }: {
   lendingRequest: TransformedLendingRequest;
   isFromAdmin?: boolean;
+  onArchive?: (
+    requestId: TransformedLendingRequest['id'],
+    archived: boolean,
+  ) => void;
 }) => {
   if (!lendingRequest.lendableObject) {
     return null;
   }
 
   return (
-    <a
-      href={`/lending/${lendingRequest.lendableObject.id}/request/${lendingRequest.id} ${
-        isFromAdmin ? '?fromAdmin=true' : ''
-      }
+    <Card className={styles.lendingRequestCard}>
+      <Flex column width="100%" gap="var(--spacing-sm)">
+        <a
+          href={`/lending/${lendingRequest.lendableObject.id}/request/${lendingRequest.id}${isFromAdmin ? '?fromAdmin=true' : ''}
         `}
-    >
-      <Card className={styles.lendingRequestCard}>
-        <Flex width="100%">
-          <Flex>
-            <Flex column gap="var(--spacing-sm)">
+        >
+          <Flex width="100%">
+            <Flex width="100%" column gap="var(--spacing-sm)">
               <Flex column gap="var(--spacing-xs)">
                 <h4>
                   {truncateString(lendingRequest.lendableObject.title, 30)}
@@ -38,23 +41,41 @@ const LendingRequestCard = ({
                   <Time time={lendingRequest.endDate} format="DD. MMM" />
                 </Flex>
               </Flex>
-              <div className={styles.tagContainer}>
+              <div>
                 <LendingStatusTag
                   lendingRequestStatus={lendingRequest.status}
                 />
               </div>
             </Flex>
+            <Image
+              className={styles.lendingRequestImage}
+              height={80}
+              width={80}
+              src={lendingRequest.lendableObject.image || '/icon-192x192.png'}
+              alt={lendingRequest.lendableObject.title}
+            />
           </Flex>
-        </Flex>
-        <Image
-          className={styles.lendingRequestImage}
-          height={80}
-          width={80}
-          src={lendingRequest.lendableObject.image || '/icon-192x192.png'}
-          alt={lendingRequest.lendableObject.title}
-        />
-      </Card>
-    </a>
+        </a>
+        {onArchive && (
+          <div
+            className={styles.archiveButtonWrapper}
+
+          >
+            <Button
+              flat
+              size="small"
+              className={styles.archiveButton}
+              onPress={() =>
+                onArchive?.(lendingRequest.id, !lendingRequest.archived)
+              }
+            >
+              <Icon iconNode={<Archive />} size={16} />
+              {lendingRequest.archived ? 'Fjern arkivering' : 'Arkiver'}
+            </Button>
+          </div>
+        )}
+      </Flex>
+    </Card>
   );
 };
 

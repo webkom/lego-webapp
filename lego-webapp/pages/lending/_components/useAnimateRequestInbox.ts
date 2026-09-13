@@ -1,5 +1,5 @@
 import { gsap } from 'gsap';
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useMemo, useRef } from 'react';
 import type { RefObject } from 'react';
 
 const getAnimationStep = (currentIds: string[], previousIds: string[]) => {
@@ -10,28 +10,28 @@ const getAnimationStep = (currentIds: string[], previousIds: string[]) => {
     };
   }
 
-  const isAppend =
-    previousIds.length > 0 &&
-    currentIds.length > previousIds.length &&
-    previousIds.every((id, index) => currentIds[index] === id);
 
-  if (isAppend) {
-    return {
-      ids: currentIds.slice(previousIds.length),
-      animateButton: true,
-    };
-  }
+  const previousIdSet = new Set(previousIds);
+  const newIds = currentIds.filter((id) => !previousIdSet.has(id));
 
-  if (currentIds.join(',') !== previousIds.join(',')) {
+  if (newIds.length === 0) {
     return {
-      ids: currentIds,
+      ids: [],
       animateButton: false,
     };
   }
 
+  const unchangedPrefix = currentIds.slice(
+    0,
+    currentIds.length - newIds.length,
+  );
+  const isAppend =
+    unchangedPrefix.length === previousIds.length &&
+    unchangedPrefix.every((id, index) => previousIds[index] === id);
+
   return {
-    ids: [],
-    animateButton: false,
+    ids: newIds,
+    animateButton: isAppend,
   };
 };
 
@@ -41,6 +41,11 @@ const useAnimateRequestInbox = (
   buttonRef?: RefObject<HTMLDivElement | null>,
 ) => {
   const previousIdsRef = useRef<string[]>([]);
+  const requestIdsKey = requestIds.join(',');
+  const stableRequestIds = useMemo(
+    () => (requestIdsKey ? requestIdsKey.split(',') : []),
+    [requestIdsKey],
+  );
 
   useLayoutEffect(() => {
     const button = buttonRef?.current;
@@ -60,19 +65,19 @@ const useAnimateRequestInbox = (
       gsap.set(button, { clearProps: 'transform,opacity,visibility' });
     }
 
-    if (!listRef.current || requestIds.length === 0) {
-      previousIdsRef.current = requestIds;
+    if (!listRef.current || stableRequestIds.length === 0) {
+      previousIdsRef.current = stableRequestIds;
       return;
     }
 
     const { ids, animateButton } = getAnimationStep(
-      requestIds,
+      stableRequestIds,
       previousIdsRef.current,
     );
     const idsToAnimate = new Set(ids);
 
     if (!idsToAnimate.size) {
-      previousIdsRef.current = requestIds;
+      previousIdsRef.current = stableRequestIds;
       return;
     }
 
@@ -81,7 +86,7 @@ const useAnimateRequestInbox = (
     ).filter((card) => idsToAnimate.has(card.dataset.requestId ?? ''));
 
     if (!cardsToAnimate.length) {
-      previousIdsRef.current = requestIds;
+      previousIdsRef.current = stableRequestIds;
       return;
     }
 
@@ -120,7 +125,7 @@ const useAnimateRequestInbox = (
       });
     }
 
-    previousIdsRef.current = requestIds;
+    previousIdsRef.current = stableRequestIds;
 
     return () => {
       timeline.kill();
@@ -129,7 +134,7 @@ const useAnimateRequestInbox = (
         gsap.set(button, { clearProps: 'transform,opacity,visibility' });
       }
     };
-  }, [buttonRef, listRef, requestIds]);
+  }, [buttonRef, listRef, stableRequestIds]);
 };
 
 export default useAnimateRequestInbox;
