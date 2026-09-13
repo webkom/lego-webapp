@@ -7,6 +7,7 @@ import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
 import { EntityType } from '~/redux/models/entities';
 import { selectFeedActivityEntities } from '~/redux/slices/feedActivities';
 import { asArray } from '~/redux/slices/utils';
+import { isNotNullish } from '~/utils';
 import type { AnyAction } from '@reduxjs/toolkit';
 import type { RootState } from '~/redux/rootReducer';
 
@@ -68,7 +69,9 @@ export const selectFeedActivitiesByFeedId = createSelector(
       return [];
     }
 
-    return feed.activities.map((id) => feedActivityEntities[id]);
+    return feed.activities
+      .map((id) => feedActivityEntities[id])
+      .filter(isNotNullish);
   },
 );
 
