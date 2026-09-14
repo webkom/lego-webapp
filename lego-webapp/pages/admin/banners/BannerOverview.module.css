@@ -10,7 +10,7 @@
   background-color: var(--lego-background-color);
 }
 
-.bannerContainer * {
+.bannerContainer > * {
   margin: 0;
 }
 
