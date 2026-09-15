@@ -252,6 +252,7 @@ html[data-theme='dark'] img.wordmarkDarkMode {
 }
 
 .qrPlate {
+  position: relative;
   align-self: center;
   border-radius: var(--border-radius-lg);
   overflow: hidden;
@@ -259,6 +260,54 @@ html[data-theme='dark'] img.wordmarkDarkMode {
   canvas {
     display: block;
   }
+}
+
+.attendanceFill {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150%;
+  height: 150%;
+  border-radius: 50%;
+  background: var(--lego-red-color);
+  will-change: transform;
+}
+
+.attendanceCircle {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+}
+
+.attendanceCheck {
+  width: 112px;
+  height: 112px;
+  overflow: visible;
+
+  polyline {
+    fill: none;
+    stroke: var(--color-absolute-white);
+    stroke-width: 5;
+    stroke-linecap: butt;
+    stroke-linejoin: round;
+  }
+}
+
+.attendanceLabel {
+  color: var(--color-absolute-white);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.35;
+  text-align: center;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
 }
 
 .name {
