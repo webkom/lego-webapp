@@ -92,7 +92,7 @@ div.modernRed {
     color: var(--color-white);
 
     & .subHeader {
-        color: var(--color-white);
+      color: var(--color-white);
     }
   }
 }
