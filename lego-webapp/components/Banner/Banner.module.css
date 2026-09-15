@@ -23,12 +23,50 @@
   transition: var(--easing-fast);
 }
 
+.headerTitle,
 .subHeader {
-  color: var(--secondary-font-color);
+  margin: 0;
 }
 
-.header > h1 {
-  margin: 0;
+.subHeader {
+  color: var(--secondary-font-color);
+  font-weight: normal;
+}
+
+@media not (--mobile-device) {
+  .header:has(.countdown) {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: var(--spacing-sm) var(--spacing-lg);
+    text-align: left;
+    padding-top: var(--spacing-lg);
+    padding-bottom: var(--spacing-lg);
+    padding-right: var(--spacing-xxl);
+    padding-left: var(--spacing-xl);
+
+    & .headerTitle {
+      grid-column: 1;
+      grid-row: 1;
+      justify-self: start;
+    }
+    & .subHeader {
+      grid-column: 1;
+      grid-row: 2;
+      justify-self: start;
+      max-width: 60%;
+      text-align: left;
+    }
+    & .countdown {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      justify-self: end;
+    }
+  }
+}
+
+.countdownTime {
+  font-size: 1.2rem;
 }
 
 div.red {
@@ -36,9 +74,26 @@ div.red {
   background-color: transparent;
   border: 3px solid var(--color-red-7);
 
-  &:hover {
+  .link &:hover {
     background-color: var(--color-red-7);
     color: var(--color-white);
+  }
+}
+
+div.modernRed {
+  position: relative;
+  color: var(--lego-red-color);
+  border: none;
+  transition: var(--easing-fast);
+  transition-property: background-color, color;
+
+  .link &:hover {
+    background-color: var(--lego-red-color-hover);
+    color: var(--color-white);
+
+    & .subHeader {
+      color: var(--color-white);
+    }
   }
 }
 
@@ -59,9 +114,9 @@ div.lightBlue {
 div.itdageneBlue {
   background-color: transparent;
   color: #0778bc;
-  border: 3px solid #0778bc;
+  border: 2px solid #0778bc;
 
-  &:hover {
+  .link &:hover {
     background-color: #0778bc;
     color: var(--color-white);
   }
@@ -191,10 +246,6 @@ div.christmas {
   }
 }
 
-.countdownTime {
-  font-size: 1.2rem;
-}
-
 @keyframes pulseBefore {
   0% {
     box-shadow:
@@ -287,7 +338,7 @@ div.christmas {
   }
 
   5% {
-    transform: rotate(-1.5deg);
+    transform: rotate(-1deg);
   }
 
   10% {
@@ -295,7 +346,7 @@ div.christmas {
   }
 
   15% {
-    transform: rotate(1.5deg);
+    transform: rotate(1deg);
   }
 
   20% {
