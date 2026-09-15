@@ -82,41 +82,17 @@ div.red {
 
 div.modernRed {
   position: relative;
-  z-index: 0;
-  overflow: hidden;
   color: var(--lego-red-color);
-  background: linear-gradient(
-    130deg,
-    var(--color-red-1),
-    transparent,
-    var(--color-red-1)
-  );
-  background-size: 200% 200%;
-  animation: BackgroundPan 5s var(--easing) infinite;
   border: none;
-
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: linear-gradient(
-      130deg,
-      var(--color-red-2),
-      var(--color-red-1),
-      var(--color-red-2)
-    );
-    background-size: 200% 200%;
-    opacity: 0;
-    transition: opacity 0.3s var(--easing);
-    animation: BackgroundPan 5s var(--easing) infinite;
-  }
+  transition: var(--easing-fast);
+  transition-property: background-color, color;
 
   .link &:hover {
-    animation-play-state: paused;
+    background-color: var(--lego-red-color-hover);
+    color: var(--color-white);
 
-    &::after {
-      opacity: 1;
+    & .subHeader {
+        color: var(--color-white);
     }
   }
 }
@@ -362,7 +338,7 @@ div.christmas {
   }
 
   5% {
-    transform: rotate(-1.5deg);
+    transform: rotate(-1deg);
   }
 
   10% {
@@ -370,7 +346,7 @@ div.christmas {
   }
 
   15% {
-    transform: rotate(1.5deg);
+    transform: rotate(1deg);
   }
 
   20% {
@@ -379,17 +355,5 @@ div.christmas {
 
   100% {
     transform: rotate(0deg);
-  }
-}
-
-@keyframes BackgroundPan {
-  0% {
-    background-position: 10% 0%;
-  }
-  50% {
-    background-position: 91% 100%;
-  }
-  100% {
-    background-position: 10% 0%;
   }
 }
