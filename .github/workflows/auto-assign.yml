@@ -3,6 +3,10 @@ on:
   pull_request:
     types: [opened, ready_for_review]
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   add-reviews:
     runs-on: ubuntu-latest
@@ -10,4 +14,3 @@ jobs:
       - uses: kentaro-m/auto-assign-action@v2.0.1
         with:
           configuration-path: '.github/auto-assign.yml'
-          
