@@ -70,17 +70,6 @@
 }
 
 div.red {
-  color: var(--color-red-7);
-  background-color: transparent;
-  border: 3px solid var(--color-red-7);
-
-  .link &:hover {
-    background-color: var(--color-red-7);
-    color: var(--color-white);
-  }
-}
-
-div.modernRed {
   position: relative;
   color: var(--lego-red-color);
   border: none;

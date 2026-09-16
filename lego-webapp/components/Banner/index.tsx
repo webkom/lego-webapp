@@ -8,7 +8,6 @@ import type { $Keys } from 'utility-types';
 
 export const COLORS = {
   red: styles.red,
-  modernRed: styles.modernRed,
   white: styles.white,
   gray: styles.gray,
   lightBlue: styles.lightBlue,

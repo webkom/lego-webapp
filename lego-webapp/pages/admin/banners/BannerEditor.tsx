@@ -35,7 +35,6 @@ import styles from './BannerOverview.module.css';
 
 const colorToRepresentation: Record<Color, string> = {
   red: 'Rød',
-  modernRed: 'Moderne Rød',
   white: 'Hvit',
   gray: 'Grå',
   lightBlue: 'Lyseblå',
