@@ -1,5 +1,4 @@
 import { BaseCard, CardContent, CardFooter, Flex } from '@webkom/lego-bricks';
-import Linkify from 'linkify-react';
 import { LinkTag } from '~/components/Feed/Tag';
 import { ProfilePicture } from '~/components/Image';
 import Time from '~/components/Time';
@@ -22,23 +21,7 @@ const AggregatedActivityItem = <Verb extends FeedActivityVerb>({
   return (
     <BaseCard>
       <CardContent>
-        <Linkify
-          options={{
-            rel: 'noopener noreferrer',
-            format: (value, type) => {
-              if (type === 'url' && value.length > 50) {
-                value = value.slice(0, 50) + '…';
-              }
-
-              return value;
-            },
-            attributes: {
-              target: '_blank',
-            },
-          }}
-        >
-          <Header aggregatedActivity={aggregatedActivity} tag={LinkTag} />
-        </Linkify>
+        <Header aggregatedActivity={aggregatedActivity} tag={LinkTag} />
       </CardContent>
       <CardFooter variant="border">
         {aggregatedActivity.activities.map((activity) => (
@@ -69,8 +52,9 @@ const ActivityFooter = ({
   aggregatedActivity,
   activity,
 }: ActivityHeaderProps) => {
-  const actor = aggregatedActivity.context[activity.actor];
-  if (actor.contentType !== 'users.user') return null;
+  const actor = aggregatedActivity.context?.[activity.actor];
+  if (!actor || actor.contentType !== 'users.user') return null;
+
   return (
     <Flex
       alignItems="center"
