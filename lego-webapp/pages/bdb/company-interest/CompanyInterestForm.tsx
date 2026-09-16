@@ -9,7 +9,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import arrayMutators from 'final-form-arrays';
-import { gsap } from 'gsap';
+import gsap from 'gsap';
 import { ArrowLeft, Check } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { Field, FormSpy, useField, useForm } from 'react-final-form';

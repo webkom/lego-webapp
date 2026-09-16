@@ -1,4 +1,4 @@
-import { gsap } from 'gsap';
+import gsap from 'gsap';
 import { useCallback, useRef } from 'react';
 
 const MAX_TILT_X = 13;

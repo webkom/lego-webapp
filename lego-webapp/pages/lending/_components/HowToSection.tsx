@@ -1,6 +1,6 @@
 import { Accordion, BaseCard, Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { gsap } from 'gsap';
+import gsap from 'gsap';
 import {
   ChevronDown,
   ClipboardCheck,

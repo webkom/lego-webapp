@@ -1,4 +1,4 @@
-import { gsap } from 'gsap';
+import gsap from 'gsap';
 import { useEffect, useRef, useState } from 'react';
 
 const ROTATION_SECONDS = 6;

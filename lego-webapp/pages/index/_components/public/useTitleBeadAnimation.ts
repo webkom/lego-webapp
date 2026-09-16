@@ -1,4 +1,4 @@
-import { gsap } from 'gsap';
+import gsap from 'gsap';
 import { CustomEase } from 'gsap/CustomEase';
 import { useLayoutEffect, useRef } from 'react';
 import { GRID_SIZE, ROW_OFFSET } from './heroBeads';

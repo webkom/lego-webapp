@@ -1,4 +1,4 @@
-import { gsap } from 'gsap';
+import gsap from 'gsap';
 import { useLayoutEffect, useMemo, useRef } from 'react';
 import type { RefObject } from 'react';
 
