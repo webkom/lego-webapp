@@ -1,5 +1,6 @@
 .green {
     color: green;
+    background-color: white;
 }
 
 .purple {
@@ -10,3 +11,4 @@
     color: yellow;
     background-color: blue;
 }
+
