@@ -1,13 +1,13 @@
 .red {
-    color: #e21617;
+  color: #e21617;
 }
 
 h1 {
-    font-size: xx-large;
+  font-size: xx-large;
 }
 
 .main {
-    background-color: #89CC04;
-    /* display:flex; */
-    /* align-content: center; */
+  background-color: #89cc04;
+  /* display:flex; */
+  /* align-content: center; */
 }
