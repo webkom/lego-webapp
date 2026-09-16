@@ -5,3 +5,8 @@
 .purple {
     color: purple;
 }
+
+.yellow {
+    color: yellow;
+    background-color: blue;
+}
