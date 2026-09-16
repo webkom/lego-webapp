@@ -18,10 +18,9 @@
 
 .eventItemCompact {
   composes: eventItem;
-  min-height: 156px;
   flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: stretch;
 }
 
 .time {
