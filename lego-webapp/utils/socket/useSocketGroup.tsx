@@ -7,9 +7,13 @@ import { useTransientSocketEvent } from '~/utils/socket/useTransientSocketEvent'
 const subscriberCounts = new Map<string, number>();
 
 type Status = { connected: boolean; pending: boolean; error: boolean };
-type GroupPayload = { group: string }
+type GroupPayload = { group: string };
 
-const STATUS_INITIAL: Status = { connected: false, pending: false, error: false };
+const STATUS_INITIAL: Status = {
+  connected: false,
+  pending: false,
+  error: false,
+};
 const STATUS_CONNECTED: Status = { ...STATUS_INITIAL, connected: true };
 const STATUS_PENDING: Status = { ...STATUS_INITIAL, pending: true };
 const STATUS_ERROR: Status = { ...STATUS_INITIAL, error: true };
