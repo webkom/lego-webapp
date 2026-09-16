@@ -67,10 +67,13 @@
   flex-direction: row;
   align-items: center;
   padding: var(--spacing-md);
-  color: var(--lego-font-color);
   transition:
     box-shadow var(--easing-fast),
     background-color var(--easing-fast);
+}
+
+.lendingRequestCard > div > a {
+  color: var(--lego-font-color);
 }
 
 .lendingRequestCard:hover {
@@ -110,4 +113,19 @@ img.lendingRequestImage {
 
 .statusTag .rotate {
   animation: spinner 5s linear infinite;
+}
+
+.archiveButtonWrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.archiveButton {
+  color: var(--secondary-font-color);
+  font-weight: 500;
+  font-size: var(--font-size-sm);
+}
+
+.archiveButton:hover {
+  color: var(--lego-font-color);
 }
