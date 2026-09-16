@@ -1,0 +1,14 @@
+.test0 {
+  width: 100vw;
+  justify-content: center;
+  justify-self: center;
+  justify-items: center;
+}
+.test0 .test1 {
+  color: blue;
+}
+
+.test0 .test2 {
+  outline-style: dashed;
+  outline-color: white;
+}
