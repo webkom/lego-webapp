@@ -1,6 +1,6 @@
 import { CurrentUser } from '~/redux/models/User';
-import styles from './style.module.css';
 import { useCurrentUser } from '~/redux/slices/auth';
+import styles from './style.module.css';
 
 const FredrikPage = () => {
   const user: CurrentUser | undefined = useCurrentUser();
