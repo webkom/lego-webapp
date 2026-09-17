@@ -6,18 +6,22 @@
   --circle-size: 44px;
   --row-height: calc(var(--circle-size) + 2 * var(--spacing-md));
   --day-column: 180px;
-  --row-inline-pad: clamp(var(--spacing-md), 2vw, 32px);
-  --row-gap: clamp(10px, 2vw, 20px);
-  --orange-hover: rgba(245, 165, 36, 0.09);
+  --row-inline-pad: var(--spacing-lg);
+  --row-gap: 20px;
+  --orange-hover: color-mix(in srgb, var(--color-orange-6) 9%, transparent);
+
+  @media (--mobile-device) {
+    --row-inline-pad: var(--spacing-md);
+    --row-gap: var(--spacing-md);
+  }
+
+  @media (--medium-viewport) {
+    --row-gap: 10px;
+  }
 }
 
 .header {
   position: relative;
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--spacing-sm);
-  flex-wrap: wrap;
   padding-bottom: var(--spacing-md);
 
   h2 {
@@ -44,7 +48,6 @@
   );
 }
 
-/* The agenda's top and bottom lines fade softly at the ends */
 .header::after,
 .dayRow:last-child::after {
   background: linear-gradient(
@@ -85,9 +88,6 @@
   }
 }
 
-/* The list reads as one panel: only the agenda's outer corners round.
-   :last-child follows pagination - whichever row is currently last
-   carries the bottom corners */
 .dayRow:first-child {
   border-top-left-radius: var(--border-radius-lg);
 
@@ -106,9 +106,6 @@
 }
 
 .dayLabel {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   height: var(--row-height);
   padding-left: var(--row-inline-pad);
   pointer-events: none;
@@ -132,15 +129,7 @@
   color: var(--color-gray-5);
 }
 
-.dayDate {
-  margin-top: var(--spacing-xs);
-  font-size: var(--font-size-sm);
-  color: var(--secondary-font-color);
-  font-variant-numeric: tabular-nums;
-}
-
 .eventWrapper {
-  cursor: pointer;
   transition: background var(--easing-fast);
   border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
   overflow: hidden;
@@ -150,7 +139,6 @@
   }
 }
 
-/* Shared row geometry - event rows, the create row, and the peek teasers */
 .eventRow,
 .createRow,
 .peekRow {
@@ -161,8 +149,24 @@
 }
 
 .eventRow {
+  position: relative;
   transition: background var(--easing-fast);
+}
 
+.expandOverlay {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.aboveOverlay {
+  position: relative;
+}
+
+.eventRow {
   &:hover {
     background: var(--additive-background);
   }
@@ -195,13 +199,6 @@
 .eventInfo {
   flex: 1;
   min-width: 0;
-}
-
-.eventTitleLine {
-  display: flex;
-  align-items: baseline;
-  gap: var(--spacing-sm);
-  flex-wrap: wrap;
 }
 
 .eventTitle {
@@ -241,7 +238,6 @@
   }
 }
 
-/* Shared width across the join button's states so flips don't reflow */
 .joinAction {
   min-width: 5.2em;
 }
@@ -276,7 +272,7 @@
 .eventPanel {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 320ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: grid-template-rows 320ms var(--easing);
 
   > div {
     overflow: hidden;
@@ -297,8 +293,8 @@
   opacity: 0;
   transform: translateY(-5px);
   transition:
-    opacity 220ms ease 50ms,
-    transform 300ms cubic-bezier(0.2, 0.8, 0.25, 1) 50ms;
+    opacity 220ms var(--easing) 50ms,
+    transform 300ms var(--easing) 50ms;
 
   [data-expanded='true'] & {
     opacity: 1;
@@ -392,7 +388,6 @@
   }
 }
 
-/* Del and Kopiert crossfade on a shared grid cell */
 .stripShareLabel {
   display: grid;
   text-align: left;
@@ -436,18 +431,14 @@
 .createRow {
   border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
   color: var(--lego-font-color);
-  cursor: pointer;
   transition: background var(--easing-fast);
-
-  &:hover {
-    background: var(--orange-hover);
-  }
 }
 
 .createCircle {
   border: 1.5px dashed var(--color-gray-4);
   color: var(--color-gray-6);
   transition: background var(--easing-fast);
+  background-color: inherit;
 
   &:hover {
     background: var(--additive-background);
@@ -459,10 +450,6 @@
   min-width: 0;
   font-size: var(--font-size-md);
   font-weight: 600;
-}
-
-.createAction {
-  flex: none;
 }
 
 .showMoreRow {
@@ -484,6 +471,10 @@
   inset: 0;
   display: grid;
   place-items: center;
+  padding: 0;
+  border: none;
+  font: inherit;
+  cursor: pointer;
   background: linear-gradient(
     color-mix(in srgb, var(--lego-background-color) 20%, transparent),
     color-mix(in srgb, var(--lego-background-color) 92%, transparent) 78%,
@@ -510,13 +501,13 @@
     border-color var(--easing-fast),
     transform var(--easing-fast);
 
-  &:hover {
+  .peekOverlay:hover & {
     background: var(--lego-font-color);
     border-color: var(--lego-font-color);
     color: var(--inverted-font-color);
   }
 
-  &:active {
+  .peekOverlay:active & {
     transform: scale(0.95);
   }
 }

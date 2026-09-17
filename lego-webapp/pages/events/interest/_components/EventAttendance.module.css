@@ -1,7 +1,4 @@
 .attendance {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
   padding-top: 2px;
 }
 
@@ -9,6 +6,11 @@
   display: flex;
   align-items: center;
   width: fit-content;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
   cursor: pointer;
   transition: opacity var(--easing-fast);
 
@@ -68,8 +70,6 @@
 }
 
 .attendLine {
-  display: flex;
-  flex-direction: column;
   font-size: var(--font-size-xs);
   line-height: 1.55;
   color: var(--secondary-font-color);

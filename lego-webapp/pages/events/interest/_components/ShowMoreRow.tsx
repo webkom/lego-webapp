@@ -1,13 +1,9 @@
+import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { ChevronDown } from 'lucide-react';
 import moment from 'moment-timezone';
 import Time from '~/components/Time';
-import {
-  activateOnKey,
-  dayLabel,
-  groupKeyOf,
-  weekLabel,
-} from '~/pages/events/interest/utils';
+import { dayLabel, groupKeyOf, weekLabel } from '~/pages/events/interest/utils';
 import styles from './EventAgenda.module.css';
 import GroupCircle from './GroupCircle';
 import type { ListEvent } from '~/redux/models/Event';
@@ -32,20 +28,13 @@ const ShowMoreRow = ({ hiddenEvents, isPast, onShowMore }: Props) => {
     .slice(0, 2);
 
   return (
-    <div
-      className={cx(styles.dayRow, styles.showMoreRow)}
-      role="button"
-      tabIndex={0}
-      title="Vis flere dager"
-      onClick={onShowMore}
-      onKeyDown={activateOnKey(onShowMore)}
-    >
-      <div className={styles.dayLabel}>
+    <div className={cx(styles.dayRow, styles.showMoreRow)}>
+      <Flex column justifyContent="center" className={styles.dayLabel}>
         <div className={cx(styles.dayName, styles.dayNameMuted)}>
           {nextLabel.label}
         </div>
         <div className={styles.dayDate}>{nextLabel.subLabel}</div>
-      </div>
+      </Flex>
       <div className={styles.peek}>
         <div className={styles.peekRows} aria-hidden>
           {peekEvents.map((event) => (
@@ -61,12 +50,17 @@ const ShowMoreRow = ({ hiddenEvents, isPast, onShowMore }: Props) => {
             </div>
           ))}
         </div>
-        <div className={styles.peekOverlay}>
+        <button
+          type="button"
+          className={styles.peekOverlay}
+          title="Vis flere dager"
+          onClick={onShowMore}
+        >
           <span className={styles.showMoreButton}>
             Vis {hiddenEvents.length} til
             <ChevronDown size={13} />
           </span>
-        </div>
+        </button>
       </div>
     </div>
   );

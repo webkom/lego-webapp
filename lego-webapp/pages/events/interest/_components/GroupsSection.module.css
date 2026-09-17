@@ -8,11 +8,10 @@
   --tile-height: calc(var(--circle-size) + 2 * var(--spacing-sm) + 4px);
 }
 
+/* Wrapping lives here rather than on <Flex wrap>: lego-bricks gives
+   `.wrap > .flex` a flex-basis of 15em under 992px, which is meant for card
+   grids and would squash the nested title row. */
 .header {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--spacing-sm);
   flex-wrap: wrap;
 
   h2 {
@@ -96,16 +95,24 @@
 .tileText {
   min-width: 0;
   flex: 1;
-  display: flex;
-  flex-direction: column;
 }
 
+/* Stretched link: the anchor carries the group name as its accessible name
+   and covers the tile, so the whole tile is clickable without nesting the
+   mark button inside a link. */
 .tileName {
   font-size: var(--font-size-sm);
   font-weight: 700;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: inherit;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
 }
 
 .tileSubline {
@@ -135,6 +142,7 @@
 }
 
 .tileMarkInteractive {
+  position: relative;
   padding: 0;
   cursor: pointer;
   transition:
@@ -181,7 +189,7 @@
   }
 
   &:hover {
-    background: rgba(245, 165, 36, 0.09);
+    background: color-mix(in srgb, var(--color-orange-6) 9%, transparent);
   }
 }
 

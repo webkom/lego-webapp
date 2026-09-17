@@ -6,25 +6,12 @@ import {
 import { capitalize } from '~/utils';
 import type { Dateish } from 'app/models';
 import type { Moment } from 'moment-timezone';
-import type { KeyboardEvent } from 'react';
 import type { SpotlightItem } from '~/components/Spotlight';
 import type { ListEvent } from '~/redux/models/Event';
 import type { PublicGroup } from '~/redux/models/Group';
 
 export const groupMonogram = (group: PublicGroup) =>
   group.name.replace('Aba', '').slice(0, 2).toUpperCase();
-
-export const activateOnKey =
-  (action: () => void) => (e: KeyboardEvent<HTMLElement>) => {
-    if (e.target !== e.currentTarget) {
-      return;
-    }
-
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      action();
-    }
-  };
 
 export const isToday = (time: Moment) => time.isSame(moment(), 'day');
 

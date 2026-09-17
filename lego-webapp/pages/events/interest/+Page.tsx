@@ -1,4 +1,4 @@
-import { Button, LinkButton, PageContainer } from '@webkom/lego-bricks';
+import { Button, Flex, LinkButton, PageContainer } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { GroupType } from 'app/models';
@@ -32,15 +32,25 @@ const InterestEvents = () => {
   return (
     <PageContainer card={false}>
       <Helmet title="Interessegruppearrangementer" />
-      <div className={styles.page}>
-        <section className={styles.hero}>
+      <Flex column className={styles.page}>
+        <Flex
+          component="section"
+          wrap
+          alignItems="flex-start"
+          className={styles.hero}
+        >
           <div className={styles.heroText}>
             <h1>Interessegrupper</h1>
             <p className={styles.lead}>
               Lavterskel sosiale grupper drevet av studenter. Det kan være
               klatring, LAN, brettspill, løping eller cavasøndag!
             </p>
-            <div className={styles.heroActions}>
+            <Flex
+              wrap
+              alignItems="center"
+              gap="var(--spacing-md)"
+              className={styles.heroActions}
+            >
               <Button
                 dark
                 onPress={() =>
@@ -54,7 +64,7 @@ const InterestEvents = () => {
               <LinkButton ghost href="/interest-groups/info">
                 Praktisk info
               </LinkButton>
-            </div>
+            </Flex>
           </div>
           <div className={styles.spotlight}>
             <Spotlight
@@ -63,10 +73,10 @@ const InterestEvents = () => {
               heading="Neste arrangement"
             />
           </div>
-        </section>
+        </Flex>
         <EventAgenda />
         <GroupsSection />
-      </div>
+      </Flex>
     </PageContainer>
   );
 };
