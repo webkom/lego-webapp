@@ -129,13 +129,6 @@
   color: var(--color-gray-5);
 }
 
-.dayDate {
-  margin-top: var(--spacing-xs);
-  font-size: var(--font-size-sm);
-  color: var(--secondary-font-color);
-  font-variant-numeric: tabular-nums;
-}
-
 .eventWrapper {
   transition: background var(--easing-fast);
   border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
@@ -439,16 +432,13 @@
   border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
   color: var(--lego-font-color);
   transition: background var(--easing-fast);
-
-  &:has(.createAction:hover) {
-    background: var(--orange-hover);
-  }
 }
 
 .createCircle {
   border: 1.5px dashed var(--color-gray-4);
   color: var(--color-gray-6);
   transition: background var(--easing-fast);
+  background-color: inherit;
 
   &:hover {
     background: var(--additive-background);
@@ -460,10 +450,6 @@
   min-width: 0;
   font-size: var(--font-size-md);
   font-weight: 600;
-}
-
-.createAction {
-  flex: none;
 }
 
 .showMoreRow {

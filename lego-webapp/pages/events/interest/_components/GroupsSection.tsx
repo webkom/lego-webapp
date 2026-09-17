@@ -122,7 +122,7 @@ const GroupTile = ({
           title={
             group.active
               ? 'Se gruppen'
-              : 'Inaktiv gruppe — se hvordan du starter den opp igjen'
+              : 'Inaktiv gruppe - se hvordan du starter den opp igjen'
           }
           className={styles.tileName}
         >
