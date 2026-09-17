@@ -40,7 +40,6 @@ const EventAttendance = ({
   const ordered = you ? [you, ...others] : registrations;
   const faces = ordered.slice(0, MAX_FACES);
   const extra = count - faces.length;
-  // The pile always shows three circles grey placeholders
   const placeholders = MAX_FACES - faces.length;
   const hasAttendees = faces.length > 0;
 

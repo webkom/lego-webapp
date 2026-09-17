@@ -11,6 +11,7 @@ import {
   DatePicker,
   EditorField,
   Form,
+  ImageUploadField,
   SelectInput,
   TextEditor,
   TextInput,
@@ -61,6 +62,7 @@ type InterestEventFormValues = {
   title?: string;
   description?: string;
   text?: string;
+  cover?: string;
   eventType: { value: EventType; label: string };
   responsibleGroup?: { label: string; value: EntityId };
   responsibleUsers: [];
@@ -188,6 +190,7 @@ const InterestEventEditor = () => {
           title: event.title,
           description: event.description,
           text: event.text,
+          cover: event.cover,
           date: [event.startTime, event.endTime],
           useMazemap: !!event.mazemapPoi && event.mazemapPoi > 0,
           mazemapPoi: event.mazemapPoi
@@ -270,6 +273,14 @@ const InterestEventEditor = () => {
               label="Hovedbeskrivelse"
               description="Vises på selve arrangementssiden. Kan være den samme som korte beskrivelsen"
               component={EditorField.Field}
+            />
+            <Field
+              name="cover"
+              label="Cover"
+              description="Valgfritt. Uten cover vises interessegruppens initialer på gul bakgrunn"
+              component={ImageUploadField}
+              aspectRatio={20 / 6}
+              img={event?.cover}
             />
             <Field
               name="responsibleGroup"
