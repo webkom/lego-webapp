@@ -13,6 +13,8 @@ import { useAppSelector } from '~/redux/hooks';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import styles from './SudoAdmin.module.css';
 
+import type { JSX } from "react";
+
 type PanelItem = {
   link: string;
   tag: string;

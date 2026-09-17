@@ -6,6 +6,8 @@ import { eventStatus } from '~/utils/eventStatus';
 import styles from './FrontpageEventItem.module.css';
 import type { FrontpageEvent } from '~/redux/models/Event';
 
+import type { JSX } from "react";
+
 type Props = {
   item?: FrontpageEvent;
   url: string;

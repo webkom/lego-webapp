@@ -4,6 +4,8 @@ import truncateString from '~/utils/truncateString';
 import styles from './ArticleItem.module.css';
 import type { PublicArticle } from '~/redux/models/Article';
 
+import type { JSX } from "react";
+
 type Props = {
   item?: PublicArticle;
   url: string;

@@ -13,7 +13,7 @@ type Props = {
   description?: string;
   descriptionPosition?: DescriptionPosition;
   required?: boolean;
-  children: ReactElement | ReactElement[];
+  children: ReactElement<any> | ReactElement<any>[];
 };
 
 const MultiSelectGroup = ({
