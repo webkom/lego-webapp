@@ -3,8 +3,7 @@ import { User } from 'lucide-react';
 import { useState } from 'react';
 import { ProfilePicture } from '~/components/Image';
 import AttendanceModal from '~/components/UserAttendance/AttendanceModal';
-import { activateOnKey, attendanceLabel } from '~/pages/events/interest/utils';
-import { EventStatusType } from '~/redux/models/Event';
+import { activateOnKey } from '~/pages/events/interest/utils';
 import { useCurrentUser } from '~/redux/slices/auth';
 import styles from './EventAttendance.module.css';
 import type { AttendanceModalRegistration } from '~/components/UserAttendance/AttendanceModalContent';
@@ -18,7 +17,6 @@ type Props = {
   registrations: PoolRegistrationWithUser[];
   waitingRegistrations: AttendanceModalRegistration[];
   isPast: boolean;
-  spotlight?: boolean;
 };
 
 const EventAttendance = ({
@@ -26,7 +24,6 @@ const EventAttendance = ({
   registrations,
   waitingRegistrations,
   isPast,
-  spotlight,
 }: Props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTab, setModalTab] = useState(0);
@@ -44,10 +41,7 @@ const EventAttendance = ({
   const faces = ordered.slice(0, MAX_FACES);
   const extra = count - faces.length;
   // The pile always shows three circles grey placeholders
-  const placeholders =
-    event.eventStatusType === EventStatusType.OPEN
-      ? 0
-      : MAX_FACES - faces.length;
+  const placeholders = MAX_FACES - faces.length;
   const hasAttendees = faces.length > 0;
 
   const names = ordered
@@ -58,9 +52,7 @@ const EventAttendance = ({
   const hidden = count - names.length;
 
   let lines: string[];
-  if (event.eventStatusType === EventStatusType.OPEN) {
-    lines = [attendanceLabel(event)];
-  } else if (!currentUser && count === 0) {
+  if (!currentUser && count === 0) {
     lines = ['Logg inn for å se påmeldte'];
   } else if (count === 0) {
     lines = [isPast ? 'Ingen var med' : 'Ingen påmeldt'];
@@ -74,7 +66,7 @@ const EventAttendance = ({
 
   return (
     <>
-      <div className={cx(styles.attendance, spotlight && styles.spotlight)}>
+      <div className={styles.attendance}>
         {(hasAttendees || placeholders > 0) && (
           <div
             role={hasAttendees ? 'button' : undefined}
@@ -90,25 +82,23 @@ const EventAttendance = ({
               <ProfilePicture
                 key={registration.id}
                 user={registration.user}
-                size={spotlight ? 30 : 32}
+                size={32}
                 className={styles.face}
               />
             ))}
             {Array.from({ length: placeholders }, (_, index) => (
               <span key={index} className={styles.facePlaceholder}>
-                <User size={spotlight ? 16 : 18} />
+                <User size={18} />
               </span>
             ))}
             {extra > 0 && <span className={styles.extraPill}>+{extra}</span>}
           </div>
         )}
-        {!spotlight && (
-          <div className={styles.attendLine}>
-            {lines.map((line) => (
-              <span key={line}>{line}</span>
-            ))}
-          </div>
-        )}
+        <div className={styles.attendLine}>
+          {lines.map((line) => (
+            <span key={line}>{line}</span>
+          ))}
+        </div>
       </div>
       <AttendanceModal
         pools={[

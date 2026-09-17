@@ -67,29 +67,6 @@
   justify-content: center;
 }
 
-.spotlight {
-  padding-top: 0;
-
-  .face {
-    border-color: rgba(255, 255, 255, 90%);
-  }
-
-  .facePlaceholder {
-    width: 30px;
-    height: 30px;
-    border-color: rgba(255, 255, 255, 90%);
-  }
-
-  .extraPill {
-    height: 30px;
-    min-width: 30px;
-    padding: 0 7px;
-    border: 2px solid rgba(255, 255, 255, 90%);
-    background: rgba(13, 13, 13, 50%);
-    color: var(--color-absolute-white);
-  }
-}
-
 .attendLine {
   display: flex;
   flex-direction: column;

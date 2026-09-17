@@ -53,10 +53,3 @@
     color: var(--lego-red-color-hover);
   }
 }
-
-.spotlightSkeleton {
-  flex: 1.25;
-  min-width: min(440px, 100%);
-  min-height: clamp(170px, 16vw, 210px);
-  border-radius: var(--border-radius-lg);
-}
