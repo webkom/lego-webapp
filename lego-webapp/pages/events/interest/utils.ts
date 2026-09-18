@@ -1,51 +1,22 @@
 import moment from 'moment-timezone';
-import { EventStatusType } from '~/redux/models/Event';
+import {
+  colorForEventType,
+  displayNameForEventType,
+} from '~/pages/events/utils';
 import { capitalize } from '~/utils';
-import gradients from './gradients.module.css';
+import type { Dateish } from 'app/models';
 import type { Moment } from 'moment-timezone';
-import type { KeyboardEvent } from 'react';
+import type { SpotlightItem } from '~/components/Spotlight';
 import type { ListEvent } from '~/redux/models/Event';
 import type { PublicGroup } from '~/redux/models/Group';
 
-export const groupGradient = gradients.gradient;
-
 export const groupMonogram = (group: PublicGroup) =>
   group.name.replace('Aba', '').slice(0, 2).toUpperCase();
-
-export const activateOnKey =
-  (action: () => void) => (e: KeyboardEvent<HTMLElement>) => {
-    if (e.target !== e.currentTarget) {
-      return;
-    }
-
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      action();
-    }
-  };
 
 export const isToday = (time: Moment) => time.isSame(moment(), 'day');
 
 export const isTomorrow = (time: Moment) =>
   time.isSame(moment().add(1, 'day'), 'day');
-
-export const attendanceLabel = (event: ListEvent): string => {
-  if (event.eventStatusType === EventStatusType.OPEN) {
-    return 'ingen påmelding — bare møt opp';
-  }
-
-  if (event.registrationCount == null) {
-    return '';
-  }
-
-  const count = event.registrationCount;
-
-  if (event.totalCapacity) {
-    return `${count} av ${event.totalCapacity} plasser`;
-  }
-
-  return `${count} blir med`;
-};
 
 export type DayGroup = {
   key: string;
@@ -132,3 +103,28 @@ export const groupEvents = (
 
   return order.map((key) => groups[key]);
 };
+
+export const nextUpcomingEvent = (events: ListEvent[]) =>
+  events.find((event) => moment(event.startTime).isAfter(moment()));
+
+const spotlightTimeFormat = (time: Dateish) =>
+  moment().year() === moment(time).year()
+    ? 'DD. MMM HH:mm'
+    : 'DD. MMM YYYY HH:mm';
+
+export const toInterestSpotlightItem = (event: ListEvent): SpotlightItem => ({
+  id: event.id,
+  url: `/events/${event.slug}`,
+  title: event.title,
+  cover: event.cover,
+  coverPlaceholder: event.coverPlaceholder ?? undefined,
+  category:
+    event.responsibleGroup?.name ?? displayNameForEventType(event.eventType),
+  categoryColor: colorForEventType(event.eventType) ?? 'var(--lego-font-color)',
+  coverMonogram:
+    event.responsibleGroup && groupMonogram(event.responsibleGroup),
+  coverColor: 'var(--color-orange-6)',
+  location: event.location !== '-' ? event.location : undefined,
+  time: event.startTime,
+  timeFormat: spotlightTimeFormat(event.startTime),
+});

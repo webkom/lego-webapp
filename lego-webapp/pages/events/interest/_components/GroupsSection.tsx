@@ -10,9 +10,7 @@ import {
   RotateCcw,
 } from 'lucide-react';
 import { useLayoutEffect, useRef, useState } from 'react';
-import { navigate } from 'vike/client/router';
 import { GroupType } from 'app/models';
-import { activateOnKey } from '~/pages/events/interest/utils';
 import {
   fetchAllWithType,
   joinGroup,
@@ -107,37 +105,31 @@ const GroupTile = ({
         isMember && styles.tileMarkMember,
       )}
       disabled={pending}
-      onClick={(e) => {
-        e.stopPropagation();
-        onPress();
-      }}
+      onClick={onPress}
     >
       {mark}
     </button>
   );
 
-  // Leaving as leader hands the group to a co-leader, or deactivates it if
-  // there is none - too much to hide behind a one-tap toggle
   const leaderLeaving = isMember && group.userMembership?.role === 'leader';
 
   return (
-    <div
-      role="button"
-      tabIndex={0}
-      title={
-        group.active
-          ? 'Se gruppen'
-          : 'Inaktiv gruppe - se hvordan du starter den opp igjen'
-      }
-      className={cx(styles.tile, !group.active && styles.tileInactive)}
-      onClick={() => navigate(link)}
-      onKeyDown={activateOnKey(() => navigate(link))}
-    >
+    <div className={cx(styles.tile, !group.active && styles.tileInactive)}>
       <GroupCircle group={group} />
-      <span className={styles.tileText}>
-        <span className={styles.tileName}>{group.name}</span>
+      <Flex column component="span" className={styles.tileText}>
+        <a
+          href={link}
+          title={
+            group.active
+              ? 'Se gruppen'
+              : 'Inaktiv gruppe - se hvordan du starter den opp igjen'
+          }
+          className={styles.tileName}
+        >
+          {group.name}
+        </a>
         <span className={styles.tileSubline}>{subline(group)}</span>
-      </span>
+      </Flex>
       {onToggleMembership ? (
         leaderLeaving ? (
           <ConfirmModal
@@ -255,8 +247,13 @@ const GroupsSection = () => {
 
   return (
     <section id="grupper" className={styles.groups}>
-      <div className={styles.header}>
-        <Flex gap={'var(--spacing-lg)'}>
+      <Flex
+        alignItems="baseline"
+        justifyContent="space-between"
+        gap="var(--spacing-sm)"
+        className={styles.header}
+      >
+        <Flex alignItems="baseline" gap="var(--spacing-lg)">
           <h2>Finn din greie</h2>
           {isInterestGroupLeader && (
             <LinkButton
@@ -293,7 +290,7 @@ const GroupsSection = () => {
             <ChevronRight size={15} />
           </button>
         </div>
-      </div>
+      </Flex>
       <div ref={gridRef} className={styles.grid}>
         {currentPage === 0 && (
           <a
@@ -304,12 +301,12 @@ const GroupsSection = () => {
             <span className={styles.createCircle} aria-hidden>
               <Plus size={14} />
             </span>
-            <span className={styles.tileText}>
+            <Flex column component="span" className={styles.tileText}>
               <span className={styles.tileName}>Start en ny gruppe</span>
               <span className={styles.tileSubline}>
                 har du en idé? det tar to minutter
               </span>
-            </span>
+            </Flex>
           </a>
         )}
         {pageGroups.map((group) => (

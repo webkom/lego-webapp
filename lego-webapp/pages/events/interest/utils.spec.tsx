@@ -1,12 +1,7 @@
 import 'moment/locale/nb';
 import moment from 'moment-timezone';
-import { act } from 'react';
-import { createRoot } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { EventStatusType } from '~/redux/models/Event';
 import {
-  activateOnKey,
-  attendanceLabel,
   dayLabel,
   groupEvents,
   groupKeyOf,
@@ -15,7 +10,6 @@ import {
   isTomorrow,
   weekLabel,
 } from './utils';
-import type { Root } from 'react-dom/client';
 import type { ListEvent } from '~/redux/models/Event';
 import type { PublicGroup } from '~/redux/models/Group';
 
@@ -28,75 +22,6 @@ const groupNamed = (name: string) => ({ name }) as PublicGroup;
 const eventAt = (id: number, startTime: string) =>
   ({ id, startTime }) as unknown as ListEvent;
 
-describe('activateOnKey', () => {
-  let container: HTMLDivElement;
-  let root: Root;
-
-  beforeEach(() => {
-    container = document.createElement('div');
-    document.body.appendChild(container);
-    root = createRoot(container);
-  });
-
-  afterEach(() => {
-    act(() => root.unmount());
-    container.remove();
-  });
-
-  const renderCard = (onActivate: () => void) => {
-    act(() =>
-      root.render(
-        <div role="button" tabIndex={0} onKeyDown={activateOnKey(onActivate)}>
-          <button type="button">Bli med</button>
-        </div>,
-      ),
-    );
-
-    return {
-      card: container.querySelector('div[role="button"]') as HTMLElement,
-      innerButton: container.querySelector('button') as HTMLElement,
-    };
-  };
-
-  const pressKey = (target: HTMLElement, key: string) =>
-    act(() => {
-      target.dispatchEvent(
-        new KeyboardEvent('keydown', { key, bubbles: true }),
-      );
-    });
-
-  it.each(['Enter', ' '])('activates the card on %s', (key) => {
-    const onActivate = vi.fn();
-    const { card } = renderCard(onActivate);
-
-    pressKey(card, key);
-
-    expect(onActivate).toHaveBeenCalledOnce();
-  });
-
-  it.each(['Enter', ' '])(
-    'leaves the card alone when %s hits a nested control',
-    (key) => {
-      const onActivate = vi.fn();
-      const { innerButton } = renderCard(onActivate);
-
-      pressKey(innerButton, key);
-
-      expect(onActivate).not.toHaveBeenCalled();
-    },
-  );
-
-  it('ignores keys that do not activate a button', () => {
-    const onActivate = vi.fn();
-    const { card } = renderCard(onActivate);
-
-    pressKey(card, 'a');
-    pressKey(card, 'Tab');
-
-    expect(onActivate).not.toHaveBeenCalled();
-  });
-});
-
 describe('groupMonogram', () => {
   it('takes the first two letters, uppercased', () => {
     expect(groupMonogram(groupNamed('Klatring'))).toBe('KL');
@@ -105,32 +30,6 @@ describe('groupMonogram', () => {
   it('skips the Aba prefix so the monograms stay distinct', () => {
     expect(groupMonogram(groupNamed('Abarun'))).toBe('RU');
     expect(groupMonogram(groupNamed('Abakino'))).toBe('KI');
-  });
-});
-
-describe('attendanceLabel', () => {
-  const event = (fields: Partial<ListEvent>) => fields as ListEvent;
-
-  it('tells open events they need no registration', () => {
-    expect(
-      attendanceLabel(event({ eventStatusType: EventStatusType.OPEN })),
-    ).toBe('ingen påmelding — bare møt opp');
-  });
-
-  it('says nothing until the count has loaded', () => {
-    expect(attendanceLabel(event({ registrationCount: undefined }))).toBe('');
-  });
-
-  it('counts against the capacity when there is one', () => {
-    expect(
-      attendanceLabel(event({ registrationCount: 4, totalCapacity: 10 })),
-    ).toBe('4 av 10 plasser');
-  });
-
-  it('just counts when the event is unlimited', () => {
-    expect(
-      attendanceLabel(event({ registrationCount: 4, totalCapacity: 0 })),
-    ).toBe('4 blir med');
   });
 });
 

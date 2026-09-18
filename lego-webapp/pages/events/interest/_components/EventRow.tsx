@@ -1,12 +1,12 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { ArrowRight, Check, Share2, Star } from 'lucide-react';
 import { useRef, useState } from 'react';
 import Time from '~/components/Time';
 import useJoinEvent from '~/pages/events/interest/useJoinEvent';
 import useMemberGroupIds from '~/pages/events/interest/useMemberGroupIds';
-import { activateOnKey, attendanceLabel } from '~/pages/events/interest/utils';
 import { useAppSelector } from '~/redux/hooks';
+import { EventStatusType } from '~/redux/models/Event';
 import {
   selectRegistrationsFromPools,
   selectWaitingRegistrationsForEvent,
@@ -63,7 +63,6 @@ const EventRow = ({ event, isPast, expanded, onToggle }: Props) => {
   const isMemberGroup = !!group && memberGroupIds.has(group.id);
   const { joinable, joined, isFull, label, title, onPress } =
     useJoinEvent(event);
-  const attendance = attendanceLabel(event);
 
   const registrations = useAppSelector((state) =>
     selectRegistrationsFromPools(state, event.id),
@@ -73,18 +72,18 @@ const EventRow = ({ event, isPast, expanded, onToggle }: Props) => {
   );
 
   return (
-    <div
-      className={styles.eventWrapper}
-      data-expanded={expanded}
-      role="button"
-      tabIndex={0}
-      onClick={onToggle}
-      onKeyDown={activateOnKey(onToggle)}
-    >
+    <div className={styles.eventWrapper} data-expanded={expanded}>
       <div className={styles.eventRow}>
+        <button
+          type="button"
+          className={styles.expandOverlay}
+          aria-expanded={expanded}
+          aria-label={`${expanded ? 'Skjul' : 'Vis'} detaljer for ${event.title}`}
+          onClick={onToggle}
+        />
         <GroupCircle group={group} />
         <div className={styles.eventInfo}>
-          <div className={styles.eventTitleLine}>
+          <Flex wrap alignItems="baseline" gap="var(--spacing-sm)">
             <span className={styles.eventTitle}>{event.title}</span>
             {group && (
               <span className={styles.eventGroup}>
@@ -99,18 +98,17 @@ const EventRow = ({ event, isPast, expanded, onToggle }: Props) => {
                 )}
               </span>
             )}
-          </div>
+          </Flex>
           <div className={styles.eventMeta}>
             <Time
               time={event.startTime}
               format={isPast ? 'dddd HH:mm' : 'HH:mm'}
             />{' '}
             · {event.location}
-            {attendance && <> · {attendance}</>}
           </div>
         </div>
         {!isPast && joinable && (
-          <span onClick={(e) => e.stopPropagation()}>
+          <span className={styles.aboveOverlay}>
             {joined ? (
               <button
                 type="button"
@@ -137,24 +135,20 @@ const EventRow = ({ event, isPast, expanded, onToggle }: Props) => {
       <div className={styles.eventPanel}>
         <div>
           <div className={styles.eventPanelContent}>
-            <div
-              className={styles.eventAttendance}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <EventAttendance
-                event={event}
-                registrations={registrations}
-                waitingRegistrations={waitingRegistrations}
-                isPast={isPast}
-              />
-            </div>
+            {event.eventStatusType !== EventStatusType.OPEN && (
+              <div className={styles.eventAttendance}>
+                <EventAttendance
+                  event={event}
+                  registrations={registrations}
+                  waitingRegistrations={waitingRegistrations}
+                  isPast={isPast}
+                />
+              </div>
+            )}
             <p className={styles.eventDescription}>
               {truncateString(event.description, 250)}
             </p>
-            <div
-              className={styles.panelStrip}
-              onClick={(e) => e.stopPropagation()}
-            >
+            <div className={styles.panelStrip}>
               <a
                 className={styles.stripLink}
                 href={`/events/${event.slug}`}
