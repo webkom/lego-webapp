@@ -1,5 +1,4 @@
 import { Flex, Page, Skeleton } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash-es';
 import { FilePenLine } from 'lucide-react';
 import moment from 'moment-timezone';
@@ -30,6 +29,7 @@ import { selectCommentsByIds } from '~/redux/slices/comments';
 import { selectEventByIdOrSlug } from '~/redux/slices/events';
 import { appConfig } from '~/utils/appConfig';
 import { useParams } from '~/utils/useParams';
+import { usePreparedEffect } from '~/utils/usePreparedEffect';
 import Admin from './Admin';
 import { AttendeeSection } from './AttendeeSection';
 import styles from './EventDetail.module.css';
