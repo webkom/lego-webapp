@@ -273,6 +273,7 @@ steps:
     environment:
      TZ: Europe/Oslo
      PLAYWRIGHT_BASE_URL: http://frontend:3000
+     PLAYWRIGHT_API_BASE_URL: http://api:8000
     commands:
       - ./wait-for-it.sh -t 180 frontend:3000
       -  ./wait-for-it.sh -t 480 api:8000
@@ -353,6 +354,6 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 4ee90052c8f749e9684bcd3bd7d9b53dced10909a38ee4cf198db4d9103a55e9
+hmac: e83fd8988cef383ce020d798a9814a93b3a60a58370babbba00adba3b263f8b6
 
 ...
