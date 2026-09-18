@@ -52,10 +52,6 @@ importers:
       prettier:
         specifier: ^3.5.3
         version: 3.5.3
-    devDependencies:
-      '@types/node':
-        specifier: ^22.20.2
-        version: 22.20.4
 
   lego-webapp:
     dependencies:
@@ -297,6 +293,9 @@ importers:
       '@types/js-cookie':
         specifier: ^3.0.6
         version: 3.0.6
+      '@types/node':
+        specifier: ^22.20.2
+        version: 22.20.4
       '@types/react':
         specifier: 'catalog:'
         version: 18.3.18
