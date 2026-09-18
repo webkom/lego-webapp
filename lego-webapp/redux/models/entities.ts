@@ -1,5 +1,4 @@
 import { UnknownLendingRequest } from '~/redux/models/LendingRequest';
-import { Websockets } from '~/redux/models/Websockets';
 import type OAuth2Grant from './OAuth2Grant';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { UnknownAnnouncement } from '~/redux/models/Announcement';
@@ -80,7 +79,6 @@ export enum EntityType {
   Tags = 'tags',
   Users = 'users',
   SystemStatus = 'systemStatus',
-  Websockets = 'websockets',
 }
 
 // Most fetch success redux actions are normalized such that payload.entities is a subset of this interface.
@@ -124,7 +122,6 @@ export default interface Entities {
   [EntityType.Tags]: Record<EntityId, UnknownTag>;
   [EntityType.Users]: Record<EntityId, UnknownUser>;
   [EntityType.SystemStatus]: Record<EntityId, SystemStatus>;
-  [EntityType.Websockets]: Record<EntityId, Websockets>;
 }
 
 type InferEntityType<T> = {

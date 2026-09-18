@@ -1,10 +1,22 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import WebsocketStatusIcon from '~/components/WebsocketStatus';
 import { Websockets as WebsocketsAT } from '~/redux/actionTypes';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
-import { STATUS_ERROR } from '~/redux/slices/websockets';
+import { useTransientSocketEvent } from '~/utils/socket/useTransientSocketEvent';
 
 const subscriberCounts = new Map<string, number>();
+
+type Status = { connected: boolean; pending: boolean; error: boolean };
+type GroupPayload = { group: string };
+
+const STATUS_INITIAL: Status = {
+  connected: false,
+  pending: false,
+  error: false,
+};
+const STATUS_CONNECTED: Status = { ...STATUS_INITIAL, connected: true };
+const STATUS_PENDING: Status = { ...STATUS_INITIAL, pending: true };
+const STATUS_ERROR: Status = { ...STATUS_INITIAL, error: true };
 
 /**
  * Subscribes to a server-side websocket group enabling this client to recieve
@@ -13,25 +25,42 @@ const subscriberCounts = new Map<string, number>();
  */
 const useSocketGroup = (group: string) => {
   const dispatch = useAppDispatch();
-  const websocketsStatus = useAppSelector((state) => state.websockets.status);
-  const groupStatus =
-    useAppSelector(
-      (state) => state.websockets.groups.find((g) => g.group === group)?.status,
-    ) ?? STATUS_ERROR;
+  const socketStatus = useAppSelector((state) => state.websockets);
+  const [groupStatus, setGroupStatus] = useState<Status>(STATUS_ERROR);
+
+  useTransientSocketEvent<GroupPayload>(
+    WebsocketsAT.GROUP_JOIN.SUCCESS,
+    (payload) => {
+      if (payload?.group === group) setGroupStatus(STATUS_CONNECTED);
+    },
+  );
+  useTransientSocketEvent<GroupPayload>(
+    WebsocketsAT.GROUP_JOIN.FAILURE,
+    (payload) => {
+      if (payload?.group === group) setGroupStatus(STATUS_ERROR);
+    },
+  );
+  useTransientSocketEvent<GroupPayload>(
+    WebsocketsAT.GROUP_LEAVE.SUCCESS,
+    (payload) => {
+      if (payload?.group === group) setGroupStatus(STATUS_INITIAL);
+    },
+  );
 
   const status = {
-    connected: websocketsStatus.connected && groupStatus.connected,
+    connected: socketStatus.connected && groupStatus.connected,
     pending: groupStatus.pending,
-    error: websocketsStatus.error || groupStatus.error,
+    error: socketStatus.error || groupStatus.error,
   };
 
   // Join whenever the socket is connected.
   useEffect(() => {
-    if (websocketsStatus.connected && !websocketsStatus.error) {
+    if (socketStatus.connected && !socketStatus.error) {
+      setGroupStatus(STATUS_PENDING);
       dispatch({ type: WebsocketsAT.GROUP_JOIN.BEGIN, payload: { group } });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [group, websocketsStatus.connected, websocketsStatus.error]);
+  }, [group, socketStatus.connected, socketStatus.error]);
 
   // Leave only once the last consumer of this group unmounts.
   useEffect(() => {
