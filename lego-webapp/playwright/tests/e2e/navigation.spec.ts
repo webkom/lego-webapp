@@ -181,7 +181,7 @@ test.describe('extended menu', () => {
     for (const { name, href } of DESTINATIONS) {
       await page.getByTestId('search-menu-icon').click();
       await quickLinks(page).getByRole('link', { name }).click();
-      await expect(page).toHaveURL(new RegExp(href.replace(/\//g, '\\/')));
+      await expect(page).toHaveURL((url) => url.pathname.startsWith(href));
     }
   });
 });

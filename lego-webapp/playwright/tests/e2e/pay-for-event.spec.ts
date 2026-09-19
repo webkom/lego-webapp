@@ -26,10 +26,13 @@ const CARD = {
   amex: '3782 8224 6310 005',
 };
 
+// Stripe mounts two iframes per field; only the first carries the input.
 const cardInput = (page: Page, testId: string, name: string) =>
   page
     .getByTestId(testId)
-    .frameLocator('iframe')
+    .locator('iframe')
+    .first()
+    .contentFrame()
     .locator(`input[name="${name}"]`);
 
 const fillCardDetails = async (
@@ -49,26 +52,54 @@ const clearCardDetails = async (page: Page) => {
   await cardInput(page, 'cvc-input', 'cvc').clear();
 };
 
+/**
+ * The 3DS challenge renders in an unnamed Stripe frame whose host varies, so
+ * locate it by URL rather than by a fixed frameLocator chain.
+ */
 const confirm3DSecure = async (page: Page, confirm = true) => {
-  await page
-    .frameLocator('iframe[name^="__privateStripeFrame"]')
-    .frameLocator('iframe#challengeFrame')
-    .locator(confirm ? '#test-source-authorize-3ds' : '#test-source-fail-3ds')
-    .click();
+  const control = confirm
+    ? '#test-source-authorize-3ds'
+    : '#test-source-fail-3ds';
+
+  await expect(async () => {
+    const frame = page
+      .frames()
+      .find((f) => /three-ds|3ds|challenge/i.test(f.url()));
+    if (!frame) throw new Error('3DS challenge frame not found');
+    await frame.locator(control).click({ timeout: 2000 });
+  }).toPass({ timeout: 25000 });
 };
 
 const stripeError = (page: Page) =>
   page.getByTestId('stripe').locator('[class*="_error"]');
 
 const register = async (page: Page) => {
-  await gotoHydrated(page, PAID_EVENT);
   await page.getByRole('button', { name: 'Meld deg på' }).click();
+  await expect(page.getByText('er påmeldt')).toBeVisible();
 };
+
+/**
+ * Every test registers the same user for the same event, so they cannot run in
+ * parallel and each must start from an unregistered state.
+ */
+test.describe.configure({ mode: 'serial' });
+
+test.beforeEach(async ({ page }) => {
+  await gotoHydrated(page, PAID_EVENT);
+
+  const unregister = page.getByRole('button', { name: 'Avregistrer' });
+  if (await unregister.count()) {
+    await unregister.click();
+    await page.getByTestId('Modal__content').getByText('Ja').click();
+    await expect(unregister).toHaveCount(0);
+    await gotoHydrated(page, PAID_EVENT);
+  }
+
+  await expect(page.getByRole('button', { name: 'Meld deg på' })).toBeVisible();
+});
 
 test('registers for a paid event and pays', async ({ page }) => {
   await register(page);
-
-  await expect(page.getByText('er påmeldt')).toBeVisible();
   await expect(page.getByText('Du skal betale 270,00')).toBeVisible();
 
   await fillCardDetails(page, CARD.requires3ds, '0230', '123');
@@ -140,10 +171,11 @@ test('pays after an interrupted confirmation', async ({ page }) => {
 
   // Swallow the first confirmation so the browser never learns the outcome,
   // simulating the user closing the tab mid-payment.
-  await page.route('https://api.stripe.com/**/confirm', async (route) => {
-    await page.unroute('https://api.stripe.com/**/confirm');
-    await route.fulfill({ status: 200, body: 'success' });
-  });
+  await page.route(
+    'https://api.stripe.com/**/confirm',
+    (route) => route.fulfill({ status: 200, body: 'success' }),
+    { times: 1 },
+  );
 
   await fillCardDetails(page, CARD.amex, '0230', '123');
   await page.getByRole('button', { name: 'Betal' }).click();

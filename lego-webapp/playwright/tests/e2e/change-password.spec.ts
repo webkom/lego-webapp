@@ -75,7 +75,7 @@ test.describe('as test2', () => {
 
     // A password change invalidates the session, so re-authenticate before
     // restoring the fixture password for the next run.
-    await reauthenticate(page, request, 'test2', STRONG, baseURL!);
+    await reauthenticate(page, request, 'test2', STRONG, baseURL);
     await changePassword(page, STRONG, 'Webkom123');
     expect(await canAuthenticate(request, 'test2', 'Webkom123')).toBe(true);
   });

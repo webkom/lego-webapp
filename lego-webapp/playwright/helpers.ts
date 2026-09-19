@@ -54,7 +54,7 @@ export const reauthenticate = async (
   request: APIRequestContext,
   username: string,
   password: string,
-  baseURL: string,
+  baseURL: string | undefined,
 ) => {
   const response = await request.post(
     `${apiBaseUrl}/authorization/token-auth/`,
