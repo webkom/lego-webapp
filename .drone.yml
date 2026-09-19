@@ -251,7 +251,7 @@ steps:
       - typescript
       - frontend
       - cypress_component
-      - playwright_tests
+      - playwright_e2e
     environment:
       SENTRY_AUTH_TOKEN:
         from_secret: sentry_auth_token
@@ -310,6 +310,6 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 9dd21653fbdc75aab8193fcb1b554a01420e4698a170c8beea990b5cc23f5860
+hmac: da2f34709c925b6e05d96df8eb13bc55d8e2b4e22cee0d8607d4a7fd460ad201
 
 ...
