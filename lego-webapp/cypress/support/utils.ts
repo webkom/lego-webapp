@@ -1,5 +1,3 @@
-import mockMazemapApiResponse from '~/cypress/fixtures/mockApiResponses/mazemap.json';
-
 export const apiBaseUrl =
   Cypress.env('API_BASE_URL') || 'http://localhost:8000';
 
@@ -15,9 +13,6 @@ export const c = (classname: string) => `[class*="${classname}"]`;
 export const a = (path: string) => `a[href="${path}"]`;
 
 export const t = (testId: string) => `[data-test-id="${testId}"]`;
-
-export const selectTab = (tabName: string) =>
-  cy.get(t('tab')).contains(tabName).click();
 
 export const field = (name: string) => cy.get(`[name="${name}"]`);
 
@@ -45,8 +40,6 @@ export const selectFromSelectField = (
     .and('contain', option);
   selectFieldDropdown(name).contains(option).click();
 };
-
-export const fieldErrors = () => cy.get(c('fieldError'));
 
 export const fieldError = (name: string) =>
   cy.get(`[data-error-field-name="${name}"]`);
@@ -157,13 +150,6 @@ export const clearCardDetails = () => {
 };
 
 export const stripeError = () => cy.get(t('stripe') + ' ' + c('_error'));
-
-export const mockMazemapApi = () => {
-  cy.intercept('GET', 'https://api.mazemap.com/search/equery/**', {
-    statusCode: 200,
-    body: mockMazemapApiResponse,
-  });
-};
 
 export const uploadHeader = () => {
   // Intercept the upload request
