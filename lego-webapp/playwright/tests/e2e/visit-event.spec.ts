@@ -53,11 +53,15 @@ test('posts a comment and deletes it', async ({ page }) => {
 
   await gotoHydrated(page, EVENT_WITH_FEEDBACK);
 
-  await page.getByTestId('comment-form').locator('input').first().fill(comment);
+  const input = page.getByTestId('comment-form').locator('input').first();
+  await input.fill(comment);
+  await expect(input).toHaveValue(comment);
+
   const submit = page.getByRole('button', { name: 'Kommenter' });
   await expect(submit).toBeEnabled();
   await submit.click();
 
+  await expect(input).toHaveValue('');
   await expect(page.getByText(comment)).toBeVisible();
 
   const posted = page

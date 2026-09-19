@@ -1,4 +1,4 @@
-import { expect, type Page } from '@playwright/test';
+import { expect, type APIRequestContext, type Page } from '@playwright/test';
 
 export const gotoHydrated = async (page: Page, path: string) => {
   await page.goto(path);
@@ -32,4 +32,37 @@ export const checkField = async (page: Page, name: string) => {
   const field = page.locator(`[name="${name}"]`);
   await field.scrollIntoViewIfNeeded();
   await field.check({ force: true });
+};
+
+const apiBaseUrl =
+  process.env.PLAYWRIGHT_API_BASE_URL ?? 'http://localhost:8000';
+
+export const canAuthenticate = async (
+  request: APIRequestContext,
+  username: string,
+  password: string,
+) => {
+  const response = await request.post(
+    `${apiBaseUrl}/authorization/token-auth/`,
+    { data: { username, password }, failOnStatusCode: false },
+  );
+  return response.ok();
+};
+
+export const reauthenticate = async (
+  page: Page,
+  request: APIRequestContext,
+  username: string,
+  password: string,
+  baseURL: string,
+) => {
+  const response = await request.post(
+    `${apiBaseUrl}/authorization/token-auth/`,
+    { data: { username, password } },
+  );
+  const { token } = await response.json();
+  await page.context().clearCookies();
+  await page
+    .context()
+    .addCookies([{ name: 'lego.auth', value: token, url: baseURL }]);
 };

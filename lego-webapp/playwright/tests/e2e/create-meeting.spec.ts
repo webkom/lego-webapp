@@ -95,3 +95,34 @@ test('clears validation errors as the fields are filled', async ({ page }) => {
   await expect(fieldError(page, 'location')).toHaveCount(0);
   await expect(page.locator('[data-error-field-name]')).toHaveCount(0);
 });
+
+const inviteUser = async (page: Page, search: string, label: string) => {
+  await page.locator('[id="react-select-users-input"]').fill(search);
+  await page.getByRole('option', { name: label, exact: true }).click();
+};
+
+test('offers report authors matching the invited users', async ({ page }) => {
+  await gotoHydrated(page, '/meetings/new');
+
+  const reportAuthors = async () => {
+    await page.locator('[id="react-select-reportAuthor-input"]').click();
+    const options = await page.getByRole('option').allTextContents();
+    await page.keyboard.press('Escape');
+    return options;
+  };
+
+  expect(await reportAuthors()).toEqual(['webkom webkom']);
+
+  await inviteUser(page, 'bedkom', 'bedkom bedkom (bedkom)');
+  expect(await reportAuthors()).toEqual([
+    'webkom webkom',
+    'bedkom bedkom (bedkom)',
+  ]);
+
+  await inviteUser(page, 'Quinton', 'Quinton Armstrong (quintonarmstrong)');
+  expect(await reportAuthors()).toEqual([
+    'webkom webkom',
+    'bedkom bedkom (bedkom)',
+    'Quinton Armstrong (quintonarmstrong)',
+  ]);
+});

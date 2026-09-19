@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { gotoHydrated, openAccountMenu } from '../../helpers';
 
 test.describe('navbar', () => {
@@ -125,4 +125,63 @@ test.describe('direct routes', () => {
       ).toBeVisible();
     });
   }
+});
+
+test.describe('extended menu', () => {
+  const DESTINATIONS = [
+    { name: 'Arrangementer', href: '/events' },
+    { name: 'Artikler', href: '/articles' },
+    { name: 'Avstemninger', href: '/polls' },
+    { name: 'Bedrifter', href: '/companies' },
+    { name: 'Album', href: '/photos' },
+    { name: 'Interessegrupper', href: '/events/interest' },
+    { name: 'Jobbannonser', href: '/joblistings' },
+    { name: 'Kontakt Abakus', href: '/contact' },
+    { name: 'Møter', href: '/meetings' },
+    { name: 'Om Abakus', href: '/pages/info-om-abakus' },
+    { name: 'Overhørt', href: '/quotes/' },
+  ];
+
+  // The search overlay has no landmark role, so anchor on its "Sider" heading.
+  const quickLinks = (page: Page) =>
+    page
+      .getByRole('heading', { name: 'Sider', level: 2 })
+      .locator('xpath=following-sibling::div[1]');
+
+  test('opens and closes the extended menu', async ({ page }) => {
+    await gotoHydrated(page, '/');
+
+    await page.getByTestId('search-menu-icon').click();
+    await expect(quickLinks(page)).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: 'Sider', level: 2 }),
+    ).toBeVisible();
+
+    await page.getByTestId('search-menu-icon').click();
+    await expect(quickLinks(page)).toBeHidden();
+    await expect(
+      page.getByRole('heading', { name: 'Påmeldinger', level: 3 }),
+    ).toBeVisible();
+  });
+
+  test('links to every destination', async ({ page }) => {
+    await gotoHydrated(page, '/');
+    await page.getByTestId('search-menu-icon').click();
+
+    for (const { name, href } of DESTINATIONS) {
+      await expect(
+        quickLinks(page).getByRole('link', { name }),
+      ).toHaveAttribute('href', href);
+    }
+  });
+
+  test('navigates from the extended menu', async ({ page }) => {
+    await gotoHydrated(page, '/');
+
+    for (const { name, href } of DESTINATIONS) {
+      await page.getByTestId('search-menu-icon').click();
+      await quickLinks(page).getByRole('link', { name }).click();
+      await expect(page).toHaveURL(new RegExp(href.replace(/\//g, '\\/')));
+    }
+  });
 });
