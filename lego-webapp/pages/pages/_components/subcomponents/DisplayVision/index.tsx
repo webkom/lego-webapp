@@ -16,41 +16,7 @@ type Props = {
   vision4: VisionType;
 };
 
-const DisplayVision = ({ vision1, vision2, vision3, vision4 }: Props) => (
-  <div className={styles.vision}>
-    <div className={styles.sectionLeft}>
-      <Vision
-        title={vision1.title}
-        summary={vision1.summary}
-        paragraphs={vision1.paragraphs}
-        left
-      />
-      <Vision
-        title={vision2.title}
-        summary={vision2.summary}
-        paragraphs={vision2.paragraphs}
-        left
-      />
-    </div>
-
-    <DividerWithDots />
-
-    <div className={styles.sectionRight}>
-      <Vision
-        title={vision3.title}
-        summary={vision3.summary}
-        paragraphs={vision3.paragraphs}
-      />
-      <Vision
-        title={vision4.title}
-        summary={vision4.summary}
-        paragraphs={vision4.paragraphs}
-      />
-    </div>
-  </div>
-);
-
-DisplayVision.defaultProps = {
+const defaultValues = {
   title: 'Våre verdier',
   vision1: {
     title: 'Bærekraftig',
@@ -105,7 +71,65 @@ DisplayVision.defaultProps = {
   },
 };
 
-const DisplayVisionShort = ({ vision1, vision2, vision3, vision4 }: Props) => {
+const DisplayVision = (props: Props) => {
+  const { vision1, vision2, vision3, vision4 } = { ...defaultValues, ...props };
+  return (
+    <div className={styles.vision}>
+      <div className={styles.sectionLeft}>
+        <Vision
+          title={vision1.title}
+          summary={vision1.summary}
+          paragraphs={vision1.paragraphs}
+          left
+        />
+        <Vision
+          title={vision2.title}
+          summary={vision2.summary}
+          paragraphs={vision2.paragraphs}
+          left
+        />
+      </div>
+
+      <DividerWithDots />
+
+      <div className={styles.sectionRight}>
+        <Vision
+          title={vision3.title}
+          summary={vision3.summary}
+          paragraphs={vision3.paragraphs}
+        />
+        <Vision
+          title={vision4.title}
+          summary={vision4.summary}
+          paragraphs={vision4.paragraphs}
+        />
+      </div>
+    </div>
+  )
+};
+
+const defaultValuesShort = {
+  title: defaultValues.title,
+  vision1: {
+    title: defaultValues.vision1.title,
+    summary: defaultValues.vision1.summary,
+  },
+  vision2: {
+    title: defaultValues.vision2.title,
+    summary: defaultValues.vision2.summary,
+  },
+  vision3: {
+    title: defaultValues.vision3.title,
+    summary: defaultValues.vision3.summary,
+  },
+  vision4: {
+    title: defaultValues.vision4.title,
+    summary: defaultValues.vision4.summary,
+  },
+};
+
+const DisplayVisionShort = (props: Props) => {
+  const { vision1, vision2, vision3, vision4 } = { ...defaultValuesShort, ...props };
   return (
     <div>
       <h2 className={styles.visionTitle}>Våre verdier</h2>
@@ -126,24 +150,5 @@ const DisplayVisionShort = ({ vision1, vision2, vision3, vision4 }: Props) => {
   );
 };
 
-DisplayVisionShort.defaultProps = {
-  title: DisplayVision.defaultProps.title,
-  vision1: {
-    title: DisplayVision.defaultProps.vision1.title,
-    summary: DisplayVision.defaultProps.vision1.summary,
-  },
-  vision2: {
-    title: DisplayVision.defaultProps.vision2.title,
-    summary: DisplayVision.defaultProps.vision2.summary,
-  },
-  vision3: {
-    title: DisplayVision.defaultProps.vision3.title,
-    summary: DisplayVision.defaultProps.vision3.summary,
-  },
-  vision4: {
-    title: DisplayVision.defaultProps.vision4.title,
-    summary: DisplayVision.defaultProps.vision4.summary,
-  },
-};
 export { DisplayVisionShort };
 export default DisplayVision;
