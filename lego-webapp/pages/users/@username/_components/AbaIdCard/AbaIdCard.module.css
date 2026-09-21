@@ -285,8 +285,8 @@ html[data-theme='dark'] img.wordmarkDarkMode {
 }
 
 .attendanceCheck {
-  width: 112px;
-  height: 112px;
+  width: 140px;
+  height: 140px;
   overflow: visible;
 
   polyline {
@@ -296,18 +296,6 @@ html[data-theme='dark'] img.wordmarkDarkMode {
     stroke-linecap: butt;
     stroke-linejoin: round;
   }
-}
-
-.attendanceLabel {
-  color: var(--color-absolute-white);
-  font-family: var(--font-family-mono);
-  font-size: var(--font-size-sm);
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  line-height: 1.35;
-  text-align: center;
-  text-wrap: balance;
-  overflow-wrap: anywhere;
 }
 
 .name {
