@@ -1,21 +1,20 @@
-import React from 'react';
 import { Button } from '../Button';
 import { Icon } from '../Icon';
 import { Accordion } from '.';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { ComponentProps } from 'react';
 
-const meta: Meta<typeof Accordion> = {
+const meta = {
   title: 'Interaction/Accordion',
   component: Accordion,
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
-};
+} satisfies Meta<typeof Accordion>;
 
 export default meta;
-type Story = StoryObj<typeof Accordion>;
+type Story = StoryObj<typeof meta>;
 
 const triggerComponent: ComponentProps<
   typeof Accordion

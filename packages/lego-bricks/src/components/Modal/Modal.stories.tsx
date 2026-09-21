@@ -1,6 +1,6 @@
 import { Button, DialogTrigger } from 'react-aria-components';
 import { Modal } from '.';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
   title: 'Layout/Modal',
