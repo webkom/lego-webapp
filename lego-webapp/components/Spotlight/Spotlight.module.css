@@ -2,10 +2,6 @@
 
 .card {
   position: relative;
-
-  &:hover .coverImage {
-    transform: scale(1.015);
-  }
 }
 
 .stage {
@@ -43,7 +39,6 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform var(--easing-medium);
 }
 
 .coverMonogram {
@@ -67,8 +62,7 @@
 }
 
 .caption {
-  border-top: 1.5px solid var(--border-gray);
-  padding: var(--spacing-md) var(--spacing-lg);
+  padding: var(--spacing-lg);
   flex: 1;
 }
 

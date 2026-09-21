@@ -132,7 +132,7 @@ const Spotlight = ({
                     gap="var(--spacing-xs)"
                     className={styles.caption}
                   >
-                    <h4 className={styles.title}>{item.title}</h4>
+                    <h2 className={styles.title}>{item.title}</h2>
                     <Flex
                       wrap
                       alignItems="center"
