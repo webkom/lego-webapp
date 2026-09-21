@@ -11,6 +11,11 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
+  argTypes: {
+    triggerComponent: { control: false },
+    children: { control: false },
+  },
+
 } satisfies Meta<typeof Accordion>;
 
 export default meta;

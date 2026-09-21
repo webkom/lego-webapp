@@ -7,6 +7,9 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
+  argTypes: {
+    children: { control: false },
+  },
 } satisfies Meta<typeof BaseCard>;
 
 export default meta;

@@ -9,6 +9,9 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
+  argTypes: {
+    children: { control: false },
+  },
 } satisfies Meta<typeof ButtonGroup>;
 
 export default meta;
