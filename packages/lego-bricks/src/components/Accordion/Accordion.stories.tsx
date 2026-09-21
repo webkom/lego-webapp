@@ -15,7 +15,6 @@ const meta = {
     triggerComponent: { control: false },
     children: { control: false },
   },
-
 } satisfies Meta<typeof Accordion>;
 
 export default meta;
