@@ -5,25 +5,25 @@ import easter_participant_26 from 'assets/trophies/easter-participant-trophy-26.
 import easter_winner_24 from 'assets/trophies/easter-winner-trophy-24.png';
 import easter_winner_25 from 'assets/trophies/easter-winner-trophy-25.png';
 import easter_winner_26 from 'assets/trophies/easter-winner-trophy-26.png';
-import trofe_aktiv_bidragsyter_1 from 'assets/trophies/trofe_aktiv_bidragsyter_1.png';
-import trofe_aktiv_bidragsyter_2 from 'assets/trophies/trofe_aktiv_bidragsyter_2.png';
-import trofe_aktiv_bidragsyter_3 from 'assets/trophies/trofe_aktiv_bidragsyter_3.png';
-import trofe_rank_1 from 'assets/trophies/trofe_rank_1.png';
-import trofe_sjeldenhetsgrad_1 from 'assets/trophies/trofe_sjeldenhetsgrad_1.png';
-import trofe_sjeldenhetsgrad_10 from 'assets/trophies/trofe_sjeldenhetsgrad_10.png';
-import trofe_sjeldenhetsgrad_2 from 'assets/trophies/trofe_sjeldenhetsgrad_2.png';
-import trofe_sjeldenhetsgrad_3 from 'assets/trophies/trofe_sjeldenhetsgrad_3.png';
-import trofe_sjeldenhetsgrad_4 from 'assets/trophies/trofe_sjeldenhetsgrad_4.png';
-import trofe_sjeldenhetsgrad_5 from 'assets/trophies/trofe_sjeldenhetsgrad_5.png';
-import trofe_sjeldenhetsgrad_8 from 'assets/trophies/trofe_sjeldenhetsgrad_8.png';
+import trofe_aktiv_bidragsyter_1 from 'assets/trophies/trofe_aktiv_bidragsyter_1.svg';
+import trofe_aktiv_bidragsyter_2 from 'assets/trophies/trofe_aktiv_bidragsyter_2.svg';
+import trofe_aktiv_bidragsyter_3 from 'assets/trophies/trofe_aktiv_bidragsyter_3.svg';
+import trofe_sjeldenhetsgrad_1 from 'assets/trophies/trofe_sjeldenhetsgrad_1.svg';
+import trofe_sjeldenhetsgrad_2 from 'assets/trophies/trofe_sjeldenhetsgrad_2.svg';
+import trofe_sjeldenhetsgrad_3 from 'assets/trophies/trofe_sjeldenhetsgrad_3.svg';
+import trofe_sjeldenhetsgrad_4 from 'assets/trophies/trofe_sjeldenhetsgrad_4.svg';
+import trofe_sjeldenhetsgrad_5 from 'assets/trophies/trofe_sjeldenhetsgrad_5.svg';
+import trofe_sjeldenhetsgrad_6 from 'assets/trophies/trofe_sjeldenhetsgrad_6.svg';
+import trofe_sjeldenhetsgrad_7 from 'assets/trophies/trofe_sjeldenhetsgrad_7.svg';
+import trofe_rank_1 from 'assets/trophies/trofe_sjeldenhetsgrad_8.svg';
 import type { AchievementData, Rarity } from '~/redux/models/User';
 
 export const rarityMap: Record<Rarity, { name: string; color: string }> = {
   0: { name: 'Vanlig', color: 'Sienna' }, // Bronze
   1: { name: 'Uvanlig', color: 'Silver' }, // Silver
   2: { name: 'Sjelden', color: '#dcaf18' }, // Gold
-  3: { name: 'Obskur', color: '#2f9cc5' }, // Platinum
-  4: { name: 'Episk', color: '#0fdee0' }, // Diamond
+  3: { name: 'Obskur', color: '#17857a' }, // Platinum
+  4: { name: 'Episk', color: '#4c6fd9' }, // Diamond
   5: { name: 'Mytisk', color: '#7f20b8' },
   6: { name: 'Legendarisk', color: '#911b1b' },
 };
@@ -110,7 +110,7 @@ export const AchievementsInfo: Record<
       description: 'Deltatt på 200 arrangementer',
       rarity: 6,
       hidden: false,
-      image: trofe_sjeldenhetsgrad_8,
+      image: trofe_sjeldenhetsgrad_7,
     },
   ],
   event_rank: [
@@ -119,14 +119,14 @@ export const AchievementsInfo: Record<
       description: '3. plass - flest arrangementer',
       rarity: 5,
       hidden: false,
-      image: trofe_sjeldenhetsgrad_10,
+      image: trofe_sjeldenhetsgrad_6,
     },
     {
       name: 'Arrangementsmonarken',
       description: '2. plass - flest arrangementer',
       rarity: 5,
       hidden: false,
-      image: trofe_sjeldenhetsgrad_10,
+      image: trofe_sjeldenhetsgrad_6,
     },
     {
       name: 'Høye eksellense av arrangementer',
@@ -254,7 +254,7 @@ export const AchievementsInfo: Record<
       description: 'Gått 4 år uten prikk',
       rarity: 5,
       hidden: false,
-      image: trofe_sjeldenhetsgrad_10,
+      image: trofe_sjeldenhetsgrad_6,
     },
   ],
   genfors_count: [
@@ -291,7 +291,7 @@ export const AchievementsInfo: Record<
       description: 'Deltatt på 10 genfors',
       rarity: 5,
       hidden: false,
-      image: trofe_sjeldenhetsgrad_10,
+      image: trofe_sjeldenhetsgrad_6,
     },
   ],
   gala_count: [
@@ -321,7 +321,7 @@ export const AchievementsInfo: Record<
       description: 'Deltatt på 15 gallaer',
       rarity: 5,
       hidden: false,
-      image: trofe_sjeldenhetsgrad_10,
+      image: trofe_sjeldenhetsgrad_6,
     },
   ],
   easter_2024: [
@@ -395,7 +395,7 @@ export const AchievementsInfo: Record<
         'Deltatt på alle arrangementer (min. 3 per uke) to uker på rad',
       rarity: 5,
       hidden: false,
-      image: trofe_sjeldenhetsgrad_10,
+      image: trofe_sjeldenhetsgrad_6,
     },
   ],
 };
