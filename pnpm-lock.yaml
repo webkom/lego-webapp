@@ -19,8 +19,8 @@ catalogs:
       specifier: ^9.39.5
       version: 9.39.5
     lucide-react:
-      specifier: ^0.483.0
-      version: 0.483.0
+      specifier: ^1.47.0
+      version: 1.47.0
     postcss-custom-media:
       specifier: ^11.0.5
       version: 11.0.5
@@ -144,7 +144,7 @@ importers:
         version: 4.18.1
       lucide-react:
         specifier: 'catalog:'
-        version: 0.483.0(react@18.3.1)
+        version: 1.47.0(react@18.3.1)
       minireset.css:
         specifier: ^0.0.7
         version: 0.0.7
@@ -364,7 +364,7 @@ importers:
         version: 1.6.2
       lucide-react:
         specifier: 'catalog:'
-        version: 0.483.0(react@18.3.1)
+        version: 1.47.0(react@18.3.1)
       postcss-custom-media:
         specifier: 'catalog:'
         version: 11.0.5(postcss@8.5.26)
@@ -491,7 +491,7 @@ importers:
         version: 2.5.1
       lucide-react:
         specifier: 'catalog:'
-        version: 0.483.0(react@18.3.1)
+        version: 1.47.0(react@18.3.1)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -4765,8 +4765,8 @@ packages:
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
 
-  lucide-react@0.483.0:
-    resolution: {integrity: sha512-WldsY17Qb/T3VZdMnVQ9C3DDIP7h1ViDTHVdVGnLZcvHNg30zH/MTQ04RTORjexoGmpsXroiQXZ4QyR0kBy0FA==}
+  lucide-react@1.47.0:
+    resolution: {integrity: sha512-o8C23aXpNQypRY73W7fW02EyvWJinEMXgKeGjFoKym0zj3Q73hD97A1IQps1g8C14HTGsOpZL0Am+xjfgFZAbg==}
     peerDependencies:
       react: ^18.3.1
 
@@ -11602,7 +11602,7 @@ snapshots:
     dependencies:
       yallist: 3.1.1
 
-  lucide-react@0.483.0(react@18.3.1):
+  lucide-react@1.47.0(react@18.3.1):
     dependencies:
       react: 18.3.1
 
