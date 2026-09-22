@@ -4,9 +4,9 @@ import react from '@vitejs/plugin-react';
 import postcssCustomMedia from 'postcss-custom-media';
 import postcssNested from 'postcss-nested';
 import vike from 'vike/plugin';
-import { defineConfig } from 'vite';
 import { patchCssModules } from 'vite-css-modules';
 import { cjsInterop } from 'vite-plugin-cjs-interop';
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   plugins: [
