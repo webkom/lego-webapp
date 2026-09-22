@@ -10,6 +10,7 @@ export function fetchUserFeed(userId: string) {
     schema: [feedActivitySchema],
     meta: {
       feedId: feedIdByUserId(userId),
+      errorMessage: 'Henting av brukerfeed feilet.',
     },
   });
 }
@@ -20,6 +21,7 @@ export function fetchPersonalFeed() {
     schema: [feedActivitySchema],
     meta: {
       feedId: 'personal',
+      errorMessage: 'Henting av feeden din feilet.',
     },
   });
 }
@@ -30,6 +32,7 @@ export function fetchNotificationFeed() {
     schema: [feedActivitySchema],
     meta: {
       feedId: 'notifications',
+      errorMessage: 'Henting av notifikasjoner feilet.',
     },
   });
 }

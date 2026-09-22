@@ -1,4 +1,4 @@
-import { Skeleton } from '@webkom/lego-bricks';
+import { Flex, Skeleton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { isEmpty } from 'lodash-es';
@@ -31,11 +31,7 @@ const MODE_ORDER = ['', 'mine', 'tidligere'] as const;
 const MAX_ROWS = 6;
 const MORE_STEP = 5;
 
-type Props = {
-  spotlightEventId?: EntityId;
-};
-
-const EventAgenda = ({ spotlightEventId }: Props) => {
+const EventAgenda = () => {
   const { query, setQueryValue } = useQuery(agendaDefaultQuery);
   const currentUser = useCurrentUser();
 
@@ -76,9 +72,7 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const upcomingEvents = upcoming.events.filter(
-    (event) => event.id !== spotlightEventId,
-  );
+  const upcomingEvents = upcoming.events;
   const memberEvents = upcomingEvents.filter(
     (event) =>
       event.responsibleGroup && memberGroupIds.has(event.responsibleGroup.id),
@@ -124,7 +118,13 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
 
   return (
     <section className={styles.agenda}>
-      <div className={styles.header}>
+      <Flex
+        wrap
+        alignItems="baseline"
+        justifyContent="space-between"
+        gap="var(--spacing-sm)"
+        className={styles.header}
+      >
         <h2>Arrangementer</h2>
         <PillSwitch
           ariaLabel="Filtrer arrangementer"
@@ -140,7 +140,7 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
             )
           }
         />
-      </div>
+      </Flex>
       <div
         className={cx(
           styles.list,
@@ -151,7 +151,7 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
           {showCreateRow && <CreateEventRow />}
           {dayGroups.map((day) => (
             <div key={day.key} data-day-key={day.key} className={styles.dayRow}>
-              <div className={styles.dayLabel}>
+              <Flex column justifyContent="center" className={styles.dayLabel}>
                 <div
                   className={cx(
                     styles.dayName,
@@ -162,7 +162,7 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
                   {day.label}
                 </div>
                 <div className={styles.dayDate}>{day.subLabel}</div>
-              </div>
+              </Flex>
               <div>
                 {day.events.map((event) => (
                   <EventRow

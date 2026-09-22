@@ -1,17 +1,16 @@
-import {
-  Button,
-  LinkButton,
-  PageContainer,
-  Skeleton,
-} from '@webkom/lego-bricks';
+import { Button, Flex, LinkButton, PageContainer } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { GroupType } from 'app/models';
+import Spotlight from '~/components/Spotlight';
 import styles from '~/pages/events/interest/InterestEvents.module.css';
 import EventAgenda from '~/pages/events/interest/_components/EventAgenda';
 import GroupsSection from '~/pages/events/interest/_components/GroupsSection';
-import Spotlight from '~/pages/events/interest/_components/Spotlight';
 import useInterestEvents from '~/pages/events/interest/useInterestEvents';
+import {
+  nextUpcomingEvent,
+  toInterestSpotlightItem,
+} from '~/pages/events/interest/utils';
 import { fetchAllWithType } from '~/redux/actions/GroupActions';
 import { useAppDispatch } from '~/redux/hooks';
 import { useIsLoggedIn } from '~/redux/slices/auth';
@@ -21,6 +20,8 @@ const InterestEvents = () => {
   const upcoming = useInterestEvents(false);
   const dispatch = useAppDispatch();
 
+  const featured = nextUpcomingEvent(upcoming.events);
+
   usePreparedEffect('fetchInterestEvents', upcoming.fetch, [loggedIn]);
   usePreparedEffect(
     'fetchInterestGroups',
@@ -28,20 +29,28 @@ const InterestEvents = () => {
     [loggedIn],
   );
 
-  const spotlightEvent = upcoming.events[0];
-
   return (
     <PageContainer card={false}>
       <Helmet title="Interessegruppearrangementer" />
-      <div className={styles.page}>
-        <section className={styles.hero}>
+      <Flex column className={styles.page}>
+        <Flex
+          component="section"
+          wrap
+          alignItems="flex-start"
+          className={styles.hero}
+        >
           <div className={styles.heroText}>
             <h1>Interessegrupper</h1>
             <p className={styles.lead}>
               Lavterskel sosiale grupper drevet av studenter. Det kan være
               klatring, LAN, brettspill, løping eller cavasøndag!
             </p>
-            <div className={styles.heroActions}>
+            <Flex
+              wrap
+              alignItems="center"
+              gap="var(--spacing-md)"
+              className={styles.heroActions}
+            >
               <Button
                 dark
                 onPress={() =>
@@ -55,19 +64,19 @@ const InterestEvents = () => {
               <LinkButton ghost href="/interest-groups/info">
                 Praktisk info
               </LinkButton>
-            </div>
+            </Flex>
           </div>
-          {spotlightEvent ? (
-            <Spotlight event={spotlightEvent} />
-          ) : (
-            upcoming.fetching && (
-              <Skeleton className={styles.spotlightSkeleton} />
-            )
-          )}
-        </section>
-        <EventAgenda spotlightEventId={spotlightEvent?.id} />
+          <div className={styles.spotlight}>
+            <Spotlight
+              items={featured ? [toInterestSpotlightItem(featured)] : []}
+              fetching={upcoming.fetching}
+              heading="Neste arrangement"
+            />
+          </div>
+        </Flex>
+        <EventAgenda />
         <GroupsSection />
-      </div>
+      </Flex>
     </PageContainer>
   );
 };

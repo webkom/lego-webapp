@@ -1,6 +1,5 @@
-import cx from 'classnames';
 import { CircularPicture } from '~/components/Image';
-import { groupGradient, groupMonogram } from '~/pages/events/interest/utils';
+import { groupMonogram } from '~/pages/events/interest/utils';
 import styles from './EventAgenda.module.css';
 import type { PublicGroup } from '~/redux/models/Group';
 
@@ -22,10 +21,7 @@ const GroupCircle = ({ group }: Props) => {
   }
 
   return (
-    <span
-      className={cx(styles.eventMonogram, group && groupGradient)}
-      aria-hidden
-    >
+    <span className={styles.eventMonogram}>
       {group && groupMonogram(group)}
     </span>
   );

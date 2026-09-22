@@ -72,13 +72,19 @@ const Attendance = ({
   return !!attendance && <Pill>{attendance}</Pill>;
 };
 
-type TimeStampProps = {
+type RegistrationIconProps = {
   event: ListEvent;
 };
 
-const TimeStamp = ({ event }: TimeStampProps) => {
+type TimeStampProps = RegistrationIconProps & { hasCover: boolean };
+
+const TimeStamp = ({ event, hasCover }: TimeStampProps) => {
   return (
-    <Flex column gap="var(--spacing-sm)" className={styles.eventTime}>
+    <Flex
+      column={hasCover}
+      gap="var(--spacing-sm)"
+      className={styles.eventTime}
+    >
       <Flex alignItems="center" gap="var(--spacing-sm)">
         <Icon iconNode={<Calendar />} size={18} />
         <Time time={event.startTime} format="ll" />
@@ -91,7 +97,7 @@ const TimeStamp = ({ event }: TimeStampProps) => {
   );
 };
 
-const RegistrationIcon = ({ event }: TimeStampProps) => {
+const RegistrationIcon = ({ event }: RegistrationIconProps) => {
   const registrationIconOptions = getRegistrationIconOptions(event);
   return (
     <Tooltip content={registrationIconOptions.tooltip}>
@@ -120,6 +126,7 @@ const EventItem = ({
   const isRegistrationSameYear =
     moment().year() === moment(event.activationTime).year();
   const isEventSameYear = moment().year() === moment(event.startTime).year();
+  const hasCover = event.cover ? true : false;
 
   switch (eventStyle) {
     case 'extra-compact':
@@ -159,21 +166,27 @@ const EventItem = ({
         >
           <h3 className={styles.eventItemTitle}>{event.title}</h3>
           <Flex justifyContent="space-between" gap="var(--spacing-sm)">
-            <Flex width="72%" className={styles.companyLogoCompact}>
-              {event.cover && (
-                <Image
-                  src={event.cover}
-                  placeholder={event.coverPlaceholder}
-                  alt={`Forsidebildet til ${event.title}`}
-                />
-              )}
-            </Flex>
-            <Flex column width="25%" gap="var(--spacing-sm)">
+            {event.cover && (
+              <Flex width="72%" className={styles.companyLogoCompact}>
+                {event.cover && (
+                  <Image
+                    src={event.cover}
+                    placeholder={event.coverPlaceholder}
+                    alt={`Forsidebildet til ${event.title}`}
+                  />
+                )}
+              </Flex>
+            )}
+            <Flex
+              column={hasCover}
+              width={hasCover ? '25%' : '100%'}
+              gap="var(--spacing-sm)"
+            >
               <Flex wrap alignItems="center" gap="var(--spacing-sm)">
                 <RegistrationIcon event={event} />
                 <Attendance event={event} />
               </Flex>
-              <TimeStamp event={event} />
+              <TimeStamp event={event} hasCover={hasCover} />
             </Flex>
           </Flex>
           {showTags && (

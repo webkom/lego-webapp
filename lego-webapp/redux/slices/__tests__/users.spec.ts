@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { Event } from '~/redux/actionTypes';
+import { UnknownUser } from '~/redux/models/User';
 import users from '../users';
 
 describe('reducers', () => {
@@ -8,11 +9,12 @@ describe('reducers', () => {
       actionGrant: [],
       paginationNext: {},
       fetching: false,
+      fetchingAchievements: false,
       ids: [3],
       entities: {
         3: {
           id: 3,
-        },
+        } as unknown as UnknownUser,
       },
     };
     it('Event.SOCKET_EVENT_UPDATED', () => {

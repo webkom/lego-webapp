@@ -4,6 +4,7 @@ import { Tag } from '~/redux/actionTypes';
 import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
 import { EntityType } from '~/redux/models/entities';
 import { selectPaginationNext } from '~/redux/slices/selectors';
+import type { Pagination } from '~/redux/legoAdapter/buildPaginationReducer';
 import type { RootState } from '~/redux/rootReducer';
 
 const legoAdapter = createLegoAdapter(EntityType.Tags, {
@@ -34,5 +35,8 @@ export const selectPopularTags = createSelector(
     query: {},
     entity: EntityType.Tags,
   }),
-  (state, pagination) => selectPaginatedTags(state, pagination),
+  (state, { pagination }) =>
+    selectPaginatedTags(state, {
+      pagination: pagination as Pagination<string>,
+    }),
 );

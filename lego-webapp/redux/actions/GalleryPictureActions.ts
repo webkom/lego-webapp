@@ -145,18 +145,19 @@ export function uploadAndCreateGalleryPicture(
   galleryId: EntityId,
   files: File | DropFile[],
 ) {
+  const fileCount = Array.isArray(files) ? files.length : 1;
   return async (dispatch: AppDispatch) => {
     dispatch({
       type: Gallery.UPLOAD.BEGIN,
       meta: {
-        imageCount: files.length,
+        imageCount: fileCount,
       },
     });
     await uploadGalleryPicturesInTurn(files, galleryId, dispatch);
     return dispatch({
       type: Gallery.UPLOAD.SUCCESS,
       meta: {
-        imageCount: files.length,
+        imageCount: fileCount,
       },
     });
   };

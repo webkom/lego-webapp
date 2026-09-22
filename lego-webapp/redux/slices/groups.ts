@@ -22,7 +22,7 @@ export const resolveGroupLink = (group: { type: GroupType; id: EntityId }) => {
       return `/pages/styrer/${group.id}`;
 
     default:
-      return null;
+      return undefined;
   }
 };
 
