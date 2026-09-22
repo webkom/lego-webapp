@@ -1,8 +1,8 @@
 import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { MoonStar, Sun } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { applySelectedTheme, getTheme, useTheme } from '~/utils/themeUtils';
+import { useAppDispatch } from '~/redux/hooks';
+import { applySelectedTheme, useTheme } from '~/utils/themeUtils';
 import styles from './toggleTheme.module.css';
 import type { ReactNode, MouseEvent } from 'react';
 
@@ -20,17 +20,11 @@ const ToggleTheme = ({
   variant = 'navbar',
 }: Props) => {
   const theme = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const dispatch = useAppDispatch();
 
   const handleThemeChange = (e: MouseEvent) => {
     e.preventDefault();
-    const currentTheme = getTheme();
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    applySelectedTheme(newTheme);
+    dispatch(applySelectedTheme(theme === 'dark' ? 'light' : 'dark'));
   };
 
   const Component = isButton ? 'button' : 'div';
@@ -38,13 +32,11 @@ const ToggleTheme = ({
   return (
     <Component
       name="Endre tema"
-      className={cx(className, styles.toggleWrapper, styles[variant], {
-        [styles.noTransition]: !mounted,
-      })}
+      className={cx(className, styles.toggleWrapper, styles[variant])}
       onClick={handleThemeChange}
     >
       {children}
-      <div className={styles.iconTrack} data-theme={theme}>
+      <div className={styles.iconTrack}>
         <Icon iconNode={<Sun />} className={styles.icon} />
         <Icon iconNode={<MoonStar />} className={styles.icon} />
       </div>

@@ -3,11 +3,24 @@ import moment from 'moment-timezone';
 import Tags from '~/components/Tags';
 import Tag from '~/components/Tags/Tag';
 import Time from '~/components/Time';
-import { displayNameForEventType } from '~/pages/events/utils';
+import {
+  colorForEventType,
+  displayNameForEventType,
+} from '~/pages/events/utils';
 import { frontpageObjectDate, isEvent } from '~/redux/slices/frontpage';
 import truncateString from '~/utils/truncateString';
 import styles from './AuthenticatedFrontpage.module.css';
+import type { SpotlightItem } from '~/components/Spotlight';
 import type { ArticleWithType, EventWithType } from '~/redux/slices/frontpage';
+
+const itemTimeFormat = (item: ArticleWithType | EventWithType) => {
+  const format =
+    moment().year() === moment(frontpageObjectDate(item)).year()
+      ? 'DD. MMM'
+      : 'DD. MMM YYYY';
+
+  return isEvent(item) ? `${format} HH:mm` : format;
+};
 
 export const itemUrl = (item?: ArticleWithType | EventWithType) => {
   if (!item) return '';
@@ -18,12 +31,7 @@ export const renderMeta = (item?: ArticleWithType | EventWithType) => {
   if (!item) return <></>;
 
   const itemTime = frontpageObjectDate(item);
-
-  let format =
-    moment().year() === moment(itemTime).year() ? 'DD. MMM' : 'DD. MMM YYYY';
-  if (isEvent(item)) {
-    format += ' HH:mm';
-  }
+  const format = itemTimeFormat(item);
 
   return (
     <Flex
@@ -57,3 +65,25 @@ export const renderMeta = (item?: ArticleWithType | EventWithType) => {
     </Flex>
   );
 };
+
+export const toSpotlightItems = (
+  items: (ArticleWithType | EventWithType)[],
+): SpotlightItem[] =>
+  items.map((item) => ({
+    id: item.id,
+    url: itemUrl(item),
+    title: item.title,
+    cover: item.cover,
+    coverPlaceholder: item.coverPlaceholder ?? undefined,
+    category: isEvent(item)
+      ? displayNameForEventType(item.eventType)
+      : 'Artikkel',
+    categoryColor: isEvent(item)
+      ? (colorForEventType(item.eventType) ?? 'var(--lego-font-color)')
+      : 'var(--lego-font-color)',
+    location:
+      isEvent(item) && item.location !== '-' ? item.location : undefined,
+    time: isEvent(item) ? item.startTime : item.createdAt,
+    timeFormat: itemTimeFormat(item),
+    pinned: item.pinned,
+  }));

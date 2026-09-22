@@ -12,7 +12,7 @@ import { fetchMeta } from './MetaActions';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { PhotoConsent } from 'app/models';
 import type { Thunk, Token, EncodedToken, GetCookie } from 'app/types';
-import type { FormValues as ChangePasswordFormValues } from '~/pages/users/_components/ChangePassword';
+import type { FormValues as ChangePasswordFormValues } from '~/pages/users/@username/settings/profile/ChangePassword';
 import type { FormValues as UserConfirmationFormValues } from '~/pages/users/registration/+Page';
 import type { AppDispatch } from '~/redux/createStore';
 import type { RejectedPromiseAction } from '~/redux/middlewares/promiseMiddleware';
@@ -243,7 +243,6 @@ export function updatePicture({
             profilePicture: action.meta.fileToken,
           },
           {
-            noRedirect: true,
             updateProfilePicture: true,
           },
         ),
@@ -510,16 +509,14 @@ export function resetPassword({
   });
 }
 
-export function updateUserTheme(username: string, theme: 'light' | 'dark') {
-  return updateUser(
-    {
-      username,
-      selectedTheme: theme,
-    },
-    {
-      noRedirect: true,
-    },
-  );
+export function updateUserTheme(
+  username: string,
+  theme: 'light' | 'dark' | 'auto',
+) {
+  return updateUser({
+    username,
+    selectedTheme: theme,
+  });
 }
 
 export function recordCommandUsage(commandId: string) {

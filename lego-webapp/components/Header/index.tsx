@@ -14,7 +14,6 @@ import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';
 import { selectUpcomingMeetingId } from '~/redux/slices/meetings';
 import utilStyles from '~/styles/utilities.module.css';
 import { Keyboard } from '~/utils/constants';
-import { applySelectedTheme, getOSTheme, getTheme } from '~/utils/themeUtils';
 import Dropdown from '../Dropdown';
 import NotificationsDropdown from '../HeaderNotifications';
 import { ProfilePicture } from '../Image';
@@ -154,6 +153,7 @@ const AccountDropdown = () => {
     <Dropdown
       show={accountOpen}
       toggle={() => setAccountOpen(!accountOpen)}
+      className={styles.hideOnDesktop}
       contentClassName={styles.dropdown}
       triggerComponent={<Icon iconNode={<CircleUser />} />}
     >
@@ -165,23 +165,14 @@ const AccountDropdown = () => {
 const Header = () => {
   const dispatch = useAppDispatch();
   const loggedIn = useIsLoggedIn();
-  const currentUser = useCurrentUser();
   const searchOpen = useAppSelector((state) => state.search.open);
+  const [renderSearch, setRenderSearch] = useState(searchOpen);
 
   useEffect(() => {
-    if (
-      !import.meta.env.SSR &&
-      loggedIn &&
-      currentUser &&
-      (currentUser.selectedTheme === 'auto'
-        ? getTheme() !== getOSTheme()
-        : getTheme() !== currentUser.selectedTheme)
-    ) {
-      applySelectedTheme(currentUser.selectedTheme || 'light', {
-        updateUserTheme: false,
-      });
+    if (searchOpen) {
+      setRenderSearch(true);
     }
-  }, [loggedIn, currentUser]);
+  }, [searchOpen]);
 
   useEffect(() => {
     if (searchOpen) {
@@ -249,7 +240,9 @@ const Header = () => {
           </div>
         </div>
       </div>
-      {searchOpen && <Search />}
+      {renderSearch && (
+        <Search closing={!searchOpen} onClosed={() => setRenderSearch(false)} />
+      )}
     </header>
   );
 };

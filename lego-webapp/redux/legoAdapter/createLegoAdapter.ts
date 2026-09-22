@@ -111,7 +111,6 @@ function createLegoAdapter<
   Type extends EntityType,
   Entity extends Entities[Type][EntityId] & {
     id: EntityId;
-    // @ts-expect-error - This won't work for entities without id, but they should provide a selectId function
   } = Entities[Type][EntityId],
 >(
   entityType: Type,

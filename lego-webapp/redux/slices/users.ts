@@ -55,7 +55,7 @@ const usersSlice = createSlice({
       addCase(User.FETCH_LEADERBOARD.FAILURE, (state) => {
         state.fetchingAchievements = false;
       });
-      addCase(MembershipHistory.DELETE.SUCCESS, (state, action) => {
+      addCase(MembershipHistory.DELETE.SUCCESS, (state, action: AnyAction) => {
         const user = state.entities[action.meta.userId] as CurrentUser;
         user.pastMemberships = user.pastMemberships.filter(
           (membership) => membership.abakusGroup.id !== action.meta.groupId,
@@ -122,12 +122,15 @@ export const selectUserWithGroups = createSelector(
   },
 );
 
-export const selectUsersWithAchievementsScore = createSelector(
+export const selectUsersRankedBy = createSelector(
   selectUserEntities,
-  (userEntities): PublicUserWithAbakusGroups[] => {
+  (_: RootState, rankingKey: keyof PublicUserWithAbakusGroups['ranking']) =>
+    rankingKey,
+  (userEntities, rankingKey): PublicUserWithAbakusGroups[] => {
     return Object.values(userEntities).filter(
       (user): user is PublicUserWithAbakusGroups =>
-        user.achievementsScore != null,
+        (user as PublicUserWithAbakusGroups).ranking?.[rankingKey]?.rank !=
+        null,
     );
   },
 );

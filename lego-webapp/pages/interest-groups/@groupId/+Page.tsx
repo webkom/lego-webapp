@@ -31,8 +31,8 @@ import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';
 import { selectGroupById } from '~/redux/slices/groups';
 import { selectMembershipsForGroup } from '~/redux/slices/memberships';
 import { useParams } from '~/utils/useParams';
-import styles from '../InterestGroup.module.css';
 import InterestGroupMemberModal from '../InterestGroupMemberModal';
+import styles from './InterestGroupDetail.module.css';
 import type { PublicDetailedGroup } from '~/redux/models/Group';
 import type { TransformedMembership } from '~/redux/slices/memberships';
 
@@ -161,7 +161,7 @@ const InterestGroupDetail = () => {
   const logo = group.logo;
 
   return (
-    <Page title={group.name} back={{ href: '/interest-groups' }}>
+    <Page title={group.name} back={{ href: '/events/interest' }}>
       <Helmet title={group.name} />
       <ContentSection>
         <ContentMain>

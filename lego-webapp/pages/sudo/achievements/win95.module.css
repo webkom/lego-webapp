@@ -1,0 +1,407 @@
+/* Windows 2000/XP-Classic "Control Panel" pastiche, shared by /sudo/achievements
+   and its subpages. This is a deliberate, admin-only easter egg - not the
+   site's real design system. */
+
+.desktop {
+  background: #008080;
+  padding: var(--spacing-lg) var(--spacing-md);
+  display: flex;
+  justify-content: center;
+}
+
+.window {
+  width: 100%;
+  max-width: 820px;
+  background: #ece9d8;
+  border: 1px solid #0a246a;
+  box-shadow:
+    inset 1px 1px 0 #fff,
+    inset -1px -1px 0 #808080,
+    3px 3px 8px rgba(0, 0, 0, 0.45);
+  font-family: Tahoma, 'MS Sans Serif', Arial, sans-serif;
+  font-size: 11px;
+  color: #000;
+}
+
+.titleBar {
+  background: linear-gradient(to right, #0a246a, #3a6ea5 60%, #a6caf0);
+  color: #fff;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 3px 3px 3px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  letter-spacing: 0.2px;
+}
+
+.titleBarButtons {
+  display: flex;
+  gap: 2px;
+}
+
+.titleBarButton {
+  width: 16px;
+  height: 14px;
+  background: #ece9d8;
+  border: none;
+  box-shadow:
+    inset 1px 1px 0 #fff,
+    inset -1px -1px 0 #404040;
+  font-size: 9px;
+  font-weight: bold;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  padding: 0;
+}
+
+.clientArea {
+  padding: 10px;
+}
+
+.groupBox {
+  border: 1px solid #808080;
+  box-shadow: inset 1px 1px 0 #fff;
+  padding: 14px 10px 10px;
+  margin: 0 0 12px;
+  position: relative;
+}
+
+.groupBoxLabel {
+  position: absolute;
+  top: -8px;
+  left: 8px;
+  background: #ece9d8;
+  padding: 0 4px;
+  font-weight: bold;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.row:last-child {
+  margin-bottom: 0;
+}
+
+.label {
+  min-width: 70px;
+  flex-shrink: 0;
+}
+
+.field {
+  flex: 1;
+}
+
+/* !important throughout: these classes are applied alongside lego-bricks'
+   own Button/TextInput CSS-module classes to reskin them for this page,
+   and must reliably win regardless of bundle/source order. */
+.winButton {
+  font-family: Tahoma, 'MS Sans Serif', Arial, sans-serif !important;
+  font-size: 11px !important;
+  background: #ece9d8 !important;
+  color: #000 !important;
+  border: none !important;
+  box-shadow:
+    inset -1px -1px 0 #404040,
+    inset 1px 1px 0 #fff,
+    inset -2px -2px 0 #808080,
+    inset 2px 2px 0 #dfdfdf !important;
+  padding: 4px 14px !important;
+  min-width: 76px;
+  cursor: pointer;
+  border-radius: 0 !important;
+}
+
+.winButton:active:not(:disabled) {
+  box-shadow:
+    inset 1px 1px 0 #404040,
+    inset -1px -1px 0 #fff !important;
+  padding: 5px 13px 3px 15px !important;
+}
+
+.winButton:disabled {
+  color: #808080 !important;
+  text-shadow: 1px 1px 0 #fff;
+  cursor: default;
+}
+
+.winButtonRow {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.winInput {
+  font-family: Tahoma, 'MS Sans Serif', Arial, sans-serif !important;
+  font-size: 11px !important;
+  background: #fff !important;
+  border: none !important;
+  box-shadow:
+    inset -1px -1px 0 #fff,
+    inset 1px 1px 0 #404040,
+    inset -2px -2px 0 #dfdfdf,
+    inset 2px 2px 0 #808080 !important;
+  padding: 3px 4px !important;
+  border-radius: 0 !important;
+  color: #000 !important;
+}
+
+.winInput:disabled {
+  background: #ece9d8 !important;
+  color: #808080 !important;
+}
+
+.achievementRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px;
+  border-bottom: 1px dotted #808080;
+}
+
+.achievementRow:last-child {
+  border-bottom: none;
+}
+
+.achievementRowLocked {
+  background: #dcdcdc;
+}
+
+.swatch {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border: 1px solid #000;
+  flex-shrink: 0;
+}
+
+.lockIcon {
+  color: #800000;
+}
+
+.iconGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 88px);
+  gap: 14px;
+  padding: 6px;
+}
+
+.iconTile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 4px;
+  text-align: center;
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: 1px dotted transparent;
+  font-family: inherit;
+  font-size: 11px;
+}
+
+.iconTile:hover,
+.iconTile:focus-visible {
+  border-color: #000;
+  outline: none;
+}
+
+.iconGlyph {
+  width: 36px;
+  height: 36px;
+  background: #ece9d8;
+  border: none;
+  box-shadow:
+    inset -1px -1px 0 #404040,
+    inset 1px 1px 0 #fff,
+    inset -2px -2px 0 #808080,
+    inset 2px 2px 0 #dfdfdf;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000080;
+}
+
+.iconLabel {
+  max-width: 84px;
+  line-height: 1.3;
+}
+
+.statusBar {
+  border-top: 1px solid #808080;
+  box-shadow: inset 0 1px 0 #fff;
+  padding: 3px 6px;
+  font-size: 10px;
+  color: #000;
+}
+
+.tabList {
+  display: flex;
+  gap: 2px;
+  padding: 10px 10px 0;
+}
+
+.tabButton {
+  font-family: inherit;
+  font-size: 11px;
+  background: #ece9d8;
+  border: none;
+  box-shadow:
+    inset -1px 0 0 #404040,
+    inset 1px 1px 0 #fff,
+    inset -2px 0 0 #808080;
+  padding: 4px 14px 5px;
+  cursor: pointer;
+  position: relative;
+  top: 1px;
+  color: #000;
+}
+
+.tabButtonActive {
+  box-shadow:
+    inset -1px 0 0 #404040,
+    inset 1px 1px 0 #fff,
+    inset -2px 0 0 #808080,
+    0 -1px 0 #ece9d8;
+  font-weight: bold;
+  z-index: 1;
+}
+
+.tabPanel {
+  border: 1px solid #808080;
+  box-shadow: inset 1px 1px 0 #fff;
+  border-top: none;
+  padding: 10px;
+  background: #ece9d8;
+}
+
+.fakeErrorOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 16vh;
+  pointer-events: none;
+}
+
+.fakeErrorWindow {
+  pointer-events: auto;
+  width: min(400px, 90vw);
+  background: #ece9d8;
+  border: 1px solid #0a246a;
+  box-shadow:
+    inset 1px 1px 0 #fff,
+    inset -1px -1px 0 #808080,
+    4px 4px 14px rgba(0, 0, 0, 0.5);
+  font-family: Tahoma, 'MS Sans Serif', Arial, sans-serif;
+  font-size: 11px;
+  color: #000;
+  animation: fakeErrorPop 120ms ease-out;
+}
+
+@keyframes fakeErrorPop {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.fakeErrorBody {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 14px;
+}
+
+.fakeErrorIcon {
+  color: #c00000;
+  flex-shrink: 0;
+}
+
+.confirmIcon {
+  color: #000080;
+  flex-shrink: 0;
+}
+
+.fakeErrorMessage {
+  margin: 0;
+  line-height: 1.4;
+  white-space: pre-line;
+}
+
+.fakeErrorFooter {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 0 10px 12px;
+}
+
+.bsod {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: #0000aa;
+  color: #fff;
+  font-family: 'Courier New', Consolas, monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.bsodInner {
+  max-width: 640px;
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+.bsodTitle {
+  font-size: 18px;
+  margin: 0 0 16px;
+}
+
+.bsodText {
+  margin: 0 0 12px;
+}
+
+.bsodStop {
+  margin: 16px 0;
+  font-size: 13px;
+}
+
+.bsodBarTrack {
+  margin: 20px 0 8px;
+  height: 18px;
+  background: #000;
+  border: 2px solid #fff;
+}
+
+.bsodBarFill {
+  height: 100%;
+  background: #fff;
+}
+
+.bsodPercent {
+  margin: 0 0 20px;
+  font-size: 13px;
+}
+
+.bsodFooter {
+  font-size: 13px;
+}

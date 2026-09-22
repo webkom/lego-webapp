@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import { debounce } from 'lodash-es';
 import { useMemo, useState } from 'react';
 import { navigate } from 'vike/client/router';
@@ -17,7 +18,12 @@ import {
   getAllLinksFiltered,
 } from './utils';
 
-const Search = () => {
+type SearchProps = {
+  closing: boolean;
+  onClosed: () => void;
+};
+
+const Search = ({ closing, onClosed }: SearchProps) => {
   const loggedIn = useIsLoggedIn();
   const results = useAppSelector(selectAutocomplete);
   const searching = useAppSelector((state) => state.search.searching);
@@ -97,7 +103,15 @@ const Search = () => {
   );
 
   return (
-    <div className={styles.wrapper} tabIndex={-1}>
+    <div
+      className={cx(styles.wrapper, closing && styles.closing)}
+      onAnimationEnd={(e) => {
+        if (closing && e.target === e.currentTarget) {
+          onClosed();
+        }
+      }}
+      tabIndex={-1}
+    >
       <div className={styles.content}>
         <SearchBar
           query={query}

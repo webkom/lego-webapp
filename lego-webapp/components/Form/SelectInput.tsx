@@ -9,6 +9,7 @@ import type { StylesConfig, ThemeConfig } from 'react-select';
 
 type Props<Option, IsMulti extends boolean = false> = {
   name: string;
+  id?: string;
   label?: string;
   placeholder?: string;
   tags?: boolean;
@@ -85,6 +86,7 @@ const SelectInput = <
   IsMulti extends boolean = false,
 >({
   name,
+  id,
   label,
   fetching,
   selectStyle,
@@ -113,6 +115,7 @@ const SelectInput = <
           isDisabled={disabled}
           placeholder={!disabled && (placeholder || defaultPlaceholder)}
           instanceId={name}
+          inputId={id}
           isMulti={props.isMulti}
           value={value}
           isValidNewOption={isValidNewOption}
@@ -141,6 +144,7 @@ const SelectInput = <
         isDisabled={disabled}
         placeholder={disabled ? 'Tomt' : placeholder || defaultPlaceholder}
         instanceId={name}
+        inputId={id}
         value={value}
         options={options}
         isLoading={fetching}
@@ -159,7 +163,16 @@ const SelectInput = <
   );
 };
 
-SelectInput.Field = createField(SelectInput);
+const RawField = createField(SelectInput);
+
+/* react-select puts the id it is given on its container, so the label has to
+   point at the input instead. Naming it after the field keeps that id the one
+   react-select derives from instanceId. */
+const SelectField = (props: ComponentProps<typeof RawField>) => (
+  <RawField id={`react-select-${props.input.name}-input`} {...props} />
+);
+
+SelectInput.Field = SelectField;
 SelectInput.AutocompleteField = withAutocomplete({
   WrappedComponent: SelectInput.Field,
 });

@@ -33,6 +33,17 @@ export const filterableGroups = [
   },
 ];
 
+export const programFilterGroups = [
+  {
+    name: 'Data',
+    ids: [16, 17, 18, 19, 20],
+  },
+  {
+    name: 'Komtek',
+    ids: [22, 23, 24, 25, 26],
+  },
+];
+
 export const GroupFilter = ({ groupFilter, setGroupFilter }: Props) => {
   const [hovered, setHovered] = useState(false);
   const expanded = hovered || groupFilter !== null;

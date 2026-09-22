@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { AnyAction, createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { LendableObjects } from '~/redux/actionTypes';
 import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
@@ -17,15 +17,18 @@ const lendableObjectsSlice = createSlice({
     fetchActions: [LendableObjects.FETCH],
     deleteActions: [LendableObjects.DELETE],
     extraCases: (addCase) => {
-      addCase(LendableObjects.FETCH_AVAILABILITY.SUCCESS, (state, action) => {
-        const id = action.meta.id;
-        legoAdapter.updateOne(state, {
-          id,
-          changes: {
-            availability: action.payload,
-          },
-        });
-      });
+      addCase(
+        LendableObjects.FETCH_AVAILABILITY.SUCCESS,
+        (state, action: AnyAction) => {
+          const id = action.meta.id;
+          legoAdapter.updateOne(state, {
+            id,
+            changes: {
+              availability: action.payload,
+            },
+          });
+        },
+      );
     },
   }),
 });

@@ -216,16 +216,16 @@ export default function callAPI<
 
     // @todo: better id gen (cuid or something)
     const optimisticId = Math.floor(Date.now() * Math.random() * 1000);
-    const optimisticPayload =
+    const optimisticData =
       enableOptimistic && body && typeof body === 'object'
-        ? normalizeJsonResponse({
-            jsonData: {
-              id: optimisticId,
-              __persisted: false,
-              ...body,
-            },
-          })
+        ? { id: optimisticId, __persisted: false, ...body }
         : null;
+    const optimisticPayload: NormalizedApiPayload<T> | T | null =
+      optimisticData && schema
+        ? ({
+            ...normalize(optimisticData, schema),
+          } as NormalizedApiPayload<T>)
+        : (optimisticData as T | null);
     const qsWithoutPagination = query
       ? createQueryString(omit(query, 'cursor'))
       : '';
@@ -233,9 +233,9 @@ export default function callAPI<
 
     if (schema) {
       if (isArray(schema)) {
-        schemaKey = schema[0].key;
+        schemaKey = (schema[0] as { key: string }).key;
       } else {
-        schemaKey = schema.key;
+        schemaKey = (schema as { key: string }).key;
       }
     }
 
@@ -282,7 +282,12 @@ export default function callAPI<
           paginationForRequest && paginationForRequest.paginationKey,
         cursor,
         ...meta,
-        optimisticId: optimisticPayload ? optimisticPayload.result : undefined,
+        optimisticId:
+          optimisticPayload != null &&
+          typeof optimisticPayload === 'object' &&
+          'result' in optimisticPayload
+            ? (optimisticPayload.result as EntityId)
+            : undefined,
         enableOptimistic,
         endpoint,
         body,

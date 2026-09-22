@@ -57,7 +57,7 @@ describe('createLegoAdapter', () => {
         },
       };
       const fetchBegin = { ...actionBase, type: FETCH.BEGIN };
-      const fetchSuccess: AsyncApiActionSuccess = {
+      const fetchSuccess = {
         ...actionBase,
         type: FETCH.SUCCESS,
         payload: {
@@ -70,7 +70,7 @@ describe('createLegoAdapter', () => {
           result: [42],
           next: 'url?cursor=c123',
         },
-      };
+      } satisfies AsyncApiActionSuccess;
       const fetchFailure = { ...actionBase, type: FETCH.FAILURE };
 
       const deleteBegin = {

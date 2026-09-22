@@ -26,7 +26,9 @@
   border-radius: 999px;
   background: transparent;
   color: var(--lego-font-color);
+  font-family: inherit;
   font-size: var(--font-size-sm);
+  font-weight: 600;
   padding: 6px 12px;
   cursor: pointer;
   transition: color 180ms ease;

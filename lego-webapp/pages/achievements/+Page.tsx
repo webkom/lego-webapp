@@ -75,6 +75,7 @@ const AchievementGroup = ({
           />
           <Flex
             column
+            alignItems="flex-start"
             gap="var(--spacing-sm)"
             className={cx(userLevel < 0 && styles.unachieved)}
           >

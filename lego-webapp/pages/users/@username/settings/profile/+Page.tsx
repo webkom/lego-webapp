@@ -38,6 +38,7 @@ import ThemeSelector from './ThemeSelector';
 import UserImage from './UserImage';
 import styles from './UserSettings.module.css';
 import type { CurrentUser } from '~/redux/models/User';
+import type { ThemePreference } from '~/utils/themeUtils';
 
 type GenderKey = keyof typeof Gender;
 
@@ -49,7 +50,7 @@ type FormValues = {
   allergies: string;
   email: string;
   phoneNumber?: string;
-  selectedTheme: string;
+  selectedTheme: ThemePreference;
   isAbakusMember: boolean;
   githubUsername?: string;
   linkedinId?: string;
@@ -97,7 +98,7 @@ const UserSettings = () => {
       gender: values.gender.value,
     };
 
-    dispatch(updateUser(body));
+    return dispatch(updateUser(body));
   };
 
   // Only seed fields this form actually owns, otherwise unrelated user updates

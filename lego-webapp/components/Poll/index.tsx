@@ -7,7 +7,7 @@ import {
   Tooltip,
 } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { sortBy, shuffle } from 'lodash-es';
+import { sortBy } from 'lodash-es';
 import {
   ChartNoAxesColumn,
   ChevronDown,

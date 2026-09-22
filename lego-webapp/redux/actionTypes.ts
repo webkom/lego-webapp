@@ -152,6 +152,8 @@ export const Favorite = {
 export const Comment = {
   ADD: generateStatuses('Comment.ADD'),
   DELETE: generateStatuses('Comment.DELETE'),
+  SOCKET_ADD: generateStatuses('Comment.SOCKET_ADD'),
+  SOCKET_DELETE: generateStatuses('Comment.SOCKET_DELETE'),
 };
 
 export const Company = {
@@ -319,6 +321,16 @@ export const Reaction = {
 export const Achievement = {
   CREATE: generateStatuses('Achievement.CREATE'),
   RECHECK: generateStatuses('Achievement.RECHECK'),
+  FETCH_RANK_HISTORY: generateStatuses('Achievement.FETCH_RANK_HISTORY'),
+  FETCH_DISTRIBUTION: generateStatuses('Achievement.FETCH_DISTRIBUTION'),
+  FETCH_RARITY: generateStatuses('Achievement.FETCH_RARITY'),
+  FETCH_TOP_CLIMBERS: generateStatuses('Achievement.FETCH_TOP_CLIMBERS'),
+  FETCH_USER_ACHIEVEMENTS: generateStatuses(
+    'Achievement.FETCH_USER_ACHIEVEMENTS',
+  ),
+  GRANT: generateStatuses('Achievement.GRANT'),
+  REVOKE: generateStatuses('Achievement.REVOKE'),
+  GRANT_BULK: generateStatuses('Achievement.GRANT_BULK'),
 };
 
 export const Banner = {
@@ -334,4 +346,12 @@ export const FeatureFlag = {
   CREATE: generateStatuses('FeatureFlag.CREATE'),
   EDIT: generateStatuses('FeatureFlag.EDIT'),
   DELETE: generateStatuses('FeatureFlag.DELETE'),
+};
+
+export const Websockets = {
+  CONNECTED: 'Websockets.CONNECTED',
+  CLOSED: 'Websockets.CLOSED',
+  ERROR: 'Websockets.ERROR',
+  GROUP_JOIN: generateStatuses('Websockets.GROUP_JOIN'),
+  GROUP_LEAVE: generateStatuses('Websockets.GROUP_LEAVE'),
 };

@@ -3,6 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { Event } from '~/redux/actionTypes';
 import registrations from '../registrations';
 import type {
+  DetailedRegistration,
   PublicRegistration,
   UnknownRegistration,
 } from '~/redux/models/Registration';
@@ -222,11 +223,12 @@ describe('reducers', () => {
         },
       };
       const newState = registrations(prevState, action);
+      const registration = newState.entities[3] as DetailedRegistration;
       expect(newState.ids).toEqual([3, 4]);
-      expect(newState.entities[3].fetching).toBe(false);
+      expect(registration.fetching).toBe(false);
       // unregistrationDate should be approximately now
       expect(
-        Math.abs(moment(newState.entities[3].unregistrationDate) - moment()),
+        Math.abs(moment(registration.unregistrationDate).diff(moment())),
       ).toBeLessThan(1000);
     });
   });

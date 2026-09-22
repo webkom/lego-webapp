@@ -10,13 +10,13 @@ import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { navigate } from 'vike/client/router';
 import { objectPermissionsToInitialValues } from '~/components/Form/ObjectPermissions';
-import { useFetchedLendableObject } from '~/pages/lending/@lendableObjectId/useFetchedLendableObject';
-import { LendableObjectEditor } from '~/pages/lending/LendableObjectEditor';
+import { LendableObjectEditor } from '~/pages/lending/_components/LendableObjectEditor';
+import { parseLendableObjectId } from '~/pages/lending/_components/deleteUtils';
+import { useFetchedLendableObject } from '~/pages/lending/_components/useFetchedLendableObject';
 import { deleteLendableObject } from '~/redux/actions/LendableObjectActions';
 import { useAppDispatch } from '~/redux/hooks';
 import { LENDABLE_CATEGORY } from '~/utils/constants';
 import { useParams } from '~/utils/useParams';
-import { parseLendableObjectId } from './deleteUtils';
 
 export default function LendableObjectEdit() {
   const { lendableObjectId } = useParams<{ lendableObjectId: string }>();

@@ -26,13 +26,17 @@
   --danger-color: var(--color-red-6);
   --success-color: var(--color-green-6);
 
-  --lego-max-width: 1100px;
+  --lego-max-width: 1280px;
 
   --lego-header-height: 120px;
   --development-banner-height: 0px;
 
   --color-event-red: #b11c11;
   --color-event-black: #111;
+
+  /* Bekk main sponsor (2024 - 2026) */
+  --color-bekk-font: #d4ff26;
+  --color-bekk-background: #1f1f1f;
 
   --color-absolute-white: #fff; /* White on dark mode as well */
   --color-white: var(--color-absolute-white);
@@ -51,6 +55,13 @@
     var(--rgb-min),
     var(--rgb-min),
     var(--low-alpha)
+  );
+
+  /* Marking a chosen control */
+  --selected-background: color-mix(
+    in srgb,
+    var(--lego-red-color) 4%,
+    transparent
   );
 
   --color-gray-1: var(--dark-font-color);
@@ -132,7 +143,16 @@
   --spacing-md: 1rem;
   --spacing-lg: 1.5rem;
   --spacing-xl: 2rem;
+  --spacing-xxl: 3rem;
 
+  /* Space between the page content and the footer */
+  --footer-spacing-sm: 3rem; /* 48px */
+  --footer-spacing-md: 4.5rem; /* 72px */
+  --footer-spacing-lg: 6rem; /* 96px */
+
+  --font-family-mono: 'IBM Plex Mono', monospace;
+
+  --font-size-xxs: 0.625rem;
   --font-size-xs: 0.7rem;
   --font-size-sm: 0.875rem;
   --font-size-md: 1rem;

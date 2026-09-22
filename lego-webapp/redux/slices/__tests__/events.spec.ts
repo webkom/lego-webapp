@@ -58,7 +58,7 @@ describe('reducers', () => {
             registrationCount: 0,
             waitingRegistrations: [],
             waitingRegistrationCount: 0,
-          } as UnknownEvent,
+          } as unknown as UnknownEvent,
         },
       };
       const action = {
@@ -93,7 +93,7 @@ describe('reducers', () => {
             registrationCount: 0,
             waitingRegistrations: [],
             waitingRegistrationCount: 0,
-          } as UnknownEvent,
+          } as unknown as UnknownEvent,
         },
       };
       const action = {

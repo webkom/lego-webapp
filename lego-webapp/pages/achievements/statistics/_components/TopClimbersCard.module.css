@@ -1,0 +1,33 @@
+.heading {
+  margin-bottom: var(--spacing-sm);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1.5rem 1fr auto auto;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs) 0;
+  border-bottom: 1px solid var(--border-gray);
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.position {
+  color: var(--secondary-font-color);
+  font-size: 0.8rem;
+  text-align: right;
+}
+
+.name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rank {
+  color: var(--secondary-font-color);
+  font-size: 0.85rem;
+}

@@ -1,0 +1,21 @@
+.populationToggle {
+  display: inline-flex;
+  border-radius: var(--border-radius-md);
+  background-color: var(--additive-background);
+  padding: 2px;
+  gap: 2px;
+}
+
+.populationButton {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--border-radius-sm);
+  color: var(--lego-font-color);
+}
+
+.populationButton[data-active='true'] {
+  background-color: var(--lego-card-color);
+  font-weight: 600;
+}

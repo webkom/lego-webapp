@@ -13,11 +13,18 @@
 
 .withIcon {
   gap: var(--spacing-md);
+  align-items: center;
 
   @media (--small-viewport) {
     flex-direction: column;
+    align-items: flex-start;
     gap: var(--spacing-sm);
   }
+}
+
+.withIconContent {
+  flex: 1;
+  min-width: 0;
 }
 
 .header {

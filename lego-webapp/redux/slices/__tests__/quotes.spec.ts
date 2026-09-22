@@ -13,6 +13,7 @@ describe('reducers', () => {
         '?approved=true': {
           hasMore: true,
           hasMoreBackwards: false,
+          fetching: false,
           query: {
             approved: 'true',
           },
@@ -25,6 +26,7 @@ describe('reducers', () => {
         '?approved=false': {
           hasMore: true,
           hasMoreBackwards: false,
+          fetching: false,
           query: {
             approved: 'false',
           },
@@ -61,6 +63,7 @@ describe('reducers', () => {
           '?approved=true': {
             hasMore: true,
             hasMoreBackwards: false,
+            fetching: false,
             query: {
               approved: 'true',
             },
@@ -73,6 +76,7 @@ describe('reducers', () => {
           '?approved=false': {
             hasMore: true,
             hasMoreBackwards: false,
+            fetching: false,
             query: {
               approved: 'false',
             },
@@ -109,6 +113,7 @@ describe('reducers', () => {
           '?approved=true': {
             hasMore: true,
             hasMoreBackwards: false,
+            fetching: false,
             query: {
               approved: 'true',
             },
@@ -121,6 +126,7 @@ describe('reducers', () => {
           '?approved=false': {
             hasMore: true,
             hasMoreBackwards: false,
+            fetching: false,
             query: {
               approved: 'false',
             },

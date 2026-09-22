@@ -18,10 +18,12 @@ export enum FeedActivityVerb {
   RestrictedMailSent = 'restricted_mail_sent',
   RegistrationBump = 'registration_bump',
   AdminRegistration = 'admin_registration',
+  AdminUnregistration = 'admin_unregistration',
   Announcement = 'announcement',
   GroupJoin = 'group_join',
   EventRegister = 'event_register',
   Penalty = 'penalty',
+  Trophy = 'trophy',
 }
 
 export type FeedActivityVerbAttr = {
@@ -31,10 +33,12 @@ export type FeedActivityVerbAttr = {
   [FeedActivityVerb.RestrictedMailSent]: FeedAttrRestrictedMail;
   [FeedActivityVerb.RegistrationBump]: FeedAttrRegistration;
   [FeedActivityVerb.AdminRegistration]: FeedAttrRegistration;
+  [FeedActivityVerb.AdminUnregistration]: FeedAttrRegistration;
   [FeedActivityVerb.Announcement]: FeedAttrAnnouncement;
   [FeedActivityVerb.GroupJoin]: FeedAttrGroup;
   [FeedActivityVerb.EventRegister]: FeedAttrEvent;
   [FeedActivityVerb.Penalty]: UnknownFeedAttr;
+  [FeedActivityVerb.Trophy]: UnknownFeedAttr;
 };
 
 export interface FeedActivity {

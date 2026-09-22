@@ -53,6 +53,7 @@ const companyInterestSlice = createSlice({
   reducers: {},
   extraReducers: legoAdapter.buildReducers({
     fetchActions: [CompanyInterestForm.FETCH_ALL],
+    deleteActions: [CompanyInterestForm.DELETE],
   }),
 });
 

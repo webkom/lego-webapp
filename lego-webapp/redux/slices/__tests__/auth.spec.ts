@@ -6,7 +6,7 @@ describe('reducers', () => {
   describe('auth', () => {
     it('should have correct initialState', () => {
       const prevState = undefined;
-      expect(auth(prevState, {})).toEqual({
+      expect(auth(prevState, { type: '' })).toEqual({
         username: null,
         id: null,
         token: null,

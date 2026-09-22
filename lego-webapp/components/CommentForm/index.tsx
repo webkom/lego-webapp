@@ -7,7 +7,7 @@ import { SubmitButton } from '~/components/Form/SubmitButton';
 import { ProfilePicture } from '~/components/Image';
 import { addComment } from '~/redux/actions/CommentActions';
 import { useAppDispatch } from '~/redux/hooks';
-import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';
+import { useCurrentUser } from '~/redux/slices/auth';
 import { createValidator, legoEditorRequired } from '~/utils/validation';
 import styles from './CommentForm.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -34,12 +34,7 @@ const CommentForm = ({
 }: Props) => {
   const dispatch = useAppDispatch();
 
-  const loggedIn = useIsLoggedIn();
   const currentUser = useCurrentUser();
-
-  if (!loggedIn) {
-    return <div>Vennligst logg inn for å kommentere</div>;
-  }
 
   return (
     <Card>
