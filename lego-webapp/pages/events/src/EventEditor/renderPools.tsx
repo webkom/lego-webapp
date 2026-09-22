@@ -139,7 +139,7 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
                 registrations: [],
                 activationDate: moment(startTime)
                   .subtract(7, 'd')
-                  .hour(12)
+                  .hour(13)
                   .minute(0)
                   .toISOString(),
                 permissionGroups: [],
