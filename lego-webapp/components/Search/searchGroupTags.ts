@@ -53,10 +53,7 @@ const mergeDuplicateGroups = (groups: SearchGroupKeyword[]) => {
     const nameKey = normalizeComparisonValue(group.name);
     const existingGroup = groupsByName.get(nameKey);
     const mergedAliases = Array.from(
-      new Set([
-        ...(existingGroup?.aliases ?? []),
-        ...(group.aliases ?? []),
-      ]),
+      new Set([...(existingGroup?.aliases ?? []), ...(group.aliases ?? [])]),
     );
 
     groupsByName.set(

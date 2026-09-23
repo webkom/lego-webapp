@@ -71,8 +71,7 @@ const FilterSections = ({
     (group) => group.type === 'studieretning',
   );
   const membershipGroups = groups.filter(
-    (group) =>
-      group.type !== GroupType.Grade && group.type !== 'studieretning',
+    (group) => group.type !== GroupType.Grade && group.type !== 'studieretning',
   );
 
   return (

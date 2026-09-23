@@ -559,8 +559,9 @@ describe('<AttendanceModalContent />', () => {
 
   it('filters by study program (Data, Cyber) and composes with class and groups', () => {
     cy.mount(<AttendanceHarness />);
-    cy.get('input[placeholder="Søk etter navn eller skriv :gruppe"]')
-      .as('attendanceSearch');
+    cy.get('input[placeholder="Søk etter navn eller skriv :gruppe"]').as(
+      'attendanceSearch',
+    );
 
     // Filter using alias :komtek
     cy.get('@attendanceSearch').type(':komtek');
@@ -613,7 +614,9 @@ describe('<AttendanceModalContent />', () => {
     cy.get('@attendanceSearch').type(':we').type('{enter}');
     filterChips().should('have.length', 3);
     // Katherine Johnson is Webkom + 2. Klasse + Data
-    attendeeRows().should('have.length', 1).and('contain.text', 'Katherine Johnson');
+    attendeeRows()
+      .should('have.length', 1)
+      .and('contain.text', 'Katherine Johnson');
 
     // Clear all filters
     cy.contains('button', 'Nullstill').click();
@@ -621,4 +624,3 @@ describe('<AttendanceModalContent />', () => {
     attendeeRows().should('have.length', 3);
   });
 });
-

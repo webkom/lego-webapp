@@ -47,12 +47,7 @@ export const studyProgramGroupFilters = [
     name: 'Cyber',
     type: 'studieretning',
     groupIds: [21, 22, 23, 24, 25, 26],
-    aliases: [
-      'komtek',
-      'cybersikkerhet',
-      'cybdat',
-      'kommunikasjonsteknologi',
-    ],
+    aliases: ['komtek', 'cybersikkerhet', 'cybdat', 'kommunikasjonsteknologi'],
   },
 ] satisfies SearchGroupKeyword[];
 
@@ -71,4 +66,3 @@ export const programFilterGroups = [
     ids: [22, 23, 24, 25, 26],
   },
 ];
-
