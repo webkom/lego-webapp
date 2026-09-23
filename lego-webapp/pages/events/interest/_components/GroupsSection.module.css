@@ -19,6 +19,12 @@
   }
 }
 
+.subHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
 .pageArrows {
   display: flex;
   align-items: center;
