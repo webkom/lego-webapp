@@ -19,14 +19,6 @@
   }
 }
 
-.subHeader {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  column-gap: var(--spacing-lg);
-  row-gap: var(--spacing-sm);
-}
-
 .pageArrows {
   display: flex;
   align-items: center;

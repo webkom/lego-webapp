@@ -254,8 +254,9 @@ const GroupsSection = () => {
         className={styles.header}
       >
         <Flex
-          alignItems="baseline"
-          className={styles.subHeader}
+          alignItems="center"
+          gap="var(--spacing-sm) var(--spacing-lg)"
+          wrap
         >
           <h2>Finn din greie</h2>
           {isInterestGroupLeader && (
