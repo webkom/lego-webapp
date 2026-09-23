@@ -34,6 +34,7 @@
   color: var(--lego-font-color);
   line-height: 1.4;
   cursor: pointer;
+  width: 100%;
 }
 
 .innerNotification {
@@ -58,4 +59,8 @@
   margin: 0;
   color: var(--secondary-font-color);
   font-size: var(--font-size-sm);
+}
+
+.maxHeight li a {
+  padding: 0;
 }
