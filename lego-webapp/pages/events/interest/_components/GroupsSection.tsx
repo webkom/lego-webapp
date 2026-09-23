@@ -255,7 +255,6 @@ const GroupsSection = () => {
       >
         <Flex
           alignItems="baseline"
-          gap="var(--spacing-lg)"
           className={styles.subHeader}
         >
           <h2>Finn din greie</h2>
