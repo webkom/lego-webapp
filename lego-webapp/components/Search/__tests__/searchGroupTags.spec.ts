@@ -5,9 +5,8 @@ import {
   getActiveGroupKeyword,
   getGroupKeywordSuggestions,
   matchesGroupKeywords,
-  parseGroupSearchQuery,
   replaceActiveGroupKeyword,
-  serializeGroupSearchQuery,
+  toggleGroupTag,
 } from '../searchGroupTags';
 import type {
   GroupFilterCandidate,
@@ -36,34 +35,26 @@ const gradeGroups: SearchGroupKeyword[] = [
 ];
 
 describe('searchGroupTags', () => {
-  it('parses selected groups out of the raw query', () => {
-    expect(
-      parseGroupSearchQuery(
-        ':Webkom :Some Group frontend search',
-        availableGroups,
-      ),
-    ).toEqual({
-      tags: [availableGroups[0], availableGroups[2]],
-      text: 'frontend search',
-    });
+  it('toggles groups on and off the selected filter tags', () => {
+    expect(toggleGroupTag([], availableGroups[0])).toEqual([
+      availableGroups[0],
+    ]);
+    expect(toggleGroupTag([availableGroups[0]], availableGroups[0])).toEqual(
+      [],
+    );
+    expect(toggleGroupTag([availableGroups[0]], availableGroups[1])).toEqual([
+      availableGroups[0],
+      availableGroups[1],
+    ]);
   });
 
-  it('parses manually typed group tokens case-insensitively', () => {
+  it('replaces the selected grade but keeps membership tags', () => {
+    expect(toggleGroupTag([gradeGroups[1]], gradeGroups[0])).toEqual([
+      gradeGroups[0],
+    ]);
     expect(
-      parseGroupSearchQuery(':webkom frontend search', availableGroups),
-    ).toEqual({
-      tags: [availableGroups[0]],
-      text: 'frontend search',
-    });
-  });
-
-  it('serializes selected filters back into the editable query', () => {
-    expect(
-      serializeGroupSearchQuery(
-        [gradeGroups[0], availableGroups[0]],
-        'frontend search',
-      ),
-    ).toBe(':2. Klasse :Webkom frontend search');
+      toggleGroupTag([gradeGroups[1], availableGroups[0]], gradeGroups[0]),
+    ).toEqual([gradeGroups[0], availableGroups[0]]);
   });
 
   it('finds the active keyword after the last colon trigger', () => {

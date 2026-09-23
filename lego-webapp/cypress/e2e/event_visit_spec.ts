@@ -56,36 +56,44 @@ describe('View event', () => {
     cy.get('@attendanceSearch').clear().type(':we');
     cy.get('[role="listbox"][aria-label="Gruppeforslag"]')
       .should('be.visible')
-      .and('contain', 'Webkom');
+      .and('contain.text', 'Webkom');
     cy.get('[role="option"]')
       .should('have.length', 1)
       .and('have.attr', 'aria-selected', 'true');
 
-    cy.get('@attendanceSearch')
-      .type('{enter}')
-      .should('have.value', ':Webkom ');
+    cy.get('@attendanceSearch').type('{enter}').should('have.value', '');
     cy.get('[role="listbox"][aria-label="Gruppeforslag"]').should('not.exist');
+    cy.get('[data-test-id="attendance-filter-chip"]')
+      .should('have.length', 1)
+      .and('contain.text', 'Webkom');
     cy.get(attendeeList + ' li')
       .should('have.length', 1)
-      .and('contain', 'webkom webkom');
+      .and('contain.text', 'webkom webkom');
 
     cy.get('@attendanceSearch').clear().type(':3');
     cy.contains('[role="option"]', '3. Klasse').click();
-    cy.get('@attendanceSearch').should('have.value', ':3. Klasse ');
+    cy.get('@attendanceSearch').should('have.value', '');
+    cy.get('[data-test-id="attendance-filter-chip"]')
+      .should('have.length', 2)
+      .and('contain.text', '3. Klasse');
     cy.get(attendeeList + ' li')
       .should('have.length', 1)
-      .and('contain', 'webkom webkom');
+      .and('contain.text', 'webkom webkom');
 
     cy.get('@attendanceSearch').clear().type(':not-a-group');
     cy.get('[role="listbox"][aria-label="Gruppeforslag"]')
       .should('be.visible')
-      .and('contain', 'Ingen grupper matcher søket.');
-    cy.get(attendeeList + ' li').should('have.length', 9);
+      .and('contain.text', 'Ingen grupper matcher søket.');
+    cy.get(attendeeList + ' li')
+      .should('have.length', 1)
+      .and('contain.text', 'webkom webkom');
 
     cy.get('@attendanceSearch').type('{esc}');
     cy.get('[role="listbox"][aria-label="Gruppeforslag"]').should('not.exist');
     cy.get(t('Modal__content')).should('be.visible');
     cy.get('@attendanceSearch').clear();
+    cy.get(attendeeList + ' li').should('have.length', 1);
+    cy.contains('button', 'Nullstill').click();
     cy.get(attendeeList + ' li').should('have.length', 9);
   });
 

@@ -2,6 +2,7 @@ import { appConfig } from '~/utils/appConfig';
 
 export const Keyboard = {
   ESCAPE: 'Escape',
+  BACKSPACE: 'Backspace',
   RIGHT: 'ArrowRight',
   LEFT: 'ArrowLeft',
   UP: 'ArrowUp',

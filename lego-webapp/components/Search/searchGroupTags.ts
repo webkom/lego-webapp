@@ -14,11 +14,6 @@ export type GroupFilterCandidate = Omit<SearchGroupKeyword, 'type'> & {
   type: string;
 };
 
-type ParsedGroupSearchQuery = {
-  text: string;
-  tags: SearchGroupKeyword[];
-};
-
 type ActiveGroupKeyword = {
   query: string;
   startIndex: number;
@@ -28,8 +23,6 @@ const normalizeValue = (value: string) => value.trim().replace(/\s+/g, ' ');
 
 const normalizeComparisonValue = (value: string) =>
   normalizeValue(value).toLowerCase();
-
-const isBoundary = (value: string | undefined) => !value || /\s/.test(value);
 
 const uniqueEntityIds = (ids: EntityId[]) =>
   Array.from(new Map(ids.map((id) => [String(id), id])).values());
@@ -76,64 +69,26 @@ const mergeDuplicateGroups = (groups: SearchGroupKeyword[]) => {
   return Array.from(groupsByName.values());
 };
 
-export const serializeGroupSearchQuery = (
-  tags: SearchGroupKeyword[],
-  text: string,
-) =>
-  [...tags.map((tag) => `:${tag.name}`), normalizeValue(text)]
-    .filter(Boolean)
-    .join(' ')
-    .trim();
-
-export const parseGroupSearchQuery = (
-  query: string,
-  availableGroups: SearchGroupKeyword[],
-): ParsedGroupSearchQuery => {
-  if (!query) {
-    return {
-      text: '',
-      tags: [],
-    };
-  }
-
-  const sortedGroups = buildGroupFilterOptions(availableGroups).sort(
-    (left, right) => right.name.length - left.name.length,
+export const toggleGroupTag = (
+  selectedTags: SearchGroupKeyword[],
+  group: SearchGroupKeyword,
+): SearchGroupKeyword[] => {
+  const isSelected = selectedTags.some(
+    (tag) => String(tag.id) === String(group.id),
   );
-  const normalizedQuery = query.toLowerCase();
 
-  const tags: SearchGroupKeyword[] = [];
-  const textSegments: string[] = [];
-  let cursor = 0;
-
-  while (cursor < query.length) {
-    const currentGroup = sortedGroups.find((group) => {
-      const token = `:${group.name}`;
-      return (
-        normalizedQuery.startsWith(token.toLowerCase(), cursor) &&
-        isBoundary(query[cursor - 1]) &&
-        isBoundary(query[cursor + token.length])
-      );
-    });
-
-    if (currentGroup) {
-      tags.push(currentGroup);
-      cursor += currentGroup.name.length + 1;
-
-      if (query[cursor] === ' ') {
-        cursor += 1;
-      }
-
-      continue;
-    }
-
-    textSegments.push(query[cursor]);
-    cursor += 1;
+  if (isSelected) {
+    return selectedTags.filter((tag) => String(tag.id) !== String(group.id));
   }
 
-  return {
-    tags: mergeDuplicateGroups(tags),
-    text: normalizeValue(textSegments.join('')),
-  };
+  if (group.type === GroupType.Grade) {
+    return [
+      group,
+      ...selectedTags.filter((tag) => tag.type !== GroupType.Grade),
+    ];
+  }
+
+  return [...selectedTags, group];
 };
 
 export const getActiveGroupKeyword = (

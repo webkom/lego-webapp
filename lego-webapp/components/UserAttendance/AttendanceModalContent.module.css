@@ -13,6 +13,7 @@
 
 .modalContent {
   overflow: hidden;
+  height: min(65vh, 540px);
 }
 
 .searchContainer {
@@ -22,6 +23,7 @@
 
 .searchControls {
   display: flex;
+  flex-wrap: wrap;
   align-items: stretch;
   gap: var(--spacing-sm);
 }
@@ -75,31 +77,36 @@
   font-weight: 600;
 }
 
-.groupSuggestionType[data-group-type='klasse'] {
+.groupSuggestionType[data-group-type='klasse'],
+.activeFilterChip[data-group-type='klasse'] {
   border-color: var(--color-green-2);
   background-color: var(--color-green-1);
   color: var(--color-green-8);
 }
 
-.groupSuggestionType[data-group-type='komite'] {
+.groupSuggestionType[data-group-type='komite'],
+.activeFilterChip[data-group-type='komite'] {
   border-color: var(--color-red-2);
   background-color: var(--color-red-1);
   color: var(--color-red-8);
 }
 
-.groupSuggestionType[data-group-type='interesse'] {
+.groupSuggestionType[data-group-type='interesse'],
+.activeFilterChip[data-group-type='interesse'] {
   border-color: var(--color-orange-2);
   background-color: var(--color-orange-1);
   color: var(--color-orange-8);
 }
 
-.groupSuggestionType[data-group-type='styre'] {
+.groupSuggestionType[data-group-type='styre'],
+.activeFilterChip[data-group-type='styre'] {
   border-color: var(--color-blue-2);
   background-color: var(--color-blue-1);
   color: var(--color-blue-8);
 }
 
-.groupSuggestionType[data-group-type='revy'] {
+.groupSuggestionType[data-group-type='revy'],
+.activeFilterChip[data-group-type='revy'] {
   border-color: var(--color-purple-2);
   background-color: var(--color-purple-1);
   color: var(--color-purple-8);
@@ -109,6 +116,98 @@
   padding: var(--spacing-sm);
   color: var(--placeholder-color);
   font-size: var(--font-size-sm);
+}
+
+.activeFilterBar {
+  display: flex;
+  flex-shrink: 0;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+}
+
+.activeFilterChips {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.activeFilterChip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: 2px var(--spacing-xs) 2px var(--spacing-sm);
+  border: 1px solid var(--border-gray);
+  border-radius: 999px;
+  background-color: var(--additive-background);
+  color: var(--lego-font-color);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--easing-fast);
+  transition-property: background-color, border-color, color;
+}
+
+.activeFilterChip:hover,
+.activeFilterChip[data-group-type]:hover {
+  border-color: var(--lego-red-color);
+  background-color: var(--color-red-1);
+  color: var(--lego-red-color);
+}
+
+.activeFilterChip:focus-visible,
+.activeFilterChip[data-group-type]:focus-visible {
+  border-color: var(--lego-red-color);
+  background-color: var(--color-red-1);
+  color: var(--lego-red-color);
+  outline: 2px solid var(--lego-red-color);
+}
+
+.activeFilterMeta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  margin-left: auto;
+  flex-shrink: 0;
+  min-height: 26px;
+}
+
+.activeFilterClear {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  background: none;
+  color: var(--placeholder-color);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--easing-fast);
+  transition-property: color, background-color;
+}
+
+.activeFilterClear:hover {
+  color: var(--lego-font-color);
+}
+
+.activeFilterClear:focus-visible {
+  color: var(--lego-red-color);
+}
+
+.activeFilterMetaDivider {
+  color: var(--border-gray);
+  user-select: none;
+}
+
+.activeFilterCount {
+  color: var(--placeholder-color);
+  font-size: var(--font-size-xs);
+  font-variant-numeric: tabular-nums;
 }
 
 .filterPickerTrigger {
@@ -126,6 +225,7 @@
   color: var(--placeholder-color);
 }
 
+.filterPickerTrigger:hover,
 .filterPickerTrigger[data-hovered],
 .filterPickerTrigger[aria-expanded='true'] {
   border-color: var(--color-gray-4);
@@ -133,6 +233,7 @@
   color: var(--lego-font-color);
 }
 
+.filterPickerTrigger:focus-visible,
 .filterPickerTrigger[data-focus-visible] {
   outline: 2px solid var(--lego-font-color);
   outline-offset: 2px;
@@ -140,15 +241,14 @@
 
 .filterPickerCount {
   position: absolute;
-  top: -6px;
-  right: -6px;
+  top: var(--spacing-xs);
+  right: var(--spacing-xs);
   display: inline-flex;
-  min-width: 18px;
-  height: 18px;
+  min-width: var(--spacing-md);
+  height: var(--spacing-md);
   align-items: center;
   justify-content: center;
-  padding: 0 5px;
-  border: 2px solid var(--color-white);
+  padding: 0 4px;
   border-radius: 999px;
   background-color: var(--lego-red-color);
   color: var(--inverted-font-color);
@@ -171,6 +271,17 @@
   background-color: var(--color-white);
   box-shadow: 0 4px 12px
     rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 12%);
+}
+
+.filterPickerPanel {
+  flex-basis: 100%;
+  max-height: min(300px, 45vh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--spacing-sm);
+  border: 1px solid var(--border-gray);
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-white);
 }
 
 .filterPickerDialog {

@@ -163,8 +163,10 @@ const AttendanceHarness = ({
 const attendeeRows = () =>
   cy.get('[data-test-id="attendance-modal-content"] ul li');
 
+const filterChips = () => cy.get('[data-test-id="attendance-filter-chip"]');
+
 describe('<AttendanceModalContent />', () => {
-  it('keeps colon filters alongside the unified picker', () => {
+  it('shows selected colon filters as removable tags under the search bar', () => {
     cy.mount(<AttendanceHarness />);
     cy.get('html').invoke('attr', 'data-theme', 'dark');
     cy.get('input[placeholder="Søk etter navn eller skriv :gruppe"]')
@@ -178,6 +180,7 @@ describe('<AttendanceModalContent />', () => {
     cy.contains('button', 'Alle').should('have.attr', 'aria-pressed', 'true');
     cy.contains('button', 'Påmeldte').should('exist');
     cy.contains('button', 'Venteliste').should('exist');
+    filterChips().should('not.exist');
 
     cy.get('@attendanceSearch').type(':');
     cy.get('[role="option"]').should('have.length', 9);
@@ -210,6 +213,7 @@ describe('<AttendanceModalContent />', () => {
     cy.get('[data-test-id="attendance-modal-content"] ul li').should(
       'not.exist',
     );
+    cy.contains('Ingen treff').should('be.visible');
 
     cy.get('@attendanceSearch').clear().type('Mystery');
     cy.get('[data-test-id="attendance-modal-content"] ul li').should(
@@ -226,22 +230,52 @@ describe('<AttendanceModalContent />', () => {
 
     cy.get('@attendanceSearch')
       .type('{enter}')
-      .should('have.value', ':Webkom ');
+      .should('have.value', '')
+      .and('be.focused');
+    cy.get('[role="listbox"][aria-label="Gruppeforslag"]').should('not.exist');
+    filterChips()
+      .should('have.length', 1)
+      .and('contain.text', 'Webkom')
+      .and('have.attr', 'aria-label', 'Fjern filter: Webkom');
     attendeeRows().should('have.length', 2);
     attendeeRows().should('contain.text', 'Ada Lovelace');
     attendeeRows().should('contain.text', 'Katherine Johnson');
+    cy.get('[data-test-id="attendance-filter-count"]').should(
+      'contain.text',
+      '2 av 3',
+    );
+    cy.get('[data-test-id="attendance-filter-trigger"]').should(
+      'have.attr',
+      'data-active-count',
+      '1',
+    );
+
+    cy.get('@attendanceSearch').type(':Webkom');
+    cy.get('[role="listbox"][aria-label="Gruppeforslag"]')
+      .should('be.visible')
+      .and('contain.text', 'Ingen grupper matcher søket.');
+    attendeeRows().should('have.length', 2);
+
+    cy.get('@attendanceSearch').type('{esc}');
+    cy.get('[role="listbox"][aria-label="Gruppeforslag"]').should('not.exist');
+    cy.get('@attendanceSearch').clear();
+    attendeeRows().should('have.length', 2);
+
+    cy.get('@attendanceSearch').type('{backspace}');
+    filterChips().should('not.exist');
+    attendeeRows().should('have.length', 3);
 
     cy.get('@attendanceSearch').clear().type(':re');
     cy.contains('[role="option"]', 'Readme').then(($option) => {
       ($option[0] as HTMLButtonElement).click();
     });
-    cy.get('@attendanceSearch').should('have.value', ':Readme ');
+    cy.get('@attendanceSearch').should('have.value', '');
+    filterChips().should('have.length', 1).and('contain.text', 'Readme');
     attendeeRows().should('have.length', 1).and('contain.text', 'Grace Hopper');
 
-    cy.get('@attendanceSearch').type('Webkom');
-    cy.get('[data-test-id="attendance-modal-content"] ul li').should(
-      'not.exist',
-    );
+    cy.contains('button', 'Nullstill').click();
+    filterChips().should('not.exist');
+    attendeeRows().should('have.length', 3);
 
     cy.get('@attendanceSearch').clear().type(':unknown');
     cy.get('[role="listbox"][aria-label="Gruppeforslag"]')
@@ -251,13 +285,9 @@ describe('<AttendanceModalContent />', () => {
 
     cy.get('@attendanceSearch').type('{esc}');
     cy.get('[role="listbox"][aria-label="Gruppeforslag"]').should('not.exist');
-
-    cy.get('@attendanceSearch').clear().type(':Webkom');
-    cy.get('[role="listbox"][aria-label="Gruppeforslag"]').should('not.exist');
-    attendeeRows().should('have.length', 2);
   });
 
-  it('composes a class picker filter with a group keyword', () => {
+  it('composes a class picker filter with a group tag', () => {
     cy.mount(<AttendanceHarness />);
     cy.get('[role="group"][aria-label="Filtrer på kull"]').should('not.exist');
     cy.get('[data-test-id="attendance-filter-trigger"]')
@@ -272,44 +302,53 @@ describe('<AttendanceModalContent />', () => {
       .should('have.attr', 'aria-pressed', 'true');
     cy.get('input[placeholder="Søk etter navn eller skriv :gruppe"]').should(
       'have.value',
-      ':2. Klasse ',
+      '',
     );
+    filterChips().should('have.length', 1).and('contain.text', '2. Klasse');
     attendeeRows().should('have.length', 2);
 
     cy.get('@filterTrigger').should('have.attr', 'data-active-count', '1');
+    cy.get('[data-test-id="attendance-filter-badge"]')
+      .should('be.visible')
+      .and('contain.text', '1');
 
     cy.contains('[role="dialog"] button', /^2\. Klasse$/)
       .click()
       .should('have.attr', 'aria-pressed', 'false');
-    cy.get('input[placeholder="Søk etter navn eller skriv :gruppe"]').should(
-      'have.value',
-      '',
-    );
+    filterChips().should('not.exist');
     attendeeRows().should('have.length', 3);
 
     cy.get('@filterTrigger').should('have.attr', 'data-active-count', '0');
 
     cy.contains('[role="dialog"] button', /^1\. Klasse$/).click();
-    cy.get('input[placeholder="Søk etter navn eller skriv :gruppe"]').should(
-      'have.value',
-      ':1. Klasse ',
-    );
+    filterChips().should('have.length', 1).and('contain.text', '1. Klasse');
     attendeeRows().should('have.length', 1).and('contain.text', 'Ada Lovelace');
 
     cy.focused().type('{esc}');
     cy.get('input[placeholder="Søk etter navn eller skriv :gruppe"]')
+      .type('Grace')
+      .should('have.value', 'Grace');
+    cy.contains('Ingen treff').should('be.visible');
+    cy.get('input[placeholder="Søk etter navn eller skriv :gruppe"]')
+      .clear()
       .type(':we')
       .type('{enter}')
-      .should('have.value', ':1. Klasse :Webkom ');
+      .should('have.value', '');
+    filterChips()
+      .should('have.length', 2)
+      .and('contain.text', '1. Klasse')
+      .and('contain.text', 'Webkom');
     attendeeRows().should('have.length', 1).and('contain.text', 'Ada Lovelace');
 
     cy.get('@filterTrigger').click();
     cy.contains('[role="dialog"] button', /^1\. Klasse$/).click();
-    cy.get('input[placeholder="Søk etter navn eller skriv :gruppe"]').should(
-      'have.value',
-      ':Webkom ',
-    );
+    filterChips().should('have.length', 1).and('contain.text', 'Webkom');
     attendeeRows().should('have.length', 2);
+
+    cy.focused().type('{esc}');
+    cy.contains('button', 'Nullstill').click();
+    filterChips().should('not.exist');
+    attendeeRows().should('have.length', 3);
   });
 
   it('offers a bounded group picker beside the desktop search', () => {
@@ -355,35 +394,43 @@ describe('<AttendanceModalContent />', () => {
       .click()
       .should('have.attr', 'aria-pressed', 'true');
     cy.get('@filterTrigger').should('have.attr', 'data-active-count', '1');
-    cy.get('input[role="combobox"]').should('have.value', ':Kulisse ');
+    cy.get('input[role="combobox"]').should('have.value', '');
+    filterChips().should('have.length', 1).and('contain.text', 'Kulisse');
     attendeeRows().should('have.length', 2);
 
     cy.get('[data-test-id="attendance-filter-popover"]').scrollTo('top');
     cy.contains('[role="dialog"] button', /^2\. Klasse$/)
       .click()
       .should('have.attr', 'aria-pressed', 'true');
-    cy.get('input[role="combobox"]').should(
-      'have.value',
-      ':2. Klasse :Kulisse ',
-    );
+    filterChips()
+      .should('have.length', 2)
+      .and('contain.text', '2. Klasse')
+      .and('contain.text', 'Kulisse');
     cy.get('@filterTrigger').should('have.attr', 'data-active-count', '2');
     attendeeRows()
       .should('have.length', 1)
       .and('contain.text', 'Katherine Johnson');
 
     cy.contains('[role="dialog"] button', /^2\. Klasse$/).click();
-    cy.get('input[role="combobox"]').should('have.value', ':Kulisse ');
+    filterChips().should('have.length', 1).and('contain.text', 'Kulisse');
     cy.get('@filterTrigger').should('have.attr', 'data-active-count', '1');
 
     cy.focused().type('{esc}');
     cy.get('input[role="combobox"]').clear().type(':we').type('{enter}');
-    cy.get('input[role="combobox"]').should('have.value', ':Webkom ');
-    cy.get('@filterTrigger').should('have.attr', 'data-active-count', '1');
+    filterChips()
+      .should('have.length', 2)
+      .and('contain.text', 'Kulisse')
+      .and('contain.text', 'Webkom');
+    cy.get('@filterTrigger').should('have.attr', 'data-active-count', '2');
     attendeeRows().should('have.length', 2);
   });
 
-  it('offers all supported filters from one compact mobile picker', () => {
+  it('offers all supported filters from one compact inline mobile panel', () => {
     cy.viewport(375, 812);
+    // The inline panel requires a touch-capable narrow viewport (real phone)
+    cy.window().then((win) => {
+      Object.defineProperty(win.navigator, 'maxTouchPoints', { value: 5 });
+    });
     cy.mount(<AttendanceHarness />);
 
     cy.get('input[role="combobox"]')
@@ -398,8 +445,10 @@ describe('<AttendanceModalContent />', () => {
       .should('have.attr', 'aria-expanded', 'true');
     cy.get('@attendanceSearch').should('not.be.focused');
 
-    cy.get('[role="dialog"][aria-label="Filtrer deltakere"]')
-      .as('filterDialog')
+    const filterPanel = () =>
+      cy.get('[data-test-id="attendance-filter-panel"]');
+
+    filterPanel()
       .should('be.visible')
       .and('contain.text', 'Kull')
       .and('contain.text', 'Grupper')
@@ -408,65 +457,55 @@ describe('<AttendanceModalContent />', () => {
       .and('not.contain.text', 'Abakus')
       .and('not.contain.text', 'Mystery');
 
-    cy.contains('[role="dialog"] button', /^2\. Klasse$/)
+    const panelOption = (label: string) =>
+      cy.contains('[data-test-id="attendance-filter-panel"] button', label);
+
+    panelOption(/^2\. Klasse$/)
       .click()
       .should('have.attr', 'aria-pressed', 'true');
-    cy.get('@filterDialog').should('be.visible');
+    filterPanel().should('be.visible');
     cy.get('@filterTrigger')
       .should('have.attr', 'data-active-count', '1')
       .and('have.attr', 'aria-label', 'Filtrer deltakere, 1 aktivt filter');
-    cy.get('@attendanceSearch').should('have.value', ':2. Klasse ');
+    filterChips().should('have.length', 1).and('contain.text', '2. Klasse');
     attendeeRows().should('have.length', 2);
 
-    cy.contains('[role="dialog"] button', /^1\. Klasse$/).click();
+    panelOption(/^1\. Klasse$/).click();
     cy.get('@filterTrigger').should('have.attr', 'data-active-count', '1');
-    cy.contains('[role="dialog"] button', /^1\. Klasse$/).should(
-      'have.attr',
-      'aria-pressed',
-      'true',
-    );
-    cy.contains('[role="dialog"] button', /^2\. Klasse$/).should(
-      'have.attr',
-      'aria-pressed',
-      'false',
-    );
+    panelOption(/^1\. Klasse$/).should('have.attr', 'aria-pressed', 'true');
+    panelOption(/^2\. Klasse$/).should('have.attr', 'aria-pressed', 'false');
+    filterChips().should('have.length', 1).and('contain.text', '1. Klasse');
     attendeeRows().should('have.length', 1).and('contain.text', 'Ada Lovelace');
 
-    cy.contains('[role="dialog"] button', /^2\. Klasse$/).click();
-    cy.contains('[role="dialog"] button', 'Kulisse').click();
+    panelOption(/^2\. Klasse$/).click();
+    panelOption('Kulisse').click();
     cy.get('@filterTrigger').should('have.attr', 'data-active-count', '2');
-    cy.get('@attendanceSearch').should('have.value', ':2. Klasse :Kulisse ');
+    filterChips()
+      .should('have.length', 2)
+      .and('contain.text', '2. Klasse')
+      .and('contain.text', 'Kulisse');
     attendeeRows()
       .should('have.length', 1)
       .and('contain.text', 'Katherine Johnson');
 
-    cy.contains('[role="dialog"] button', 'Kodeklubben').click();
+    panelOption('Kodeklubben').click();
     cy.get('@filterTrigger').should('have.attr', 'data-active-count', '3');
     attendeeRows().should('have.length', 2);
 
-    cy.contains('[role="dialog"] button', 'Kulisse')
-      .click()
-      .should('have.attr', 'aria-pressed', 'false');
+    panelOption('Kulisse').click().should('have.attr', 'aria-pressed', 'false');
     cy.get('@filterTrigger').should('have.attr', 'data-active-count', '2');
 
     cy.focused().type('{esc}');
-    cy.get('[role="dialog"][aria-label="Filtrer deltakere"]').should(
-      'not.exist',
-    );
+    filterPanel().should('not.exist');
     cy.get('@filterTrigger')
       .should('have.attr', 'aria-expanded', 'false')
       .and('be.focused');
 
     cy.get('@filterTrigger').click();
-    cy.get('body').click(5, 5);
-    cy.get('[role="dialog"][aria-label="Filtrer deltakere"]').should(
-      'not.exist',
-    );
-    cy.get('@filterTrigger').should('have.attr', 'data-active-count', '2');
+    filterPanel().should('be.visible');
 
-    cy.get('@filterTrigger').click();
-    cy.contains('[role="dialog"] button', /^2\. Klasse$/).click();
-    cy.contains('[role="dialog"] button', 'Kodeklubben').click();
+    cy.contains('button', 'Nullstill').click();
+    filterChips().should('not.exist');
     cy.get('@filterTrigger').should('have.attr', 'data-active-count', '0');
     cy.get('@attendanceSearch').should('have.value', '');
     attendeeRows().should('have.length', 3);
@@ -474,10 +513,13 @@ describe('<AttendanceModalContent />', () => {
 
   it('keeps mobile meeting filters membership-only', () => {
     cy.viewport(375, 812);
+    cy.window().then((win) => {
+      Object.defineProperty(win.navigator, 'maxTouchPoints', { value: 5 });
+    });
     cy.mount(<AttendanceHarness isMeeting />);
 
     cy.get('[data-test-id="attendance-filter-trigger"]').click();
-    cy.get('[role="dialog"][aria-label="Filtrer deltakere"]')
+    cy.get('[data-test-id="attendance-filter-panel"]')
       .should('be.visible')
       .and('not.contain.text', 'Kull')
       .and('not.contain.text', '1. Klasse')
@@ -485,15 +527,20 @@ describe('<AttendanceModalContent />', () => {
       .and('not.contain.text', 'Abakus')
       .and('not.contain.text', 'Mystery');
 
-    cy.contains('[role="dialog"] button', 'Kulisse').click();
+    cy.contains(
+      '[data-test-id="attendance-filter-panel"] button',
+      'Kulisse',
+    ).click();
     cy.get('[data-test-id="attendance-filter-trigger"]').should(
       'have.attr',
       'data-active-count',
       '1',
     );
+    filterChips().should('have.length', 1).and('contain.text', 'Kulisse');
     attendeeRows().should('have.length', 2);
 
     cy.mount(<AttendanceHarness isMeeting currentUserGroupIds={[104, 105]} />);
     cy.get('[data-test-id="attendance-filter-trigger"]').should('not.exist');
+    cy.get('input').should('have.attr', 'placeholder', 'Søk etter navn');
   });
 });

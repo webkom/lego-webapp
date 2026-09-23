@@ -1,7 +1,7 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { flatMap } from 'lodash-es';
-import { Send } from 'lucide-react';
+import { RotateCcw, SearchX, Send, X } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { GroupType } from 'app/models';
 import { TextInput } from '~/components/Form';
@@ -12,9 +12,8 @@ import {
   getGroupKeywordSuggestions,
   getGroupKeywordTypeLabel,
   matchesGroupKeywords,
-  parseGroupSearchQuery,
   replaceActiveGroupKeyword,
-  serializeGroupSearchQuery,
+  toggleGroupTag,
   type SearchGroupKeyword,
 } from '~/components/Search/searchGroupTags';
 import { AttendanceFilterPicker } from '~/components/UserAttendance/AttendanceFilterPicker';
@@ -93,7 +92,8 @@ const AttendanceModalContent = ({
   selectedPool,
   isMeeting = false,
 }: Props) => {
-  const [search, setSearch] = useState('');
+  const [searchText, setSearchText] = useState('');
+  const [selectedTags, setSelectedTags] = useState<SearchGroupKeyword[]>([]);
   const [isGroupSuggestionsOpen, setIsGroupSuggestionsOpen] = useState(false);
   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(0);
   const groupEntities = useAppSelector(selectGroupEntities);
@@ -133,35 +133,21 @@ const AttendanceModalContent = ({
     [currentUserGroups, isMeeting],
   );
 
-  const parsedSearch = useMemo(
-    () => parseGroupSearchQuery(search, availableGroupFilters),
-    [availableGroupFilters, search],
-  );
-
-  const activeGroupKeyword = getActiveGroupKeyword(search);
+  const activeGroupKeyword = getActiveGroupKeyword(searchText);
   const groupSuggestions = useMemo(
     () =>
       getGroupKeywordSuggestions({
         availableGroups: availableGroupFilters,
-        selectedTags: parsedSearch.tags,
-        text: search,
+        selectedTags,
+        text: searchText,
       }),
-    [availableGroupFilters, parsedSearch.tags, search],
+    [availableGroupFilters, selectedTags, searchText],
   );
-  const activeKeywordIsSelected =
-    activeGroupKeyword &&
-    parsedSearch.tags.some(
-      (group) =>
-        normalizeSearchValue(group.name) ===
-        normalizeSearchValue(activeGroupKeyword.query),
-    );
   const showGroupSuggestions =
-    Boolean(activeGroupKeyword) &&
-    !activeKeywordIsSelected &&
-    isGroupSuggestionsOpen;
+    Boolean(activeGroupKeyword) && isGroupSuggestionsOpen;
   const textWithoutActiveKeyword = activeGroupKeyword
-    ? replaceActiveGroupKeyword(parsedSearch.text)
-    : parsedSearch.text;
+    ? replaceActiveGroupKeyword(searchText)
+    : searchText;
 
   useEffect(() => {
     setSelectedSuggestionIndex((currentIndex) =>
@@ -177,55 +163,35 @@ const AttendanceModalContent = ({
     });
   }, [selectedSuggestionIndex, showGroupSuggestions]);
 
-  const updateGroupFilters = (
-    groups: SearchGroupKeyword[],
-    text = textWithoutActiveKeyword,
-  ) => {
-    const nextSearch = serializeGroupSearchQuery(groups, text);
-
-    setSearch(groups.length > 0 && nextSearch ? `${nextSearch} ` : nextSearch);
+  const selectGroupSuggestion = (group: SearchGroupKeyword) => {
+    setSelectedTags((tags) => toggleGroupTag(tags, group));
+    setSearchText((text) => replaceActiveGroupKeyword(text));
     setSelectedSuggestionIndex(0);
     setIsGroupSuggestionsOpen(false);
-  };
-
-  const selectGroupSuggestion = (group: SearchGroupKeyword) => {
-    const nextGroups =
-      group.type === GroupType.Grade
-        ? [
-            group,
-            ...parsedSearch.tags.filter((tag) => tag.type !== GroupType.Grade),
-          ]
-        : [...parsedSearch.tags, group];
-
-    updateGroupFilters(nextGroups);
     searchInputRef.current?.focus();
   };
 
   const toggleGroupFilter = (group: SearchGroupKeyword) => {
-    const isSelected = parsedSearch.tags.some(
-      (tag) => String(tag.id) === String(group.id),
+    setSelectedTags((tags) => toggleGroupTag(tags, group));
+  };
+
+  const removeGroupTag = (group: SearchGroupKeyword) => {
+    setSelectedTags((tags) =>
+      tags.filter((tag) => String(tag.id) !== String(group.id)),
     );
-    const groupsWithoutSelected = parsedSearch.tags.filter(
-      (tag) => String(tag.id) !== String(group.id),
-    );
-
-    if (isSelected) {
-      updateGroupFilters(groupsWithoutSelected);
-      return;
-    }
-
-    if (group.type === GroupType.Grade) {
-      updateGroupFilters([
-        group,
-        ...parsedSearch.tags.filter((tag) => tag.type !== GroupType.Grade),
-      ]);
-      return;
-    }
-
-    updateGroupFilters([...parsedSearch.tags, group]);
   };
 
   const handleSearchKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (
+      event.key === Keyboard.BACKSPACE &&
+      searchText === '' &&
+      selectedTags.length > 0
+    ) {
+      event.preventDefault();
+      setSelectedTags((tags) => tags.slice(0, -1));
+      return;
+    }
+
     if (!showGroupSuggestions) return;
 
     switch (event.key) {
@@ -265,15 +231,15 @@ const AttendanceModalContent = ({
   const filteredRegistrations = useMemo(() => {
     const normalizedSearch = normalizeSearchValue(textWithoutActiveKeyword);
     const plainSearchGroups =
-      parsedSearch.tags.length === 0
+      selectedTags.length === 0
         ? currentUserGroups.filter(
             (group) => normalizeSearchValue(group.name) === normalizedSearch,
           )
         : [];
-    const selectedGradeGroups = parsedSearch.tags.filter(
+    const selectedGradeGroups = selectedTags.filter(
       (group) => group.type === GroupType.Grade,
     );
-    const selectedMembershipGroups = parsedSearch.tags.filter(
+    const selectedMembershipGroups = selectedTags.filter(
       (group) => group.type !== GroupType.Grade,
     );
 
@@ -302,16 +268,21 @@ const AttendanceModalContent = ({
     });
   }, [
     currentUserGroups,
-    parsedSearch.tags,
     registrations,
+    selectedTags,
     textWithoutActiveKeyword,
   ]);
+
+  const isFiltering =
+    selectedTags.length > 0 || normalizeSearchValue(searchText) !== '';
 
   const suggestionStatus = showGroupSuggestions
     ? groupSuggestions.length > 0
       ? `${groupSuggestions.length} gruppeforslag tilgjengelig.`
       : 'Ingen grupper matcher søket.'
-    : '';
+    : isFiltering
+      ? `Viser ${filteredRegistrations.length} av ${registrations.length}`
+      : '';
 
   return (
     <Flex
@@ -326,18 +297,22 @@ const AttendanceModalContent = ({
             inputRef={searchInputRef}
             type="text"
             prefix="search"
-            placeholder="Søk etter navn eller skriv :gruppe"
-            value={search}
+            placeholder={
+              availableGroupFilters.length > 0
+                ? 'Søk etter navn eller skriv :gruppe'
+                : 'Søk etter navn'
+            }
+            value={searchText}
             onChange={(event) => {
               const nextSearch = event.target.value;
-              setSearch(nextSearch);
+              setSearchText(nextSearch);
               setIsGroupSuggestionsOpen(
                 Boolean(getActiveGroupKeyword(nextSearch)),
               );
               setSelectedSuggestionIndex(0);
             }}
             onFocus={() => {
-              if (getActiveGroupKeyword(search)) {
+              if (getActiveGroupKeyword(searchText)) {
                 setIsGroupSuggestionsOpen(true);
               }
             }}
@@ -360,7 +335,7 @@ const AttendanceModalContent = ({
 
           <AttendanceFilterPicker
             groups={availableGroupFilters}
-            selectedGroups={parsedSearch.tags}
+            selectedGroups={selectedTags}
             onToggleGroup={toggleGroupFilter}
           />
         </div>
@@ -413,7 +388,9 @@ const AttendanceModalContent = ({
         )}
 
         <span id="attendance-group-filter-hint" className={styles.srOnly}>
-          Skriv kolon for å filtrere på klasse eller gruppe.
+          Skriv kolon for å filtrere på klasse eller gruppe. Valgte filtre vises
+          som etiketter under søkefeltet og kan fjernes ved å trykke på dem
+          eller slettetasten.
         </span>
         <span
           id="attendance-group-filter-status"
@@ -424,6 +401,43 @@ const AttendanceModalContent = ({
           {suggestionStatus}
         </span>
       </div>
+
+      {selectedTags.length > 0 && (
+        <div className={styles.activeFilterBar}>
+          <div className={styles.activeFilterChips}>
+            {selectedTags.map((tag) => (
+              <button
+                key={String(tag.id)}
+                type="button"
+                className={styles.activeFilterChip}
+                data-test-id="attendance-filter-chip"
+                data-group-type={tag.type}
+                aria-label={`Fjern filter: ${tag.name}`}
+                onClick={() => removeGroupTag(tag)}
+              >
+                <span>{tag.name}</span>
+                <X size={14} strokeWidth={2} aria-hidden="true" />
+              </button>
+            ))}
+          </div>
+          <div className={styles.activeFilterMeta}>
+            <button
+              type="button"
+              className={styles.activeFilterClear}
+              onClick={() => setSelectedTags([])}
+            >
+              <RotateCcw size={12} strokeWidth={2} aria-hidden="true" />
+              <span>Nullstill</span>
+            </button>
+            <span
+              className={styles.activeFilterCount}
+              data-test-id="attendance-filter-count"
+            >
+              {filteredRegistrations.length} av {registrations.length}
+            </span>
+          </div>
+        </div>
+      )}
 
       <ul className={styles.list}>
         {filteredRegistrations.length > 0 ? (
@@ -448,9 +462,21 @@ const AttendanceModalContent = ({
           ))
         ) : (
           <EmptyState
-            iconNode={<Send />}
-            header={!isMeeting ? 'Ingen påmeldte ...' : undefined}
-            body={!isMeeting ? 'Meld deg på da vel!' : 'Ingen brukere her ...'}
+            iconNode={isFiltering ? <SearchX /> : <Send />}
+            header={
+              isFiltering
+                ? 'Ingen treff'
+                : !isMeeting
+                  ? 'Ingen påmeldte ...'
+                  : undefined
+            }
+            body={
+              isFiltering
+                ? 'Prøv et annet søk eller fjern noen filtre.'
+                : !isMeeting
+                  ? 'Meld deg på da vel!'
+                  : 'Ingen brukere her ...'
+            }
             className={styles.emptyState}
           />
         )}
