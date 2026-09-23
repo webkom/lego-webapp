@@ -82,6 +82,7 @@
 }
 
 .timeRange {
+  color: var(--color-black);
   background-color: var(--color-red-2);
   border-left: 3px solid var(--color-red-4);
   cursor: pointer;

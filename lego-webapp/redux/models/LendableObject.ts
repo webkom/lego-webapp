@@ -16,11 +16,11 @@ interface LendableObject {
 }
 
 interface availabilityLendableObject {
-    start: Dateish;
-    end: Dateish;
-    created_by_fullname?: string;
-    created_by_username?: string;
-    requestId: number;
+  start: Dateish;
+  end: Dateish;
+  createdByFullname?: string;
+  createdByUsername?: EntityId;
+  requestId: number;
 }
 
 export type ListLendableObject = Pick<

@@ -5,6 +5,7 @@ import cx from 'classnames';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import moment, { Moment } from 'moment-timezone';
 import { useState } from 'react';
+import { Link } from '~/components/Link';
 import {
   fetchLendableObjectAvailability,
   fetchLendableObjectById,
@@ -61,15 +62,17 @@ const LendingCalendar = ({
     );
   };
 
-  
-
   const getUnavailableTimeRanges = (
     selected: TimeRange | null,
     day: Moment,
   ) => {
     const dayStart = day.clone().startOf('day');
     const dayEnd = day.clone().endOf('day');
-    const timeRanges: TimeRange[] = [];
+    const timeRanges: (
+      TimeRange & {
+      requestId: number;
+      lendableObjectId: EntityId;
+      })[] = [];
 
     if (!lendableObject?.availability) {
       return [];
@@ -85,12 +88,14 @@ const LendingCalendar = ({
         const overlapStart = moment.max(startDate, dayStart);
         const overlapEnd = moment.min(endDate, dayEnd);
 
-        const newTimeRange = {
+        const newTimeRange: (TimeRange & {requestId: number; lendableObjectId: EntityId;}) = {
           start: overlapStart.format('HH:mm'),
           end: overlapEnd.format('HH:mm'),
           fullDay:
             overlapStart.format('HH:mm') === '00:00' &&
             overlapEnd.format('HH:mm') === '23:59',
+          requestId: availability.requestId,
+          lendableObjectId: lendableObject.id,
         };
 
         const isSimilarToSelected =
@@ -247,16 +252,19 @@ const LendingCalendar = ({
                               </div>
                             )}
 
-                            {!fully ? (
-                              timeRanges.map((range, idx) => (
-                                <div key={idx} className={styles.timeRange}>
-                                 
-                                  {`${range.start}-${range.end}`}
+                            
+                              {timeRanges.map((range, idx) => (
+                                <Link
+                                    key={idx}
+                                    href={`/lending/${range.lendableObjectId}/request/${range.requestId}
+                                    `}
+                                  >
+                                <div className={styles.timeRange}>
+                                {!fully && `${range.start}-${range.end}`}
                                 </div>
-                              ))
-                            ) : (
-                              <div className={styles.timeRange} />
-                            )}
+                                </Link>
+                              ))}
+                              
                           </div>
                         </div>
                       </td>
