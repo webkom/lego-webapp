@@ -17,7 +17,10 @@ import {
   type SearchGroupKeyword,
 } from '~/components/Search/searchGroupTags';
 import { AttendanceFilterPicker } from '~/components/UserAttendance/AttendanceFilterPicker';
-import { gradeGroupFilters } from '~/components/UserAttendance/gradeGroupFilters';
+import {
+  gradeGroupFilters,
+  studyProgramGroupFilters,
+} from '~/components/UserAttendance/gradeGroupFilters';
 import { useAppSelector } from '~/redux/hooks';
 import { useCurrentUser } from '~/redux/slices/auth';
 import { selectGroupEntities } from '~/redux/slices/groups';
@@ -128,7 +131,11 @@ const AttendanceModalContent = ({
     () =>
       buildGroupFilterOptions([
         ...(!isMeeting ? gradeGroupFilters : []),
-        ...currentUserGroups.filter((group) => group.type !== GroupType.Grade),
+        ...(!isMeeting ? studyProgramGroupFilters : []),
+        ...currentUserGroups.filter(
+          (group) =>
+            group.type !== GroupType.Grade && group.type !== 'studieretning',
+        ),
       ]),
     [currentUserGroups, isMeeting],
   );
@@ -239,8 +246,12 @@ const AttendanceModalContent = ({
     const selectedGradeGroups = selectedTags.filter(
       (group) => group.type === GroupType.Grade,
     );
+    const selectedStudyProgramGroups = selectedTags.filter(
+      (group) => group.type === 'studieretning',
+    );
     const selectedMembershipGroups = selectedTags.filter(
-      (group) => group.type !== GroupType.Grade,
+      (group) =>
+        group.type !== GroupType.Grade && group.type !== 'studieretning',
     );
 
     return registrations.filter((registration) => {
@@ -256,6 +267,10 @@ const AttendanceModalContent = ({
         userGroupIds,
         selectedGradeGroups,
       );
+      const studyProgramMatch = matchesGroupKeywords(
+        userGroupIds,
+        selectedStudyProgramGroups,
+      );
       const membershipMatch = matchesGroupKeywords(
         userGroupIds,
         selectedMembershipGroups,
@@ -264,7 +279,12 @@ const AttendanceModalContent = ({
         plainSearchGroups.length > 0 &&
         matchesGroupKeywords(userGroupIds, plainSearchGroups);
 
-      return (nameMatch || plainGroupMatch) && gradeMatch && membershipMatch;
+      return (
+        (nameMatch || plainGroupMatch) &&
+        gradeMatch &&
+        studyProgramMatch &&
+        membershipMatch
+      );
     });
   }, [
     currentUserGroups,

@@ -183,19 +183,25 @@ describe('<AttendanceModalContent />', () => {
     filterChips().should('not.exist');
 
     cy.get('@attendanceSearch').type(':');
-    cy.get('[role="option"]').should('have.length', 9);
+    cy.get('[role="option"]').should('have.length', 11);
     cy.get('[role="option"]').eq(0).should('contain.text', '1. Klasse');
     cy.get('[role="option"]').eq(4).should('contain.text', '5. Klasse');
-    cy.get('[role="option"]').eq(5).should('contain.text', 'Readme');
-    cy.get('[role="option"]').eq(6).should('contain.text', 'Webkom');
-    cy.get('[role="option"]').eq(7).should('contain.text', 'Kodeklubben');
+    cy.get('[role="option"]').eq(5).should('contain.text', 'Cyber');
+    cy.get('[role="option"]').eq(6).should('contain.text', 'Data');
+    cy.get('[role="option"]').eq(7).should('contain.text', 'Readme');
+    cy.get('[role="option"]').eq(8).should('contain.text', 'Webkom');
+    cy.get('[role="option"]').eq(9).should('contain.text', 'Kodeklubben');
     cy.get('[role="option"]')
-      .eq(8)
+      .eq(10)
       .should('contain.text', 'Kulisse')
       .and('contain.text', 'Revy');
     cy.get('[role="listbox"]').should('not.contain.text', 'Abakus');
     cy.get('[role="listbox"]').should('not.contain.text', 'Mystery');
     cy.get('[data-group-type="klasse"]')
+      .first()
+      .should('have.css', 'background-color')
+      .and('not.equal', 'rgba(0, 0, 0, 0)');
+    cy.get('[data-group-type="studieretning"]')
       .first()
       .should('have.css', 'background-color')
       .and('not.equal', 'rgba(0, 0, 0, 0)');
@@ -374,6 +380,9 @@ describe('<AttendanceModalContent />', () => {
       .and('contain.text', 'Kull')
       .and('contain.text', '1. Klasse')
       .and('contain.text', '5. Klasse')
+      .and('contain.text', 'Studieretning')
+      .and('contain.text', 'Data')
+      .and('contain.text', 'Cyber')
       .and('contain.text', 'Grupper')
       .and('contain.text', 'Kulisse');
 
@@ -451,6 +460,9 @@ describe('<AttendanceModalContent />', () => {
     filterPanel()
       .should('be.visible')
       .and('contain.text', 'Kull')
+      .and('contain.text', 'Studieretning')
+      .and('contain.text', 'Data')
+      .and('contain.text', 'Cyber')
       .and('contain.text', 'Grupper')
       .and('contain.text', 'Kulisse')
       .and('contain.text', 'Revy')
@@ -522,6 +534,7 @@ describe('<AttendanceModalContent />', () => {
     cy.get('[data-test-id="attendance-filter-panel"]')
       .should('be.visible')
       .and('not.contain.text', 'Kull')
+      .and('not.contain.text', 'Studieretning')
       .and('not.contain.text', '1. Klasse')
       .and('contain.text', 'Kulisse')
       .and('not.contain.text', 'Abakus')
@@ -543,4 +556,69 @@ describe('<AttendanceModalContent />', () => {
     cy.get('[data-test-id="attendance-filter-trigger"]').should('not.exist');
     cy.get('input').should('have.attr', 'placeholder', 'Søk etter navn');
   });
+
+  it('filters by study program (Data, Cyber) and composes with class and groups', () => {
+    cy.mount(<AttendanceHarness />);
+    cy.get('input[placeholder="Søk etter navn eller skriv :gruppe"]')
+      .as('attendanceSearch');
+
+    // Filter using alias :komtek
+    cy.get('@attendanceSearch').type(':komtek');
+    cy.get('[role="option"]')
+      .should('have.length', 1)
+      .and('contain.text', 'Cyber');
+    cy.get('[role="option"]').first().click();
+
+    filterChips().should('have.length', 1).and('contain.text', 'Cyber');
+    // None of the mock users belong to Cyber
+    attendeeRows().should('have.length', 0);
+    cy.contains('Ingen treff').should('be.visible');
+
+    // Selecting Data replaces Cyber
+    cy.get('@attendanceSearch').type(':data');
+    cy.get('[role="option"]')
+      .should('have.length', 1)
+      .and('contain.text', 'Data');
+    cy.get('[role="option"]').first().click();
+
+    filterChips().should('have.length', 1).and('contain.text', 'Data');
+    // All 3 mock users belong to Datateknologi
+    attendeeRows().should('have.length', 3);
+
+    // Compose with grade filter 1. Klasse
+    cy.get('[data-test-id="attendance-filter-trigger"]').click();
+    cy.contains('[role="dialog"] button', /^1\. Klasse$/).click();
+    cy.focused().type('{esc}');
+
+    filterChips()
+      .should('have.length', 2)
+      .and('contain.text', 'Data')
+      .and('contain.text', '1. Klasse');
+    // Only Ada Lovelace is 1. Klasse Datateknologi
+    attendeeRows().should('have.length', 1).and('contain.text', 'Ada Lovelace');
+
+    // Switch grade to 2. Klasse from the picker
+    cy.get('[data-test-id="attendance-filter-trigger"]').click();
+    cy.contains('[role="dialog"] button', /^2\. Klasse$/).click();
+    cy.focused().type('{esc}');
+
+    filterChips()
+      .should('have.length', 2)
+      .and('contain.text', 'Data')
+      .and('contain.text', '2. Klasse');
+    // Grace Hopper and Katherine Johnson are 2. Klasse Datateknologi
+    attendeeRows().should('have.length', 2);
+
+    // Also compose with a committee (Webkom)
+    cy.get('@attendanceSearch').type(':we').type('{enter}');
+    filterChips().should('have.length', 3);
+    // Katherine Johnson is Webkom + 2. Klasse + Data
+    attendeeRows().should('have.length', 1).and('contain.text', 'Katherine Johnson');
+
+    // Clear all filters
+    cy.contains('button', 'Nullstill').click();
+    filterChips().should('not.exist');
+    attendeeRows().should('have.length', 3);
+  });
 });
+

@@ -57,6 +57,57 @@ describe('searchGroupTags', () => {
     ).toEqual([gradeGroups[0], availableGroups[0]]);
   });
 
+  it('replaces the selected study program but keeps grade and membership tags', () => {
+    const dataGroup: SearchGroupKeyword = {
+      id: 'study-data',
+      groupIds: [15, 16],
+      name: 'Data',
+      type: 'studieretning',
+      aliases: ['datateknologi'],
+    };
+    const cyberGroup: SearchGroupKeyword = {
+      id: 'study-cyber',
+      groupIds: [21, 22],
+      name: 'Cyber',
+      type: 'studieretning',
+      aliases: ['komtek'],
+    };
+
+    expect(toggleGroupTag([dataGroup], cyberGroup)).toEqual([cyberGroup]);
+    expect(
+      toggleGroupTag(
+        [gradeGroups[0], dataGroup, availableGroups[0]],
+        cyberGroup,
+      ),
+    ).toEqual([cyberGroup, gradeGroups[0], availableGroups[0]]);
+  });
+
+  it('matches keyword suggestions by name or alias', () => {
+    const cyberGroup: SearchGroupKeyword = {
+      id: 'study-cyber',
+      groupIds: [21, 22],
+      name: 'Cyber',
+      type: 'studieretning',
+      aliases: ['komtek', 'cybersikkerhet'],
+    };
+
+    expect(
+      getGroupKeywordSuggestions({
+        availableGroups: [cyberGroup],
+        selectedTags: [],
+        text: ':komtek',
+      }),
+    ).toEqual([cyberGroup]);
+
+    expect(
+      getGroupKeywordSuggestions({
+        availableGroups: [cyberGroup],
+        selectedTags: [],
+        text: ':cyb',
+      }),
+    ).toEqual([cyberGroup]);
+  });
+
   it('finds the active keyword after the last colon trigger', () => {
     expect(getActiveGroupKeyword('frontend :we')).toEqual({
       query: 'we',

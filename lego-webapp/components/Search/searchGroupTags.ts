@@ -1,13 +1,16 @@
 import { GroupType } from 'app/models';
 import type { EntityId } from '@reduxjs/toolkit';
 
-export type SupportedGroupType = Exclude<GroupType, GroupType.Other>;
+export type SupportedGroupType =
+  | Exclude<GroupType, GroupType.Other>
+  | 'studieretning';
 
 export type SearchGroupKeyword = {
   id: EntityId;
   groupIds: EntityId[];
   name: string;
   type: SupportedGroupType;
+  aliases?: string[];
 };
 
 export type GroupFilterCandidate = Omit<SearchGroupKeyword, 'type'> & {
@@ -29,6 +32,7 @@ const uniqueEntityIds = (ids: EntityId[]) =>
 
 const supportedGroupTypes = [
   GroupType.Grade,
+  'studieretning',
   GroupType.Committee,
   GroupType.Interest,
   GroupType.Revue,
@@ -48,6 +52,12 @@ const mergeDuplicateGroups = (groups: SearchGroupKeyword[]) => {
   groups.forEach((group) => {
     const nameKey = normalizeComparisonValue(group.name);
     const existingGroup = groupsByName.get(nameKey);
+    const mergedAliases = Array.from(
+      new Set([
+        ...(existingGroup?.aliases ?? []),
+        ...(group.aliases ?? []),
+      ]),
+    );
 
     groupsByName.set(
       nameKey,
@@ -58,10 +68,12 @@ const mergeDuplicateGroups = (groups: SearchGroupKeyword[]) => {
               ...existingGroup.groupIds,
               ...group.groupIds,
             ]),
+            ...(mergedAliases.length > 0 ? { aliases: mergedAliases } : {}),
           }
         : {
             ...group,
             groupIds: uniqueEntityIds(group.groupIds),
+            ...(mergedAliases.length > 0 ? { aliases: mergedAliases } : {}),
           },
     );
   });
@@ -88,6 +100,13 @@ export const toggleGroupTag = (
     ];
   }
 
+  if (group.type === 'studieretning') {
+    return [
+      group,
+      ...selectedTags.filter((tag) => tag.type !== 'studieretning'),
+    ];
+  }
+
   return [...selectedTags, group];
 };
 
@@ -108,12 +127,13 @@ export const getActiveGroupKeyword = (
 const sortGroups = (groups: SearchGroupKeyword[]): SearchGroupKeyword[] => {
   const typeOrder: Record<SupportedGroupType, number> = {
     [GroupType.Grade]: 0,
-    [GroupType.Committee]: 1,
-    [GroupType.Interest]: 2,
-    [GroupType.Revue]: 3,
-    [GroupType.Board]: 4,
-    [GroupType.SubGroup]: 5,
-    [GroupType.Ordained]: 6,
+    studieretning: 1,
+    [GroupType.Committee]: 2,
+    [GroupType.Interest]: 3,
+    [GroupType.Revue]: 4,
+    [GroupType.Board]: 5,
+    [GroupType.SubGroup]: 6,
+    [GroupType.Ordained]: 7,
   };
 
   return groups.toSorted((left, right) => {
@@ -160,12 +180,18 @@ export const getGroupKeywordSuggestions = ({
   const selectedNames = new Set(
     selectedTags.map((group) => normalizeComparisonValue(group.name)),
   );
+  const query = normalizeComparisonValue(activeKeyword.query);
   const filteredGroups = buildGroupFilterOptions(availableGroups).filter(
-    (group) =>
-      !selectedNames.has(normalizeComparisonValue(group.name)) &&
-      normalizeComparisonValue(group.name).includes(
-        normalizeComparisonValue(activeKeyword.query),
-      ),
+    (group) => {
+      if (selectedNames.has(normalizeComparisonValue(group.name))) {
+        return false;
+      }
+      const nameMatch = normalizeComparisonValue(group.name).includes(query);
+      const aliasMatch = group.aliases?.some((alias) =>
+        normalizeComparisonValue(alias).includes(query),
+      );
+      return nameMatch || Boolean(aliasMatch);
+    },
   );
 
   return sortGroups(filteredGroups);
@@ -199,6 +225,7 @@ export const replaceActiveGroupKeyword = (
 
 const groupTypeLabels: Record<SupportedGroupType, string> = {
   [GroupType.Grade]: 'Klasse',
+  studieretning: 'Studieretning',
   [GroupType.Committee]: 'Komite',
   [GroupType.Interest]: 'Interessegruppe',
   [GroupType.Revue]: 'Revy',

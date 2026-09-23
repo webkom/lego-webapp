@@ -112,6 +112,13 @@
   color: var(--color-purple-8);
 }
 
+.groupSuggestionType[data-group-type='studieretning'],
+.activeFilterChip[data-group-type='studieretning'] {
+  border-color: var(--color-yellow-2);
+  background-color: var(--color-yellow-1);
+  color: var(--color-yellow-8);
+}
+
 .emptyGroupSuggestions {
   padding: var(--spacing-sm);
   color: var(--placeholder-color);

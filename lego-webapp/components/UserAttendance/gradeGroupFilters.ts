@@ -33,3 +33,26 @@ export const gradeGroupFilters = [
     groupIds: [20, 26],
   },
 ] satisfies SearchGroupKeyword[];
+
+export const studyProgramGroupFilters = [
+  {
+    id: 'study-data',
+    name: 'Data',
+    type: 'studieretning',
+    groupIds: [15, 16, 17, 18, 19, 20],
+    aliases: ['datateknologi'],
+  },
+  {
+    id: 'study-cyber',
+    name: 'Cyber',
+    type: 'studieretning',
+    groupIds: [21, 22, 23, 24, 25, 26],
+    aliases: [
+      'komtek',
+      'cybersikkerhet',
+      'cybdat',
+      'kommunikasjonsteknologi',
+    ],
+  },
+] satisfies SearchGroupKeyword[];
+

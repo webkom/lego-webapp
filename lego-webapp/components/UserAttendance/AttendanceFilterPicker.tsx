@@ -67,8 +67,12 @@ const FilterSections = ({
   onToggleGroup: (group: SearchGroupKeyword) => void;
 }) => {
   const gradeGroups = groups.filter((group) => group.type === GroupType.Grade);
+  const studyProgramGroups = groups.filter(
+    (group) => group.type === 'studieretning',
+  );
   const membershipGroups = groups.filter(
-    (group) => group.type !== GroupType.Grade,
+    (group) =>
+      group.type !== GroupType.Grade && group.type !== 'studieretning',
   );
 
   return (
@@ -82,6 +86,26 @@ const FilterSections = ({
             aria-label="Filtrer på kull"
           >
             {gradeGroups.map((group) => (
+              <FilterOption
+                key={group.id}
+                group={group}
+                isSelected={selectedGroupIds.has(String(group.id))}
+                onToggleGroup={onToggleGroup}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {studyProgramGroups.length > 0 && (
+        <section className={styles.filterPickerSection}>
+          <h3 className={styles.filterPickerSectionTitle}>Studieretning</h3>
+          <div
+            className={styles.filterPickerOptions}
+            role="group"
+            aria-label="Filtrer på studieretning"
+          >
+            {studyProgramGroups.map((group) => (
               <FilterOption
                 key={group.id}
                 group={group}
