@@ -12,57 +12,55 @@ export const Keyboard = {
 };
 
 export const LENDABLE_CATEGORY = {
-  outdoors: 'Utendørs',
   photography: 'Fotografi',
   music: 'Musikk',
   furniture: 'Møbler',
   services: 'Tjenester',
+  outdoors: 'Utendørs',
   other: 'Annet',
 };
 
 export type FilterLendingCategory = keyof typeof LENDABLE_CATEGORY;
 
 export const ROLES = {
-  member: 'Medlem (standard)',
-  leader: 'Leder',
-  'co-leader': 'Nestleder',
-  treasurer: 'Økonomiansvarlig',
-  recruiting: 'Rekruttering',
-  development: 'Utvikling',
-  editor: 'Moderator',
-  retiree: 'Pang',
-  media_relations: 'PR-ansvarlig',
   active_retiree: 'Aktiv pang',
   alumni: 'Alumni',
-  webmaster: 'Webansvarlig',
-  interest_group_admin: 'Interessegruppeansvarlig',
   alumni_admin: 'Alumniansvarlig',
-  retiree_email: 'Pang med e-post',
+  event_manager: 'Arrangementansvarlig',
   company_admin: 'Bedriftsansvarlig',
+  booking_admin: 'Bookingansvarlig',
   dugnad_admin: 'Dugnadsansvarlig',
-  trip_admin: 'Turansvarlig',
-  sponsor_admin: 'Sponsoransvarlig',
-  social_admin: 'Sosialansvarlig',
-  merch_admin: 'Merchansvarlig',
-  hs_representative: 'HS-representant',
-  cuddling_manager: 'Kosansvarlig',
   photo_admin: 'Foto- og filmansvarlig',
   graphic_admin: 'Grafiskansvarlig',
-  social_media_admin: 'SoMe-ansvarlig',
-  booking_admin: 'Bookingansvarlig',
+  hs_representative: 'HS-representant',
   purchasing_manager: 'Innkjøpsansvarlig',
-  event_manager: 'Arrangementansvarlig',
+  interest_group_admin: 'Interessegruppeansvarlig',
+  cuddling_manager: 'Kosansvarlig',
+  leader: 'Leder',
+  member: 'Medlem (standard)',
+  merch_admin: 'Merchansvarlig',
+  editor: 'Moderator',
+  'co-leader': 'Nestleder',
+  retiree: 'Pang',
+  retiree_email: 'Pang med e-post',
+  media_relations: 'PR-ansvarlig',
+  recruiting: 'Rekruttering',
   snackoverflow_manager: 'SnackOverflow-ansvarlig',
+  social_media_admin: 'SoMe-ansvarlig',
+  social_admin: 'Sosialansvarlig',
+  sponsor_admin: 'Sponsoransvarlig',
+  trip_admin: 'Turansvarlig',
+  development: 'Utvikling',
+  webmaster: 'Webansvarlig',
+  treasurer: 'Økonomiansvarlig',
 };
 
 export type RoleType = keyof typeof ROLES;
 
-export const roleOptions = (Object.keys(ROLES) as RoleType[])
-  .sort()
-  .map((role) => ({
-    value: role,
-    label: ROLES[role],
-  }));
+export const roleOptions = (Object.keys(ROLES) as RoleType[]).map((role) => ({
+  value: role,
+  label: ROLES[role],
+}));
 
 /*
  * Use the production group id (11) if the ENVIRONMENT environment value is 'production' or 'staging'
