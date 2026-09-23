@@ -73,7 +73,7 @@ export const addReactionCases = (
       if (reaction.reactionId === action.meta.id) {
         reaction.count--;
         reaction.hasReacted = false;
-        delete reaction.reactionId;
+        reaction.reactionId = -1;
       }
     }
     entity.reactionsGrouped = entity.reactionsGrouped.filter(

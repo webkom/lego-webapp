@@ -1,0 +1,39 @@
+.backLink {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  align-self: flex-start;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  color: var(--secondary-font-color);
+  transition: color var(--easing-fast);
+
+  &:hover {
+    color: var(--lego-red-color);
+  }
+}
+
+.subtitle {
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+  color: var(--secondary-font-color);
+}
+
+.forgotPassword {
+  align-self: flex-end;
+  margin-top: calc(var(--spacing-sm) * -1);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  color: var(--secondary-font-color);
+  transition: color var(--easing-fast);
+
+  &:hover {
+    color: var(--lego-red-color);
+  }
+}

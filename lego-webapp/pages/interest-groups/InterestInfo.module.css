@@ -1,0 +1,17 @@
+.interestGroupText {
+  max-width: 40rem;
+}
+
+.interestGroupText h2 {
+  margin-top: var(--spacing-lg);
+}
+
+.interestGroupText ul {
+  margin-left: var(--spacing-lg);
+  list-style-type: disc;
+  margin-bottom: var(--spacing-md);
+}
+
+.interestGroupText ul li {
+  margin-bottom: var(--spacing-xs);
+}

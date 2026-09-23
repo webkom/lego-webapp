@@ -56,3 +56,19 @@ export const studyProgramGroupFilters = [
   },
 ] satisfies SearchGroupKeyword[];
 
+export const filterableGroups = gradeGroupFilters.map((group) => ({
+  name: group.name,
+  ids: group.groupIds,
+}));
+
+export const programFilterGroups = [
+  {
+    name: 'Data',
+    ids: [16, 17, 18, 19, 20],
+  },
+  {
+    name: 'Komtek',
+    ids: [22, 23, 24, 25, 26],
+  },
+];
+

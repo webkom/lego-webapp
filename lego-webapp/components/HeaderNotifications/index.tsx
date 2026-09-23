@@ -65,12 +65,18 @@ const HeaderNotificationsContent = () => {
   );
 
   if (fetchingNotifications && notifications.length === 0) {
-    return <LoadingIndicator loading />;
+    return (
+      <div className={styles.centered}>
+        <LoadingIndicator loading />
+      </div>
+    );
   }
 
   if (!fetchingNotifications && notifications.length === 0) {
     return (
-      <EmptyState iconNode={<BellOff />} body="Du har ingen varslinger ..." />
+      <div className={styles.centered}>
+        <EmptyState iconNode={<BellOff />} body="Du har ingen varslinger ..." />
+      </div>
     );
   }
 

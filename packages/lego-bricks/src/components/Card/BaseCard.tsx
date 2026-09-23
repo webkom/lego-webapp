@@ -8,14 +8,20 @@ type Props = {
   hoverable?: boolean;
   shadow?: boolean;
   className?: string;
-};
+} & Omit<ComponentProps<typeof Flex>, 'className'>;
 
 /**
  * Simple base card component, without any styling except the base card.
  *
  * Should be used with CardContent and CardFooter components, in order to have a consistent look.
  */
-export const BaseCard = ({ children, hoverable, shadow, className }: Props) => (
+export const BaseCard = ({
+  children,
+  hoverable,
+  shadow,
+  className,
+  ...props
+}: Props) => (
   <Flex
     column
     className={cx(
@@ -24,6 +30,7 @@ export const BaseCard = ({ children, hoverable, shadow, className }: Props) => (
       shadow && styles.shadow,
       className,
     )}
+    {...props}
   >
     {children}
   </Flex>

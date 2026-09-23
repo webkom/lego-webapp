@@ -65,27 +65,8 @@
   transform: scale(var(--scale, 1)) translateZ(0);
 }
 
-.checkbox.path input:checked {
-  --s: 2px;
-
-  transition-delay: 0.2s;
-}
-
-.checkbox.path svg {
-  stroke-dasharray: var(--a, 86.12);
-  stroke-dashoffset: var(--o, 86.12);
-  transition:
-    stroke-dasharray var(--linear-slow),
-    stroke-dashoffset var(--linear-slow);
-}
-
 .checkbox.bounce svg {
   --scale: 0;
-}
-
-.checkbox.path input:checked + svg {
-  --a: 16.1 86.12;
-  --o: 102.22;
 }
 
 .checkbox.bounce {

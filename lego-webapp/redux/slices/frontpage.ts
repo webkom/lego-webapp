@@ -8,16 +8,32 @@ import { EntityType } from '~/redux/models/entities';
 import { selectArticles } from './articles';
 import { selectAllEvents } from './events';
 
+import type { AnyAction, EntityId } from '@reduxjs/toolkit';
 import type { PublicArticle } from '~/redux/models/Article';
 import type { FrontpageEvent } from '~/redux/models/Event';
+import type { RootState } from '~/redux/rootReducer';
+
+type NormalizedFrontpage = {
+  articles?: EntityId[];
+  events?: EntityId[];
+};
 
 const frontpageSlice = createSlice({
   name: 'frontpage',
   initialState: {
     fetching: false,
+    articleIds: [] as EntityId[],
+    eventIds: [] as EntityId[],
   },
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(Frontpage.FETCH.SUCCESS, (state, action: AnyAction) => {
+      const frontpage = Object.values<NormalizedFrontpage>(
+        action.payload.entities.frontpage ?? {},
+      )[0];
+      state.articleIds = frontpage?.articles ?? [];
+      state.eventIds = frontpage?.events ?? [];
+    });
     buildFetchingReducer(builder, [Frontpage.FETCH]);
   },
 });
@@ -52,22 +68,46 @@ export const frontpageObjectDate = (object: ArticleWithType | EventWithType) =>
     ? moment(object.startTime)
     : moment(object.createdAt);
 
-export const selectPinned = createSelector(
+export const selectFrontpageItems = createSelector(
   selectArticles<PublicArticle>,
   selectAllEvents<FrontpageEvent>,
-  (articles, events) => {
-    const pinnedObjects = sortBy(
-      [...articles.map(addArticleType), ...events.map(addEventType)],
+  (state: RootState) => state.frontpage.articleIds,
+  (state: RootState) => state.frontpage.eventIds,
+  (articles, events, articleIds, eventIds) => {
+    const frontpageArticleIds = new Set(articleIds);
+    const frontpageEventIds = new Set(eventIds);
+
+    return sortBy(
+      [
+        ...articles
+          .filter((article) => frontpageArticleIds.has(article.id))
+          .map(addArticleType),
+        ...events
+          .filter((event) => frontpageEventIds.has(event.id))
+          .map(addEventType),
+      ],
       [
         (object) => (object.pinned ? 0 : 1), // Sort pinned objects first
         (object) => Math.abs(moment().diff(frontpageObjectDate(object))), // Sort by most recently published/starting soonest
         (object) => object.id,
       ],
+    ) satisfies (ArticleWithType | EventWithType)[];
+  },
+);
+
+export const selectFeaturedItems = createSelector(
+  selectFrontpageItems,
+  (items) => {
+    const pinned = items.filter((object) => object.pinned);
+
+    if (pinned.length > 0) {
+      return pinned;
+    }
+
+    const nextEvent = items.find(
+      (object) => isEvent(object) && moment(object.startTime).isAfter(moment()),
     );
 
-    return pinnedObjects[0] satisfies
-      | ArticleWithType
-      | EventWithType
-      | undefined;
+    return nextEvent ? [nextEvent] : [];
   },
 );

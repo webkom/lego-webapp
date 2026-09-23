@@ -41,7 +41,7 @@ export const TabContainer = ({ className, lineColor, children }: Props) => {
   };
 
   useEffect(() => {
-    const activeTab = document.querySelector('[data-active="true"]');
+    const activeTab = tabListRef.current?.querySelector('[data-active="true"]');
     if (activeTab) {
       const width = activeTab.clientWidth;
       const left = (activeTab as HTMLElement).offsetLeft;

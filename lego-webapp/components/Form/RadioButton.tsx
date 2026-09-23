@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { Keyboard } from '~/utils/constants';
 import { createField } from './Field';
 import styles from './RadioButton.module.css';
-import type { ComponentProps, InputHTMLAttributes, KeyboardEvent } from 'react';
+import type { InputHTMLAttributes, KeyboardEvent } from 'react';
 
 type Props = {
   label?: string;
@@ -56,14 +56,5 @@ function RadioButton({
   );
 }
 
-const RawField = createField(RadioButton, { inlineLabel: true });
-
-const StyledField = ({
-  fieldClassName,
-  ...props
-}: ComponentProps<typeof RawField> & { fieldClassName?: string }) => (
-  <RawField fieldClassName={cx(fieldClassName, styles.radioField)} {...props} />
-);
-
-RadioButton.Field = StyledField;
+RadioButton.Field = createField(RadioButton, { inlineLabel: true });
 export default RadioButton;

@@ -4,7 +4,7 @@ import { Trophy } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState, useMemo } from 'react';
 import { navigate } from 'vike/client/router';
-import AchievementsInfo, { rarityMap } from '~/utils/achievementConstants';
+import { getAchievementInfo, rarityMap } from '~/utils/achievementConstants';
 import styles from './UserProfile.module.css';
 import type { Achievement } from '~/redux/models/User';
 
@@ -16,11 +16,17 @@ export const AchievementsBox = ({
   const [showAll, setShowAll] = useState(false);
 
   const sortedAchievements = useMemo(() => {
-    return [...achievements].sort(
-      (a, b) =>
-        AchievementsInfo[b.identifier][b.level].rarity -
-        AchievementsInfo[a.identifier][a.level].rarity,
-    );
+    return achievements
+      .filter((achievement) => getAchievementInfo(achievement))
+      .sort((a, b) => {
+        const aInfo = getAchievementInfo(a);
+        const bInfo = getAchievementInfo(b);
+        if (!aInfo || !bInfo) {
+          return 0;
+        }
+
+        return bInfo.rarity - aInfo.rarity;
+      });
   }, [achievements]);
 
   const topAchievements = showAll
@@ -49,58 +55,58 @@ export const AchievementsBox = ({
         className={styles.trophyCaseWrapper}
       >
         <div className={styles.trophyCaseBox}>
-          {topAchievements.map((e) => (
-            <Flex
-              column
-              key={AchievementsInfo[e.identifier][e.level].name}
-              alignItems="center"
-              className={styles.trophyElementBox}
-            >
-              <Tooltip
-                content={
-                  <div className={styles.trophyDetailTooltip}>
-                    <p>
-                      <i>
-                        {AchievementsInfo[e.identifier][e.level].hidden
-                          ? '?????????'
-                          : AchievementsInfo[e.identifier][e.level].description}
-                      </i>
-                    </p>
-                    <p>
-                      Opnådd den {moment(e.updatedAt).format('D. MMMM YYYY')}
-                    </p>
-                    <p>{e.percentage.toFixed(1)}% har denne!</p>
-                  </div>
-                }
-                positions="bottom"
-              >
-                <Trophy
-                  size={40}
-                  color={
-                    rarityMap[AchievementsInfo[e.identifier][e.level].rarity]
-                      .color ?? 'Gold'
-                  }
-                  style={
-                    AchievementsInfo[e.identifier][e.level].rarity >= 4
-                      ? {
-                          filter: `drop-shadow(0px 0px ${
-                            AchievementsInfo[e.identifier][e.level].rarity - 1
-                          }px ${
-                            rarityMap[
-                              AchievementsInfo[e.identifier][e.level].rarity
-                            ].color
-                          })`,
-                        }
-                      : {}
-                  }
-                />
+          {topAchievements.map((e) => {
+            const achievementInfo = getAchievementInfo(e);
+            if (!achievementInfo) {
+              return null;
+            }
 
-                <p style={{ textShadow: '#FC0 1px 0 10px;' }}>
-                  {AchievementsInfo[e.identifier][e.level].name}
-                </p>
-              </Tooltip>
-            </Flex>
-          ))}
+            return (
+              <Flex
+                column
+                key={achievementInfo.name}
+                alignItems="center"
+                className={styles.trophyElementBox}
+              >
+                <Tooltip
+                  content={
+                    <div className={styles.trophyDetailTooltip}>
+                      <p>
+                        <i>
+                          {achievementInfo.hidden
+                            ? '?????????'
+                            : achievementInfo.description}
+                        </i>
+                      </p>
+                      <p>
+                        Opnådd den {moment(e.updatedAt).format('D. MMMM YYYY')}
+                      </p>
+                      <p>{e.percentage.toFixed(1)}% har denne!</p>
+                    </div>
+                  }
+                  positions="bottom"
+                >
+                  <Trophy
+                    size={40}
+                    color={rarityMap[achievementInfo.rarity].color ?? 'Gold'}
+                    style={
+                      achievementInfo.rarity >= 4
+                        ? {
+                            filter: `drop-shadow(0px 0px ${
+                              achievementInfo.rarity - 1
+                            }px ${rarityMap[achievementInfo.rarity].color})`,
+                          }
+                        : {}
+                    }
+                  />
+
+                  <p style={{ textShadow: '#FC0 1px 0 10px;' }}>
+                    {achievementInfo.name}
+                  </p>
+                </Tooltip>
+              </Flex>
+            );
+          })}
         </div>
         {achievements.length > 5 && (
           <Button

@@ -2,7 +2,7 @@ import { PropsWithChildren, useState } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
 import { usePageContext } from 'vike-react/usePageContext';
-import { ThemeContextListener } from '~/utils/themeUtils';
+import { ThemeManager } from '~/utils/themeUtils';
 
 export default function StoreProvider({ children }: PropsWithChildren) {
   const pageContext = usePageContext();
@@ -13,7 +13,7 @@ export default function StoreProvider({ children }: PropsWithChildren) {
       <HelmetProvider
         context={import.meta.env.SSR ? pageContext.helmetContext : undefined}
       >
-        <ThemeContextListener />
+        <ThemeManager />
         {children}
       </HelmetProvider>
     </Provider>

@@ -125,7 +125,7 @@ export function useFetchedSurvey(
     selectSurveyById(state, surveyId),
   ) as UnknownSurvey | undefined;
   const event = useAppSelector((state: RootState) =>
-    selectEventById<EventForSurvey>(state, survey?.event),
+    selectEventById<EventForSurvey>(state, survey?.event ?? undefined),
   );
 
   return {

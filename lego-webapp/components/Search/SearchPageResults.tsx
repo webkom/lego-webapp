@@ -8,22 +8,29 @@ import { isUserResult } from '~/redux/slices/search';
 import truncateString from '~/utils/truncateString';
 import styles from './SearchPageResults.module.css';
 import type { KeyboardEventHandler } from 'react';
-import type { SearchResult as SearchResultType } from '~/redux/slices/search';
+import type {
+  SearchResult,
+  SearchResult as SearchResultType,
+} from '~/redux/slices/search';
 
-type Props = {
+type Props<T extends SearchResultType> = {
   query: string;
-  results: Array<SearchResultType>;
-  onSelect: (arg0: SearchResultType) => void;
+  results: Array<T>;
+  onSelect: (arg0: T) => void;
   onKeyDown: KeyboardEventHandler;
   selectedIndex: number;
 };
-type SearchResultProps = {
-  result: SearchResultType;
-  onSelect: (arg0: SearchResultType) => void;
+type SearchResultProps<T extends SearchResultType> = {
+  result: T;
+  onSelect: (arg0: T) => void;
   isSelected: boolean;
 };
 
-const SearchResult = ({ result, onSelect, isSelected }: SearchResultProps) => {
+const SearchResult = <T extends SearchResultType>({
+  result,
+  onSelect,
+  isSelected,
+}: SearchResultProps<T>) => {
   if (!result.link) return;
 
   return (
@@ -77,12 +84,12 @@ const SearchResult = ({ result, onSelect, isSelected }: SearchResultProps) => {
   );
 };
 
-const SearchPageResults = ({
+const SearchPageResults = <T extends SearchResult>({
   onSelect,
   results,
   selectedIndex,
   query,
-}: Props) => {
+}: Props<T>) => {
   const searching = useAppSelector((state) => state.search.searching);
 
   if (results.length === 0 && !searching) {
@@ -111,7 +118,7 @@ const SearchPageResults = ({
         />
       ) : (
         results.map((result, i) => (
-          <SearchResult
+          <SearchResult<T>
             key={`${result.path}-${result.value}`}
             onSelect={onSelect}
             result={result}

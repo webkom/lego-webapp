@@ -78,3 +78,12 @@
 .toggleButton {
   cursor: pointer;
 }
+
+.pinnedBadge {
+  position: absolute;
+  top: var(--spacing-xs);
+  right: var(--spacing-xs);
+  color: var(--white);
+  padding: var(--spacing-xs);
+  rotate: 40deg;
+}

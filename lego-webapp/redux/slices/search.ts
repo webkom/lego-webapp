@@ -4,8 +4,9 @@ import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
 import { categoryOptions } from '~/pages/pages/page/+Page';
 import { Search } from '~/redux/actionTypes';
+import { Group } from '~/redux/models/Group';
 import { resolveGroupLink } from '~/redux/slices/groups';
-import type { User, Event, Group, Meeting, Dateish } from 'app/models';
+import type { User, Event, Meeting, Dateish } from 'app/models';
 import type { SearchArticle } from '~/redux/models/Article';
 import type { SearchCompany } from '~/redux/models/Company';
 import type { RootState } from '~/redux/rootReducer';
@@ -37,7 +38,7 @@ export type UserSearchResult = SearchResultBase & {
 export type SearchResult = SearchResultBase | UserSearchResult;
 
 type SearchResultMapping<T, K = SearchResultBase> = {
-  [key in keyof K]: string | ((arg0: T) => string);
+  [key in keyof K]: string | ((arg0: T) => string | undefined);
 };
 
 export const isUserResult = (value: SearchResult): value is UserSearchResult =>
@@ -64,7 +65,7 @@ export type RawSearchResult = object & {
 
 const initialState = {
   results: [],
-  autocomplete: [],
+  autocomplete: [] as RawSearchResult[],
   query: '',
   searching: false,
   open: false,
@@ -249,13 +250,25 @@ const transformResult = (result: RawSearchResult) => {
   return item as SearchResult;
 };
 
-export const selectAutocomplete = (autocomplete: Array<RawSearchResult>) =>
+export const transformAutocompletes = (autocomplete: Array<RawSearchResult>) =>
   autocomplete.map(transformResult).filter(Boolean);
 
-export const selectAutocompleteRedux = createSelector(
+export const selectAutocomplete = createSelector(
   (state: RootState) => state.search.autocomplete,
   (autocomplete) => autocomplete.map(transformResult).filter(Boolean),
 );
+
+export const selectAutocompleteOfType = <T extends SearchResult>(
+  contentType: string,
+) =>
+  createSelector(
+    (state: RootState) => state.search.autocomplete,
+    (autocomplete: RawSearchResult[]) =>
+      autocomplete
+        .filter((result) => result.contentType == contentType)
+        .map(transformResult)
+        .filter(Boolean) as T[],
+  );
 
 export const selectResult = createSelector(
   (state: RootState) => state.search.results,

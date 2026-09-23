@@ -82,7 +82,7 @@ type CallAPIMeta<ExtraMeta = Record<string, never>> = ExtraMeta & {
   body?: Record<string, unknown> | string;
   schemaKey?: string;
 };
-type CallAPIOptionsMeta = {
+export type CallAPIOptionsMeta = {
   errorMessage?: string;
   successMessage?: string;
 };
@@ -108,6 +108,24 @@ type CallAPIOptions<Meta extends CallAPIOptionsMeta> = {
   };
 };
 
+export type APIPromiseResult<
+  T,
+  Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
+    Record<string, unknown>,
+> = Thunk<
+  Promise<ResolvedPromiseAction<T | NormalizedApiPayload<T>, CallAPIMeta<Meta>>>
+>;
+export type APIPromiseResultStrict<
+  T,
+  Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
+    Record<string, unknown>,
+> = Thunk<Promise<ResolvedPromiseAction<T, CallAPIMeta<Meta>>>>;
+export type NullableAPIPromiseResultStrict<
+  T,
+  Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
+    Record<string, unknown>,
+> = Thunk<null | Promise<ResolvedPromiseAction<T, CallAPIMeta<Meta>>>>;
+
 export default function callAPI<
   T = unknown,
   Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
@@ -117,13 +135,13 @@ export default function callAPI<
 ): Thunk<
   Promise<ResolvedPromiseAction<NormalizedApiPayload<T>, CallAPIMeta<Meta>>>
 >;
+
 export default function callAPI<
   T = unknown,
   Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
     Record<string, unknown>,
->(
-  props: Omit<CallAPIOptions<Meta>, 'schema'>,
-): Thunk<Promise<ResolvedPromiseAction<T, CallAPIMeta<Meta>>>>;
+>(props: Omit<CallAPIOptions<Meta>, 'schema'>): APIPromiseResultStrict<T, Meta>;
+
 export default function callAPI<
   T = unknown,
   Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
@@ -144,9 +162,7 @@ export default function callAPI<
   enableOptimistic = false,
   requiresAuthentication = true,
   timeout,
-}: CallAPIOptions<Meta>): Thunk<
-  Promise<ResolvedPromiseAction<T | NormalizedApiPayload<T>, CallAPIMeta<Meta>>>
-> {
+}: CallAPIOptions<Meta>): APIPromiseResult<T, Meta> {
   return async (dispatch: AppDispatch, getState) => {
     const requestOptions: HttpRequestOptions = {
       method,
@@ -200,16 +216,16 @@ export default function callAPI<
 
     // @todo: better id gen (cuid or something)
     const optimisticId = Math.floor(Date.now() * Math.random() * 1000);
-    const optimisticPayload =
+    const optimisticData =
       enableOptimistic && body && typeof body === 'object'
-        ? normalizeJsonResponse({
-            jsonData: {
-              id: optimisticId,
-              __persisted: false,
-              ...body,
-            },
-          })
+        ? { id: optimisticId, __persisted: false, ...body }
         : null;
+    const optimisticPayload: NormalizedApiPayload<T> | T | null =
+      optimisticData && schema
+        ? ({
+            ...normalize(optimisticData, schema),
+          } as NormalizedApiPayload<T>)
+        : (optimisticData as T | null);
     const qsWithoutPagination = query
       ? createQueryString(omit(query, 'cursor'))
       : '';
@@ -217,9 +233,9 @@ export default function callAPI<
 
     if (schema) {
       if (isArray(schema)) {
-        schemaKey = schema[0].key;
+        schemaKey = (schema[0] as { key: string }).key;
       } else {
-        schemaKey = schema.key;
+        schemaKey = (schema as { key: string }).key;
       }
     }
 
@@ -266,7 +282,12 @@ export default function callAPI<
           paginationForRequest && paginationForRequest.paginationKey,
         cursor,
         ...meta,
-        optimisticId: optimisticPayload ? optimisticPayload.result : undefined,
+        optimisticId:
+          optimisticPayload != null &&
+          typeof optimisticPayload === 'object' &&
+          'result' in optimisticPayload
+            ? (optimisticPayload.result as EntityId)
+            : undefined,
         enableOptimistic,
         endpoint,
         body,

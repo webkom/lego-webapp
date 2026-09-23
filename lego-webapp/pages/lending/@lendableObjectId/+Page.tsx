@@ -6,15 +6,15 @@ import { Dateish } from 'app/models';
 import DisplayContent from '~/components/DisplayContent';
 import { readmeIfy } from '~/components/ReadmeLogo';
 import TextWithIcon from '~/components/TextWithIcon';
-import { useFetchedLendableObject } from '~/pages/lending/@lendableObjectId/useFetchedLendableObject';
+import LendingCalendar from '~/pages/lending/_components/LendingCalendar';
+import LendingRequestEditor from '~/pages/lending/_components/LendingRequestEditor';
+import { useFetchedLendableObject } from '~/pages/lending/_components/useFetchedLendableObject';
 import { useAppSelector } from '~/redux/hooks';
 import { selectGroupsByIds } from '~/redux/slices/groups';
 import { LENDABLE_CATEGORY } from '~/utils/constants';
 import truncateString from '~/utils/truncateString';
 import { useParams } from '~/utils/useParams';
-import LendingCalendar from './LendingCalendar';
-import LendingRequestEditor from './LendingRequestEditor';
-import styles from './Page.module.css';
+import styles from './LendableObjectDetail.module.css';
 
 export const formatGroups = (groups: { name: string }[]) => {
   return groups.length > 0 ? groups.map((g) => g.name).join(', ') : 'Ukjent';

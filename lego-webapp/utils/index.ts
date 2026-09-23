@@ -27,8 +27,11 @@ export function generateTreeStructure<
     parent?: EntityId | null;
   },
 >(nodes: Array<T>): Tree<T> {
+  // Filter out null or undefined nodes to prevent crash
+  const definedNodes = nodes.filter((node) => !!node);
+
   // Create a map of id -> node for retrievals later:
-  const tree: { [id: EntityId]: TreeNode<T> } = nodes.reduce(
+  const tree: { [id: EntityId]: TreeNode<T> } = definedNodes.reduce(
     (acc: { [id: EntityId]: TreeNode<T> }, node: T) => ({
       ...acc,
       [node.id]: { ...node, children: [] },
@@ -36,7 +39,7 @@ export function generateTreeStructure<
     {},
   );
 
-  return nodes.reduce((roots: Tree<T>, { id }) => {
+  return definedNodes.reduce((roots: Tree<T>, { id }) => {
     const node = tree[id];
 
     if (!node.parent) {

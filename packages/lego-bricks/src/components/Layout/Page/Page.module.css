@@ -36,14 +36,25 @@
   max-width: 100vw;
 
   h1 {
-    margin: 0;
+    margin: 0 auto 0 0;
+  }
+
+  .buttonGroup.buttonGroup {
+    flex-basis: auto;
   }
 }
 
 .buttonGroup {
   flex-grow: 0;
   justify-content: flex-end;
-  margin-left: auto;
+
+  &:only-child {
+    margin-left: auto;
+  }
+
+  @media (--medium-viewport) {
+    align-self: center;
+  }
 }
 
 .description {

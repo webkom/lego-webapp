@@ -1,5 +1,6 @@
 .field {
   width: 100%;
+  position: relative;
 }
 
 .inputWithError {
@@ -15,4 +16,41 @@
   color: var(--color-absolute-white);
   font-size: var(--font-size-sm);
   border-radius: var(--border-radius-md);
+}
+
+/* Reads as a note under the control instead of a block laid over what follows.
+   For controls an overlay has nothing sensible to cover: a row of chips, a list
+   of cards, an editor tall enough that the message lands far from the mistake. */
+.fieldErrorQuiet {
+  min-height: 0;
+  padding: 0;
+  margin-top: 0;
+  background: none;
+  color: var(--danger-color);
+  font-weight: 500;
+}
+
+.fieldErrorIcon {
+  flex: none;
+}
+
+.fieldErrorFlow {
+  display: flex;
+  flex-direction: column;
+}
+
+.fieldErrorOverlay {
+  composes: fieldErrorFlow;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 3;
+  width: 100%;
+  pointer-events: none;
+}
+
+.fieldErrorText {
+  composes: fieldErrorFlow;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-xs);
 }

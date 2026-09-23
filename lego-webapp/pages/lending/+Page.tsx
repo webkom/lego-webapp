@@ -1,11 +1,22 @@
-import { PageContainer, LinkButton, Icon } from '@webkom/lego-bricks';
+import { PageContainer, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { gsap } from 'gsap';
-import { HeartHandshake } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
+import FilterSearch from '~/pages/lending/_components/FilterSearch';
+import HowToSection from '~/pages/lending/_components/HowToSection';
+import ItemIndex from '~/pages/lending/_components/ItemIndex';
+import RequestInbox from '~/pages/lending/_components/RequestInbox';
+import {
+  REQUEST_INBOX_PAGE_SIZE,
+  getNextVisibleCount,
+  getVisibleRequestCount,
+  shouldFetchMoreRequests,
+} from '~/pages/lending/_components/requestInboxPagination';
 import { fetchAllLendableObjects } from '~/redux/actions/LendableObjectActions';
-import { fetchLendingRequests } from '~/redux/actions/LendingRequestActions';
+import {
+  editLendingRequest,
+  fetchLendingRequests,
+} from '~/redux/actions/LendingRequestActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
 import { selectLendableObjectsForIndex } from '~/redux/slices/lendableObjects';
@@ -13,34 +24,25 @@ import { selectTransformedLendingRequests } from '~/redux/slices/lendingRequests
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import { FilterLendingCategory } from '~/utils/constants';
 import useQuery from '~/utils/useQuery';
-import FilterSearch from './FilterSearch';
-import ItemIndex from './ItemIndex';
 import styles from './LendingPage.module.css';
-import RequestInbox, { type LendingRequestOrdering } from './RequestInbox';
-import {
-  REQUEST_INBOX_PAGE_SIZE,
-  getNextVisibleCount,
-  getVisibleRequestCount,
-  shouldFetchMoreRequests,
-} from './requestInboxPagination';
+import type { LendingRequestArchivedFilter } from '~/pages/lending/_components/RequestInbox';
+import type { TransformedLendingRequest } from '~/redux/models/LendingRequest';
 
 const defaultLendingQuery = {
   search: '',
   lendingCategories: [] as FilterLendingCategory[],
-  ordering: '-created_at' as LendingRequestOrdering,
+  archived: 'false' as LendingRequestArchivedFilter,
 };
 
 const LendableObjectList = () => {
   const { query, setQueryValue } = useQuery(defaultLendingQuery);
-  const requestOrdering: LendingRequestOrdering =
-    query.ordering === 'created_at' ? 'created_at' : '-created_at';
+  const requestArchived: LendingRequestArchivedFilter =
+    query.archived === 'true' ? 'true' : 'false';
   const requestQuery = {
-    ordering: requestOrdering,
+    archived: requestArchived,
   };
 
   const dispatch = useAppDispatch();
-
-  const heartRef = useRef(null);
 
   usePreparedEffect(
     'fetchAllLendableObjects',
@@ -56,7 +58,7 @@ const LendableObjectList = () => {
           query: requestQuery,
         }),
       ),
-    [requestOrdering],
+    [requestArchived],
   );
 
   const { pagination: requestsPagination } = useAppSelector((state) =>
@@ -81,14 +83,17 @@ const LendableObjectList = () => {
     selectTransformedLendingRequests(state, { pagination: requestsPagination }),
   );
   const [visibleCount, setVisibleCount] = useState(REQUEST_INBOX_PAGE_SIZE);
-  const previousRequestOrderingRef = useRef(requestOrdering);
+  const previousRequestArchivedRef = useRef(requestArchived);
   const visibleRequestCount = getVisibleRequestCount({
     visibleCount,
-    currentOrdering: requestOrdering,
-    previousOrdering: previousRequestOrderingRef.current,
+    currentArchived: requestArchived,
+    previousArchived: previousRequestArchivedRef.current,
   });
 
-  const lendingRequests = originalLendingRequests.slice(0, visibleRequestCount);
+  const visibleRequests = originalLendingRequests.filter(
+    (request) => request.archived === (requestArchived === 'true'),
+  );
+  const lendingRequests = visibleRequests.slice(0, visibleRequestCount);
 
   const handleLoadMore = () => {
     const nextVisibleCount = getNextVisibleCount(visibleRequestCount);
@@ -96,7 +101,7 @@ const LendableObjectList = () => {
     if (
       shouldFetchMoreRequests({
         nextVisibleCount,
-        fetchedCount: originalLendingRequests.length,
+        fetchedCount: visibleRequests.length,
         hasMore: requestsPagination.hasMore,
         isFetching: requestsPagination.fetching,
       })
@@ -104,6 +109,18 @@ const LendableObjectList = () => {
       fetchMoreLendingRequests();
     }
     setVisibleCount(nextVisibleCount);
+  };
+
+  const handleArchiveRequest = async (
+    requestId: TransformedLendingRequest['id'],
+    archived: boolean,
+  ) => {
+    try {
+      await dispatch(editLendingRequest({ id: requestId, archived }));
+    } catch {
+      // editLendingRequest carries an errorMessage meta, so the failure has
+      // already been toasted - the card just stays where it is
+    }
   };
 
   const objectsActionGrant = useAppSelector(
@@ -137,53 +154,9 @@ const LendableObjectList = () => {
   };
 
   useEffect(() => {
-    previousRequestOrderingRef.current = requestOrdering;
+    previousRequestArchivedRef.current = requestArchived;
     setVisibleCount(REQUEST_INBOX_PAGE_SIZE);
-  }, [requestOrdering]);
-
-  useEffect(() => {
-    if (!heartRef.current) return;
-
-    const ctx = gsap.context(() => {
-      const shapes = gsap.utils.toArray<SVGGeometryElement>(
-        'svg path, svg line, svg polyline, svg polygon, svg circle, svg rect',
-      );
-
-      shapes.forEach((shape) => {
-        const length = shape.getTotalLength();
-
-        gsap.set(shape, {
-          strokeDasharray: length,
-          strokeDashoffset: length,
-          opacity: 1,
-        });
-      });
-
-      const tl = gsap.timeline();
-
-      tl.to(
-        shapes,
-        {
-          strokeDashoffset: 0,
-          duration: 1.8,
-          ease: 'power2.out',
-          stagger: 0.06,
-        },
-        0,
-      ).fromTo(
-        shapes,
-        { stroke: 'var(--lego-font-color)' },
-        {
-          stroke: 'oklch(63.7% 0.237 25.331)',
-          duration: 2.3,
-          ease: 'power2.out',
-        },
-        0,
-      );
-    }, heartRef);
-
-    return () => ctx.revert();
-  }, []);
+  }, [requestArchived]);
 
   const title = 'Utlån';
   return (
@@ -202,23 +175,7 @@ const LendableObjectList = () => {
       </div>
       <section className={styles.wrapper}>
         <div className={styles.topText}>
-          <div className={styles.infoText} ref={heartRef}>
-            <Icon
-              className={styles.heartIcon}
-              iconNode={<HeartHandshake />}
-              strokeWidth={0.8}
-            />
-            <h4>Hvordan bruke utlånssystemet?</h4>
-            <p>
-              Dette er et digitalt lånessystem for å gjøre utlån enkelt og
-              oversiktlig. Alle brukere er velkommen til å bruke løsningen.
-              Registrer alltid lån/retur, ta godt vare på utstyret, og lever
-              tilbake til avtalt tid. Oppdager du feil eller skade, gi beskjed
-              så fort som mulig. Hvert utlånsobjekt tilhører en komité. Reglene
-              for utlån kan derfor variere, og du må følge retningslinjene som
-              gjelder for den aktuelle komiteen.
-            </p>
-          </div>
+          <HowToSection />
         </div>
         <FilterSearch
           search={query.search}
@@ -229,12 +186,13 @@ const LendableObjectList = () => {
         />
         <RequestInbox
           lendingRequests={lendingRequests}
-          totalFetched={originalLendingRequests.length}
+          totalFetched={visibleRequests.length}
           isFetching={requestsPagination.fetching}
           hasMore={requestsPagination.hasMore}
           onLoadMore={handleLoadMore}
-          ordering={requestOrdering}
-          onOrderingChange={setQueryValue('ordering')}
+          onArchive={handleArchiveRequest}
+          archived={requestArchived}
+          onArchivedChange={setQueryValue('archived')}
           className={styles.requestInbox}
         />
         <ItemIndex

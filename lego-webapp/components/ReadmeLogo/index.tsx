@@ -17,10 +17,10 @@ export const readmeIfy = (text: string | null | undefined) =>
     <span>
       {text
         .split(/readme/)
-        .reduce(
-          (prev, current, i) =>
-            i ? prev.concat(<ReadmeLogo key={current} />, current) : [current],
-          [],
+        .flatMap((substring, index, splits) =>
+          index < splits.length - 1
+            ? [substring, <ReadmeLogo key={substring} />]
+            : substring,
         )}
     </span>
   );

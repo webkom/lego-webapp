@@ -26,38 +26,39 @@ const validate = createValidator({
 const RestrictedMailEditor = () => {
   const { restrictedMailId } = useParams<{ restrictedMailId: string }>();
   const isNew = restrictedMailId === undefined;
-  const restrictedMail = useAppSelector<DetailedRestrictedMail | undefined>(
-    (state) => selectRestrictedMailById(state, restrictedMailId),
+  const restrictedMail = useAppSelector((state) =>
+    selectRestrictedMailById<DetailedRestrictedMail>(state, restrictedMailId),
   );
 
-  const initialValues = isNew
-    ? {}
-    : {
-        ...restrictedMail,
-        groups: (restrictedMail?.groups || []).map((groups) => ({
-          label: groups.name,
-          value: groups.id,
-        })),
-        meetings: (restrictedMail?.meetings || []).map((meeting) => ({
-          label: meeting.title,
-          value: meeting.id,
-        })),
-        events: (restrictedMail?.events || []).map((event) => ({
-          label: event.title,
-          value: event.id,
-        })),
-        // Raw Sauce
-        rawAddresses: (restrictedMail?.rawAddresses || []).map(
-          (rawAddresses) => ({
-            label: rawAddresses,
-            value: rawAddresses,
-          }),
-        ),
-        users: (restrictedMail?.users || []).map((user) => ({
-          label: user.fullName,
-          value: user.id,
-        })),
-      };
+  const initialValues =
+    isNew || !restrictedMail
+      ? {}
+      : {
+          ...restrictedMail,
+          groups: (restrictedMail?.groups || []).map((groups) => ({
+            label: groups.name,
+            value: groups.id,
+          })),
+          meetings: (restrictedMail?.meetings || []).map((meeting) => ({
+            label: meeting.title,
+            value: meeting.id,
+          })),
+          events: (restrictedMail?.events || []).map((event) => ({
+            label: event.title,
+            value: event.id,
+          })),
+          // Raw Sauce
+          rawAddresses: (restrictedMail?.rawAddresses || []).map(
+            (rawAddresses) => ({
+              label: rawAddresses,
+              value: rawAddresses,
+            }),
+          ),
+          users: (restrictedMail?.users || []).map((user) => ({
+            label: user.fullName,
+            value: user.id,
+          })),
+        };
 
   const dispatch = useAppDispatch();
 

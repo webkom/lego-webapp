@@ -47,6 +47,20 @@ export const Gender = {
 
 export type UserPermissionGroup = Pick<PublicGroup, 'id' | 'name'>;
 
+export interface RankingEntry {
+  value: number | null;
+  rank: number | null; //If no rank history exists for eventCount
+  rankWeekAgo: number | null;
+  rankMonthAgo: number | null;
+}
+
+export interface Ranking {
+  achievementScore: RankingEntry;
+  achievementScoreActive: RankingEntry;
+  eventCount: RankingEntry | null;
+  eventCountActive: RankingEntry | null;
+}
+
 interface User {
   id: EntityId;
   username: string;
@@ -86,8 +100,7 @@ interface User {
   linkedinId?: string;
   actionGrant?: ActionGrant;
   achievements: Achievement[];
-  achievementsScore: number;
-  achievementRank: number;
+  ranking: Ranking;
   commandSuggestions?: Array<string>;
 }
 
@@ -125,8 +138,7 @@ export type CurrentUser = Pick<
   | 'linkedinId'
   | 'actionGrant'
   | 'achievements'
-  | 'achievementsScore'
-  | 'achievementRank'
+  | 'ranking'
   | 'commandSuggestions'
 >;
 
@@ -144,8 +156,7 @@ export type PublicUser = Pick<
   | 'githubUsername'
   | 'linkedinId'
   | 'achievements'
-  | 'achievementsScore'
-  | 'achievementRank'
+  | 'ranking'
 >;
 
 export type PublicUserWithAbakusGroups = Pick<User, 'abakusGroups'> &

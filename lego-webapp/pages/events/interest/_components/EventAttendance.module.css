@@ -1,0 +1,82 @@
+.attendance {
+  padding-top: 2px;
+}
+
+.faceRow {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: opacity var(--easing-fast);
+
+  &:hover {
+    opacity: 0.75;
+  }
+}
+
+.face {
+  border: 2px solid var(--lego-background-color);
+
+  &:not(:first-child) {
+    margin-left: -8px;
+  }
+}
+
+.faceRowEmpty {
+  cursor: default;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+/* Solid fill so stacked circles cover the neighbor they overlap */
+.facePlaceholder {
+  width: 32px;
+  height: 32px;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid var(--lego-background-color);
+  background: var(--color-gray-2);
+  color: var(--lego-font-color);
+
+  &:not(:first-child) {
+    margin-left: -8px;
+  }
+}
+
+.extraPill {
+  height: 32px;
+  min-width: 32px;
+  padding: 0 5px;
+  margin-left: -8px;
+  border-radius: 999px;
+  border: 1.75px solid var(--lego-background-color);
+  background: var(--color-gray-2);
+  color: var(--lego-font-color);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.attendLine {
+  font-size: var(--font-size-xs);
+  line-height: 1.55;
+  color: var(--secondary-font-color);
+
+  span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

@@ -15,6 +15,7 @@ interface Gallery {
   takenAt: Dateish;
   createdAt: Dateish;
   pictureCount: number;
+  isPinned: boolean;
   event: PublicEvent;
   photographers: PublicUser[];
   publicMetadata: unknown;
@@ -31,6 +32,7 @@ export type ListGallery = Pick<
   | 'takenAt'
   | 'createdAt'
   | 'pictureCount'
+  | 'isPinned'
 >;
 
 export type AdminListGallery = ListGallery & ObjectPermissionsMixin;
@@ -45,6 +47,7 @@ export type DetailedGallery = Pick<
   | 'createdAt'
   | 'event'
   | 'photographers'
+  | 'isPinned'
   | 'cover'
   | 'publicMetadata'
   | 'pictures'

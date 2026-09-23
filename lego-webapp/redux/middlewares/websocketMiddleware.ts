@@ -1,16 +1,24 @@
 import WebSocketClient from '@gamestdio/websocket';
+import { isAction } from '@reduxjs/toolkit';
 import { addToast } from '~/components/Toast/ToastProvider';
-import { User, Event } from '~/redux/actionTypes';
+import { User, Event, Websockets as WebsocketsAT } from '~/redux/actionTypes';
 import { fetchFollowers } from '~/redux/actions/EventActions';
 import { selectCurrentUser } from '~/redux/slices/auth';
 import { appConfig } from '~/utils/appConfig';
 import createQueryString from '~/utils/createQueryString';
+import { emitSocketEvent } from '~/utils/socket/useTransientSocketEvent';
 import type { Middleware } from '@reduxjs/toolkit';
+import type { AppDispatch } from '~/redux/createStore';
+import type { RootState } from '~/redux/rootReducer';
 
-const createWebSocketMiddleware = (): Middleware => {
+const createWebSocketMiddleware = (): Middleware<
+  Record<string, never>,
+  RootState
+> => {
   let socket: WebSocketClient | null = null;
-  return ({ getState, dispatch }) => {
-    const makeSocket = (jwt: string) => {
+  return ({ getState, dispatch: storeDispatch }) => {
+    const dispatch = storeDispatch as AppDispatch;
+    const makeSocket = (jwt: string | null) => {
       if (socket || !jwt) return;
       const qs = createQueryString({
         jwt,
@@ -48,35 +56,43 @@ const createWebSocketMiddleware = (): Middleware => {
                 : undefined,
           });
         }
+
+        emitSocketEvent({ type, payload, meta });
       };
 
       socket.onopen = () => {
         dispatch({
-          type: 'WS_CONNECTED',
+          type: WebsocketsAT.CONNECTED,
         });
       };
 
       socket.onclose = () => {
         dispatch({
-          type: 'WS_CLOSED',
+          type: WebsocketsAT.CLOSED,
         });
       };
 
       socket.onerror = () => {
         dispatch({
-          type: 'WS_ERROR',
+          type: WebsocketsAT.ERROR,
         });
       };
     };
 
     return (next) => (action) => {
+      if (!isAction(action)) return next(action);
+
       if (action.type === 'REHYDRATED') {
         makeSocket(getState().auth.token);
         return next(action);
       }
 
       if (action.type === User.LOGIN.SUCCESS) {
-        makeSocket(action.payload.token);
+        const { payload } = action as {
+          type: string;
+          payload: { token: string };
+        };
+        makeSocket(payload.token);
         return next(action);
       }
 
@@ -86,6 +102,20 @@ const createWebSocketMiddleware = (): Middleware => {
         }
 
         socket = null;
+        return next(action);
+      }
+
+      if (socket?.readyState === WebSocket.OPEN) {
+        switch (action.type) {
+          case WebsocketsAT.GROUP_JOIN.BEGIN:
+          case WebsocketsAT.GROUP_LEAVE.BEGIN:
+            socket.send(
+              JSON.stringify({
+                type: action.type,
+                payload: action.payload,
+              }),
+            );
+        }
         return next(action);
       }
 

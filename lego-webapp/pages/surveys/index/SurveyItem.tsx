@@ -14,7 +14,7 @@ type Props = {
 
 const SurveyItem = ({ survey }: Props) => {
   const event = useAppSelector((state) =>
-    selectEventById<EventForSurvey>(state, survey?.event),
+    selectEventById<EventForSurvey>(state, survey?.event ?? undefined),
   );
 
   return (

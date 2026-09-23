@@ -20,6 +20,7 @@ import AnnouncementInLine from '~/components/AnnouncementInLine';
 import { TextInput } from '~/components/Form';
 import { deleteEvent } from '~/redux/actions/EventActions';
 import { useAppDispatch } from '~/redux/hooks';
+import { EventType } from '~/redux/models/Event';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
 import type { CompleteEvent } from '~/redux/models/Event';
@@ -80,14 +81,20 @@ const DeleteButton = ({ eventId, title }: ButtonProps) => {
 };
 
 type Props = {
-  event: Pick<CompleteEvent, 'id' | 'slug' | 'title' | 'startTime' | 'survey'>;
+  event: Pick<
+    CompleteEvent,
+    'id' | 'slug' | 'title' | 'startTime' | 'survey' | 'eventType'
+  >;
   actionGrant: ActionGrant;
 };
 
 const Admin = ({ actionGrant, event }: Props) => {
   const canEdit = actionGrant.includes('edit');
   const canDelete = actionGrant.includes('delete');
+  const canAdministrate = actionGrant.includes('administrate');
+  const isInterestEvent = event.eventType === EventType.INTEREST_EVENT;
   const showRegisterButton =
+    canAdministrate &&
     Math.abs(
       moment.duration(moment(event.startTime).diff(moment.now())).get('days'),
     ) < 1;
@@ -108,7 +115,7 @@ const Admin = ({ actionGrant, event }: Props) => {
             </LinkButton>
           )}
 
-          {canEdit && (
+          {canAdministrate && (
             <LinkButton href={`/events/${event.id}/administrate/attendees`}>
               <Icon iconNode={<UserCog />} size={19} />
               Administrer
@@ -116,7 +123,13 @@ const Admin = ({ actionGrant, event }: Props) => {
           )}
 
           {canEdit && (
-            <LinkButton href={`/events/${event.slug}/edit`}>
+            <LinkButton
+              href={
+                isInterestEvent
+                  ? `/events/interest/${event.slug}/edit`
+                  : `/events/${event.slug}/edit`
+              }
+            >
               <Icon iconNode={<Pencil />} size={19} />
               Rediger
             </LinkButton>
@@ -124,22 +137,25 @@ const Admin = ({ actionGrant, event }: Props) => {
 
           <AnnouncementInLine event={event} />
 
-          {event.survey ? (
-            <LinkButton href={`/surveys/${event.survey}`}>
-              <Icon iconNode={<FilePieChart />} size={19} />
-              Gå til spørreundersøkelse
-            </LinkButton>
-          ) : (
-            <LinkButton href={`/surveys/new/?event=${event.id}`}>
-              <Icon iconNode={<FilePieChart />} size={19} />
-              Lag spørreundersøkelse
+          {!isInterestEvent &&
+            (event.survey ? (
+              <LinkButton href={`/surveys/${event.survey}`}>
+                <Icon iconNode={<FilePieChart />} size={19} />
+                Gå til spørreundersøkelse
+              </LinkButton>
+            ) : (
+              <LinkButton href={`/surveys/new/?event=${event.id}`}>
+                <Icon iconNode={<FilePieChart />} size={19} />
+                Lag spørreundersøkelse
+              </LinkButton>
+            ))}
+
+          {!isInterestEvent && (
+            <LinkButton href="/events/new" state={{ id: event.id }}>
+              <Icon iconNode={<Copy />} size={19} />
+              Lag kopi av arrangement
             </LinkButton>
           )}
-
-          <LinkButton href="/events/new" state={{ id: event.id }}>
-            <Icon iconNode={<Copy />} size={19} />
-            Lag kopi av arrangement
-          </LinkButton>
 
           {canDelete && <DeleteButton eventId={event.id} title={event.title} />}
         </ButtonGroup>

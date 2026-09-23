@@ -3,20 +3,12 @@
 import { usePageContext } from 'vike-react/usePageContext';
 import { selectCurrentUser } from '~/redux/slices/auth';
 import { appConfig } from '~/utils/appConfig';
-
-const autoThemeScript = `
-(function () {
-  try {
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches === true) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    }
-  } catch (e) {}
-})();`;
+import { themeBootstrapScript } from '~/utils/themeUtils';
 
 export default function HeadDefault() {
   const pageContext = usePageContext();
   const state = pageContext.store.getState();
-  const selectedTheme = selectCurrentUser(state)?.selectedTheme || 'auto';
+  const selectedTheme = selectCurrentUser(state)?.selectedTheme;
 
   return (
     <>
@@ -53,8 +45,14 @@ export default function HeadDefault() {
           src="https://ls.webkom.dev/js/script.js"
         ></script>
       )}
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Open+Sans:wght@700&display=swap"
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossOrigin="anonymous"
+      />
+      <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400..800&family=Open+Sans:wght@700&display=swap"
         rel="stylesheet"
       />
       {import.meta.env.SSR && [
@@ -75,13 +73,11 @@ export default function HeadDefault() {
           dangerouslySetInnerHTML={{ __html: pageContext.preparedStateCode }}
         />
       )}
-      {
-        // If user has selected auto and device is in dark mode; ensure we update
-        // the theme before first render to screen
-        selectedTheme === 'auto' ? (
-          <script dangerouslySetInnerHTML={{ __html: autoThemeScript }} />
-        ) : undefined
-      }
+      <script
+        dangerouslySetInnerHTML={{
+          __html: themeBootstrapScript(selectedTheme),
+        }}
+      />
       <script
         dangerouslySetInnerHTML={{
           __html: `window.__CONFIG__ = ${JSON.stringify(appConfig)};`,

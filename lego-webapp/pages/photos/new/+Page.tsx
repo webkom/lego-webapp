@@ -110,6 +110,7 @@ export type FormValues = {
   event: (typeof searchMapping)['events.event'];
   description: string;
   publicMetadata: boolean;
+  isPinned: boolean;
 } & ObjectPermissionsMixin;
 
 const TypedLegoForm = LegoFinalForm<FormValues>;
@@ -178,6 +179,7 @@ const GalleryEditor = () => {
       ...normalizeObjectPermissions(data),
       // id: data.id,
       publicMetadata: data.publicMetadata,
+      isPinned: data.isPinned,
       title: data.title,
       description: data.description,
       takenAt: moment(data.takenAt).format('YYYY-MM-DD'),
@@ -333,6 +335,13 @@ const GalleryEditor = () => {
               label="Publiser metadata for deling på sosiale medier"
               description="Dette deler kun cover, tittel og beskrivelse"
               name="publicMetadata"
+              type="checkbox"
+              component={CheckBox.Field}
+            />
+            <Field
+              label="Fest album til toppen"
+              description="Albumet vises øverst på albumoversikten"
+              name="isPinned"
               type="checkbox"
               component={CheckBox.Field}
             />

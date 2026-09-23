@@ -1,13 +1,11 @@
 import { useAppSelector } from '~/redux/hooks';
 import styles from './SearchPageInput.module.css';
-import type { SyntheticEvent, KeyboardEvent } from 'react';
+import type { Ref, ChangeEventHandler, KeyboardEventHandler } from 'react';
 
 type Props = {
-  inputRef?: {
-    current: HTMLInputElement | null | undefined;
-  };
-  onChange: (arg0: SyntheticEvent<HTMLInputElement>) => void;
-  onKeyDown: (arg0: KeyboardEvent) => void;
+  inputRef?: Ref<HTMLInputElement>;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+  onKeyDown: KeyboardEventHandler<HTMLInputElement>;
   placeholder?: string;
   value: string;
 };

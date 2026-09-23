@@ -1,0 +1,47 @@
+.row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.name {
+  font-size: 0.8rem;
+  color: var(--secondary-font-color);
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.track {
+  position: relative;
+  height: 1.25rem;
+  background-color: var(--border-gray);
+  overflow: hidden;
+}
+
+.segment {
+  position: absolute;
+  inset: 0;
+  transition: width var(--easing-medium);
+}
+
+.tooltipContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.tooltipRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.swatch {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}

@@ -23,6 +23,7 @@ const EditorField = ({ className, ...props }: Props) => {
         isPublic: true,
       }),
     );
+
     return {
       fileKey: response.meta.fileKey,
       src: URL.createObjectURL(file),
