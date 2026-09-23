@@ -68,23 +68,28 @@ export const frontpageObjectDate = (object: ArticleWithType | EventWithType) =>
     ? moment(object.startTime)
     : moment(object.createdAt);
 
+export const selectFrontpageEvents = createSelector(
+  selectAllEvents<FrontpageEvent>,
+  (state: RootState) => state.frontpage.eventIds,
+  (events, eventIds) => {
+    const frontpageEventIds = new Set(eventIds);
+    return events.filter((event) => frontpageEventIds.has(event.id));
+  },
+);
+
 export const selectFrontpageItems = createSelector(
   selectArticles<PublicArticle>,
-  selectAllEvents<FrontpageEvent>,
+  selectFrontpageEvents,
   (state: RootState) => state.frontpage.articleIds,
-  (state: RootState) => state.frontpage.eventIds,
-  (articles, events, articleIds, eventIds) => {
+  (articles, events, articleIds) => {
     const frontpageArticleIds = new Set(articleIds);
-    const frontpageEventIds = new Set(eventIds);
 
     return sortBy(
       [
         ...articles
           .filter((article) => frontpageArticleIds.has(article.id))
           .map(addArticleType),
-        ...events
-          .filter((event) => frontpageEventIds.has(event.id))
-          .map(addEventType),
+        ...events.map(addEventType),
       ],
       [
         (object) => (object.pinned ? 0 : 1), // Sort pinned objects first
