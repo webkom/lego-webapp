@@ -33,7 +33,7 @@ const Registrations: React.FC<Props> = ({ values }) => {
     registrations: [],
     activationDate: moment(values.startTime)
       .subtract(7, 'd')
-      .hour(12)
+      .hour(13)
       .minute(0)
       .toISOString(),
     permissionGroups: [],
