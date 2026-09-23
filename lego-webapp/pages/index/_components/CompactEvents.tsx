@@ -8,12 +8,11 @@ import { eventListDefaultQuery } from '~/pages/events/index/+Layout';
 import { colorForEventType } from '~/pages/events/utils';
 import { useAppSelector } from '~/redux/hooks';
 import { EventType } from '~/redux/models/Event';
-import { selectAllEvents } from '~/redux/slices/events';
+import { selectFrontpageEvents } from '~/redux/slices/frontpage';
 import utilStyles from '~/styles/utilities.module.css';
 import { stringifyQuery } from '~/utils/useQuery';
 import styles from './CompactEvents.module.css';
 import type { CSSProperties } from 'react';
-import type { FrontpageEvent } from '~/redux/models/Event';
 
 type Props = {
   className?: string;
@@ -27,7 +26,7 @@ const EventItemSkeleton = ({ events }: { events: number }) => (
 );
 
 const CompactEvents = ({ className, style }: Props) => {
-  const events = useAppSelector(selectAllEvents<FrontpageEvent>);
+  const events = useAppSelector(selectFrontpageEvents);
 
   const eventsToShow = events
     .filter((event) => moment(event.endTime).isAfter())
