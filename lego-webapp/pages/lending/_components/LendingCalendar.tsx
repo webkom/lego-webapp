@@ -61,6 +61,8 @@ const LendingCalendar = ({
     );
   };
 
+  
+
   const getUnavailableTimeRanges = (
     selected: TimeRange | null,
     day: Moment,
@@ -73,11 +75,11 @@ const LendingCalendar = ({
       return [];
     }
 
-    for (const [start, end] of lendableObject.availability) {
-      if (!start || !end) continue;
+    for (const availability of lendableObject.availability) {
+      if (!availability.start || !availability.end) continue;
 
-      const startDate = moment(start);
-      const endDate = moment(end);
+      const startDate = moment(availability.start);
+      const endDate = moment(availability.end);
 
       if (startDate.isSameOrBefore(dayEnd) && endDate.isSameOrAfter(dayStart)) {
         const overlapStart = moment.max(startDate, dayStart);
@@ -138,10 +140,10 @@ const LendingCalendar = ({
       return false;
     }
 
-    for (const [start, end] of lendableObject.availability) {
-      if (!start || !end) continue;
-      const startDate = moment(start);
-      const endDate = moment(end);
+    for (const availability of lendableObject.availability) {
+      if (!availability.start || !availability.end) continue;
+      const startDate = moment(availability.start);
+      const endDate = moment(availability.end);
 
       if (startDate.isSameOrBefore(dayStart) && endDate.isSameOrAfter(dayEnd)) {
         return true;
@@ -248,6 +250,7 @@ const LendingCalendar = ({
                             {!fully ? (
                               timeRanges.map((range, idx) => (
                                 <div key={idx} className={styles.timeRange}>
+                                 
                                   {`${range.start}-${range.end}`}
                                 </div>
                               ))
