@@ -18,15 +18,14 @@ import { fetchCurrentPrivateBanner } from '~/redux/actions/BannerActions';
 import { fetchData, fetchReadmes } from '~/redux/actions/FrontpageActions';
 import { fetchRandomQuote } from '~/redux/actions/QuoteActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
-import { EventType } from '~/redux/models/Event';
 import { selectArticles } from '~/redux/slices/articles';
 import { useIsLoggedIn } from '~/redux/slices/auth';
 import { selectCurrentPrivateBanner } from '~/redux/slices/banner';
-import { selectAllEvents } from '~/redux/slices/events';
 import {
   addArticleType,
   addEventType,
   selectFeaturedItems,
+  selectFrontpageEvents,
 } from '~/redux/slices/frontpage';
 import { selectPinnedPoll } from '~/redux/slices/polls';
 import { selectRandomQuote } from '~/redux/slices/quotes';
@@ -35,7 +34,6 @@ import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import styles from './AuthenticatedFrontpage.module.css';
 import { itemUrl, renderMeta } from './utils';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { FrontpageEvent } from '~/redux/models/Event';
 
 const EVENTS_TO_SHOW = 9;
 const ARTICLES_TO_SHOW = 2;
@@ -134,7 +132,7 @@ const Events = ({
   pinnedId: EntityId;
   numberToShow: number;
 }) => {
-  const allEvents = useAppSelector(selectAllEvents<FrontpageEvent>);
+  const allEvents = useAppSelector(selectFrontpageEvents);
   const fetching = useAppSelector(
     (state) => state.frontpage.fetching || state.events.fetching,
   );
@@ -143,7 +141,6 @@ const Events = ({
     () =>
       allEvents
         .filter((item) => item.id !== pinnedId)
-        .filter((item) => item.eventType !== EventType.INTEREST_EVENT)
         .filter((item) => moment(item.startTime).isAfter(moment()))
         .sort((a, b) => moment(a.startTime).diff(moment(b.startTime)))
         .slice(0, numberToShow)
@@ -279,7 +276,7 @@ const ShowMoreButton = ({
   showMore: () => void;
   scrollToTop: () => void;
 }) => {
-  const events = useAppSelector(selectAllEvents<FrontpageEvent>);
+  const events = useAppSelector(selectFrontpageEvents);
 
   return (
     <div className={styles.showMore} data-test-id="frontpage-show-more">

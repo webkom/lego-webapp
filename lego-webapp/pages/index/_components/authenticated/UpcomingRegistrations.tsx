@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import EmptyState from '~/components/EmptyState';
 import { colorForEventType } from '~/pages/events/utils';
 import { useAppSelector } from '~/redux/hooks';
-import { selectAllEvents } from '~/redux/slices/events';
+import { selectFrontpageEvents } from '~/redux/slices/frontpage';
 import truncateString from '~/utils/truncateString';
 import styles from './UpcomingRegistrations.module.css';
 import type { FrontpageEvent } from '~/redux/models/Event';
@@ -83,7 +83,7 @@ const inRange = (event: FrontpageEvent) => {
 const UPCOMING_REGISTRATIONS_LIMIT = 2;
 
 const UpcomingRegistrations = () => {
-  const events = useAppSelector(selectAllEvents<FrontpageEvent>);
+  const events = useAppSelector(selectFrontpageEvents);
 
   // Sorted events based on activationTime, take out the
   // ones that are out of range
