@@ -68,11 +68,10 @@ const LendingCalendar = ({
   ) => {
     const dayStart = day.clone().startOf('day');
     const dayEnd = day.clone().endOf('day');
-    const timeRanges: (
-      TimeRange & {
+    const timeRanges: (TimeRange & {
       requestId: number;
       lendableObjectId: EntityId;
-      })[] = [];
+    })[] = [];
 
     if (!lendableObject?.availability) {
       return [];
@@ -88,7 +87,10 @@ const LendingCalendar = ({
         const overlapStart = moment.max(startDate, dayStart);
         const overlapEnd = moment.min(endDate, dayEnd);
 
-        const newTimeRange: (TimeRange & {requestId: number; lendableObjectId: EntityId;}) = {
+        const newTimeRange: TimeRange & {
+          requestId: number;
+          lendableObjectId: EntityId;
+        } = {
           start: overlapStart.format('HH:mm'),
           end: overlapEnd.format('HH:mm'),
           fullDay:
@@ -252,19 +254,17 @@ const LendingCalendar = ({
                               </div>
                             )}
 
-                            
-                              {timeRanges.map((range, idx) => (
-                                <Link
-                                    key={idx}
-                                    href={`/lending/${range.lendableObjectId}/request/${range.requestId}
+                            {timeRanges.map((range, idx) => (
+                              <Link
+                                key={idx}
+                                href={`/lending/${range.lendableObjectId}/request/${range.requestId}
                                     `}
-                                  >
+                              >
                                 <div className={styles.timeRange}>
-                                {!fully && `${range.start}-${range.end}`}
+                                  {!fully && `${range.start}-${range.end}`}
                                 </div>
-                                </Link>
-                              ))}
-                              
+                              </Link>
+                            ))}
                           </div>
                         </div>
                       </td>
