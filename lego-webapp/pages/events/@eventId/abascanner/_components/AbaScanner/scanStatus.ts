@@ -1,5 +1,12 @@
 import { CircleCheckBig, CircleX, Info, TriangleAlert } from 'lucide-react';
+import type { Dateish } from 'app/models';
 import type { LucideIcon } from 'lucide-react';
+
+export type RecentScan = {
+  username: string;
+  status: string;
+  scannedAt: Dateish;
+};
 
 type ScanStatus = {
   label: string;

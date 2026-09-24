@@ -1,7 +1,7 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useEffect, useRef, useState } from 'react';
-import ProgressBar from '~/components/ProgressBar';
+import ProgressBar, { progressPercent } from '~/components/ProgressBar';
 import styles from './AttendanceProgress.module.css';
 
 type Props = {
@@ -24,8 +24,7 @@ const AttendanceProgress = ({ presentCount, attendeeCount }: Props) => {
     return () => clearTimeout(timeout);
   }, [presentCount]);
 
-  const percent =
-    attendeeCount > 0 ? Math.round((presentCount / attendeeCount) * 100) : 0;
+  const percent = Math.round(progressPercent(presentCount, attendeeCount));
 
   return (
     <Flex column gap="var(--spacing-sm)">
