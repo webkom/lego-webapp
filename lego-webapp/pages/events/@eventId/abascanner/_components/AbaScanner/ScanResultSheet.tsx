@@ -6,7 +6,6 @@ import { useAppSelector } from '~/redux/hooks';
 import { selectUserByUsername } from '~/redux/slices/users';
 import styles from './ScanResultSheet.module.css';
 import { getScanStatus, type RecentScan } from './scanStatus';
-import type { AdministrateUserWithGrade } from '~/redux/models/User';
 
 type Props = {
   result: RecentScan | null;
@@ -22,9 +21,7 @@ const ScanResultSheet = ({
   onDismiss,
 }: Props) => {
   const user = useAppSelector((state) =>
-    result
-      ? selectUserByUsername<AdministrateUserWithGrade>(state, result.username)
-      : undefined,
+    result ? selectUserByUsername(state, result.username) : undefined,
   );
   const status = getScanStatus(result?.status ?? '');
   const StatusIcon = status.icon;
@@ -66,10 +63,7 @@ const ScanResultSheet = ({
                   {user?.fullName ?? result.username}
                 </span>
                 {user && (
-                  <span className={styles.meta}>
-                    @{result.username}
-                    {user.grade && ` • ${user.grade.name}`}
-                  </span>
+                  <span className={styles.meta}>@{result.username}</span>
                 )}
               </Flex>
             </Flex>

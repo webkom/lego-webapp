@@ -1,0 +1,6 @@
+.attendeeStatistics {
+  font-size: var(--font-size-md);
+  color: var(--secondary-font-color);
+  padding-left: 15px;
+  float: right;
+}
