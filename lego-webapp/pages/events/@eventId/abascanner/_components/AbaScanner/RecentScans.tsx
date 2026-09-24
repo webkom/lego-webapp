@@ -1,40 +1,63 @@
 import { Flex } from '@webkom/lego-bricks';
+import { orderBy } from 'lodash-es';
+import moment from 'moment-timezone';
 import Time from '~/components/Time';
-import { useAppSelector } from '~/redux/hooks';
-import { selectUserByUsername } from '~/redux/slices/users';
+import { Presence } from '~/redux/models/Registration';
 import styles from './RecentScans.module.css';
-import { getScanStatus, type RecentScan } from './scanStatus';
+import { getScanStatus } from './scanStatus';
+import type { SelectedAdminRegistration } from '~/redux/slices/events';
 
-const RecentScanRow = ({ username, status, scannedAt }: RecentScan) => {
-  const user = useAppSelector((state) => selectUserByUsername(state, username));
-  const { label, color } = getScanStatus(status);
+const RECENT_COUNT = 4;
+
+export const getRecentlyPresent = <
+  T extends Pick<SelectedAdminRegistration, 'presence' | 'presenceDate'>,
+>(
+  registrations: T[],
+) =>
+  orderBy(
+    registrations.filter(
+      (registration) =>
+        registration.presence === Presence.PRESENT && registration.presenceDate,
+    ),
+    (registration) => moment(registration.presenceDate).valueOf(),
+    'desc',
+  ).slice(0, RECENT_COUNT);
+
+type Props = {
+  registrations: SelectedAdminRegistration[];
+};
+
+const RecentScans = ({ registrations }: Props) => {
+  const recentlyPresent = getRecentlyPresent(registrations);
+  const { label, color } = getScanStatus('success');
 
   return (
-    <Flex alignItems="center" gap="var(--spacing-sm)" className={styles.row}>
-      <div className={styles.dot} style={{ backgroundColor: color }} />
-      <span className={styles.name}>{user?.fullName ?? username}</span>
-      <span className={styles.meta}>
-        {label} • <Time time={scannedAt} format="HH:mm" />
-      </span>
+    <Flex column gap="var(--spacing-xs)">
+      <span className={styles.heading}>Nylig skannet</span>
+      {recentlyPresent.length === 0 ? (
+        <span className={styles.empty}>Ingen har blitt skannet enda...</span>
+      ) : (
+        recentlyPresent.map((registration) => (
+          <Flex
+            key={registration.id}
+            alignItems="center"
+            gap="var(--spacing-sm)"
+            className={styles.row}
+          >
+            <div className={styles.dot} style={{ backgroundColor: color }} />
+            <span className={styles.name}>{registration.user.fullName}</span>
+            <span className={styles.meta}>
+              {label} •{' '}
+              <Time
+                time={registration.presenceDate ?? undefined}
+                format="HH:mm"
+              />
+            </span>
+          </Flex>
+        ))
+      )}
     </Flex>
   );
 };
-
-type Props = {
-  scans: RecentScan[];
-};
-
-const RecentScans = ({ scans }: Props) => (
-  <Flex column gap="var(--spacing-xs)">
-    <span className={styles.heading}>Nylig skannet</span>
-    {scans.length === 0 ? (
-      <span className={styles.empty}>Ingen har blitt skannet enda...</span>
-    ) : (
-      scans.map((scan) => (
-        <RecentScanRow key={`${scan.username}-${scan.scannedAt}`} {...scan} />
-      ))
-    )}
-  </Flex>
-);
 
 export default RecentScans;

@@ -36,7 +36,6 @@ const AbaScanner = ({
   const isScanning = useRef(false);
   const lastUsername = useRef<string | null>(null);
   const lastSeenAt = useRef(0);
-  const [recentScans, setRecentScans] = useState<RecentScan[]>([]);
   const [result, setResult] = useState<RecentScan | null>(null);
   const [isResultOpen, setIsResultOpen] = useState(false);
   const [isManualOpen, setIsManualOpen] = useState(false);
@@ -48,7 +47,6 @@ const AbaScanner = ({
 
   const recordScan = (username: string, status: string) => {
     const scan = { username, status, scannedAt: moment().toISOString() };
-    setRecentScans((scans) => [scan, ...scans].slice(0, 4));
     setResult(scan);
     setIsResultOpen(true);
     playScanSound(getScanStatus(status).isSuccess);
@@ -189,7 +187,7 @@ const AbaScanner = ({
           presentCount={presentCount}
           attendeeCount={attendeeCount}
         />
-        <RecentScans scans={recentScans} />
+        <RecentScans registrations={registrations} />
       </Flex>
       <ScanResultSheet
         result={result}
