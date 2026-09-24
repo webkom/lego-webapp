@@ -1,0 +1,86 @@
+.sheet {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 4;
+  overflow: hidden;
+  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+  background-color: var(--lego-card-color);
+  box-shadow: 0 -4px 24px rgb(0 0 0 / 15%);
+  transform: translateY(110%);
+  visibility: hidden;
+  transition:
+    transform var(--easing-slow),
+    visibility 0s linear 400ms;
+}
+
+.open {
+  transform: translateY(0);
+  visibility: visible;
+  transition: transform var(--easing-slow);
+}
+
+.header {
+  padding: var(--spacing-md) var(--spacing-lg);
+  color: var(--color-absolute-white);
+}
+
+.title {
+  margin: 0;
+}
+
+.body {
+  padding: var(--spacing-lg);
+}
+
+.countdownTrack {
+  height: 5px;
+  background-color: var(--color-gray-2);
+}
+
+.countdown {
+  height: 100%;
+  animation: countdown linear forwards;
+}
+
+@keyframes countdown {
+  from {
+    width: 100%;
+  }
+
+  to {
+    width: 0;
+  }
+}
+
+.person {
+  min-width: 0;
+}
+
+.name {
+  overflow: hidden;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  font-size: var(--font-size-sm);
+  color: var(--secondary-font-color);
+}
+
+.button {
+  flex: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet,
+  .open {
+    transition: none;
+  }
+
+  .countdown {
+    animation: none;
+  }
+}

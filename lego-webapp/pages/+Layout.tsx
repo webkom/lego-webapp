@@ -72,6 +72,7 @@ const bricksNavigate: ComponentProps<typeof LegoBricksProvider>['navigate'] = (
 
 export default function Layout({ children }: { children: ReactNode }) {
   const theme = useTheme();
+  const { config } = usePageContext();
 
   return (
     <LegoBricksProvider
@@ -79,39 +80,43 @@ export default function Layout({ children }: { children: ReactNode }) {
       navigate={bricksNavigate}
       useLocation={useLocation}
     >
-      <div className={styles.appRoute}>
-        <Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no">
-          <meta property="og:image" content={coverPhoto} />
-          <meta
-            property="og:description"
-            content="Abakus er linjeforeningen for studentene ved Datateknologi & Cybersikkerhet og datakommunikasjon på NTNU, og drives av studenter ved disse studiene."
-          />
-        </Helmet>
+      <Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no">
+        <meta property="og:image" content={coverPhoto} />
+        <meta
+          property="og:description"
+          content="Abakus er linjeforeningen for studentene ved Datateknologi & Cybersikkerhet og datakommunikasjon på NTNU, og drives av studenter ved disse studiene."
+        />
+      </Helmet>
 
-        {appConfig.environment !== 'production' && (
-          <div
-            id="development-banner"
-            style={{
-              backgroundColor: 'var(--danger-color)',
-              color: 'white',
-              fontWeight: '500',
-              padding: 'var(--spacing-sm)',
-              lineHeight: '1.3',
-            }}
-          >
-            This is a development version of lego-webapp.
-          </div>
-        )}
-
-        <Header />
-        <CommandPalette />
-
+      {config.bareLayout ? (
         <AppChildren>{children}</AppChildren>
+      ) : (
+        <div className={styles.appRoute}>
+          {appConfig.environment !== 'production' && (
+            <div
+              id="development-banner"
+              style={{
+                backgroundColor: 'var(--danger-color)',
+                color: 'white',
+                fontWeight: '500',
+                padding: 'var(--spacing-sm)',
+                lineHeight: '1.3',
+              }}
+            >
+              This is a development version of lego-webapp.
+            </div>
+          )}
 
-        <PhotoUploadStatus />
+          <Header />
+          <CommandPalette />
 
-        <Footer />
-      </div>
+          <AppChildren>{children}</AppChildren>
+
+          <PhotoUploadStatus />
+
+          <Footer />
+        </div>
+      )}
     </LegoBricksProvider>
   );
 }

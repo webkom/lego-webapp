@@ -1,0 +1,116 @@
+.drawerContainer {
+  position: relative;
+  z-index: 1;
+  margin-top: calc(-1 * var(--spacing-xl));
+  min-height: calc(33dvh + var(--spacing-xl));
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+  background-color: var(--lego-background-color);
+}
+
+.camera {
+  position: relative;
+}
+
+.navigationBar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 3;
+  color: white;
+  background-color: transparent;
+
+  .icon {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background-color: var(--additive-background);
+
+    a {
+      width: 100%;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+      color: inherit;
+    }
+  }
+}
+
+.title {
+  flex: 1;
+  margin-right: 44px;
+
+  h3 {
+    margin: 0;
+  }
+
+  p {
+    color: var(--dark-font-color);
+  }
+}
+
+.scanIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+  color: white;
+  pointer-events: none;
+}
+
+.tint {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.45;
+  pointer-events: none;
+  animation: tintIn var(--easing-medium);
+}
+
+@keyframes tintIn {
+  from {
+    opacity: 0;
+  }
+}
+
+.badgeLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.badge {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  color: white;
+  box-shadow: 0 0 0 10px rgb(255 255 255 / 12%);
+  animation: badgePop var(--easing-slow) both;
+}
+
+@keyframes badgePop {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+
+  60% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tint,
+  .badge {
+    animation: none;
+  }
+}
