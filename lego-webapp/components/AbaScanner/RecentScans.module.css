@@ -1,0 +1,37 @@
+.heading {
+  font-size: var(--font-size-sm);
+  color: var(--secondary-font-color);
+}
+
+.empty {
+  font-size: var(--font-size-sm);
+  padding: var(--spacing-sm) 0;
+  color: var(--secondary-font-color);
+}
+
+.row {
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px solid var(--border-gray);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+  border-radius: 50%;
+}
+
+.name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+  color: var(--secondary-font-color);
+}

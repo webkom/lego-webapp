@@ -17,6 +17,12 @@ export default {
     '/register-interest': '/interesse?lang=en', // the English form is the same page in another language
   },
 
+  meta: {
+    bareLayout: {
+      env: { server: true, client: true },
+    },
+  },
+
   passToClient: ['storeInitialState'],
   lang: 'no',
   stream: 'web',
