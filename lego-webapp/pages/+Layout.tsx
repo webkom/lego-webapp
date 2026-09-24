@@ -4,6 +4,7 @@ import {
   type PropsWithChildren,
   ReactNode,
   useEffect,
+  useRef,
 } from 'react';
 import 'minireset.css/minireset.css';
 import '~/styles/globals.css';
@@ -30,8 +31,14 @@ const AppChildren = ({ children }: PropsWithChildren) => {
   const statusCode = useAppSelector((state) => state.router.statusCode);
   const pageContext = usePageContext();
 
+  const previousPathname = useRef(pageContext.urlPathname);
+
   // Clear status code when navigating
   useEffect(() => {
+    if (previousPathname.current === pageContext.urlPathname) {
+      return;
+    }
+    previousPathname.current = pageContext.urlPathname;
     if (statusCode != null) {
       dispatch(setStatusCode(null));
     }

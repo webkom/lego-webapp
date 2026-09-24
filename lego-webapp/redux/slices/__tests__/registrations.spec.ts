@@ -221,6 +221,7 @@ describe('reducers', () => {
         payload: {
           id: 3,
           presence: 'PRESENT',
+          presenceDate: '2026-09-25T18:02:00Z',
         },
       };
       expect(registrations(prevState, action)).toEqual({
@@ -229,6 +230,7 @@ describe('reducers', () => {
           3: {
             id: 3,
             presence: 'PRESENT',
+            presenceDate: '2026-09-25T18:02:00Z',
           },
           4: {
             id: 4,

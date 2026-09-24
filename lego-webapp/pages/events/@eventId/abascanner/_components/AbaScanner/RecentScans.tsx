@@ -3,14 +3,7 @@ import Time from '~/components/Time';
 import { useAppSelector } from '~/redux/hooks';
 import { selectUserByUsername } from '~/redux/slices/users';
 import styles from './RecentScans.module.css';
-import { getScanStatus } from './scanStatus';
-import type { Dateish } from 'app/models';
-
-export type RecentScan = {
-  username: string;
-  status: string;
-  scannedAt: Dateish;
-};
+import { getScanStatus, type RecentScan } from './scanStatus';
 
 const RecentScanRow = ({ username, status, scannedAt }: RecentScan) => {
   const user = useAppSelector((state) => selectUserByUsername(state, username));

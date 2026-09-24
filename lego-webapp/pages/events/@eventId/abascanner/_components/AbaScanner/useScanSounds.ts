@@ -1,6 +1,6 @@
 import { useRef } from 'react';
+import scanSuccessSound from '~/assets/sounds/good-sound.mp3';
 import scanErrorSound from '~/assets/sounds/scan-error.wav';
-import scanSuccessSound from '~/assets/sounds/scan-success.mp3';
 
 const useScanSounds = () => {
   const sounds = useRef<{

@@ -5,8 +5,7 @@ import Time from '~/components/Time';
 import { useAppSelector } from '~/redux/hooks';
 import { selectUserByUsername } from '~/redux/slices/users';
 import styles from './ScanResultSheet.module.css';
-import { getScanStatus } from './scanStatus';
-import type { RecentScan } from './RecentScans';
+import { getScanStatus, type RecentScan } from './scanStatus';
 import type { AdministrateUserWithGrade } from '~/redux/models/User';
 
 type Props = {

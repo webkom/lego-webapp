@@ -1,8 +1,13 @@
+.scanner {
+  --camera-height: 67dvh;
+  --nav-button-size: 44px;
+}
+
 .drawerContainer {
   position: relative;
   z-index: 1;
   margin-top: calc(-1 * var(--spacing-xl));
-  min-height: calc(33dvh + var(--spacing-xl));
+  min-height: calc(100dvh - var(--camera-height) + var(--spacing-xl));
   padding: var(--spacing-lg);
   border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
   background-color: var(--lego-background-color);
@@ -18,36 +23,32 @@
   right: 0;
   left: 0;
   z-index: 3;
-  color: white;
-  background-color: transparent;
+  color: var(--color-absolute-white);
+}
 
-  .icon {
-    width: 44px;
-    height: 44px;
-    flex-shrink: 0;
-    border-radius: 50%;
-    background-color: var(--additive-background);
-
-    a {
-      width: 100%;
-      height: 100%;
-      justify-content: center;
-      align-items: center;
-      color: inherit;
-    }
-  }
+.navButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--nav-button-size);
+  height: var(--nav-button-size);
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: none;
+  color: inherit;
+  background-color: var(--additive-background);
+  cursor: pointer;
 }
 
 .title {
   flex: 1;
-  margin-right: 44px;
 
   h3 {
     margin: 0;
   }
 
-  p {
-    color: var(--dark-font-color);
+  span {
+    opacity: 0.72;
   }
 }
 
@@ -57,7 +58,7 @@
   left: 50%;
   z-index: 1;
   transform: translate(-50%, -50%);
-  color: white;
+  color: var(--color-absolute-white);
   pointer-events: none;
 }
 
@@ -87,7 +88,7 @@
   width: 96px;
   height: 96px;
   border-radius: 50%;
-  color: white;
+  color: var(--color-absolute-white);
   box-shadow: 0 0 0 10px rgb(255 255 255 / 12%);
   animation: badgePop var(--easing-slow) both;
 }

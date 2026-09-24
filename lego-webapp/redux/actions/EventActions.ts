@@ -62,11 +62,15 @@ export function fetchUpcoming() {
   });
 }
 
-export function fetchAdministrate(eventId: EntityId) {
+export function fetchAdministrate(
+  eventId: EntityId,
+  { propagateError = true } = {},
+) {
   return callAPI({
     types: Event.FETCH,
     endpoint: `/events/${eventId}/administrate/`,
     schema: eventAdministrateSchema,
+    propagateError,
     meta: {
       errorMessage: 'Henting av registreringer feilet',
     },
