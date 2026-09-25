@@ -1,8 +1,12 @@
 import { useEffect, useRef } from 'react';
+import { Websockets as WebsocketsAT } from '~/redux/actionTypes';
 
-export enum TransientSocketEventTypes {
-  ATTENDANCE_REGISTERED = 'Websockets.TRANSIENT.ATTENDANCE_REGISTERED',
-}
+export const TransientSocketEventTypes = {
+  ...WebsocketsAT,
+  ATTENDANCE_REGISTERED: 'Websockets.TRANSIENT.ATTENDANCE_REGISTERED',
+};
+export type TransientSocketEventType =
+  (typeof TransientSocketEventTypes)[keyof typeof TransientSocketEventTypes];
 
 type SocketMeta = Record<string, unknown>;
 
@@ -28,7 +32,7 @@ export const emitSocketEvent = <T>(event: SocketEvent<T>) => {
  * @param handler The function to call when the event is recieved.
  */
 export const useTransientSocketEvent = <T>(
-  type: TransientSocketEventTypes,
+  type: TransientSocketEventType,
   handler: (payload?: T, meta?: SocketMeta) => void,
 ) => {
   const handlerRef = useRef(handler);

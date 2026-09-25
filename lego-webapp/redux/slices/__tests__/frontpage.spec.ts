@@ -1,7 +1,10 @@
 import moment from 'moment-timezone';
 import { describe, it, expect } from 'vitest';
 import { Frontpage } from '~/redux/actionTypes';
-import frontpage, { selectFeaturedItems } from '../frontpage';
+import frontpage, {
+  selectFeaturedItems,
+  selectFrontpageEvents,
+} from '../frontpage';
 import type { RootState } from '~/redux/rootReducer';
 
 describe('reducers', () => {
@@ -67,6 +70,32 @@ describe('selectors', () => {
     id,
     pinned,
     startTime: moment().add(ahead, 'days').toISOString(),
+  });
+
+  describe('selectFrontpageEvents', () => {
+    it('ignores events in the store that were not part of the frontpage response', () => {
+      const state = createState({
+        articleIds: [],
+        eventIds: [3, 4],
+        articles: {},
+        events: {
+          3: event(3, false, 1),
+          4: event(4, false, 2),
+          99: event(99, false, 0),
+        },
+      });
+      expect(selectFrontpageEvents(state).map((e) => e.id)).toEqual([3, 4]);
+    });
+
+    it('is empty before the frontpage has been fetched', () => {
+      const state = createState({
+        articleIds: [],
+        eventIds: [],
+        articles: {},
+        events: { 99: event(99, false, 1) },
+      });
+      expect(selectFrontpageEvents(state)).toEqual([]);
+    });
   });
 
   describe('selectFeaturedItems', () => {

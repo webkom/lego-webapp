@@ -98,6 +98,8 @@
   border: 1px solid var(--border-gray);
   border-radius: var(--border-radius-md);
   font-size: var(--font-size-sm);
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .navButton {

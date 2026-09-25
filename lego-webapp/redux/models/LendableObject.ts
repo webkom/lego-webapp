@@ -11,8 +11,16 @@ interface LendableObject {
   location: string;
   canLend: boolean;
   actionGrant: ActionGrant;
-  availability?: [Dateish, Dateish][];
+  availability?: availabilityLendableObject[];
   category: FilterLendingCategory;
+}
+
+interface availabilityLendableObject {
+  start: Dateish;
+  end: Dateish;
+  createdByFullname?: string;
+  createdByUsername?: EntityId;
+  requestId: EntityId;
 }
 
 export type ListLendableObject = Pick<

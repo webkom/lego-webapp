@@ -5,7 +5,7 @@ import { usePageContext } from 'vike-react/usePageContext';
 type Props = Overwrite<
   HTMLProps<HTMLAnchorElement>,
   {
-    className: string | ((options: { isActive: boolean }) => string);
+    className?: string | ((options: { isActive: boolean }) => string);
   }
 >;
 

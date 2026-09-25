@@ -5,6 +5,7 @@ import cx from 'classnames';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import moment, { Moment } from 'moment-timezone';
 import { useState } from 'react';
+import { Link } from '~/components/Link';
 import {
   fetchLendableObjectAvailability,
   fetchLendableObjectById,
@@ -67,28 +68,36 @@ const LendingCalendar = ({
   ) => {
     const dayStart = day.clone().startOf('day');
     const dayEnd = day.clone().endOf('day');
-    const timeRanges: TimeRange[] = [];
+    const timeRanges: (TimeRange & {
+      requestId: EntityId;
+      lendableObjectId: EntityId;
+    })[] = [];
 
     if (!lendableObject?.availability) {
       return [];
     }
 
-    for (const [start, end] of lendableObject.availability) {
-      if (!start || !end) continue;
+    for (const availability of lendableObject.availability) {
+      if (!availability.start || !availability.end) continue;
 
-      const startDate = moment(start);
-      const endDate = moment(end);
+      const startDate = moment(availability.start);
+      const endDate = moment(availability.end);
 
       if (startDate.isSameOrBefore(dayEnd) && endDate.isSameOrAfter(dayStart)) {
         const overlapStart = moment.max(startDate, dayStart);
         const overlapEnd = moment.min(endDate, dayEnd);
 
-        const newTimeRange = {
+        const newTimeRange: TimeRange & {
+          requestId: EntityId;
+          lendableObjectId: EntityId;
+        } = {
           start: overlapStart.format('HH:mm'),
           end: overlapEnd.format('HH:mm'),
           fullDay:
             overlapStart.format('HH:mm') === '00:00' &&
             overlapEnd.format('HH:mm') === '23:59',
+          requestId: availability.requestId,
+          lendableObjectId: lendableObject.id,
         };
 
         const isSimilarToSelected =
@@ -138,10 +147,10 @@ const LendingCalendar = ({
       return false;
     }
 
-    for (const [start, end] of lendableObject.availability) {
-      if (!start || !end) continue;
-      const startDate = moment(start);
-      const endDate = moment(end);
+    for (const availability of lendableObject.availability) {
+      if (!availability.start || !availability.end) continue;
+      const startDate = moment(availability.start);
+      const endDate = moment(availability.end);
 
       if (startDate.isSameOrBefore(dayStart) && endDate.isSameOrAfter(dayEnd)) {
         return true;
@@ -245,15 +254,17 @@ const LendingCalendar = ({
                               </div>
                             )}
 
-                            {!fully ? (
-                              timeRanges.map((range, idx) => (
-                                <div key={idx} className={styles.timeRange}>
-                                  {`${range.start}-${range.end}`}
+                            {timeRanges.map((range, idx) => (
+                              <Link
+                                key={idx}
+                                href={`/lending/${range.lendableObjectId}/request/${range.requestId}
+                                    `}
+                              >
+                                <div className={styles.timeRange}>
+                                  {!fully && `${range.start}-${range.end}`}
                                 </div>
-                              ))
-                            ) : (
-                              <div className={styles.timeRange} />
-                            )}
+                              </Link>
+                            ))}
                           </div>
                         </div>
                       </td>
