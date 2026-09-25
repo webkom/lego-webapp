@@ -46,10 +46,16 @@ catalogs:
       specifier: ^3.2.7
       version: 3.2.7
 
+overrides:
+  '@webkom/react-prepare': link:../react-prepare
+
 importers:
 
   .:
     dependencies:
+      '@webkom/react-prepare':
+        specifier: link:../react-prepare
+        version: link:../react-prepare
       prettier:
         specifier: ^3.5.3
         version: 3.5.3
@@ -93,8 +99,8 @@ importers:
         specifier: workspace:*
         version: link:../packages/lego-editor
       '@webkom/react-prepare':
-        specifier: ^1.2.0
-        version: 1.2.0(prop-types@15.8.1)(react@19.3.0)
+        specifier: link:../../react-prepare
+        version: link:../../react-prepare
       classnames:
         specifier: 'catalog:'
         version: 2.5.1
@@ -3258,12 +3264,6 @@ packages:
 
   '@vitest/utils@3.2.7':
     resolution: {integrity: sha512-x6BDOd7dyo3PFLY3I9/HJ25X/6OurhGXk2/B9gOZNPF7XDVjeBK4k01lQE5uvDpbuheErh91qYuE1E2OEjK3Rw==}
-
-  '@webkom/react-prepare@1.2.0':
-    resolution: {integrity: sha512-Yn4XzPCts7I4FwrXIifSzEayUC2nqAjuhOqED2eRvr80z58PvxOU8AZRPlTuEvkidbO55o9osZyrcxdIgKbWVg==}
-    peerDependencies:
-      prop-types: ^15.7.2
-      react: ^16.8.2 | ^17.0.0 | ^18.0.0
 
   '@zxing/browser@0.0.7':
     resolution: {integrity: sha512-AepzMgDnD6EjxewqmXpHJsi4S3Gw9ilZJLIbTf6fWuWySEcHBodnGu3p7FWlgq1Sd5QyfPhTum5z3CBkkhMVng==}
@@ -9876,11 +9876,6 @@ snapshots:
       '@vitest/pretty-format': 3.2.7
       loupe: 3.2.1
       tinyrainbow: 2.0.0
-
-  '@webkom/react-prepare@1.2.0(prop-types@15.8.1)(react@19.3.0)':
-    dependencies:
-      prop-types: 15.8.1
-      react: 19.3.0
 
   '@zxing/browser@0.0.7(@zxing/library@0.18.6)':
     dependencies:

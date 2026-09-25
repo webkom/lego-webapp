@@ -27,10 +27,16 @@
     "url": "github.com/webkom/lego-webapp"
   },
   "dependencies": {
+    "@webkom/react-prepare": "link:../react-prepare",
     "prettier": "^3.5.3"
   },
   "prettier": {
     "singleQuote": true
   },
-  "packageManager": "pnpm@10.6.5"
+  "packageManager": "pnpm@10.6.5",
+  "pnpm": {
+    "overrides": {
+      "@webkom/react-prepare": "link:../react-prepare"
+    }
+  }
 }
