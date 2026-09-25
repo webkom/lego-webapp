@@ -1,4 +1,4 @@
-FROM node:20-alpine AS builder
+FROM node:26-alpine AS builder
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
@@ -7,7 +7,7 @@ COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 COPY lego-webapp/package.json lego-webapp/package.json
 COPY packages packages
 
-RUN corepack enable
+RUN npm i -g corepack && corepack enable
 RUN apk add curl # For Mazemap installation
 RUN pnpm install --frozen-lockfile
 
@@ -29,7 +29,7 @@ ENV NODE_ENV=production
 
 RUN pnpm build
 
-FROM node:20-alpine
+FROM node:26-alpine
 
 WORKDIR /app/
 
