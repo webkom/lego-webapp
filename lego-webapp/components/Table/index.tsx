@@ -157,6 +157,7 @@ const Table = <T extends { id: EntityId }>({
     queryFiltersToFilters(queryFilters),
   );
   const prevPropsFilters = useRef(queryFilters);
+  const prevSort = useRef(sort);
 
   useEffect(() => {
     if (!isEqual(queryFilters, prevPropsFilters.current)) {
@@ -165,14 +166,36 @@ const Table = <T extends { id: EntityId }>({
     }
   }, [queryFilters]);
 
+  const debouncedOnChange = useMemo(
+    () =>
+      debounce(
+        (
+          onChange: NonNullable<TableProps<T>['onChange']>,
+          queryFilters: QueryFilters,
+          sort: Sort,
+        ) => {
+          prevPropsFilters.current = queryFilters;
+          prevSort.current = sort;
+          onChange(queryFilters, sort);
+        },
+        170,
+      ),
+    [],
+  );
+
+  useEffect(() => () => debouncedOnChange.cancel(), [debouncedOnChange]);
+
   useEffect(() => {
-    debounce(() => {
-      if (onChange) {
-        const queryFilters = filtersToQueryFilters(filters);
-        prevPropsFilters.current = queryFilters;
-        onChange(queryFilters, sort);
-      }
-    }, 170)();
+    const nextQueryFilters = filtersToQueryFilters(filters);
+    if (
+      !onChange ||
+      (isEqual(nextQueryFilters, prevPropsFilters.current ?? {}) &&
+        isEqual(sort, prevSort.current))
+    ) {
+      return;
+    }
+
+    debouncedOnChange(onChange, nextQueryFilters, sort);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, sort]);
 
