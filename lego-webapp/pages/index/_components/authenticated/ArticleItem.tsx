@@ -2,9 +2,8 @@ import { Card, Image } from '@webkom/lego-bricks';
 import { useAppSelector } from '~/redux/hooks';
 import truncateString from '~/utils/truncateString';
 import styles from './ArticleItem.module.css';
+import type { JSX } from 'react';
 import type { PublicArticle } from '~/redux/models/Article';
-
-import type { JSX } from "react";
 
 type Props = {
   item?: PublicArticle;
