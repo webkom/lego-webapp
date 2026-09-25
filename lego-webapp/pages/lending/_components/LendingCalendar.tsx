@@ -69,7 +69,7 @@ const LendingCalendar = ({
     const dayStart = day.clone().startOf('day');
     const dayEnd = day.clone().endOf('day');
     const timeRanges: (TimeRange & {
-      requestId: number;
+      requestId: EntityId;
       lendableObjectId: EntityId;
     })[] = [];
 
@@ -88,7 +88,7 @@ const LendingCalendar = ({
         const overlapEnd = moment.min(endDate, dayEnd);
 
         const newTimeRange: TimeRange & {
-          requestId: number;
+          requestId: EntityId;
           lendableObjectId: EntityId;
         } = {
           start: overlapStart.format('HH:mm'),

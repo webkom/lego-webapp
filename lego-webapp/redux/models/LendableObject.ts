@@ -20,7 +20,7 @@ interface availabilityLendableObject {
   end: Dateish;
   createdByFullname?: string;
   createdByUsername?: EntityId;
-  requestId: number;
+  requestId: EntityId;
 }
 
 export type ListLendableObject = Pick<
