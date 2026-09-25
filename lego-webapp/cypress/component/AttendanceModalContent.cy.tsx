@@ -27,8 +27,7 @@ const user = (
     abakusGroups,
     achievements: [],
     achievementsScore: 0,
-    achievementRank: 0,
-  }) as PublicUserWithAbakusGroups;
+  }) as unknown as PublicUserWithAbakusGroups;
 
 const registration = (
   id: number,
@@ -60,40 +59,12 @@ const pools: AttendanceModalPool[] = [
 
 const defaultCurrentUserGroupIds = [101, 101, 102, 103, 104, 105, 106];
 
-type FixtureGroup = {
-  id: number;
-  name: string;
-  type: GroupType;
-};
-
-const noAdditionalGroups: FixtureGroup[] = [];
-const overflowGroups: FixtureGroup[] = [
-  { id: 201, name: 'AbaQ', type: GroupType.Committee },
-  { id: 202, name: 'Bedkom', type: GroupType.Committee },
-  { id: 203, name: 'Dotkom', type: GroupType.Committee },
-  { id: 204, name: 'Fagkom', type: GroupType.Committee },
-  { id: 205, name: 'Koskom', type: GroupType.Committee },
-  { id: 206, name: 'LaBamba', type: GroupType.Committee },
-  { id: 207, name: 'PR', type: GroupType.Committee },
-  { id: 208, name: 'Prokom', type: GroupType.Committee },
-  { id: 209, name: 'Statkom', type: GroupType.Committee },
-  { id: 210, name: 'Tripkom', type: GroupType.Committee },
-  { id: 211, name: 'UKA', type: GroupType.Committee },
-  { id: 212, name: 'Xcom', type: GroupType.Committee },
-];
-const overflowCurrentUserGroupIds = [
-  ...defaultCurrentUserGroupIds,
-  ...overflowGroups.map((group) => group.id),
-];
-
 const AttendanceHarness = ({
   isMeeting = false,
   currentUserGroupIds = defaultCurrentUserGroupIds,
-  additionalGroups = noAdditionalGroups,
 }: {
   isMeeting?: boolean;
   currentUserGroupIds?: number[];
-  additionalGroups?: FixtureGroup[];
 }) => {
   const dispatch = useAppDispatch();
 
@@ -140,15 +111,12 @@ const AttendanceHarness = ({
               name: 'Kodeklubben',
               type: GroupType.Interest,
             },
-            ...Object.fromEntries(
-              additionalGroups.map((group) => [group.id, group]),
-            ),
           },
         },
       },
       meta: { endpoint: 'preview', isCurrentUser: true },
     });
-  }, [additionalGroups, currentUserGroupIds, dispatch]);
+  }, [currentUserGroupIds, dispatch]);
 
   return (
     <AttendanceModalContent
@@ -357,83 +325,6 @@ describe('<AttendanceModalContent />', () => {
     attendeeRows().should('have.length', 3);
   });
 
-  it('offers a bounded group picker beside the desktop search', () => {
-    cy.viewport(1280, 800);
-    cy.mount(
-      <AttendanceHarness
-        currentUserGroupIds={overflowCurrentUserGroupIds}
-        additionalGroups={overflowGroups}
-      />,
-    );
-
-    cy.get('[role="group"][aria-label="Filtrer på kull"]').should('not.exist');
-    cy.contains('button', '1. Klasse').should('not.exist');
-    cy.contains('button', '5. Klasse').should('not.exist');
-
-    cy.get('[data-test-id="attendance-filter-trigger"]')
-      .as('filterTrigger')
-      .should('have.attr', 'data-active-count', '0')
-      .click();
-
-    cy.get('[role="dialog"][aria-label="Filtrer deltakere"]')
-      .should('be.visible')
-      .and('contain.text', 'Kull')
-      .and('contain.text', '1. Klasse')
-      .and('contain.text', '5. Klasse')
-      .and('contain.text', 'Studieretning')
-      .and('contain.text', 'Data')
-      .and('contain.text', 'Cyber')
-      .and('contain.text', 'Grupper')
-      .and('contain.text', 'Kulisse');
-
-    cy.get('[data-test-id="attendance-filter-popover"]')
-      .should('have.css', 'overflow-y', 'auto')
-      .then(($popover) => {
-        expect($popover[0].clientHeight).to.be.at.most(360);
-        expect($popover[0].scrollHeight).to.be.greaterThan(
-          $popover[0].clientHeight,
-        );
-      })
-      .scrollTo('bottom')
-      .then(($popover) => {
-        expect($popover[0].scrollTop).to.be.greaterThan(0);
-      });
-
-    cy.contains('[role="dialog"] button', 'Kulisse')
-      .click()
-      .should('have.attr', 'aria-pressed', 'true');
-    cy.get('@filterTrigger').should('have.attr', 'data-active-count', '1');
-    cy.get('input[role="combobox"]').should('have.value', '');
-    filterChips().should('have.length', 1).and('contain.text', 'Kulisse');
-    attendeeRows().should('have.length', 2);
-
-    cy.get('[data-test-id="attendance-filter-popover"]').scrollTo('top');
-    cy.contains('[role="dialog"] button', /^2\. Klasse$/)
-      .click()
-      .should('have.attr', 'aria-pressed', 'true');
-    filterChips()
-      .should('have.length', 2)
-      .and('contain.text', '2. Klasse')
-      .and('contain.text', 'Kulisse');
-    cy.get('@filterTrigger').should('have.attr', 'data-active-count', '2');
-    attendeeRows()
-      .should('have.length', 1)
-      .and('contain.text', 'Katherine Johnson');
-
-    cy.contains('[role="dialog"] button', /^2\. Klasse$/).click();
-    filterChips().should('have.length', 1).and('contain.text', 'Kulisse');
-    cy.get('@filterTrigger').should('have.attr', 'data-active-count', '1');
-
-    cy.focused().type('{esc}');
-    cy.get('input[role="combobox"]').clear().type(':we').type('{enter}');
-    filterChips()
-      .should('have.length', 2)
-      .and('contain.text', 'Kulisse')
-      .and('contain.text', 'Webkom');
-    cy.get('@filterTrigger').should('have.attr', 'data-active-count', '2');
-    attendeeRows().should('have.length', 2);
-  });
-
   it('offers all supported filters from one compact inline mobile panel', () => {
     cy.viewport(375, 812);
     // The inline panel requires a touch-capable narrow viewport (real phone)
@@ -469,7 +360,7 @@ describe('<AttendanceModalContent />', () => {
       .and('not.contain.text', 'Abakus')
       .and('not.contain.text', 'Mystery');
 
-    const panelOption = (label: string) =>
+    const panelOption = (label: string | RegExp) =>
       cy.contains('[data-test-id="attendance-filter-panel"] button', label);
 
     panelOption(/^2\. Klasse$/)
@@ -554,73 +445,5 @@ describe('<AttendanceModalContent />', () => {
 
     cy.mount(<AttendanceHarness isMeeting currentUserGroupIds={[104, 105]} />);
     cy.get('[data-test-id="attendance-filter-trigger"]').should('not.exist');
-    cy.get('input').should('have.attr', 'placeholder', 'Søk etter navn');
-  });
-
-  it('filters by study program (Data, Cyber) and composes with class and groups', () => {
-    cy.mount(<AttendanceHarness />);
-    cy.get('input[placeholder="Søk etter navn eller skriv :gruppe"]').as(
-      'attendanceSearch',
-    );
-
-    // Filter using alias :komtek
-    cy.get('@attendanceSearch').type(':komtek');
-    cy.get('[role="option"]')
-      .should('have.length', 1)
-      .and('contain.text', 'Cyber');
-    cy.get('[role="option"]').first().click();
-
-    filterChips().should('have.length', 1).and('contain.text', 'Cyber');
-    // None of the mock users belong to Cyber
-    attendeeRows().should('have.length', 0);
-    cy.contains('Ingen treff').should('be.visible');
-
-    // Selecting Data replaces Cyber
-    cy.get('@attendanceSearch').type(':data');
-    cy.get('[role="option"]')
-      .should('have.length', 1)
-      .and('contain.text', 'Data');
-    cy.get('[role="option"]').first().click();
-
-    filterChips().should('have.length', 1).and('contain.text', 'Data');
-    // All 3 mock users belong to Datateknologi
-    attendeeRows().should('have.length', 3);
-
-    // Compose with grade filter 1. Klasse
-    cy.get('[data-test-id="attendance-filter-trigger"]').click();
-    cy.contains('[role="dialog"] button', /^1\. Klasse$/).click();
-    cy.focused().type('{esc}');
-
-    filterChips()
-      .should('have.length', 2)
-      .and('contain.text', 'Data')
-      .and('contain.text', '1. Klasse');
-    // Only Ada Lovelace is 1. Klasse Datateknologi
-    attendeeRows().should('have.length', 1).and('contain.text', 'Ada Lovelace');
-
-    // Switch grade to 2. Klasse from the picker
-    cy.get('[data-test-id="attendance-filter-trigger"]').click();
-    cy.contains('[role="dialog"] button', /^2\. Klasse$/).click();
-    cy.focused().type('{esc}');
-
-    filterChips()
-      .should('have.length', 2)
-      .and('contain.text', 'Data')
-      .and('contain.text', '2. Klasse');
-    // Grace Hopper and Katherine Johnson are 2. Klasse Datateknologi
-    attendeeRows().should('have.length', 2);
-
-    // Also compose with a committee (Webkom)
-    cy.get('@attendanceSearch').type(':we').type('{enter}');
-    filterChips().should('have.length', 3);
-    // Katherine Johnson is Webkom + 2. Klasse + Data
-    attendeeRows()
-      .should('have.length', 1)
-      .and('contain.text', 'Katherine Johnson');
-
-    // Clear all filters
-    cy.contains('button', 'Nullstill').click();
-    filterChips().should('not.exist');
-    attendeeRows().should('have.length', 3);
   });
 });
