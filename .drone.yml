@@ -102,21 +102,6 @@ steps:
       CORS_ORIGIN_DOMAINS: 'frontend:3000'
     when: *checks
 
-  - name: legocypresshelper
-    image: abakus/lego-cypress-helper:latest
-    detach: true
-    pull: true
-    when: *checks
-    environment:
-      PG_HOST: postgres
-      PG_USERNAME: lego
-      PG_DATABASE: lego
-    commands:
-      - cd /app
-      - ./wait-for-it.sh -t 420 api:8000
-      - node index.js
-      - echo "server stopped"
-
   - name: setup
     image: node:20-alpine
     when: *checks
@@ -217,34 +202,6 @@ steps:
       - corepack enable
       - pnpm --filter lego-webapp preview
 
-  - name: cypress_e2e
-    image: cypress/browsers:node-20.18.0-chrome-130.0.6723.69-1-ff-131.0.3-edge-130.0.2849.52-1
-    shm_size: 512m
-    ipc: host
-    when: *checks
-    depends_on:
-      - legocypresshelper
-      - install_cypress
-      - frontend
-    volumes:
-      - name: cypress-cache
-        path: /cypress-cache
-    environment:
-      TZ: Europe/Oslo
-      CYPRESS_API_BASE_URL: http://api:8000
-      CYPRESS_RESET_DB_API: http://legocypresshelper:3030
-      CYPRESS_BASE_URL: http://frontend:3000
-      CYPRESS_CACHE_FOLDER: /cypress-cache
-      CYPRESS_RECORD_KEY:
-        from_secret: cypress_record_key
-    commands:
-      - ./wait-for-it.sh -t 180 frontend:3000
-      - ./wait-for-it.sh -t 480 api:8000
-      - ./wait-for-it.sh -t 60 legocypresshelper:3030
-      - npm i -g corepack
-      - corepack enable
-      - pnpm --filter lego-webapp exec cypress run --e2e --record
-
   - name: cypress_component
     image: cypress/browsers:node-20.18.0-chrome-130.0.6723.69-1-ff-131.0.3-edge-130.0.2849.52-1
     when: *checks
@@ -262,21 +219,20 @@ steps:
       - corepack enable
       - pnpm --filter lego-webapp exec cypress run --component --config video=false,screenshotOnRunFailure=false
 
-  - name: playwright_tests
+  - name: playwright_e2e
     image: mcr.microsoft.com/playwright:v1.63.0-noble
     shm_size: 512m
     when: *checks
     depends_on:
       - setup
       - frontend
-      - cypress_e2e
     environment:
-     TZ: Europe/Oslo
-     PLAYWRIGHT_BASE_URL: http://frontend:3000
-     PLAYWRIGHT_API_BASE_URL: http://api:8000
+      TZ: Europe/Oslo
+      PLAYWRIGHT_BASE_URL: http://frontend:3000
+      PLAYWRIGHT_API_BASE_URL: http://api:8000
     commands:
       - ./wait-for-it.sh -t 180 frontend:3000
-      -  ./wait-for-it.sh -t 480 api:8000
+      - ./wait-for-it.sh -t 480 api:8000
       - npm i -g corepack
       - corepack enable
       - pnpm --filter lego-webapp exec playwright test
@@ -294,8 +250,8 @@ steps:
       - lint
       - typescript
       - frontend
-      - cypress_e2e
       - cypress_component
+      - playwright_e2e
     environment:
       SENTRY_AUTH_TOKEN:
         from_secret: sentry_auth_token
@@ -354,6 +310,6 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: e83fd8988cef383ce020d798a9814a93b3a60a58370babbba00adba3b263f8b6
+hmac: da2f34709c925b6e05d96df8eb13bc55d8e2b4e22cee0d8607d4a7fd460ad201
 
 ...

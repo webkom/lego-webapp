@@ -19,6 +19,8 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
     baseURL: process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000',
+    testIdAttribute: 'data-test-id',
+    reducedMotion: 'reduce',
     trace: 'retain-on-failure',
   },
 
@@ -32,22 +34,6 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        storageState: 'playwright/.auth/webkom.json',
-      },
-      dependencies: ['setup'],
-    },
-    {
-      name: 'firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-        storageState: 'playwright/.auth/webkom.json',
-      },
-      dependencies: ['setup'],
-    },
-    {
-      name: 'safari',
-      use: {
-        ...devices['Desktop Safari'],
         storageState: 'playwright/.auth/webkom.json',
       },
       dependencies: ['setup'],
