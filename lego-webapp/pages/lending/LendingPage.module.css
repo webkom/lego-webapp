@@ -35,7 +35,7 @@ section.wrapper {
   grid-area: filter-search;
   position: relative;
   width: 100%;
-  overflow: hidden;
+  min-width: 0;
 }
 
 .itemIndex {
