@@ -52,7 +52,7 @@ export const Icon = forwardRef<HTMLButtonElement & HTMLAnchorElement, Props>(
 
     const iconElement = iconNode ? (
       <>
-        {cloneElement(iconNode as ReactElement, {
+        {cloneElement(iconNode as ReactElement<Props>, {
           size,
           strokeWidth,
         })}
