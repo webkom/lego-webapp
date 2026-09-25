@@ -1,6 +1,6 @@
 import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { debounce, isEmpty, get, isEqual } from 'lodash-es';
+import { isEmpty, get, isEqual } from 'lodash-es';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useEffect, useMemo, useState, useRef } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -157,6 +157,7 @@ const Table = <T extends { id: EntityId }>({
     queryFiltersToFilters(queryFilters),
   );
   const prevPropsFilters = useRef(queryFilters);
+  const prevSort = useRef(sort);
 
   useEffect(() => {
     if (!isEqual(queryFilters, prevPropsFilters.current)) {
@@ -166,13 +167,21 @@ const Table = <T extends { id: EntityId }>({
   }, [queryFilters]);
 
   useEffect(() => {
-    debounce(() => {
-      if (onChange) {
-        const queryFilters = filtersToQueryFilters(filters);
-        prevPropsFilters.current = queryFilters;
-        onChange(queryFilters, sort);
-      }
-    }, 170)();
+    const nextQueryFilters = filtersToQueryFilters(filters);
+    if (
+      !onChange ||
+      (isEqual(nextQueryFilters, prevPropsFilters.current ?? {}) &&
+        isEqual(sort, prevSort.current))
+    ) {
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      prevPropsFilters.current = nextQueryFilters;
+      prevSort.current = sort;
+      onChange(nextQueryFilters, sort);
+    }, 170);
+    return () => clearTimeout(timeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, sort]);
 
