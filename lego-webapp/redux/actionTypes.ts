@@ -200,6 +200,7 @@ export const NotificationsFeed = {
 export const User = {
   FETCH: generateStatuses('User.FETCH'),
   FETCH_LEADERBOARD: generateStatuses('User.FETCH_LEADERBOARD'),
+  FETCH_ABAID_QR: generateStatuses('User.FETCH_ABAID_QR'),
   UPDATE: generateStatuses('User.UPDATE'),
   PASSWORD_CHANGE: generateStatuses('User.PASSWORD_CHANGE'),
   LOGIN: generateStatuses('User.LOGIN'),

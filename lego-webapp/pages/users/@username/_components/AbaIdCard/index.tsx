@@ -1,6 +1,9 @@
+import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { useState } from 'react';
 import { Dialog, Modal, ModalOverlay } from 'react-aria-components';
+import { fetchAbaidQr } from '~/redux/actions/UserActions';
+import { useAppDispatch } from '~/redux/hooks';
 import AbaIdBack from './AbaIdBack';
 import styles from './AbaIdCard.module.css';
 import AbaIdFront from './AbaIdFront';
@@ -18,9 +21,10 @@ type Props = {
   username: string;
   grade?: string;
   groups: AbaIdGroup[];
+  qr: string | null;
 };
 
-const AbaIdStage = ({ fullName, username, grade, groups }: Props) => {
+const AbaIdStage = ({ fullName, username, grade, groups, qr }: Props) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const zoneRef = useCardTilt();
 
@@ -32,7 +36,7 @@ const AbaIdStage = ({ fullName, username, grade, groups }: Props) => {
             <div className={cx(styles.flip, isFlipped && styles.flipped)}>
               <AbaIdFront
                 fullName={fullName}
-                username={username}
+                qr={qr}
                 grade={grade}
                 hidden={isFlipped}
               />
