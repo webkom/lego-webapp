@@ -53,6 +53,7 @@ export const ROLES = {
   purchasing_manager: 'Innkjøpsansvarlig',
   event_manager: 'Arrangementansvarlig',
   snackoverflow_manager: 'SnackOverflow-ansvarlig',
+  operations_manager: 'Driftsansvarlig',
 };
 
 export type RoleType = keyof typeof ROLES;
