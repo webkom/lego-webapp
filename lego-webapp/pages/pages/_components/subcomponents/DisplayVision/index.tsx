@@ -9,11 +9,11 @@ type VisionType = {
 };
 
 type Props = {
-  title: string;
-  vision1: VisionType;
-  vision2: VisionType;
-  vision3: VisionType;
-  vision4: VisionType;
+  title?: string;
+  vision1?: VisionType;
+  vision2?: VisionType;
+  vision3?: VisionType;
+  vision4?: VisionType;
 };
 
 const defaultValues = {
@@ -71,8 +71,12 @@ const defaultValues = {
   },
 };
 
-const DisplayVision = (props: Props) => {
-  const { vision1, vision2, vision3, vision4 } = { ...defaultValues, ...props };
+const DisplayVision = ({
+  vision1 = defaultValues.vision1,
+  vision2 = defaultValues.vision2,
+  vision3 = defaultValues.vision3,
+  vision4 = defaultValues.vision4,
+}: Props) => {
   return (
     <div className={styles.vision}>
       <div className={styles.sectionLeft}>
@@ -105,7 +109,7 @@ const DisplayVision = (props: Props) => {
         />
       </div>
     </div>
-  )
+  );
 };
 
 const defaultValuesShort = {
@@ -128,11 +132,16 @@ const defaultValuesShort = {
   },
 };
 
-const DisplayVisionShort = (props: Props) => {
-  const { vision1, vision2, vision3, vision4 } = { ...defaultValuesShort, ...props };
+const DisplayVisionShort = ({
+  title = defaultValuesShort.title,
+  vision1 = defaultValuesShort.vision1,
+  vision2 = defaultValuesShort.vision2,
+  vision3 = defaultValuesShort.vision3,
+  vision4 = defaultValuesShort.vision4,
+}: Props) => {
   return (
     <div>
-      <h2 className={styles.visionTitle}>Våre verdier</h2>
+      <h2 className={styles.visionTitle}>{title}</h2>
       <div className={styles.vision}>
         <div className={styles.sectionLeft}>
           <Vision title={vision1.title} summary={vision1.summary} left />
