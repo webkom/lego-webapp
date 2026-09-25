@@ -1,6 +1,6 @@
 import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { isEmpty, get, isEqual } from 'lodash-es';
+import { debounce, isEmpty, get, isEqual } from 'lodash-es';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useEffect, useMemo, useState, useRef } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -166,6 +166,25 @@ const Table = <T extends { id: EntityId }>({
     }
   }, [queryFilters]);
 
+  const debouncedOnChange = useMemo(
+    () =>
+      debounce(
+        (
+          onChange: NonNullable<TableProps<T>['onChange']>,
+          queryFilters: QueryFilters,
+          sort: Sort,
+        ) => {
+          prevPropsFilters.current = queryFilters;
+          prevSort.current = sort;
+          onChange(queryFilters, sort);
+        },
+        170,
+      ),
+    [],
+  );
+
+  useEffect(() => () => debouncedOnChange.cancel(), [debouncedOnChange]);
+
   useEffect(() => {
     const nextQueryFilters = filtersToQueryFilters(filters);
     if (
@@ -176,12 +195,7 @@ const Table = <T extends { id: EntityId }>({
       return;
     }
 
-    const timeout = setTimeout(() => {
-      prevPropsFilters.current = nextQueryFilters;
-      prevSort.current = sort;
-      onChange(nextQueryFilters, sort);
-    }, 170);
-    return () => clearTimeout(timeout);
+    debouncedOnChange(onChange, nextQueryFilters, sort);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, sort]);
 
