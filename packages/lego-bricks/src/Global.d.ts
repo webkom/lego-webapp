@@ -1,5 +1,4 @@
 import type { IonIcon } from './components/Icon/IonIcons';
-import type * as React from 'react';
 import type { DOMAttributes, ReactNode } from 'react';
 
 type CustomElement<T> = Partial<T & DOMAttributes<T> & { children: ReactNode }>;
@@ -14,7 +13,7 @@ declare module 'react' {
 
 declare module 'react-tiny-popover' {
   namespace JSX {
-    interface Element extends React.JSX.Element {}
+    type Element = React.JSX.Element;
   }
 }
 
