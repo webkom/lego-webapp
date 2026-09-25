@@ -7,7 +7,7 @@
   overflow: hidden;
   border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
   background-color: var(--lego-card-color);
-  box-shadow: 0 -4px 24px rgb(0 0 0 / 15%);
+  box-shadow: var(--shadow-lg);
   transform: translateY(110%);
   visibility: hidden;
   transition:

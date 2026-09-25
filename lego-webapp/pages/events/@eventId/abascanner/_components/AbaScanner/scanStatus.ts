@@ -43,7 +43,8 @@ const scanStatuses: Record<string, ScanStatus> = {
   waitlisted: {
     label: 'Venteliste',
     title: 'På venteliste',
-    description: 'Står på venteliste og har ikke fått plass.',
+    description:
+      'Står på venteliste og har ikke fått plass. Oppmøtet må registreres manuelt under «Påmeldinger» i admin-panelet.',
     color: 'var(--color-orange-6)',
     icon: TriangleAlert,
     isSuccess: false,
