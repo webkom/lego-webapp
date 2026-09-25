@@ -5,7 +5,7 @@ import { RadioButton, TextInput } from '~/components/Form';
 import {
   filterableGroups,
   programFilterGroups,
-} from '~/components/UserAttendance/GroupFilter';
+} from '~/components/UserAttendance/gradeGroupFilters';
 import useQuery from '~/utils/useQuery';
 import {
   overviewDefaultSearch,
