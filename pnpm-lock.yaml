@@ -46,9 +46,6 @@ catalogs:
       specifier: ^5.0.2
       version: 5.0.2
 
-overrides:
-  '@webkom/react-prepare': link:../react-prepare
-
 importers:
 
   .:
@@ -99,8 +96,8 @@ importers:
         specifier: workspace:*
         version: link:../packages/lego-editor
       '@webkom/react-prepare':
-        specifier: link:../../react-prepare
-        version: link:../../react-prepare
+        specifier: 2.0.0
+        version: 2.0.0(react@19.3.0)
       classnames:
         specifier: 'catalog:'
         version: 2.5.1
@@ -3252,6 +3249,11 @@ packages:
 
   '@vitest/utils@2.1.9':
     resolution: {integrity: sha512-v0psaMSkNJ3A2NMrUEHFRzJtDPFn+/VWZ5WxImB21T9fjucJRmS7xCS3ppEnARb9y11OAzaD+P2Ps+b+BGX5iQ==}
+
+  '@webkom/react-prepare@2.0.0':
+    resolution: {integrity: sha512-fLR2UNUI962qV2dpWMALdbiISVt8haEnjBTBlH7ycMOUNuEvIFkQO/YJeeI5/R+Etp5jSnymKidEul0AjaLTJA==}
+    peerDependencies:
+      react: ^19.0.0
 
   '@zxing/browser@0.0.7':
     resolution: {integrity: sha512-AepzMgDnD6EjxewqmXpHJsi4S3Gw9ilZJLIbTf6fWuWySEcHBodnGu3p7FWlgq1Sd5QyfPhTum5z3CBkkhMVng==}
@@ -9844,6 +9846,10 @@ snapshots:
       '@vitest/pretty-format': 2.1.9
       loupe: 3.2.1
       tinyrainbow: 1.2.0
+
+  '@webkom/react-prepare@2.0.0(react@19.3.0)':
+    dependencies:
+      react: 19.3.0
 
   '@zxing/browser@0.0.7(@zxing/library@0.18.6)':
     dependencies:

@@ -35,8 +35,6 @@
   },
   "packageManager": "pnpm@10.6.5",
   "pnpm": {
-    "overrides": {
-      "@webkom/react-prepare": "link:../react-prepare"
-    }
+    "overrides": {}
   }
 }
