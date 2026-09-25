@@ -114,14 +114,22 @@ const ManualRegistration = ({
 
   if (isMobile) {
     return (
-      <Drawer isOpen={isOpen} onOpenChange={onOpenChange} title={'Registrer manuelt'}>
+      <Drawer
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        title={'Registrer manuelt'}
+      >
         {content}
       </Drawer>
     );
   }
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} title={'Registrer manuelt'}>
+    <Modal
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      title={'Registrer manuelt'}
+    >
       {content}
     </Modal>
   );
