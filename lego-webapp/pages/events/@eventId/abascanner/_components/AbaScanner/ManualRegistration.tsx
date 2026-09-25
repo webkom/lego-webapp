@@ -11,8 +11,6 @@ import { useIsMobileViewport } from '~/utils/isMobileViewport';
 import styles from './ManualRegistration.module.css';
 import type { SelectedAdminRegistration } from '~/redux/slices/events';
 
-const TITLE = 'Registrer manuelt';
-
 type Props = {
   registrations: SelectedAdminRegistration[];
   isOpen: boolean;
@@ -116,14 +114,14 @@ const ManualRegistration = ({
 
   if (isMobile) {
     return (
-      <Drawer isOpen={isOpen} onOpenChange={onOpenChange} title={TITLE}>
+      <Drawer isOpen={isOpen} onOpenChange={onOpenChange} title={'Registrer manuelt'}>
         {content}
       </Drawer>
     );
   }
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} title={TITLE}>
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange} title={'Registrer manuelt'}>
       {content}
     </Modal>
   );

@@ -7,8 +7,6 @@ import styles from './RecentScans.module.css';
 import { getScanStatus } from './scanStatus';
 import type { SelectedAdminRegistration } from '~/redux/slices/events';
 
-const RECENT_COUNT = 4;
-
 export const getRecentlyPresent = <
   T extends Pick<SelectedAdminRegistration, 'presence' | 'presenceDate'>,
 >(
@@ -21,7 +19,7 @@ export const getRecentlyPresent = <
     ),
     (registration) => moment(registration.presenceDate).valueOf(),
     'desc',
-  ).slice(0, RECENT_COUNT);
+  ).slice(0, 4);
 
 type Props = {
   registrations: SelectedAdminRegistration[];
