@@ -15,7 +15,7 @@
     "preview:staging": "API_URL=https://lego-staging.abakus.no/api/v1 BASE_URL=https://lego-staging.abakus.no WS_URL=wss://ws-staging.abakus.no CAPTCHA_KEY=1x00000000000000000000AA ENVIRONMENT=local_staging pnpm preview",
     "ssr": "echo '\\033[0;31mUse `pnpm preview` instead\\033[0m' && pnpm preview",
     "ssr:staging": "echo '\\033[0;31mUse `pnpm preview:staging` instead\\033[0m' && pnpm preview:staging",
-    "test": "vitest run",
+    "test": "NODE_OPTIONS=--no-experimental-webstorage vitest run",
     "lint": "pnpm lint:js && pnpm lint:prettier",
     "lint:js": "eslint .",
     "lint:prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --check",
