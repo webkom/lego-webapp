@@ -83,7 +83,13 @@ const scanStatuses: Record<string, ScanStatus> = {
     ...danger,
     label: 'Finnes ikke',
     title: 'Finnes ikke',
-    description: 'Fant ingen bruker med dette brukernavnet.',
+    description: 'Fant ingen bruker for denne ABA-ID-en.',
+  },
+  invalid_qr: {
+    ...danger,
+    label: 'Ugyldig',
+    title: 'Ugyldig ABA-ID',
+    description: 'QR-koden er ugyldig eller utløpt.',
   },
 };
 

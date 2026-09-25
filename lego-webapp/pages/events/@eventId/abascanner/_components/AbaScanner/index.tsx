@@ -11,13 +11,17 @@ import RecentScans from './RecentScans';
 import ScanResultSheet from './ScanResultSheet';
 import { getScanStatus, type RecentScan } from './scanStatus';
 import useScanSounds from './useScanSounds';
+import type { RegistrationSearchResult } from '~/redux/actions/EventActions';
 import type { SelectedAdminRegistration } from '~/redux/slices/events';
+
+type MarkPresentResult = Promise<{ payload: RegistrationSearchResult }>;
 
 const RESUME_DELAY_MS = 2000;
 const CARD_GONE_MS = 2500;
 
 type Props = {
-  markPresent: (username: string) => Promise<unknown>;
+  markPresent: (username: string) => MarkPresentResult;
+  markPresentByQr: (qr: string) => MarkPresentResult;
   eventHref: string;
   eventTitle: string;
   presentCount: number;
@@ -27,6 +31,7 @@ type Props = {
 
 const AbaScanner = ({
   markPresent,
+  markPresentByQr,
   eventHref,
   eventTitle,
   presentCount,
@@ -34,7 +39,7 @@ const AbaScanner = ({
   registrations,
 }: Props) => {
   const isScanning = useRef(false);
-  const lastUsername = useRef<string | null>(null);
+  const lastScanned = useRef<string | null>(null);
   const lastSeenAt = useRef(0);
   const [result, setResult] = useState<RecentScan | null>(null);
   const [isResultOpen, setIsResultOpen] = useState(false);
@@ -65,29 +70,29 @@ const AbaScanner = ({
     return () => clearTimeout(timeout);
   }, [isResultOpen, resultStatus]);
 
-  const register = (username: string) => {
+  const register = (request: MarkPresentResult, label: string) => {
     isScanning.current = true;
-    lastUsername.current = username;
-    lastSeenAt.current = Date.now();
-    markPresent(username)
-      .then(() => recordScan(username, 'success'))
+    request
+      .then((res) => recordScan(res.payload.user.username, 'success'))
       .catch((error) =>
         recordScan(
-          username,
+          label,
           get(error, 'payload.response.jsonData.errorCode', 'unknown'),
         ),
       );
   };
 
-  const onScan = (username: string) => {
-    if (username === lastUsername.current) {
+  const onScan = (qr: string) => {
+    if (qr === lastScanned.current) {
       lastSeenAt.current = Date.now();
       return;
     }
-    if (username.length === 0 || isScanning.current) {
+    if (qr.length === 0 || isScanning.current) {
       return;
     }
-    register(username);
+    lastScanned.current = qr;
+    lastSeenAt.current = Date.now();
+    register(markPresentByQr(qr), 'Ukjent bruker');
   };
 
   const openManual = () => {
@@ -105,7 +110,7 @@ const AbaScanner = ({
 
   const registerManually = (username: string) => {
     setIsManualOpen(false);
-    register(username);
+    register(markPresent(username), username);
   };
 
   return (
@@ -141,7 +146,7 @@ const AbaScanner = ({
             if (res) {
               onScan(res.getText());
             } else if (Date.now() - lastSeenAt.current > CARD_GONE_MS) {
-              lastUsername.current = null;
+              lastScanned.current = null;
             }
           }}
           constraints={{
