@@ -57,7 +57,6 @@ const EventAdministrateIndex = ({ children }: PropsWithChildren) => {
           <NavigationTab href={`${base}/admin-register`}>
             Adminregistrering
           </NavigationTab>
-          <NavigationTab href={`${base}/abacard`}>Abacard</NavigationTab>
         </>
       }
       skeleton={fetching}

@@ -214,6 +214,41 @@ describe('reducers', () => {
         },
       });
     });
+    it('Event.SOCKET_PRESENCE.SUCCESS', () => {
+      const prevState = baseState;
+      const action = {
+        type: Event.SOCKET_PRESENCE.SUCCESS,
+        payload: {
+          id: 3,
+          presence: 'PRESENT',
+          presenceDate: '2026-09-25T18:02:00Z',
+        },
+      };
+      expect(registrations(prevState, action)).toEqual({
+        ...baseState,
+        entities: {
+          3: {
+            id: 3,
+            presence: 'PRESENT',
+            presenceDate: '2026-09-25T18:02:00Z',
+          },
+          4: {
+            id: 4,
+          },
+        },
+      });
+    });
+    it('Event.SOCKET_PRESENCE.SUCCESS ignores unknown registrations', () => {
+      const prevState = baseState;
+      const action = {
+        type: Event.SOCKET_PRESENCE.SUCCESS,
+        payload: {
+          id: 99,
+          presence: 'PRESENT',
+        },
+      };
+      expect(registrations(prevState, action)).toEqual(baseState);
+    });
     it('Event.SOCKET_UNREGISTRATION.SUCCESS', () => {
       const prevState = baseState;
       const action = {

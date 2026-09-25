@@ -4,6 +4,9 @@ import type { HelmetServerState } from 'react-helmet-async/lib/types';
 
 declare global {
   namespace Vike {
+    interface Config {
+      bareLayout?: boolean;
+    }
     interface PageContext {
       // Passed from server to client (as defined in './pages/+config.ts')
       storeInitialState: RootState;

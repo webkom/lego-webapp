@@ -106,10 +106,7 @@ const Admin = ({ actionGrant, event }: Props) => {
 
         <ButtonGroup vertical>
           {showRegisterButton && (
-            <LinkButton
-              success
-              href={`/events/${event.id}/administrate/abacard`}
-            >
+            <LinkButton success href={`/events/${event.id}/abascanner`}>
               <Icon iconNode={<Contact />} size={19} />
               Registrer oppmøte
             </LinkButton>

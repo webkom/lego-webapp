@@ -1,0 +1,29 @@
+.count {
+  display: inline-block;
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--lego-font-color);
+  transform-origin: left bottom;
+  transition: transform var(--easing-medium);
+}
+
+.pulse {
+  transform: scale(1.18);
+  color: var(--success-color);
+}
+
+.total {
+  font-size: var(--font-size-lg);
+  color: var(--secondary-font-color);
+}
+
+.summary {
+  text-align: right;
+  font-size: var(--font-size-sm);
+  color: var(--secondary-font-color);
+}
+
+.percent {
+  font-weight: 600;
+  color: var(--lego-font-color);
+}
