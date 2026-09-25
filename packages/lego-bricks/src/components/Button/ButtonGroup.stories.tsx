@@ -1,13 +1,16 @@
 import { Danger, Primary, PrimaryDisabled, Secondary } from './Button.stories';
 import { ButtonGroup } from './ButtonGroup';
 import { Button } from '.';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
   title: 'Interaction/ButtonGroup',
   component: ButtonGroup,
   parameters: {
     layout: 'centered',
+  },
+  argTypes: {
+    children: { control: false },
   },
 } satisfies Meta<typeof ButtonGroup>;
 
