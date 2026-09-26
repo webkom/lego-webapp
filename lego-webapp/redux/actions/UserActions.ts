@@ -271,6 +271,16 @@ export function fetchUser(
   });
 }
 
+export function fetchAbaidQr() {
+  return callAPI<{ qr: string }>({
+    types: User.FETCH_ABAID_QR,
+    endpoint: '/users/me/qr/',
+    meta: {
+      errorMessage: 'Henting av ABA-ID feilet',
+    },
+  });
+}
+
 export function refreshToken(token: EncodedToken) {
   return callAPI<{ token: EncodedToken }>({
     types: User.REFRESH_TOKEN,

@@ -1,5 +1,8 @@
 import Validator from '~/components/UserValidator';
-import { markUsernamePresent } from '~/redux/actions/EventActions';
+import {
+  markQrPresent,
+  markUsernamePresent,
+} from '~/redux/actions/EventActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import {
   selectEventById,
@@ -28,10 +31,15 @@ const Abacard = () => {
 
   const handleSelect = ({ username }: { username: string }) =>
     dispatch(markUsernamePresent(eventId, username));
+  const handleQrSelect = (qr: string) => dispatch(markQrPresent(eventId, qr));
 
   return (
     <div>
-      <Validator handleSelect={handleSelect} validateAbakusGroup={false} />
+      <Validator
+        handleSelect={handleSelect}
+        handleQrSelect={handleQrSelect}
+        validateAbakusGroup={false}
+      />
       <div className={styles.counter}>
         {registerCount}/{event?.registrationCount || '?'} har møtt opp
       </div>

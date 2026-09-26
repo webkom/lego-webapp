@@ -270,6 +270,17 @@ export function markUsernamePresent(eventId: EntityId, username: string) {
   });
 }
 
+export function markQrPresent(eventId: EntityId, qr: string) {
+  return callAPI<ReadRegistration>({
+    types: Event.UPDATE_REGISTRATION,
+    endpoint: `/events/${eventId}/registration_search/`,
+    method: 'POST',
+    body: {
+      qr,
+    },
+  });
+}
+
 export function updatePresence(
   eventId: EntityId,
   registrationId: EntityId,

@@ -21,6 +21,7 @@ import type { Required } from 'utility-types';
 import type { SearchUser } from '~/redux/models/User';
 
 type UserWithUsername = Required<Partial<UserSearchResult>, 'username'>;
+type Selection = UserWithUsername | { qr: string };
 
 type Res = {
   payload: unknown;
@@ -35,6 +36,7 @@ type ScanResult = {
 
 type Props = {
   handleSelect: (arg0: UserWithUsername) => Promise<SearchUser | Res>;
+  handleQrSelect: (qr: string) => Promise<Res>;
   validateAbakusGroup: boolean;
 };
 
@@ -42,7 +44,11 @@ const isUser = (user: SearchUser | Res): user is SearchUser => {
   return 'username' in user;
 };
 
-const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
+const Validator = ({
+  handleSelect,
+  handleQrSelect,
+  validateAbakusGroup,
+}: Props) => {
   const input = useRef<HTMLInputElement | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [scanResults, setScanResults] = useState<ScanResult[]>([]);
@@ -124,10 +130,18 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
    * Handle selection/scan of user and process the result
    */
   const onSelect = useCallback(
-    ({ username }: UserWithUsername) => {
-      clearSearch();
+    (selection: Selection) => {
+      const isUsername = 'username' in selection;
+      const label = isUsername ? selection.username : 'Brukeren';
+
+      if (isUsername) clearSearch();
       setIsLoading(true);
-      return handleSelect({ username })
+
+      const request = isUsername
+        ? handleSelect(selection)
+        : handleQrSelect(selection.qr);
+
+      return request
         .then(
           (user) => {
             setIsLoading(false);
@@ -138,8 +152,8 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
               displayResult(
                 {
                   message: validateAbakusGroup
-                    ? `${username} er Abakus-medlem`
-                    : `${username} ble registrert`,
+                    ? `${label} er Abakus-medlem`
+                    : `${label} ble registrert`,
                   icon: <Check />,
                   color: 'var(--success-color)',
                 },
@@ -148,7 +162,7 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
             } else {
               displayResult(
                 {
-                  message: `${username} er ikke medlem av Abakus`,
+                  message: `${label} er ikke medlem av Abakus`,
                   icon: <X />,
                   color: 'var(--danger-color)',
                 },
@@ -161,14 +175,17 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
             const payload = get(err, 'payload.response.jsonData');
 
             const errorMessages = {
-              not_registered: `${username} er ikke påmeldt arrangementet`,
-              already_present: `${username} er allerede registrert`,
-              unregistered: `${username} har meldt seg av`,
-              not_properly_registered: `${username} sin påmelding er i limbo. Ta kontakt med Webkom`,
-              waitlisted: `${username} er på venteliste`,
-              late_or_absent: `${username} har blitt registrert som ikke tilstede`,
-              missing_payment: `${username} har ikke betalt`,
-              no_user: `Brukeren finnes ikke! Brukernavn: ${username}`,
+              not_registered: `${label} er ikke påmeldt arrangementet`,
+              already_present: `${label} er allerede registrert`,
+              unregistered: `${label} har meldt seg av`,
+              not_properly_registered: `${label} sin påmelding er i limbo. Ta kontakt med Webkom`,
+              waitlisted: `${label} er på venteliste`,
+              late_or_absent: `${label} har blitt registrert som ikke tilstede`,
+              missing_payment: `${label} har ikke betalt`,
+              no_user: isUsername
+                ? `Brukeren finnes ikke! Brukernavn: ${label}`
+                : 'Fant ingen bruker for denne QR-koden',
+              invalid_qr: 'QR-koden er ugyldig eller utløpt',
             };
 
             const errorMessage =
@@ -192,12 +209,18 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
           }
         });
     },
-    [clearSearch, displayResult, handleSelect, validateAbakusGroup],
+    [
+      clearSearch,
+      displayResult,
+      handleSelect,
+      handleQrSelect,
+      validateAbakusGroup,
+    ],
   );
 
   const handleScannerResult = (scannerResult: string) => {
     if (scannerResult.length > 0 && !isLoading && !successMessage) {
-      onSelect({ username: scannerResult });
+      onSelect({ qr: scannerResult });
     }
   };
 

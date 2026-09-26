@@ -13,6 +13,7 @@ import cx from 'classnames';
 import { uniqBy, orderBy } from 'lodash-es';
 import { QrCode, SettingsIcon } from 'lucide-react';
 import moment from 'moment-timezone';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { GroupType } from 'app/models';
 import frame from '~/assets/frame.png';
@@ -28,7 +29,7 @@ import { UserInfo } from '~/pages/users/@username/_components/UserInfo';
 import { useIsCurrentUser } from '~/pages/users/utils';
 import { fetchPrevious, fetchUpcoming } from '~/redux/actions/EventActions';
 import { fetchAllWithType } from '~/redux/actions/GroupActions';
-import { fetchUser } from '~/redux/actions/UserActions';
+import { fetchAbaidQr, fetchUser } from '~/redux/actions/UserActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
 import { useCurrentUser } from '~/redux/slices/auth';
@@ -61,6 +62,7 @@ const UserProfile = () => {
       username,
     ),
   );
+  const [qr, setQr] = useState<string | null>(null);
 
   const actionGrant = user?.actionGrant || [];
   const showSettings =
@@ -119,6 +121,14 @@ const UserProfile = () => {
       ]),
 
     [params.username, isCurrentUser],
+  );
+
+  usePreparedEffect(
+    'fetchAbaidQr',
+    () => {
+      dispatch(fetchAbaidQr()).then((action) => setQr(action.payload.qr));
+    },
+    [dispatch],
   );
 
   if (!user) {
@@ -215,6 +225,7 @@ const UserProfile = () => {
                 username={user.username}
                 grade={gradeGroup?.name}
                 groups={abaIdGroups}
+                qr={qr}
               />
             </DialogTrigger>
           )}
