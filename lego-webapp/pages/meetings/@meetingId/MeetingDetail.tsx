@@ -176,7 +176,7 @@ const MeetingDetails = () => {
       ?.count ?? false;
   const infoItems = [
     meeting.isTemplate
-      ? {}
+      ? null
       : {
           key: 'Din status',
           value: statusMe ? statusesText[statusMe] : 'Ukjent',
@@ -263,9 +263,6 @@ const MeetingDetails = () => {
                           </span>
                         </Flex>
                       </button>
-                      {index !== meeting.reportChangelogs.length - 1 && (
-                        <Dropdown.Divider />
-                      )}
                     </Dropdown.ListItem>
                   ))}
                 </Dropdown.List>

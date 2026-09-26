@@ -53,7 +53,7 @@ const AccountDropdownItems = ({ onClose }: AccountDropdownItemsProps) => {
       <Dropdown.ListItem>
         <ToggleTheme
           variant="header"
-          className={styles.themeChange}
+          className={cx(Dropdown.itemClassName, styles.themeChange)}
           isButton={false}
         >
           Endre tema

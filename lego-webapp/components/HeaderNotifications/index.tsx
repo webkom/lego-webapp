@@ -30,26 +30,20 @@ const NotificationElement = ({
   if (activityRenderer) {
     const { Icon, Header } = activityRenderer;
     return (
-      <a href={activityRenderer.getNotificationUrl(notification)}>
-        <div
-          className={cx(
-            styles.notification,
-            !notification.read && styles.unRead,
-          )}
-        >
-          <div className={styles.innerNotification}>
-            <div className={styles.icon}>
-              <Icon />
-            </div>
-            <div>
-              <Header aggregatedActivity={notification} tag={SpanTag} />
-              <Time
-                time={notification.updatedAt}
-                wordsAgo
-                className={styles.updatedAt}
-              />
-            </div>
-          </div>
+      <a
+        href={activityRenderer.getNotificationUrl(notification)}
+        className={cx(styles.notification, !notification.read && styles.unRead)}
+      >
+        <div className={styles.icon}>
+          <Icon />
+        </div>
+        <div className={styles.content}>
+          <Header aggregatedActivity={notification} tag={SpanTag} />
+          <Time
+            time={notification.updatedAt}
+            wordsAgo
+            className={styles.updatedAt}
+          />
         </div>
       </a>
     );

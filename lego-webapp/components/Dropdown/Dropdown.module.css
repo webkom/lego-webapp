@@ -6,11 +6,10 @@
 
 .divider {
   height: 1px;
-  width: 100%;
   background-color: var(--border-gray);
 }
 
-.danger {
+li.danger {
   & button {
     color: var(--danger-color);
   }
@@ -27,8 +26,4 @@
 
 html[data-theme='dark'] .danger:hover button {
   color: var(--lego-font-color);
-}
-
-.active {
-  background-color: var(--additive-background);
 }
