@@ -35,7 +35,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "@webkom/lego-bricks": "workspace:*",
     "@webkom/lego-editor": "workspace:*",
-    "@webkom/react-prepare": "^1.2.0",
+    "@webkom/react-prepare": "2.0.0",
     "classnames": "catalog:",
     "cookie": "^1.0.2",
     "express": "^4.22.3",

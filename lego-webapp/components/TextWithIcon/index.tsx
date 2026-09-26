@@ -8,7 +8,7 @@ export type TextWithIconProps = {
   iconNode?: ReactNode;
   className?: string;
   content: ReactNode;
-  tooltipContent?: ReactElement;
+  tooltipContent?: ReactElement<any>;
   iconRight?: boolean;
   size?: number;
   gap?: number | string;

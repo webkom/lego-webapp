@@ -4,6 +4,7 @@ import { useAppSelector } from '~/redux/hooks';
 import { useIsLoggedIn } from '~/redux/slices/auth';
 import { eventStatus } from '~/utils/eventStatus';
 import styles from './FrontpageEventItem.module.css';
+import type { JSX } from 'react';
 import type { FrontpageEvent } from '~/redux/models/Event';
 
 type Props = {

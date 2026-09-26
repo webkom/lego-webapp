@@ -39,7 +39,9 @@ const SearchBar = ({ query, onQueryChanged, handleKeyDown }: Props) => {
           value={query}
           size={1}
           placeholder="Hva leter du etter?"
-          ref={(input) => input && k.autoFocus && input.focus()}
+          ref={(input) => {
+            input && k.autoFocus && input.focus();
+          }}
         />
       ))}
     </Flex>
