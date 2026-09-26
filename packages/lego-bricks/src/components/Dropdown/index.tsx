@@ -1,18 +1,23 @@
-import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useRef } from 'react';
 import { Overlay } from 'react-overlays';
+import { Icon } from '../Icon';
 import styles from './Dropdown.module.css';
-import type { ReactNode, ReactPortal, HTMLAttributes } from 'react';
+import type {
+  ElementType,
+  ReactNode,
+  ReactPortal,
+  HTMLAttributes,
+} from 'react';
 import type { DOMContainer } from 'react-overlays/useWaitForDOMRef';
 
 type Props = {
   iconName?: string;
-  toggle: () => any;
+  toggle: () => void;
   closeOnContentClick?: boolean;
   className?: string;
   contentClassName?: string;
-  componentClass?: any;
+  componentClass?: ElementType;
   triggerComponent?: ReactNode | ReactPortal;
   show: boolean;
   children?: ReactNode;
@@ -21,7 +26,7 @@ type Props = {
   container?: DOMContainer;
 };
 
-const Dropdown = ({
+export const Dropdown = ({
   iconName,
   toggle,
   closeOnContentClick = false,
@@ -41,7 +46,7 @@ const Dropdown = ({
     <ComponentClass
       onClick={show && !iconName ? undefined : toggle} // avoid double toggle because of rootClose
       ref={triggerRef}
-      className={className}
+      className={cx(styles.trigger, className)}
       style={style}
       data-test-id="dropdown"
     >
@@ -61,11 +66,10 @@ const Dropdown = ({
         {({ props, arrowProps }) => (
           <div
             {...props}
+            role="presentation"
             className={cx(styles.content, contentClassName || null)}
             onClick={closeOnContentClick ? toggle : undefined}
           >
-            {/*eslint-disable-next-line */}
-            {/*@ts-ignore The css TS plugin does not understand our css alias imports*/}
             <div {...arrowProps} className={styles.arrow} />
             {children}
           </div>
@@ -84,15 +88,11 @@ const List = ({ children, className }: ListProps) => (
 );
 
 type ListItemProps = {
-  active?: boolean;
   danger?: boolean;
 } & HTMLAttributes<HTMLLIElement>;
 
-const ListItem = ({ active, danger, ...props }: ListItemProps) => (
-  <li
-    className={cx(active && styles.active, danger && styles.danger)}
-    {...props}
-  />
+const ListItem = ({ danger, ...props }: ListItemProps) => (
+  <li className={cx(danger && styles.danger)} {...props} />
 );
 
 const Divider = () => <li className={styles.divider} />;
@@ -100,4 +100,4 @@ const Divider = () => <li className={styles.divider} />;
 Dropdown.List = List;
 Dropdown.ListItem = ListItem;
 Dropdown.Divider = Divider;
-export default Dropdown;
+Dropdown.itemClassName = styles.dropdownItem;

@@ -1,9 +1,8 @@
-import { Flex, Icon } from '@webkom/lego-bricks';
+import { Flex, Icon, Dropdown } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Calendar } from 'lucide-react';
 import moment, { isMoment } from 'moment-timezone';
 import { useState, useMemo } from 'react';
-import Dropdown from '~/components/Dropdown';
 import createMonthlyCalendar from '~/utils/createMonthlyCalendar';
 import parseDateValue from '~/utils/parseDateValue';
 import styles from './DatePicker.module.css';

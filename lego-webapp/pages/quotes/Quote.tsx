@@ -1,7 +1,6 @@
-import { Card, Flex } from '@webkom/lego-bricks';
+import { Card, Flex, Dropdown } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useState } from 'react';
-import Dropdown from '~/components/Dropdown';
 import Reactions from '~/components/Reactions';
 import Reaction from '~/components/Reactions/Reaction';
 import Time from '~/components/Time';

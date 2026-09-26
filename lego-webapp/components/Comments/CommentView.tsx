@@ -1,9 +1,9 @@
-import { Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { Flex, Icon, LoadingIndicator, Dropdown } from '@webkom/lego-bricks';
 import { ArrowDownUpIcon } from 'lucide-react';
 import moment from 'moment';
-import { useState, type CSSProperties, Fragment } from 'react';
+import { useState, type CSSProperties } from 'react';
 import CommentForm from '~/components/CommentForm';
-import Dropdown from '~/components/Dropdown';
+import { RadioButton } from '~/components/Form';
 import { useIsLoggedIn } from '~/redux/slices/auth';
 import { generateTreeStructure } from '~/utils';
 import useSocketGroup from '~/utils/socket/useSocketGroup';
@@ -106,20 +106,20 @@ const CommentView = (props: Props) => {
           }
         >
           <Dropdown.List>
-            {orderingOptions.map((option: Option, index: number) => (
-              <Fragment key={option.value}>
-                {index !== 0 && <Dropdown.Divider />}
-                <Dropdown.ListItem active={option === ordering}>
-                  <button
-                    onClick={() => {
+            {orderingOptions.map((option: Option) => (
+              <Dropdown.ListItem key={option.value}>
+                <label>
+                  {option.label}
+                  <RadioButton
+                    name="commentOrdering"
+                    checked={option === ordering}
+                    onChange={() => {
                       setOrdering(option);
-                      setDisplaySorting(!displaySorting);
+                      setDisplaySorting(false);
                     }}
-                  >
-                    {option.label}
-                  </button>
-                </Dropdown.ListItem>
-              </Fragment>
+                  />
+                </label>
+              </Dropdown.ListItem>
             ))}
           </Dropdown.List>
         </Dropdown>

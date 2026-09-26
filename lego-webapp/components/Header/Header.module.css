@@ -1,21 +1,11 @@
 @import url('styles/custom-media.css');
 
 .themeChange {
-  padding: var(--spacing-sm) var(--spacing-md);
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  transition: background-color var(--linear-medium);
   width: 100%;
-
-  & button {
-    padding: 0;
-  }
-
-  &:hover {
-    background-color: var(--additive-background);
-  }
 }
 
 .buttonGroup {
