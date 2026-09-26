@@ -20,18 +20,23 @@ steps:
       branch:
         exclude: [build]
 
-  - name: minio
-    image: minio/minio:RELEASE.2023-09-23T03-47-50Z
+  - name: garage
+    image: dxflrs/garage:v2.3.0
     detach: true
     environment:
-      MINIO_ACCESS_KEY: lego-dev
-      MINIO_SECRET_KEY: lego-dev
-    commands:
-      - /usr/bin/docker-entrypoint.sh server /export
+      GARAGE_DEFAULT_ACCESS_KEY: lego-dev
+      GARAGE_DEFAULT_SECRET_KEY: lego-dev-secret-key
+      GARAGE_DEFAULT_BUCKET: lego
+      GARAGE_CONFIG_FILE: /drone/src/.drone/garage.toml
+    command:
+      - /garage
+      - server
+      - --single-node
+      - --default-bucket
     when: *checks
 
   - name: thumbor
-    image: apsl/thumbor:latest
+    image: minimalcompact/thumbor:6.7.5
     detach: true
     environment:
       SECURITY_KEY: 'lego-dev'
@@ -41,13 +46,11 @@ steps:
       ALLOW_UNSAFE_URL: '0'
       ALLOW_OLD_URLS: '0'
       AWS_ACCESS_KEY_ID: 'lego-dev'
-      AWS_SECRET_ACCESS_KEY: 'lego-dev'
+      AWS_SECRET_ACCESS_KEY: 'lego-dev-secret-key'
       TC_AWS_LOADER_BUCKET: lego
-      TC_AWS_REGION: us-east-1
-      TC_AWS_ENDPOINT: '"http://minio:9000"'
+      TC_AWS_REGION: eu-north-1
+      TC_AWS_ENDPOINT: 'http://garage:3900'
       LOADER: tc_aws.loaders.s3_loader
-    links:
-      - minio
     when: *checks
 
   - name: redis
@@ -62,8 +65,8 @@ steps:
     commands:
       - ./wait-for-it.sh -t 60 postgres:5432
       - ./wait-for-it.sh -t 60 redis:6379
-      - ./wait-for-it.sh -t 60 minio:9000
-      - ./wait-for-it.sh -t 60 thumbor:8000
+      - ./wait-for-it.sh -t 60 garage:3900
+      - ./wait-for-it.sh -t 60 thumbor:80
       - cd /app
       - python manage.py reset_db --noinput
       - python manage.py migrate
@@ -80,11 +83,11 @@ steps:
       OAUTH_CACHE: 'redis://redis/9'
       EMAIL_URL: 'smtp://localhost'
       AWS_ACCESS_KEY_ID: 'lego-dev'
-      AWS_SECRET_ACCESS_KEY: 'lego-dev'
-      AWS_REGION: 'us-east-1'
+      AWS_SECRET_ACCESS_KEY: 'lego-dev-secret-key'
+      AWS_REGION: 'eu-north-1'
       AWS_S3_BUCKET: 'lego'
-      AWS_ENTRYPOINT: 'http://minio:9000'
-      THUMBOR_SERVER: 'http://thumbor:8000'
+      AWS_ENTRYPOINT: 'http://garage:3900'
+      THUMBOR_SERVER: 'http://thumbor:80'
       THUMBOR_SECURITY_KEY: 'lego-dev'
       SENTRY: 'http://sentry:sentry@localhost/2'
       CELERY_BROKER_URL: 'redis://redis/1'
