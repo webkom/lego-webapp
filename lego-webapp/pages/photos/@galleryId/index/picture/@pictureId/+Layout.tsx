@@ -4,6 +4,7 @@ import {
   Modal,
   Image,
   LoadingIndicator,
+  Dropdown,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { throttle } from 'lodash-es';
@@ -12,7 +13,6 @@ import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { useSwipeable, RIGHT, LEFT } from 'react-swipeable';
 import { navigate } from 'vike/client/router';
 import CommentView from '~/components/Comments/CommentView';
-import Dropdown from '~/components/Dropdown';
 import PropertyHelmet, {
   type PropertyGenerator,
 } from '~/components/PropertyHelmet';

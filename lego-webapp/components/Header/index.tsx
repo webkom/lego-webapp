@@ -1,4 +1,4 @@
-import { Icon, Image, LoadingIndicator } from '@webkom/lego-bricks';
+import { Icon, Image, LoadingIndicator, Dropdown } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { CircleUser, LogOut, Menu, Settings, Users, X } from 'lucide-react';
@@ -14,7 +14,6 @@ import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';
 import { selectUpcomingMeetingId } from '~/redux/slices/meetings';
 import utilStyles from '~/styles/utilities.module.css';
 import { Keyboard } from '~/utils/constants';
-import Dropdown from '../Dropdown';
 import NotificationsDropdown from '../HeaderNotifications';
 import { ProfilePicture } from '../Image';
 import Search from '../Search';

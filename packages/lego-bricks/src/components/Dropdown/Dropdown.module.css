@@ -1,0 +1,103 @@
+@import '../../custom-media.css';
+
+.content {
+  width: 250px;
+  background: var(--lego-card-color);
+  border: 1px solid var(--border-gray);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  position: absolute;
+  margin-top: var(--spacing-sm);
+  z-index: 110;
+
+  @media (--small-viewport) {
+    width: calc(100% - var(--spacing-sm));
+  }
+}
+
+.arrow {
+  position: absolute;
+  top: 0;
+
+  &::before,
+  &::after {
+    position: absolute;
+    content: '';
+    transform: translateX(-50%);
+    bottom: 0;
+  }
+
+  &::before {
+    border-left: 8.414px solid transparent;
+    border-right: 8.414px solid transparent;
+    border-bottom: 8.414px solid var(--border-gray);
+  }
+
+  &::after {
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid var(--lego-card-color);
+  }
+}
+
+.divider {
+  height: 1px;
+  background-color: var(--border-gray);
+}
+
+li.danger {
+  & button {
+    color: var(--danger-color);
+  }
+
+  &:hover {
+    transition: background var(--easing-fast);
+    background-color: var(--danger-color);
+
+    & button {
+      color: var(--inverted-font-color);
+    }
+  }
+}
+
+html[data-theme='dark'] .danger:hover button {
+  color: var(--lego-font-color);
+}
+
+.dropdownList {
+  border-radius: inherit;
+  overflow-y: auto;
+  padding: var(--spacing-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.dropdownList > li {
+  border-radius: var(--border-radius-md);
+}
+
+.dropdownList > li > a,
+.dropdownList > li > button,
+.dropdownList > li > label {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dropdownList > li > a,
+.dropdownList > li > button,
+.dropdownList > li > label,
+.dropdownItem {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  color: var(--lego-font-color);
+  cursor: pointer;
+  transition: background var(--easing-fast);
+
+  &:hover {
+    background-color: var(--additive-background);
+  }
+}

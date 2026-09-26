@@ -1,4 +1,4 @@
-import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import { Button, Flex, Icon, Dropdown } from '@webkom/lego-bricks';
 import {
   ChevronDown,
   ChevronUp,
@@ -8,7 +8,6 @@ import {
   SlidersHorizontal,
 } from 'lucide-react';
 import { useEffect, useRef } from 'react';
-import Dropdown from '~/components/Dropdown';
 import { TextInput, RadioButton, CheckBox } from '~/components/Form';
 import styles from './Table.module.css';
 import type { ColumnProps, Filters, IsShown, ShowColumn, Sort } from './index';

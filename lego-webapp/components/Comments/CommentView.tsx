@@ -1,9 +1,8 @@
-import { Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { Flex, Icon, LoadingIndicator, Dropdown } from '@webkom/lego-bricks';
 import { ArrowDownUpIcon } from 'lucide-react';
 import moment from 'moment';
 import { useState, type CSSProperties } from 'react';
 import CommentForm from '~/components/CommentForm';
-import Dropdown from '~/components/Dropdown';
 import { RadioButton } from '~/components/Form';
 import { useIsLoggedIn } from '~/redux/slices/auth';
 import { generateTreeStructure } from '~/utils';

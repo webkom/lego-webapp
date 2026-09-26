@@ -1,6 +1,5 @@
-import { Flex, Icon } from '@webkom/lego-bricks';
+import { Flex, Icon, Dropdown } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import Dropdown from '~/components/Dropdown';
 import TextWithIcon from '~/components/TextWithIcon';
 import styles from './Item.module.css';
 import type { ReactNode } from 'react';
