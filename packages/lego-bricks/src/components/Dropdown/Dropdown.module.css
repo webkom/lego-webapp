@@ -64,7 +64,19 @@ html[data-theme='dark'] .danger:hover button {
   color: var(--lego-font-color);
 }
 
+/* Reset native button/list styles so the component doesn't rely on the host app's global reset */
+:where(.trigger, .dropdownList button, .dropdownItem) {
+  box-sizing: border-box;
+  border: none;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
 .dropdownList {
+  margin: 0;
+  list-style: none;
   border-radius: inherit;
   overflow-y: auto;
   padding: var(--spacing-sm);
