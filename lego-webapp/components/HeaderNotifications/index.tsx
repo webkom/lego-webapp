@@ -1,4 +1,4 @@
-import { BadgeIcon, LoadingIndicator } from '@webkom/lego-bricks';
+import { BadgeIcon, LoadingIndicator, Dropdown } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { Bell, BellOff, BellRing } from 'lucide-react';
@@ -15,7 +15,6 @@ import {
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectNotifications } from '~/redux/slices/feeds';
 import { selectUnreadNotificationsCount } from '~/redux/slices/notificationsFeed';
-import Dropdown from '../Dropdown';
 import { getActivityRenderer } from '../Feed';
 import styles from './HeaderNotifications.module.css';
 import type AggregatedFeedActivity from '~/redux/models/FeedActivity';

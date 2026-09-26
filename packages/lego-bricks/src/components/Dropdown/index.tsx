@@ -1,18 +1,23 @@
-import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useRef } from 'react';
 import { Overlay } from 'react-overlays';
+import { Icon } from '../Icon';
 import styles from './Dropdown.module.css';
-import type { ReactNode, ReactPortal, HTMLAttributes } from 'react';
+import type {
+  ElementType,
+  ReactNode,
+  ReactPortal,
+  HTMLAttributes,
+} from 'react';
 import type { DOMContainer } from 'react-overlays/useWaitForDOMRef';
 
 type Props = {
   iconName?: string;
-  toggle: () => any;
+  toggle: () => void;
   closeOnContentClick?: boolean;
   className?: string;
   contentClassName?: string;
-  componentClass?: any;
+  componentClass?: ElementType;
   triggerComponent?: ReactNode | ReactPortal;
   show: boolean;
   children?: ReactNode;
@@ -21,7 +26,7 @@ type Props = {
   container?: DOMContainer;
 };
 
-const Dropdown = ({
+export const Dropdown = ({
   iconName,
   toggle,
   closeOnContentClick = false,
@@ -64,8 +69,6 @@ const Dropdown = ({
             className={cx(styles.content, contentClassName || null)}
             onClick={closeOnContentClick ? toggle : undefined}
           >
-            {/*eslint-disable-next-line */}
-            {/*@ts-ignore The css TS plugin does not understand our css alias imports*/}
             <div {...arrowProps} className={styles.arrow} />
             {children}
           </div>
@@ -97,4 +100,3 @@ Dropdown.List = List;
 Dropdown.ListItem = ListItem;
 Dropdown.Divider = Divider;
 Dropdown.itemClassName = styles.dropdownItem;
-export default Dropdown;

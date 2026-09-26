@@ -8,6 +8,7 @@ import {
   Modal,
   Page,
   Tooltip,
+  Dropdown,
 } from '@webkom/lego-bricks';
 import { isEmpty } from 'lodash-es';
 import { ListRestart, Pencil } from 'lucide-react';
@@ -24,7 +25,6 @@ import {
   ContentMain,
 } from '~/components/Content';
 import DisplayContent from '~/components/DisplayContent';
-import Dropdown from '~/components/Dropdown';
 import { ProfilePicture } from '~/components/Image';
 import InfoList from '~/components/InfoList';
 import LegoReactions from '~/components/LegoReactions';

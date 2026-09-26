@@ -6,6 +6,7 @@ import {
   LoadingPage,
   Page,
   Tooltip,
+  Dropdown,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { unionBy } from 'lodash-es';
@@ -15,7 +16,6 @@ import { useState } from 'react';
 import { Field, FormSpy } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { navigate } from 'vike/client/router';
-import Dropdown from '~/components/Dropdown';
 import {
   Button,
   CheckBox,

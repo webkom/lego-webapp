@@ -1,8 +1,7 @@
-import { Icon } from '@webkom/lego-bricks';
+import { Icon, Dropdown } from '@webkom/lego-bricks';
 import { Check } from 'lucide-react';
 import { useState } from 'react';
 import Circle from '~/components/Circle';
-import Dropdown from '~/components/Dropdown';
 import Tags from '~/components/Tags';
 import Tag from '~/components/Tags/Tag';
 import {
