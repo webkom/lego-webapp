@@ -1,5 +1,6 @@
-import { Card, Flex, LinkButton } from '@webkom/lego-bricks';
+import { Card, Flex, LinkButton, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Plus } from 'lucide-react';
 import { GroupType } from 'app/models';
 import { ContentMain } from '~/components/Content';
 import EmptyState from '~/components/EmptyState';
@@ -189,7 +190,10 @@ const EmailUsers = () => {
       <Flex column gap="var(--spacing-sm)">
         <Flex alignItems="center" justifyContent="space-between">
           <h3>E-postkontoer</h3>
-          <LinkButton href="/admin/email/users/new">Ny bruker</LinkButton>
+          <LinkButton href="/admin/email/users/new">
+            <Icon iconNode={<Plus />} size={19} />
+            Ny bruker
+          </LinkButton>
         </Flex>
         <Table
           columns={columns}

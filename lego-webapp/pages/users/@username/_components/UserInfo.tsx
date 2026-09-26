@@ -1,4 +1,5 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
+import { Github, Linkedin } from 'lucide-react';
 import {
   EmailInfoField,
   InfoField,
@@ -10,7 +11,7 @@ import type { CurrentUser, PublicUserWithGroups } from '~/redux/models/User';
 const GithubField = ({ githubUsername }: { githubUsername: string }) => (
   <a href={`https://github.com/${githubUsername}`}>
     <Flex alignItems="center">
-      <Icon name={'logo-github'} className={styles.soMeIcon} />
+      <Icon iconNode={<Github />} className={styles.soMeIcon} />
       {githubUsername}
     </Flex>
   </a>
@@ -24,7 +25,7 @@ const LinkedInField = ({
 }) => (
   <a href={`https://www.linkedin.com/in/${linkedinId}`}>
     <Flex alignItems="center">
-      <Icon name={'logo-linkedin'} className={styles.soMeIcon} />
+      <Icon iconNode={<Linkedin />} className={styles.soMeIcon} />
       {fullName}
     </Flex>
   </a>

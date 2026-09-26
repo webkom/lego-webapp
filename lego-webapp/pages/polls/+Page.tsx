@@ -1,6 +1,6 @@
 import { Card, Flex, Icon, LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { CircleCheck, CircleX } from 'lucide-react';
+import { CircleCheck, CircleX, Plus } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import Paginator from '~/components/Paginator';
 import { fetchAll } from '~/redux/actions/PollActions';
@@ -30,7 +30,10 @@ const PollsList = () => {
       title="Avstemninger"
       actionButtons={
         actionGrant.includes('create') && (
-          <LinkButton href="/polls/new">Lag ny</LinkButton>
+          <LinkButton href="/polls/new">
+            <Icon iconNode={<Plus />} size={19} />
+            Lag ny
+          </LinkButton>
         )
       }
     >

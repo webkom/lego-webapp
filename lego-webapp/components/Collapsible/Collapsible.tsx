@@ -1,4 +1,5 @@
 import { Icon } from '@webkom/lego-bricks';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useState, useRef } from 'react';
 import styles from './Collapsible.module.css';
 import type { ReactNode } from 'react';
@@ -37,7 +38,7 @@ const Collapsible = (props: CollapsibleProps) => {
             onPress={() => {
               setIsOpened(!isOpened);
             }}
-            name={isOpened ? 'chevron-up' : 'chevron-down'}
+            iconNode={isOpened ? <ChevronUp /> : <ChevronDown />}
             className={styles.showMoreIcon}
             size={30}
           />

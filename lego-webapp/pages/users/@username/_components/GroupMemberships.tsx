@@ -177,10 +177,11 @@ const GroupBadge = ({
         >
           {({ openConfirmModal }) => (
             <Icon
-              onClick={openConfirmModal}
+              onPress={openConfirmModal}
               className={styles.removeBadge}
               iconNode={<CircleMinus />}
               size={14}
+              danger
             />
           )}
         </ConfirmModal>

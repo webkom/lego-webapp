@@ -8,7 +8,14 @@ import {
   Icon,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { CalendarOff, Pin } from 'lucide-react';
+import {
+  CalendarOff,
+  Pencil,
+  Pin,
+  Plus,
+  RefreshCw,
+  ShieldCheck,
+} from 'lucide-react';
 import moment from 'moment-timezone';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -59,20 +66,16 @@ function MeetingListItem({
               userId === meeting.createdBy && <Icon iconNode={<Pin />} />}
             <h3 className={styles.meetingItemTitle}>{meeting.title}</h3>
             {meeting.isRecurring && (
-              <Tag tag="Ukentlig" color="cyan" icon="refresh" />
+              <Tag tag="Ukentlig" color="cyan" iconNode={<RefreshCw />} />
             )}
             {userId === meeting.createdBy && (
-              <Tag
-                tag="Forfatter"
-                color="blue"
-                icon="shield-checkmark-outline"
-              />
+              <Tag tag="Forfatter" color="blue" iconNode={<ShieldCheck />} />
             )}
             {userId === meeting.reportAuthor && (
               <Tag
                 tag="Referent"
                 color="purple"
-                icon="pencil-outline"
+                iconNode={<Pencil />}
                 iconSize={13}
               />
             )}
@@ -221,7 +224,12 @@ const MeetingList = () => {
   return (
     <Page
       title="Dine møter"
-      actionButtons={<LinkButton href="/meetings/new">Nytt møte</LinkButton>}
+      actionButtons={
+        <LinkButton href="/meetings/new">
+          <Icon iconNode={<Plus />} size={19} />
+          Nytt møte
+        </LinkButton>
+      }
     >
       <Helmet title="Dine møter" />
       {meetingSections && currentUser && (

@@ -1,3 +1,6 @@
+import { Icon } from '@webkom/lego-bricks';
+import cx from 'classnames';
+import { LoaderCircle, Search } from 'lucide-react';
 import { useAppSelector } from '~/redux/hooks';
 import styles from './SearchPageInput.module.css';
 import type { Ref, ChangeEventHandler, KeyboardEventHandler } from 'react';
@@ -18,12 +21,14 @@ function SearchPageInput({
   value,
 }: Props) {
   const isSearching = useAppSelector((state) => state.search.searching);
-  const icon = isSearching ? 'fa-circle-o-notch fa-spin' : 'fa-search';
 
   return (
     <div className={styles.container}>
       <div className={styles.searchIcon}>
-        <i className={`fa ${icon} ${styles.icon}`} />
+        <Icon
+          iconNode={isSearching ? <LoaderCircle /> : <Search />}
+          className={cx(isSearching && styles.spin)}
+        />
       </div>
 
       <input

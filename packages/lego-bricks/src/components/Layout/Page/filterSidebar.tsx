@@ -1,3 +1,4 @@
+import { Filter } from 'lucide-react';
 import Flex from '../Flex';
 import type Page from './Page';
 import type { ComponentProps, ReactNode } from 'react';
@@ -5,13 +6,13 @@ import type { ComponentProps, ReactNode } from 'react';
 type Args = {
   title?: string;
   side?: 'right' | 'left';
-  icon?: string;
+  icon?: ReactNode;
   children: ReactNode;
 };
 export const filterSidebar = ({
   title = 'Filter',
   side = 'right',
-  icon = 'filter',
+  icon = <Filter />,
   children,
 }: Args): ComponentProps<typeof Page>['sidebar'] => {
   return {

@@ -1,10 +1,12 @@
 import { Flex, Icon, Modal, Tooltip } from '@webkom/lego-bricks';
 import { sortBy } from 'lodash-es';
+import { Crown, Search, Star } from 'lucide-react';
 import { useState } from 'react';
 import TextInput from '~/components/Form/TextInput';
 import { ProfilePicture } from '~/components/Image';
 import shared from '~/components/UserAttendance/AttendanceModalContent.module.css';
 import styles from './InterestGroupMemberList.module.css';
+import type { ReactNode } from 'react';
 import type { PublicUser } from '~/redux/models/User';
 import type { TransformedMembership } from '~/redux/slices/memberships';
 import type { RoleType } from '~/utils/constants';
@@ -16,18 +18,18 @@ const nameStyleByRole: Partial<Record<RoleType, string>> = {
 
 type RoleIconInfo = {
   iconStyle: string;
-  name: string;
+  iconNode: ReactNode;
   tooltip: string;
 };
 const roleIconInfoByRole: Partial<Record<RoleType, RoleIconInfo>> = {
   leader: {
     iconStyle: styles.leadericon,
-    name: 'star',
+    iconNode: <Crown />,
     tooltip: 'Leder',
   },
   ['co-leader']: {
     iconStyle: styles.coleadericon,
-    name: 'star-outline',
+    iconNode: <Star />,
     tooltip: 'Nestleder',
   },
 };
@@ -35,10 +37,10 @@ const RoleIcon = ({ role }: { role: RoleType }) => {
   const info = roleIconInfoByRole[role];
   if (!info) return null;
 
-  const { iconStyle, name, tooltip } = info;
+  const { iconStyle, iconNode, tooltip } = info;
   return (
     <Tooltip content={tooltip}>
-      <Icon name={name} className={iconStyle} />
+      <Icon iconNode={iconNode} className={iconStyle} />
     </Tooltip>
   );
 };
@@ -75,7 +77,7 @@ const InterestGroupMemberModal = ({ memberships }: Props) => {
       <Flex column gap="var(--spacing-md)" className={shared.modal}>
         <TextInput
           type="text"
-          prefix="search"
+          prefixIconNode={<Search />}
           placeholder="Søk etter navn"
           onChange={(e) => setFilter(e.target.value)}
         />

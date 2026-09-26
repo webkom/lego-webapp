@@ -1,5 +1,5 @@
 import { Card, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
-import { Trash2 } from 'lucide-react';
+import { CircleDot, List, SquareCheck, Trash2, Type } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { TextInput, TextArea, CheckBox, SelectInput } from '~/components/Form';
@@ -25,9 +25,9 @@ type Props = {
   value?: string;
 };
 const questionTypeToIcon = {
-  single_choice: 'radio-button-on',
-  multiple_choice: 'checkbox',
-  text_field: 'text',
+  single_choice: <CircleDot />,
+  multiple_choice: <SquareCheck />,
+  text_field: <Type />,
 };
 
 const questionIndexMappings = (indexNumbers: number) =>
@@ -81,7 +81,7 @@ const Question = ({
               const value = props.data.value;
               return (
                 <QuestionTypeOption
-                  iconName={questionTypeToIcon[value]}
+                  iconNode={questionTypeToIcon[value]}
                   {...props}
                 />
               );
@@ -90,7 +90,7 @@ const Question = ({
               const value = props.data.value;
               return (
                 <QuestionTypeValue
-                  iconName={questionTypeToIcon[value]}
+                  iconNode={questionTypeToIcon[value]}
                   {...props}
                 />
               );
@@ -113,10 +113,10 @@ const Question = ({
           options={indexOptions}
           components={{
             Option: (props: any) => {
-              return <QuestionTypeOption iconName="list" {...props} />;
+              return <QuestionTypeOption iconNode={<List />} {...props} />;
             },
             SingleValue: (props: any) => {
-              return <QuestionTypeValue iconName="list" {...props} />;
+              return <QuestionTypeValue iconNode={<List />} {...props} />;
             },
           }}
           onChange={(user) =>

@@ -1,5 +1,13 @@
 import { Flex } from '@webkom/lego-bricks';
 import { produce } from 'immer';
+import {
+  ChartColumn,
+  ChartPie,
+  Check,
+  List,
+  MessageSquareMore,
+  User,
+} from 'lucide-react';
 import { ReactNode, useContext } from 'react';
 import DistributionBarChart from '~/components/Chart/BarChart';
 import ChartLabel from '~/components/Chart/ChartLabel';
@@ -34,7 +42,7 @@ type Props = {
   generateTextAnswers: (question: SurveyQuestion) => ReactNode;
 };
 type Info = {
-  icon: string;
+  icon: ReactNode;
   data: number | string;
   meta: string;
 };
@@ -46,7 +54,7 @@ const EventData = ({ info }: EventDataProps) => {
   return info.map((dataPoint, i) => (
     <InfoBubble
       key={i}
-      icon={dataPoint.icon}
+      iconNode={dataPoint.icon}
       data={String(dataPoint.data)}
       meta={dataPoint.meta}
       style={{
@@ -67,9 +75,9 @@ const graphOptions = [
   },
 ];
 
-const graphTypeIcon: Record<SurveyQuestionDisplayType, string> = {
-  bar_chart: 'bar-chart',
-  pie_chart: 'pie-chart',
+const graphTypeIcon: Record<SurveyQuestionDisplayType, ReactNode> = {
+  bar_chart: <ChartColumn />,
+  pie_chart: <ChartPie />,
 };
 
 const Results = ({
@@ -87,22 +95,22 @@ const Results = ({
 
   const info: Info[] = [
     {
-      icon: 'person',
+      icon: <User />,
       data: event.registrationCount || 0,
       meta: 'Påmeldte',
     },
     {
-      icon: 'checkmark',
+      icon: <Check />,
       data: event.attendedCount,
       meta: 'Møtte opp',
     },
     {
-      icon: 'list',
+      icon: <List />,
       data: event.waitingRegistrationCount ?? 0,
       meta: 'På venteliste',
     },
     {
-      icon: 'chatbox-ellipses',
+      icon: <MessageSquareMore />,
       data: fetchingSubmissions ? '?' : numberOfSubmissions,
       meta: 'Har svart',
     },
@@ -220,7 +228,7 @@ const Results = ({
                               const value = props.data.value;
                               return (
                                 <QuestionTypeOption
-                                  iconName={graphTypeIcon[value]}
+                                  iconNode={graphTypeIcon[value]}
                                   {...props}
                                 />
                               );
@@ -229,7 +237,7 @@ const Results = ({
                               const value = props.data.value;
                               return (
                                 <QuestionTypeValue
-                                  iconName={graphTypeIcon[value]}
+                                  iconNode={graphTypeIcon[value]}
                                   {...props}
                                 />
                               );

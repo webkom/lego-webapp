@@ -125,7 +125,12 @@ img.frame {
   position: relative;
 }
 
-.badgeContainer:hover .removeBadge {
+.removeBadge > button {
+  padding: 0;
+}
+
+.badgeContainer:hover .removeBadge,
+.removeBadge:focus-within {
   opacity: 1;
 }
 

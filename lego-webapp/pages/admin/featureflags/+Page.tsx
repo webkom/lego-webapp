@@ -1,5 +1,13 @@
-import { ButtonGroup, Card, Flex, LinkButton, Page } from '@webkom/lego-bricks';
+import {
+  ButtonGroup,
+  Card,
+  Flex,
+  LinkButton,
+  Page,
+  Icon,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Pencil, Plus } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { ContentMain, ContentSection } from '~/components/Content';
 import ToggleSwitch from '~/components/Form/ToggleSwitch';
@@ -28,7 +36,10 @@ const FeatureFlagOverview = () => {
       title={'Feature flagg'}
       back={sudoAdminAccess ? { href: '/sudo' } : { href: '/' }}
       actionButtons={
-        <LinkButton href={`/admin/featureflags/new`}>Lag ny</LinkButton>
+        <LinkButton href={`/admin/featureflags/new`}>
+          <Icon iconNode={<Plus />} size={19} />
+          Lag ny
+        </LinkButton>
       }
     >
       <Helmet title={'Feature flagg'} />
@@ -57,6 +68,7 @@ const FeatureFlagOverview = () => {
                   </Flex>
 
                   <LinkButton href={`/admin/featureflags/${flag.id}/edit/`}>
+                    <Icon iconNode={<Pencil />} size={19} />
                     Rediger
                   </LinkButton>
                 </ButtonGroup>

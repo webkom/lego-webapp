@@ -39,7 +39,6 @@ const FileUpload = ({ onChange }: Props) => {
     <Flex justifyContent="center">
       <Icon
         disabled={pending}
-        name="upload"
         onPress={handleClick}
         iconNode={<UploadIcon />}
         size={20}

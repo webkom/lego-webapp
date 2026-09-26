@@ -12,7 +12,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { without } from 'lodash-es';
-import { Images, Trash2 } from 'lucide-react';
+import { Circle, CircleCheck, Images, Trash2 } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
@@ -73,7 +73,7 @@ const photoOverlay = (photo: GalleryListPicture, selected: EntityId[]) => {
   return (
     <div className={cx(styles.overlay, isSelected && styles.overlaySelected)}>
       <Icon
-        name={isSelected ? 'checkmark-circle' : 'ellipse-outline'}
+        iconNode={isSelected ? <CircleCheck /> : <Circle />}
         size={32}
         className={cx(styles.icon, isSelected && styles.iconSelected)}
       />

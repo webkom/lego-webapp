@@ -1,5 +1,5 @@
-import { Page, LinkButton, Image, Card } from '@webkom/lego-bricks';
-import { Package, Contact, Tag } from 'lucide-react';
+import { Page, LinkButton, Image, Card, Icon } from '@webkom/lego-bricks';
+import { Contact, Package, Pencil, Tag } from 'lucide-react';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Dateish } from 'app/models';
@@ -42,6 +42,7 @@ export const LendableObjectList = () => {
         <>
           {!fetching && lendableObject?.actionGrant.includes('edit') ? (
             <LinkButton href={`/lending/${lendableObjectId}/edit`}>
+              <Icon iconNode={<Pencil />} size={19} />
               Rediger
             </LinkButton>
           ) : undefined}

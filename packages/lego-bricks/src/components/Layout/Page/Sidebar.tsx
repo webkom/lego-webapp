@@ -50,7 +50,7 @@ export const Sidebar = ({ title, close, className, children }: Props) => {
 
 type ContextContent = {
   side: 'right' | 'left';
-  icon: string;
+  icon: ReactNode;
   render: (props: { close: () => void }) => ReactNode;
 };
 
@@ -66,7 +66,7 @@ export const SidebarTrigger = () => {
         side={sidebarContext.side}
         trigger={
           <Button className={cx(styles.sidebarTrigger, styles.mobileOnly)}>
-            <Icon name={sidebarContext.icon} size={22} />
+            <Icon iconNode={sidebarContext.icon} size={22} />
           </Button>
         }
       >

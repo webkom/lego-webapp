@@ -35,7 +35,7 @@ export const getCsvUrl = (surveyId: EntityId) =>
 export const getPdfUrl = (surveyId: EntityId) =>
   `${appConfig.serverUrl}/surveys/${surveyId}/pdf/`;
 
-export const QuestionTypeOption = ({ iconName, option, ...props }: any) => (
+export const QuestionTypeOption = ({ iconNode, option, ...props }: any) => (
   <div
     style={{
       backgroundColor: props.isSelected
@@ -57,12 +57,12 @@ export const QuestionTypeOption = ({ iconName, option, ...props }: any) => (
     {...props.innerProps}
   >
     <span>
-      <Icon name={iconName} />
+      <Icon iconNode={iconNode} />
       {props.children}
     </span>
   </div>
 );
-export const QuestionTypeValue = ({ iconName, ...props }) => (
+export const QuestionTypeValue = ({ iconNode, ...props }) => (
   <div
     className={styles.dropdownSelected}
     onMouseDown={(event) => {
@@ -78,7 +78,7 @@ export const QuestionTypeValue = ({ iconName, ...props }) => (
     ref={props.innerRef}
     {...props.innerProps}
   >
-    <Icon name={iconName} />
+    <Icon iconNode={iconNode} />
     {props.children}
   </div>
 );

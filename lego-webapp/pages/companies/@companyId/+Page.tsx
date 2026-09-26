@@ -10,6 +10,13 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash-es';
+import {
+  BriefcaseBusiness,
+  ChevronDown,
+  Globe,
+  MapPin,
+  Phone,
+} from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -117,22 +124,22 @@ const CompanyDetail = () => {
   const companyInfo = [
     {
       text: company.website,
-      icon: 'globe-outline',
+      icon: <Globe />,
       link: true,
     },
     {
       text: company.address,
-      icon: 'location-outline',
+      icon: <MapPin />,
       link: false,
     },
     {
       text: company.phone,
-      icon: 'call-outline',
+      icon: <Phone />,
       link: false,
     },
     {
       text: company.companyType,
-      icon: 'briefcase-outline',
+      icon: <BriefcaseBusiness />,
       link: false,
     },
   ];
@@ -203,7 +210,7 @@ const CompanyDetail = () => {
             {viewOldEvents && showFetchMoreEvents && (
               <Flex justifyContent="center">
                 <Icon
-                  name="chevron-down-outline"
+                  iconNode={<ChevronDown />}
                   size={30}
                   onPress={fetchMoreEvents}
                 />
@@ -232,7 +239,7 @@ const CompanyDetail = () => {
             ? companyInfo.map((info, index) => (
                 <TextWithIcon
                   key={index}
-                  iconName={info.icon}
+                  iconNode={info.icon}
                   content={<Skeleton className={styles.companyInfo} />}
                 />
               ))
@@ -242,7 +249,7 @@ const CompanyDetail = () => {
                   info.text && (
                     <TextWithIcon
                       key={info.text}
-                      iconName={info.icon}
+                      iconNode={info.icon}
                       className={styles.companyInfo}
                       content={
                         info.link ? (

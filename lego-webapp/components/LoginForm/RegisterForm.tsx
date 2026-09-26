@@ -1,4 +1,5 @@
 import { Button, ConfirmModal, Flex, Icon, Tooltip } from '@webkom/lego-bricks';
+import { CircleHelp } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Field } from 'react-final-form';
 import {
@@ -93,7 +94,7 @@ const RegisterForm = () => {
                         >
                           <Flex alignItems="center" gap="var(--spacing-xs)">
                             automatisk sletting
-                            <Icon name="help-circle-outline" size={18} />
+                            <Icon iconNode={<CircleHelp />} size={18} />
                           </Flex>
                         </Tooltip>{' '}
                         av brukeren din.

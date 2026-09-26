@@ -1,4 +1,5 @@
-import { Flex, Tooltip } from '@webkom/lego-bricks';
+import { Flex, Tooltip, Icon } from '@webkom/lego-bricks';
+import { Plus, Trash2 } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Field } from 'react-final-form';
 import { TextInput, DatePicker, SelectInput, Button } from '~/components/Form';
@@ -122,6 +123,7 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
                 }
                 onPress={() => fields.remove(index)}
               >
+                <Icon iconNode={<Trash2 />} size={19} />
                 Fjern pool
               </Button>
             </div>
@@ -146,6 +148,7 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
               })
             }
           >
+            <Icon iconNode={<Plus />} size={19} />
             Legg til ny pool
           </Button>
         </div>

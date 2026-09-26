@@ -1,5 +1,6 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { Eye, EyeOff } from 'lucide-react';
 import { useMemo, useRef, useState } from 'react';
 import { createField } from './Field';
 import styles from './TextInput.module.css';
@@ -8,7 +9,6 @@ import type { Overwrite } from 'utility-types';
 
 type Props = {
   type?: string;
-  prefix?: string;
   prefixIconNode?: ReactNode;
   suffix?: string;
   className?: string;
@@ -30,7 +30,6 @@ const TextInput = ({
   className,
   disabled,
   inputRef,
-  prefix,
   prefixIconNode,
   suffix,
   readOnly,
@@ -58,18 +57,18 @@ const TextInput = ({
         styles.input,
         styles.textInput,
         disabled && styles.disabled,
-        !(prefix || prefixIconNode) && styles.spacing,
+        !prefixIconNode && styles.spacing,
         removeBorder && styles.removeBorder,
         centered && styles.centered,
         className,
       )}
     >
-      {(prefix || prefixIconNode) && (
+      {prefixIconNode && (
         <div
           onClick={() => ref.current && ref.current.focus()}
           className={styles.prefix}
         >
-          <Icon name={prefix} iconNode={prefixIconNode} size={16} />
+          <Icon iconNode={prefixIconNode} size={16} />
         </div>
       )}
       <input
@@ -83,7 +82,7 @@ const TextInput = ({
       {isPasswordField && (
         <Icon
           onPress={togglePasswordVisibility}
-          name={showPassword ? 'eye-off' : 'eye'}
+          iconNode={showPassword ? <EyeOff /> : <Eye />}
           size={16}
           className={styles.togglePasswordVisibility}
         />

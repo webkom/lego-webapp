@@ -1,3 +1,4 @@
+import { Settings } from 'lucide-react';
 import { Menu, MenuItem, MenuTrigger, Popover } from 'react-aria-components';
 import { Button } from '../../Button';
 import { Icon } from '../../Icon';
@@ -33,7 +34,7 @@ export const ActionMenu = ({ actions, actionGrant }: Props) => {
   return (
     <MenuTrigger>
       <Button size="large" aria-label="Menu">
-        <Icon name="admin" size={26} />
+        <Icon iconNode={<Settings />} size={26} />
       </Button>
       <Popover>
         <Menu>

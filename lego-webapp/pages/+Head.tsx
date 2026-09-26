@@ -60,14 +60,6 @@ export default function HeadDefault() {
         pageContext.helmetContext?.helmet?.meta.toComponent(),
         pageContext.helmetContext?.helmet?.link.toComponent(),
       ]}
-      <script
-        type="module"
-        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
-      ></script>
-      <script
-        noModule
-        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
-      ></script>
       {pageContext.preparedStateCode && (
         <script
           dangerouslySetInnerHTML={{ __html: pageContext.preparedStateCode }}

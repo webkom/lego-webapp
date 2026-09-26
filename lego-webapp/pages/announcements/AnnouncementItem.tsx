@@ -1,4 +1,5 @@
-import { Button, ButtonGroup, Flex } from '@webkom/lego-bricks';
+import { Button, ButtonGroup, Flex, Icon } from '@webkom/lego-bricks';
+import { Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import Time from '~/components/Time';
 import {
@@ -123,6 +124,7 @@ const AnnouncementItem = ({ announcement, actionGrant }: Props) => {
                 setDeleting(false);
               }}
             >
+              <Icon iconNode={<Trash2 />} size={19} />
               Slett
             </Button>
           )}

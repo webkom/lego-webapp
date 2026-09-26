@@ -1,3 +1,4 @@
+import { Search } from 'lucide-react';
 import { TextInput } from '~/components/Form';
 import styles from './ReactionPickerFooter.module.css';
 
@@ -9,7 +10,7 @@ const ReactionPickerFooter = ({ onSearch }: Props) => (
   <div className={styles.reactionPickerFooter}>
     <TextInput
       type="text"
-      prefix="search"
+      prefixIconNode={<Search />}
       placeholder="Søk ..."
       maxLength={15}
       onChange={(e) => {
