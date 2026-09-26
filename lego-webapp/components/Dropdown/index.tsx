@@ -84,15 +84,11 @@ const List = ({ children, className }: ListProps) => (
 );
 
 type ListItemProps = {
-  active?: boolean;
   danger?: boolean;
 } & HTMLAttributes<HTMLLIElement>;
 
-const ListItem = ({ active, danger, ...props }: ListItemProps) => (
-  <li
-    className={cx(active && styles.active, danger && styles.danger)}
-    {...props}
-  />
+const ListItem = ({ danger, ...props }: ListItemProps) => (
+  <li className={cx(danger && styles.danger)} {...props} />
 );
 
 const Divider = () => <li className={styles.divider} />;
@@ -100,4 +96,5 @@ const Divider = () => <li className={styles.divider} />;
 Dropdown.List = List;
 Dropdown.ListItem = ListItem;
 Dropdown.Divider = Divider;
+Dropdown.itemClassName = styles.dropdownItem;
 export default Dropdown;

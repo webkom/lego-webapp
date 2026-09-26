@@ -65,7 +65,7 @@ const SemesterStatusContent = ({ contactedStatus, editFunction }: Props) => {
       <Dropdown.List>
         {contactStatuses
           .filter((status) => status !== NonEventContactStatus.NOT_CONTACTED)
-          .map((status, index) => {
+          .map((status) => {
             const active = contactedStatus.indexOf(status) !== -1;
 
             return (
@@ -84,7 +84,6 @@ const SemesterStatusContent = ({ contactedStatus, editFunction }: Props) => {
                     <Circle color={getStatusColor(status)} size={20} />
                   )}
                 </button>
-                {index !== contactStatuses.length - 2 && <Dropdown.Divider />}
               </Dropdown.ListItem>
             );
           })}

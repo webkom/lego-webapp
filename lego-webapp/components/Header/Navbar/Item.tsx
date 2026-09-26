@@ -1,4 +1,6 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
+import cx from 'classnames';
+import Dropdown from '~/components/Dropdown';
 import TextWithIcon from '~/components/TextWithIcon';
 import styles from './Item.module.css';
 import type { ReactNode } from 'react';
@@ -12,7 +14,7 @@ export type ItemProps = {
 
 export const Item = ({ icon, title, href, description }: ItemProps) => {
   return (
-    <a href={href} className={styles.item}>
+    <a href={href} className={cx(Dropdown.itemClassName, styles.item)}>
       {icon ? (
         <TextWithIcon iconNode={icon} content={title} />
       ) : (
