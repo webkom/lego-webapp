@@ -6,6 +6,7 @@ import { useState } from 'react';
 import EmptyState from '~/components/EmptyState';
 import ErrorBoundary from '~/components/ErrorBoundary';
 import { SpanTag } from '~/components/Feed/Tag';
+import { Link } from '~/components/Link';
 import Time from '~/components/Time';
 import { fetchNotificationFeed } from '~/redux/actions/FeedActions';
 import {
@@ -29,7 +30,7 @@ const NotificationElement = ({
   if (activityRenderer) {
     const { Icon, Header } = activityRenderer;
     return (
-      <a
+      <Link
         href={activityRenderer.getNotificationUrl(notification)}
         className={cx(styles.notification, !notification.read && styles.unRead)}
       >
@@ -44,7 +45,7 @@ const NotificationElement = ({
             className={styles.updatedAt}
           />
         </div>
-      </a>
+      </Link>
     );
   }
 

@@ -46,7 +46,7 @@ export const Dropdown = ({
     <ComponentClass
       onClick={show && !iconName ? undefined : toggle} // avoid double toggle because of rootClose
       ref={triggerRef}
-      className={className}
+      className={cx(styles.trigger, className)}
       style={style}
       data-test-id="dropdown"
     >
@@ -66,6 +66,7 @@ export const Dropdown = ({
         {({ props, arrowProps }) => (
           <div
             {...props}
+            role="presentation"
             className={cx(styles.content, contentClassName || null)}
             onClick={closeOnContentClick ? toggle : undefined}
           >
