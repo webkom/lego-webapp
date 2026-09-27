@@ -48,7 +48,7 @@ const RegistrationRow = ({
           {registration.presenceDate ? (
             <Time time={registration.presenceDate} format="HH:mm" />
           ) : (
-            'Møtt'
+            'Møtt opp'
           )}
         </Flex>
       )}

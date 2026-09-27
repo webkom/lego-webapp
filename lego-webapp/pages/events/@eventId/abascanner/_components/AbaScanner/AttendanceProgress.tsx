@@ -33,7 +33,7 @@ const AttendanceProgress = ({ presentCount, attendeeCount }: Props) => {
           <span className={cx(styles.count, pulse && styles.pulse)}>
             {presentCount}
           </span>
-          <span className={styles.total}>/ {attendeeCount} møtt</span>
+          <span className={styles.total}>/ {attendeeCount} møtt opp</span>
         </Flex>
         <div className={styles.summary}>
           <div className={styles.percent}>{percent} %</div>
