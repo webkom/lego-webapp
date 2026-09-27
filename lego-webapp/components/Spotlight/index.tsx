@@ -18,8 +18,8 @@ export type SpotlightItem = {
   coverPlaceholder?: string;
   coverMonogram?: string;
   coverColor?: string;
-  category: string;
-  categoryColor: string;
+  category?: string;
+  categoryColor?: string;
   location?: string;
   time: Dateish;
   timeFormat: string;
@@ -139,14 +139,16 @@ const Spotlight = ({
                       gap="var(--spacing-xs) var(--spacing-sm)"
                       className={styles.meta}
                     >
-                      <span className={styles.category}>
-                        <Circle
-                          size="var(--font-size-xs)"
-                          color={item.categoryColor}
-                        />
-                        {item.category}
-                      </span>
-                      <span aria-hidden>•</span>
+                      {item.category && (
+                        <span className={styles.category}>
+                          <Circle
+                            size="var(--font-size-xs)"
+                            color={item.categoryColor}
+                          />
+                          {item.category}
+                          <span aria-hidden>•</span>
+                        </span>
+                      )}
                       <span className={styles.date}>
                         <Calendar size={15} strokeWidth={1.75} aria-hidden />
                         <Time time={item.time} format={item.timeFormat} />
