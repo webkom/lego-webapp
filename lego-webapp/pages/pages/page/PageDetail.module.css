@@ -46,6 +46,23 @@
   margin-top: var(--spacing-xl);
 }
 
+/*
+ * A fixed width: the column must not size itself from whichever labels happen
+ * to be expanded, or opening a section could reflow the whole page.
+ */
+.aboutSidebar {
+  width: 16rem;
+  padding-inline: var(--spacing-sm);
+}
+
+/* Shown as a side modal rather than a column, so it may use the screen width. */
+@media (--medium-viewport) {
+  .aboutSidebar {
+    width: min(90vw, 22rem);
+    max-width: 100%;
+  }
+}
+
 @media (--mobile-device) {
   .header {
     word-break: break-word;
