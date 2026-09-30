@@ -59,7 +59,7 @@ describe('Navigate throughout app', () => {
     });
 
     // Go to profile
-    cy.get(c('_content') + c('_popover'))
+    cy.get(t('dropdown-content'))
       .first()
       .within(() => {
         cy.get(a('/users/me')).click();
@@ -81,7 +81,7 @@ describe('Navigate throughout app', () => {
     });
 
     // Go to users settings
-    cy.get(c('_content') + c('_popover'))
+    cy.get(t('dropdown-content'))
       .first()
       .within(() => {
         cy.contains('Innstillinger').click();
@@ -113,7 +113,7 @@ describe('Navigate throughout app', () => {
     });
 
     // Go to meetings
-    cy.get(c('_content') + c('_popover'))
+    cy.get(t('dropdown-content'))
       .first()
       .within(() => {
         cy.contains('Møteinnkallinger').click();
@@ -212,7 +212,7 @@ describe('Navigate throughout app', () => {
     });
 
     // Logg out
-    cy.get(c('_content') + c('_popover'))
+    cy.get(t('dropdown-content'))
       .first()
       .within(() => {
         cy.contains('Logg ut').click();

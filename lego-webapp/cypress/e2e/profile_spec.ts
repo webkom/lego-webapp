@@ -38,10 +38,7 @@ describe('Profile settings', () => {
     cy.get('header ' + c('_menu'))
       .find("[alt*='webkom sitt profilbilde']")
       .click();
-    cy.contains(
-      c('_popover') + c('_content') + ' li',
-      initialUser.username,
-    ).click();
+    cy.contains(t('dropdown-content') + ' li', initialUser.username).click();
     cy.url().should('include', '/users/me');
   });
 
@@ -51,7 +48,7 @@ describe('Profile settings', () => {
     cy.get('header ' + c('_menu'))
       .find("[alt*='webkom sitt profilbilde']")
       .click();
-    cy.contains(c('_popover') + c('_content') + ' li', 'Innstillinger').click();
+    cy.contains(t('dropdown-content') + ' li', 'Innstillinger').click();
     cy.url().should('include', '/users/me/settings/profile');
   });
 

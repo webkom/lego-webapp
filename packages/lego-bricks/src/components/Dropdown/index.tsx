@@ -67,6 +67,7 @@ export const Dropdown = ({
           <div
             {...props}
             role="presentation"
+            data-test-id="dropdown-content"
             className={cx(styles.content, contentClassName || null)}
             onClick={closeOnContentClick ? toggle : undefined}
           >
