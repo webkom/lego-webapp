@@ -1,4 +1,4 @@
-import { Card, Flex, Icon, LinkButton, Page } from '@webkom/lego-bricks';
+import { Card, Flex, HeroPage, Icon, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { CircleCheck, CircleX, Plus } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
@@ -26,65 +26,67 @@ const PollsList = () => {
   usePreparedEffect('fetchPolls', () => dispatch(fetchAll()), []);
 
   return (
-    <Page
+    <HeroPage
       title="Avstemninger"
-      actionButtons={
+      actions={
         actionGrant.includes('create') && (
-          <LinkButton href="/polls/new">
-            <Icon iconNode={<Plus />} size={19} />
-            Lag ny
+          <LinkButton dark href="/polls/new">
+            <Icon iconNode={<Plus />} size={20} />
+            Ny avstemning
           </LinkButton>
         )
       }
     >
       <Helmet title="Avstemninger" />
-      <Paginator
-        hasMore={pagination.fetching || pagination.hasMore} // Paginator only shows loading indicator if hasMore is true
-        fetching={pagination.fetching}
-        fetchNext={() => {
-          dispatch(
-            fetchAll({
-              next: true,
-            }),
-          );
-        }}
-      >
-        <section className={styles.pollsList}>
-          {polls.map((poll) => (
-            <a key={poll.id} href={`/polls/${poll.id}`}>
-              <Card isHoverable className={styles.pollListItem}>
-                <Card.Header>{poll.title}</Card.Header>
+      <HeroPage.Section title="Alle avstemninger">
+        <Paginator
+          hasMore={pagination.fetching || pagination.hasMore} // Paginator only shows loading indicator if hasMore is true
+          fetching={pagination.fetching}
+          fetchNext={() => {
+            dispatch(
+              fetchAll({
+                next: true,
+              }),
+            );
+          }}
+        >
+          <section className={styles.pollsList}>
+            {polls.map((poll) => (
+              <a key={poll.id} href={`/polls/${poll.id}`}>
+                <Card isHoverable className={styles.pollListItem}>
+                  <Card.Header>{poll.title}</Card.Header>
 
-                <Flex wrap justifyContent="space-between" alignItems="center">
-                  <span>{`${poll.totalVotes} ${poll.totalVotes === 1 ? 'stemme' : 'stemmer'}`}</span>
-                  <Flex alignItems="center" gap="var(--spacing-sm)">
-                    {poll.hasAnswered ? (
-                      <>
-                        Svart
-                        <Icon
-                          iconNode={<CircleCheck />}
-                          size={21}
-                          className={styles.success}
-                        />
-                      </>
-                    ) : (
-                      <>
-                        Ikke svart
-                        <Icon
-                          iconNode={<CircleX />}
-                          size={21}
-                          className={styles.danger}
-                        />
-                      </>
-                    )}
+                  <Flex wrap justifyContent="space-between" alignItems="center">
+                    <span>{`${poll.totalVotes} ${poll.totalVotes === 1 ? 'stemme' : 'stemmer'}`}</span>
+                    <Flex alignItems="center" gap="var(--spacing-sm)">
+                      {poll.hasAnswered ? (
+                        <>
+                          Svart
+                          <Icon
+                            iconNode={<CircleCheck />}
+                            size={21}
+                            className={styles.success}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          Ikke svart
+                          <Icon
+                            iconNode={<CircleX />}
+                            size={21}
+                            className={styles.danger}
+                          />
+                        </>
+                      )}
+                    </Flex>
                   </Flex>
-                </Flex>
-              </Card>
-            </a>
-          ))}
-        </section>
-      </Paginator>
-    </Page>
+                </Card>
+              </a>
+            ))}
+          </section>
+        </Paginator>
+      </HeroPage.Section>
+    </HeroPage>
   );
 };
 
