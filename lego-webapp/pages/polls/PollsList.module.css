@@ -19,10 +19,29 @@
   color: var(--lego-font-color);
 }
 
-.success {
-  color: var(--success-color);
+.pollDate {
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-sm);
+  flex-shrink: 0;
+  margin-left: var(--spacing-xs);
 }
 
-.danger {
-  color: var(--danger-color);
+.smallViewportOnly {
+  display: none;
+}
+
+.largeViewportOnly {
+  display: block;
+}
+
+@media (--small-viewport) {
+  .smallViewportOnly {
+    display: block;
+    margin-left: 0;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .largeViewportOnly {
+    display: none;
+  }
 }

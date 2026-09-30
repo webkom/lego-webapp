@@ -1,8 +1,11 @@
 import { Card, Flex, HeroPage, Icon, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import cx from 'classnames';
 import { CircleCheck, CircleX, Plus } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import Paginator from '~/components/Paginator';
+import Tag from '~/components/Tags/Tag';
+import Time from '~/components/Time';
 import { fetchAll } from '~/redux/actions/PollActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
@@ -38,7 +41,7 @@ const PollsList = () => {
       }
     >
       <Helmet title="Avstemninger" />
-      <HeroPage.Section title="Alle avstemninger">
+      <HeroPage.Section>
         <Paginator
           hasMore={pagination.fetching || pagination.hasMore} // Paginator only shows loading indicator if hasMore is true
           fetching={pagination.fetching}
@@ -54,31 +57,35 @@ const PollsList = () => {
             {polls.map((poll) => (
               <a key={poll.id} href={`/polls/${poll.id}`}>
                 <Card isHoverable className={styles.pollListItem}>
-                  <Card.Header>{poll.title}</Card.Header>
+                  <Flex justifyContent="space-between">
+                    <Card.Header>{poll.title}</Card.Header>
+                    <div
+                      className={cx(styles.pollDate, styles.largeViewportOnly)}
+                    >
+                      <Time time={poll.createdAt} wordsAgo />
+                    </div>
+                  </Flex>
+                  <div
+                    className={cx(styles.pollDate, styles.smallViewportOnly)}
+                  >
+                    <Time time={poll.createdAt} wordsAgo />
+                  </div>
 
                   <Flex wrap justifyContent="space-between" alignItems="center">
                     <span>{`${poll.totalVotes} ${poll.totalVotes === 1 ? 'stemme' : 'stemmer'}`}</span>
-                    <Flex alignItems="center" gap="var(--spacing-sm)">
-                      {poll.hasAnswered ? (
-                        <>
-                          Svart
-                          <Icon
-                            iconNode={<CircleCheck />}
-                            size={21}
-                            className={styles.success}
-                          />
-                        </>
-                      ) : (
-                        <>
-                          Ikke svart
-                          <Icon
-                            iconNode={<CircleX />}
-                            size={21}
-                            className={styles.danger}
-                          />
-                        </>
-                      )}
-                    </Flex>
+                    {poll.hasAnswered ? (
+                      <Tag
+                        tag="Svart"
+                        color="green"
+                        iconNode={<CircleCheck />}
+                      />
+                    ) : (
+                      <Tag
+                        tag="Ikke svart"
+                        color="red"
+                        iconNode={<CircleX />}
+                      />
+                    )}
                   </Flex>
                 </Card>
               </a>
