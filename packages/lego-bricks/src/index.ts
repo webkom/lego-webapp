@@ -15,6 +15,7 @@ export { Tooltip } from './components/Tooltip';
 export {
   Page,
   PageContainer,
+  HeroPage,
   PageCover,
   Sidebar,
   Flex,
