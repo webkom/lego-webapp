@@ -118,10 +118,13 @@ const ArticleList = () => {
     [query],
   );
 
-  const [latest, ...rest] = articles;
+  const [latest] = articles;
   const gridRef = useRef<HTMLDivElement>(null);
-  useArticleListAnimation(gridRef, rest.map((article) => article.id).join());
-  const selectedTag = query.tag;
+  useArticleListAnimation(
+    gridRef,
+    articles.map((article) => article.id).join(),
+  );
+  const selectedTags = query.tag.split(',').filter(Boolean);
 
   return (
     <HeroPage
@@ -148,27 +151,32 @@ const ArticleList = () => {
       <Helmet title="Artikler" />
       <HeroPage.Section
         title={
-          selectedTag ? (
-            <span className={styles.tagName}>#{selectedTag}</span>
-          ) : (
-            'Alle artikler'
-          )
+          selectedTags.length > 0
+            ? selectedTags.map((tag) => (
+                <span key={tag} className={styles.tagName}>
+                  #{tag}
+                </span>
+              ))
+            : 'Alle artikler'
         }
         headerActions={
           <Tags>
             {tags.map((tag) => {
-              const isSelected = selectedTag === tag.tag;
+              const isSelected = selectedTags.includes(tag.tag);
+              const selectLink = [...selectedTags, tag.tag].join(',');
               return (
                 <Tag
                   tag={tag.tag}
                   key={tag.tag}
                   color="blue"
                   active={isSelected}
-                  link={isSelected ? '/articles/' : `/articles?tag=${tag.tag}`}
+                  link={
+                    isSelected ? '/articles/' : `/articles?tag=${selectLink}`
+                  }
                 />
               );
             })}
-            <Tag tag="Flere tags..." link="/tags" color="gray" />
+            <Tag tag="Vis alle tags..." link="/tags" color="gray" />
           </Tags>
         }
       >
@@ -185,7 +193,7 @@ const ArticleList = () => {
           }}
         >
           <div ref={gridRef} className={styles.grid}>
-            {rest.map((article) => (
+            {articles.map((article) => (
               <ArticleListItem key={article.id} article={article} />
             ))}
           </div>
