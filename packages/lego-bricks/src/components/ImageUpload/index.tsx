@@ -151,7 +151,7 @@ export const ImageUpload = ({
   id,
   ...props
 }: Props) => {
-  const cropper = useRef<Cropper>();
+  const cropper = useRef<Cropper | undefined>(undefined);
   const [cropReady, setCropReady] = useState(false);
   const [cropOpen, setCropOpen] = useState(inModal);
   const [files, setFiles] = useState<DropFile[]>([]);

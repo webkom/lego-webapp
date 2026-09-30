@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 // returns the previous value of the argument
 const usePrevious = <T>(value: T) => {
-  const ref = useRef<T>();
+  const ref = useRef<T>(undefined);
   useEffect(() => {
     ref.current = value;
   }, [value]);
