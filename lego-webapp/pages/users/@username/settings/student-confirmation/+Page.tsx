@@ -170,9 +170,9 @@ const StudentConfirmation = () => {
       </Button>
 
       <Modal
-        show={showMemberModal}
+        isOpen={showMemberModal}
+        onOpenChange={setShowMemberModal}
         contentClassName={styles.membershipModalContent}
-        onHide={() => setShowMemberModal(false)}
       >
         <Card severity="success">
           <Card.Header>Din studentstatus ble godkjent!</Card.Header>
