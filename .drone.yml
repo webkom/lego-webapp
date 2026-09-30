@@ -100,6 +100,7 @@ steps:
       SEARCH_BACKEND: 'postgres'
       ELASTICSEARCH_HOST: 'ignored'
       CORS_ORIGIN_DOMAINS: 'frontend:3000'
+      ABAID_SECRET_KEY: "lego-dev"
     when: *checks
 
   - name: legocypresshelper
