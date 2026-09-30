@@ -1,6 +1,6 @@
 import { LinkButton, Page, Flex, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { Images, Pin } from 'lucide-react';
+import { Images, Pin, Plus } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { navigate } from 'vike/client/router';
 import EmptyState from '~/components/EmptyState';
@@ -33,7 +33,10 @@ const Overview = () => {
       title="Album"
       actionButtons={
         actionGrant?.includes('create') && (
-          <LinkButton href="/photos/new">Nytt album</LinkButton>
+          <LinkButton href="/photos/new">
+            <Icon iconNode={<Plus />} size={19} />
+            Nytt album
+          </LinkButton>
         )
       }
     >

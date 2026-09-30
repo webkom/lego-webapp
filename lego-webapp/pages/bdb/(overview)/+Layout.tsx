@@ -1,4 +1,5 @@
-import { LinkButton, Page } from '@webkom/lego-bricks';
+import { LinkButton, Page, Icon } from '@webkom/lego-bricks';
+import { Plus } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { usePageContext } from 'vike-react/usePageContext';
@@ -18,10 +19,12 @@ const BdbOverview = ({ children }: PropsWithChildren) => {
             key="new-company-interest"
             href="/bdb/company-interest/new"
           >
+            <Icon iconNode={<Plus />} size={19} />
             Ny bedriftsinteresse
           </LinkButton>
         ) : (
           <LinkButton key="new-company" href="/bdb/new">
+            <Icon iconNode={<Plus />} size={19} />
             Ny bedrift
           </LinkButton>
         )

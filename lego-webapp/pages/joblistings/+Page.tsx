@@ -1,5 +1,6 @@
-import { filterSidebar, LinkButton, Page } from '@webkom/lego-bricks';
+import { filterSidebar, LinkButton, Page, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Plus } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -120,7 +121,10 @@ const JoblistingsPage = () => {
       })}
       actionButtons={
         actionGrant.includes('create') && (
-          <LinkButton href="/joblistings/new">Ny jobbannonse</LinkButton>
+          <LinkButton href="/joblistings/new">
+            <Icon iconNode={<Plus />} size={19} />
+            Ny jobbannonse
+          </LinkButton>
         )
       }
     >

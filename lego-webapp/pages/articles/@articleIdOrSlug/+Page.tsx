@@ -1,5 +1,6 @@
-import { LinkButton, LoadingPage, Page } from '@webkom/lego-bricks';
+import { LinkButton, LoadingPage, Page, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Pencil } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect } from 'react';
 import { navigate } from 'vike/client/router';
@@ -127,6 +128,7 @@ const ArticleDetail = () => {
         <>
           {article.actionGrant?.includes('edit') && (
             <LinkButton href={`/articles/${article.id}/edit`}>
+              <Icon iconNode={<Pencil />} size={19} />
               Rediger
             </LinkButton>
           )}

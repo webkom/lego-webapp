@@ -12,6 +12,7 @@ import {
   HandCoins,
   HelpCircle,
   Turtle,
+  UserMinus,
   X,
 } from 'lucide-react';
 import { useState, type ReactNode } from 'react';
@@ -254,7 +255,7 @@ export const Unregister = ({
                 <Icon
                   disabled={isUnregistrationClosed}
                   onPress={openConfirmModal}
-                  name="person-remove-outline"
+                  iconNode={<UserMinus />}
                   size={18}
                   danger
                 />

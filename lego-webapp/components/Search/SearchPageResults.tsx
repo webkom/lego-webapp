@@ -3,6 +3,7 @@ import cx from 'classnames';
 import { FolderOpen, FolderSearch } from 'lucide-react';
 import EmptyState from '~/components/EmptyState';
 import { ProfilePicture } from '~/components/Image';
+import { getSearchResultIcon } from '~/components/Search/SearchResults';
 import { useAppSelector } from '~/redux/hooks';
 import { isUserResult } from '~/redux/slices/search';
 import truncateString from '~/utils/truncateString';
@@ -60,7 +61,7 @@ const SearchResult = <T extends SearchResultType>({
             {isUserResult(result) ? (
               <ProfilePicture size={24} user={result} />
             ) : (
-              <Icon name={result.icon} />
+              <Icon iconNode={getSearchResultIcon(result.icon)} />
             )}
           </Flex>
         </a>

@@ -1,3 +1,4 @@
+import { ChevronRight } from 'lucide-react';
 import { Button } from '../Button';
 import { Icon } from '../Icon';
 import { Accordion } from '.';
@@ -25,7 +26,7 @@ const triggerComponent: ComponentProps<
 >['triggerComponent'] = ({ onClick, open, rotateClassName }) => (
   <Button onPress={onClick}>
     {open ? 'Skjul' : 'Vis'}{' '}
-    <Icon name="chevron-forward-outline" className={rotateClassName} />
+    <Icon iconNode={<ChevronRight />} className={rotateClassName} />
   </Button>
 );
 const children = (

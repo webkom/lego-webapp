@@ -11,7 +11,7 @@ import {
   Dropdown,
 } from '@webkom/lego-bricks';
 import { isEmpty } from 'lodash-es';
-import { ListRestart, Pencil } from 'lucide-react';
+import { CircleCheckBig, CircleX, ListRestart, Pencil } from 'lucide-react';
 import moment from 'moment-timezone';
 import diff from 'node-htmldiff';
 import { useState } from 'react';
@@ -152,6 +152,7 @@ const MeetingDetails = () => {
           onPress={acceptInvitation}
           disabled={statusMe === MeetingInvitationStatus.Attending}
         >
+          <Icon iconNode={<CircleCheckBig />} size={19} />
           Delta
         </Button>
         <Button
@@ -159,6 +160,7 @@ const MeetingDetails = () => {
           onPress={rejectInvitation}
           disabled={statusMe === MeetingInvitationStatus.NotAttending}
         >
+          <Icon iconNode={<CircleX />} size={19} />
           Avslå
         </Button>
       </ButtonGroup>

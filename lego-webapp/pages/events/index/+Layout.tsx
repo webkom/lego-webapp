@@ -3,7 +3,9 @@ import {
   Page,
   filterSidebar,
   FilterSection,
+  Icon,
 } from '@webkom/lego-bricks';
+import { Plus } from 'lucide-react';
 import moment from 'moment-timezone';
 import { createContext, PropsWithChildren } from 'react';
 import { usePageContext } from 'vike-react/usePageContext';
@@ -202,7 +204,10 @@ export const Layout = ({ children }: PropsWithChildren) => {
       }
       actionButtons={
         actionGrant.includes('create') && (
-          <LinkButton href="/events/new">Lag nytt</LinkButton>
+          <LinkButton href="/events/new">
+            <Icon iconNode={<Plus />} size={19} />
+            Lag nytt
+          </LinkButton>
         )
       }
       tabs={

@@ -1,5 +1,6 @@
 import { Flex, Icon, Dropdown } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { ChevronRight } from 'lucide-react';
 import { Link } from '~/components/Link';
 import TextWithIcon from '~/components/TextWithIcon';
 import styles from './Item.module.css';
@@ -23,7 +24,7 @@ export const Item = ({ icon, title, href, description }: ItemProps) => {
           <Icon
             size={18}
             className={styles.titleIcon}
-            name="chevron-forward-outline"
+            iconNode={<ChevronRight />}
           />
         </Flex>
       )}

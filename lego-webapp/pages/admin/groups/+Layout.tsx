@@ -1,5 +1,6 @@
 import { Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Menu } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Optional } from 'utility-types';
@@ -66,7 +67,7 @@ const GroupPage = ({ children }: PropsWithChildren) => {
       sidebar={{
         title: 'Grupper',
         side: 'left',
-        icon: 'menu',
+        icon: <Menu />,
         content: (
           <GroupTree
             groups={groups}

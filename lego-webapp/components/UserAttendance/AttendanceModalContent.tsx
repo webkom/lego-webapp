@@ -1,7 +1,7 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { flatMap } from 'lodash-es';
-import { Send } from 'lucide-react';
+import { Search, Send } from 'lucide-react';
 import { useState, useMemo } from 'react';
 import { TextInput } from '~/components/Form';
 import { ProfilePicture } from '~/components/Image';
@@ -104,7 +104,7 @@ const AttendanceModalContent = ({
     >
       <TextInput
         type="text"
-        prefix="search"
+        prefixIconNode={<Search />}
         placeholder="Søk etter navn"
         onChange={(e) => setSearch(e.target.value)}
         className={styles.searchInput}

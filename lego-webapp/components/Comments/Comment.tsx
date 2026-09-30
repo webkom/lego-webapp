@@ -1,5 +1,5 @@
 import { Button, Flex, Icon, Tooltip } from '@webkom/lego-bricks';
-import { Reply, Trash2 } from 'lucide-react';
+import { Reply, ShieldCheck, Trash2 } from 'lucide-react';
 import moment from 'moment';
 import { useState } from 'react';
 import CommentForm from '~/components/CommentForm';
@@ -53,7 +53,7 @@ const Comment = ({
                   <a href={`/users/${author.username}`}>{author.fullName}</a>
                   {[contentAuthors].flat().includes(author.id) && (
                     <Tag
-                      icon="shield-checkmark-outline"
+                      iconNode={<ShieldCheck />}
                       tag="Forfatter"
                       color="blue"
                     />

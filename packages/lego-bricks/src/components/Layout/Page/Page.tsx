@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-aria-components';
 import { ButtonGroup } from '../../Button/ButtonGroup';
 import { Icon } from '../../Icon';
@@ -53,7 +54,11 @@ const Page = ({
     <Flex column className={cx(styles.content, classNames?.content)}>
       {back && (
         <Link href={back.href} className={styles.back}>
-          <Icon name="arrow-back" size={18} className={styles.backIcon} />
+          <Icon
+            iconNode={<ArrowLeft />}
+            size={18}
+            className={styles.backIcon}
+          />
           <span className={styles.backLabel}>{back.label ?? 'Tilbake'}</span>
         </Link>
       )}

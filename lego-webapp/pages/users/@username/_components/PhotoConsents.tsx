@@ -1,4 +1,5 @@
-import { Button, ButtonGroup, ConfirmModal } from '@webkom/lego-bricks';
+import { Button, ButtonGroup, ConfirmModal, Icon } from '@webkom/lego-bricks';
+import { CircleCheckBig, CircleX } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { PhotoConsentDomain } from 'app/models';
@@ -75,6 +76,7 @@ const ConsentManager = ({
               dark
               disabled={!isCurrentUser || consent.isConsenting === false}
             >
+              <Icon iconNode={<CircleX />} size={19} />
               Avslå samtykke
             </Button>
           )}
@@ -84,6 +86,7 @@ const ConsentManager = ({
           disabled={!isCurrentUser || consent.isConsenting === true}
           onPress={() => updateConsent({ ...consent, isConsenting: true })}
         >
+          <Icon iconNode={<CircleCheckBig />} size={19} />
           Gi samtykke
         </Button>
       </ButtonGroup>

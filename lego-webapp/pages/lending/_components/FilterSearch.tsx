@@ -1,12 +1,13 @@
 import { Icon, FilterSection } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import {
-  TentTree,
-  Camera,
   Armchair,
   Boxes,
+  Camera,
   Handshake,
   Music4,
+  Search,
+  TentTree,
 } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
 import ComponentAsCheckBox from '~/components/Form/ComponentAsCheckBox';
@@ -73,7 +74,7 @@ const FilterSearch = ({
       <FilterSection title="">
         <h3 className={styles.header}>Søk etter utstyr</h3>
         <TextInput
-          prefix="search"
+          prefixIconNode={<Search />}
           placeholder="Grill, soundboks..."
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}

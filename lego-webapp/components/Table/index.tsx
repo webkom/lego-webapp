@@ -1,7 +1,7 @@
 import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { debounce, isEmpty, get, isEqual } from 'lodash-es';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, Pencil } from 'lucide-react';
 import { useEffect, useMemo, useState, useRef } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import BodyCell from './BodyCell';
@@ -526,6 +526,7 @@ const Table = <T extends { id: EntityId }>({
         onPress={context.startEdit}
         disabled={context.isLocked || !context.isEditable}
       >
+        <Icon iconNode={<Pencil />} size={16} />
         Rediger
       </Button>
     );

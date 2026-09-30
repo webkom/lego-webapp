@@ -4,8 +4,7 @@ import styles from './InfoBubble.module.css';
 import type { HTMLAttributes, ReactNode } from 'react';
 
 type Props = {
-  /** Icon name */
-  icon: string;
+  iconNode: ReactNode;
 
   /** Text under icon */
   data?: ReactNode;
@@ -29,13 +28,13 @@ const httpCheck = (link) =>
     : `http://${link}`;
 
 type IconComponentProps = {
-  icon: string;
+  iconNode: ReactNode;
   bubbleClass: string;
   iconClass: string;
   link?: string;
 };
 const IconComponent = ({
-  icon,
+  iconNode,
   bubbleClass,
   iconClass,
   link,
@@ -44,7 +43,7 @@ const IconComponent = ({
     return (
       <div className={bubbleClass}>
         <a href={httpCheck(link)} className={styles.iconLink}>
-          <Icon name={icon} className={iconClass} size={30} />
+          <Icon iconNode={iconNode} className={iconClass} size={30} />
         </a>
       </div>
     );
@@ -52,7 +51,7 @@ const IconComponent = ({
 
   return (
     <div className={bubbleClass}>
-      <Icon name={icon} className={iconClass} size={30} />
+      <Icon iconNode={iconNode} className={iconClass} size={30} />
     </div>
   );
 };
@@ -75,7 +74,7 @@ const DataComponent = ({ dataClass, data, link }: DataComponentProps) => {
 };
 
 function InfoBubble({
-  icon,
+  iconNode,
   data,
   meta,
   className,
@@ -90,7 +89,7 @@ function InfoBubble({
   return (
     <div className={cx(styles.infoBubble, className)} {...props}>
       <IconComponent
-        icon={icon}
+        iconNode={iconNode}
         bubbleClass={bubbleClass}
         iconClass={iconClass}
         link={link}

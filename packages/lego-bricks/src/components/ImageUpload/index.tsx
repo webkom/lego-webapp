@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { Trash2 } from 'lucide-react';
+import { Image as ImageIcon, Images, Trash2, Upload } from 'lucide-react';
 import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { Cropper } from 'react-cropper';
 import { type Accept, useDropzone } from 'react-dropzone';
@@ -121,10 +121,7 @@ const UploadArea = ({
           gap="var(--spacing-xs)"
           className={styles.placeholderContainer}
         >
-          <Icon
-            size={50}
-            name={multiple ? 'images-outline' : 'image-outline'}
-          />
+          <Icon size={50} iconNode={multiple ? <Images /> : <ImageIcon />} />
           {isDragActive ? (
             isDragAccept ? (
               <span>Slipp {word} her ...</span>
@@ -284,6 +281,7 @@ export const ImageUpload = ({
               }
               onPress={onSubmit}
             >
+              <Icon iconNode={<Upload />} size={19} />
               Last opp
             </Button>
           </ButtonGroup>

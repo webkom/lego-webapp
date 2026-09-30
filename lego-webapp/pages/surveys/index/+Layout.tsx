@@ -1,4 +1,5 @@
-import { LinkButton, Page } from '@webkom/lego-bricks';
+import { LinkButton, Page, Icon } from '@webkom/lego-bricks';
+import { Plus } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 import { NavigationTab } from '~/components/NavigationTab/NavigationTab';
 
@@ -7,7 +8,10 @@ const SurveysOverview = ({ children }: PropsWithChildren) => {
     <Page
       title="Spørreundersøkelser"
       actionButtons={
-        <LinkButton href="/surveys/new">Ny undersøkelse</LinkButton>
+        <LinkButton href="/surveys/new">
+          <Icon iconNode={<Plus />} size={19} />
+          Ny undersøkelse
+        </LinkButton>
       }
       tabs={
         <>

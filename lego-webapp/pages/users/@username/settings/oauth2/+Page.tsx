@@ -8,7 +8,7 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { keys } from 'lodash-es';
-import { Copy, Trash2 } from 'lucide-react';
+import { Copy, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { ContentMain } from '~/components/Content';
 import EmptyState from '~/components/EmptyState';
@@ -203,6 +203,7 @@ const UserSettingsOAuth2 = () => {
           <h3>Applikasjoner</h3>
           {actionGrant.includes('create') && (
             <LinkButton href="/users/me/settings/oauth2/new">
+              <Icon iconNode={<Plus />} size={19} />
               Ny applikasjon
             </LinkButton>
           )}

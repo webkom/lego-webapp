@@ -5,9 +5,10 @@ import {
   LinkButton,
   LoadingIndicator,
   Page,
+  Icon,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { FolderOpen } from 'lucide-react';
+import { FolderOpen, Plus } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import EmptyState from '~/components/EmptyState';
 import { SelectInput } from '~/components/Form';
@@ -122,6 +123,7 @@ const QuotePage = () => {
             </LinkButton>
           ),
           <LinkButton key="add" href="/quotes/new">
+            <Icon iconNode={<Plus />} size={19} />
             Legg til sitat
           </LinkButton>,
         ]

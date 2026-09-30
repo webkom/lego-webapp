@@ -1,4 +1,5 @@
 import { Icon } from '@webkom/lego-bricks';
+import { CalendarPlus } from 'lucide-react';
 import AggregatedFeedActivity, {
   FeedActivityVerb,
 } from '~/redux/models/FeedActivity';
@@ -39,7 +40,7 @@ const MeetingInvitationRenderer: ActivityRenderer<FeedActivityVerb.MeetingInvita
       );
     },
     Content: () => null,
-    Icon: () => <Icon name="calendar" />,
+    Icon: () => <Icon iconNode={<CalendarPlus />} />,
     getNotificationUrl: (aggregatedActivity) => {
       const meetingInvitations = getMeetingInvitations(aggregatedActivity);
 

@@ -1,4 +1,5 @@
 import { FilterSection, filterSidebar, Flex, Page } from '@webkom/lego-bricks';
+import { Search } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 import { usePageContext } from 'vike-react/usePageContext';
 import { RadioButton, TextInput } from '~/components/Form';
@@ -136,7 +137,7 @@ const AchievementsPageWrapper = ({ children }: PropsWithChildren) => {
             <FilterSection title="Toppliste-filter">
               <TextInput
                 name="usernameFilter"
-                prefix="search"
+                prefixIconNode={<Search />}
                 placeholder="Søk etter navn"
                 value={query.userFullName}
                 onChange={(e) => setQueryValue('userFullName')(e.target.value)}

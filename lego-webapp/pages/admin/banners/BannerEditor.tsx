@@ -4,9 +4,11 @@ import {
   Flex,
   LoadingPage,
   Page,
+  Icon,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
+import { TimerOff, Trash2 } from 'lucide-react';
 import { Field, useFormState } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { navigate } from 'vike/client/router';
@@ -169,6 +171,7 @@ const BannerEditor = () => {
                         danger
                         onPress={() => form.change('countdownEndDate', null)}
                       >
+                        <Icon iconNode={<TimerOff />} size={19} />
                         Fjern nedtelling
                       </Button>
                     ) : null
@@ -199,6 +202,7 @@ const BannerEditor = () => {
                 >
                   {({ openConfirmModal }) => (
                     <Button onPress={openConfirmModal} danger>
+                      <Icon iconNode={<Trash2 />} size={19} />
                       Slett
                     </Button>
                   )}

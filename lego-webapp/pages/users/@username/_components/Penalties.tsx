@@ -1,5 +1,6 @@
 import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { Info, ThumbsUp, Trash2 } from 'lucide-react';
 import { FormatTime } from '~/components/Time';
 import {
   InfoField,
@@ -63,6 +64,7 @@ const Penalties = ({ userId }: Props) => {
                     >
                       {({ openConfirmModal }) => (
                         <Button danger onPress={openConfirmModal}>
+                          <Icon iconNode={<Trash2 />} size={19} />
                           Slett prikk
                         </Button>
                       )}
@@ -80,7 +82,7 @@ const Penalties = ({ userId }: Props) => {
           <>
             <Flex alignItems="center" gap="var(--spacing-md)">
               <Icon
-                name="thumbs-up-outline"
+                iconNode={<ThumbsUp />}
                 size={40}
                 className={styles.success}
               />
@@ -92,11 +94,7 @@ const Penalties = ({ userId }: Props) => {
           </>
         )}
         <a href="https://abakus.no/pages/arrangementer/26-arrangementsregler">
-          <Icon
-            name="information-circle-outline"
-            size={22}
-            className={styles.infoIcon}
-          />
+          <Icon iconNode={<Info />} size={22} className={styles.infoIcon} />
         </a>
       </div>
 

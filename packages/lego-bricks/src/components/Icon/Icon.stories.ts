@@ -1,3 +1,5 @@
+import { CircleCheck, Pencil, Star, Trash2 } from 'lucide-react';
+import { createElement } from 'react';
 import { fn } from 'storybook/test';
 import { Icon } from '.';
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -14,29 +16,31 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
+  args: {
+    iconNode: createElement(Star),
+  },
 };
 
 export const Danger: Story = {
   args: {
-    onClick: fn(),
+    onPress: fn(),
     danger: true,
-    name: 'trash',
+    iconNode: createElement(Trash2),
   },
 };
 
 export const Success: Story = {
   args: {
-    onClick: fn(),
+    onPress: fn(),
     success: true,
-    name: 'checkmark-circle-outline',
+    iconNode: createElement(CircleCheck),
   },
 };
 
 export const Edit: Story = {
   args: {
-    onClick: fn(),
+    onPress: fn(),
     edit: true,
-    name: 'pencil',
+    iconNode: createElement(Pencil),
   },
 };

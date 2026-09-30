@@ -1,4 +1,5 @@
 import { Icon } from '@webkom/lego-bricks';
+import { CalendarCheck } from 'lucide-react';
 import { FeedActivityVerb } from '~/redux/models/FeedActivity';
 import { contextRender } from '../context';
 import { UserActors } from './utils';
@@ -22,7 +23,7 @@ const EventRegisterRenderer: ActivityRenderer<FeedActivityVerb.EventRegister> =
       );
     },
     Content: () => null,
-    Icon: () => <Icon name="chatbubble" />,
+    Icon: () => <Icon iconNode={<CalendarCheck />} />,
     getNotificationUrl: (aggregatedActivity) => {
       const latestActivity = aggregatedActivity.lastActivity;
       const event = aggregatedActivity.context[latestActivity.target];

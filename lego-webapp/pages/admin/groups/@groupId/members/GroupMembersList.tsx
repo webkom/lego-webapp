@@ -1,5 +1,5 @@
 import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
-import { Trash2 } from 'lucide-react';
+import { Pencil, Trash2 } from 'lucide-react';
 import { SelectInput } from '~/components/Form';
 import Table from '~/components/Table';
 import { defaultGroupMembersQuery } from '~/pages/admin/groups/@groupId/members/+Page';
@@ -158,7 +158,7 @@ const GroupMembersList = ({
     ) : (
       <Flex justifyContent="center" alignItems="center" gap={5}>
         <Icon
-          name="pencil"
+          iconNode={<Pencil />}
           size={20}
           edit
           disabled={isSelf || isLocked || !isEditable}

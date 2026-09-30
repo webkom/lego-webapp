@@ -12,7 +12,7 @@ import type {
 import type { DOMContainer } from 'react-overlays/useWaitForDOMRef';
 
 type Props = {
-  iconName?: string;
+  iconNode?: ReactNode;
   toggle: () => void;
   closeOnContentClick?: boolean;
   className?: string;
@@ -27,12 +27,12 @@ type Props = {
 };
 
 export const Dropdown = ({
-  iconName,
+  iconNode,
   toggle,
   closeOnContentClick = false,
   className,
   contentClassName,
-  componentClass: ComponentClass = iconName ? 'div' : 'button',
+  componentClass: ComponentClass = iconNode ? 'div' : 'button',
   triggerComponent,
   show,
   children,
@@ -44,15 +44,15 @@ export const Dropdown = ({
 
   return (
     <ComponentClass
-      onClick={show && !iconName ? undefined : toggle} // avoid double toggle because of rootClose
+      onClick={show && !iconNode ? undefined : toggle} // avoid double toggle because of rootClose
       ref={triggerRef}
       className={cx(styles.trigger, className)}
       style={style}
       data-test-id="dropdown"
     >
       {triggerComponent ||
-        (iconName ? (
-          <Icon name={iconName} onPress={show ? () => {} : toggle} />
+        (iconNode ? (
+          <Icon iconNode={iconNode} onPress={show ? () => {} : toggle} />
         ) : null)}
 
       <Overlay

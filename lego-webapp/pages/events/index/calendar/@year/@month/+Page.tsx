@@ -1,5 +1,6 @@
 import { Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import moment, { type Moment } from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import EventFooter from '~/pages/events/index/EventFooter';
@@ -68,12 +69,12 @@ const Calendar = () => {
 
       <h2 className={styles.header}>
         <Icon
-          name="arrow-back"
+          iconNode={<ArrowLeft />}
           to={`/events/calendar/${pathForPrevMonth(date)}`}
         />
         <span className={styles.headerDate}>{date.format('MMMM YYYY')}</span>
         <Icon
-          name="arrow-forward"
+          iconNode={<ArrowRight />}
           to={`/events/calendar/${pathForNextMonth(date)}`}
         />
       </h2>
