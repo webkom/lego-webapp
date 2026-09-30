@@ -1,5 +1,5 @@
 import { EntityId } from '@reduxjs/toolkit';
-import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import { Button, Flex, Icon, Tooltip } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
@@ -71,6 +71,7 @@ const LendingCalendar = ({
     const timeRanges: (TimeRange & {
       requestId: EntityId;
       lendableObjectId: EntityId;
+      createdByFullname?: string;
     })[] = [];
 
     if (!lendableObject?.availability) {
@@ -90,6 +91,7 @@ const LendingCalendar = ({
         const newTimeRange: TimeRange & {
           requestId: EntityId;
           lendableObjectId: EntityId;
+          createdByFullname?: string;
         } = {
           start: overlapStart.format('HH:mm'),
           end: overlapEnd.format('HH:mm'),
@@ -98,6 +100,7 @@ const LendingCalendar = ({
             overlapEnd.format('HH:mm') === '23:59',
           requestId: availability.requestId,
           lendableObjectId: lendableObject.id,
+          createdByFullname: availability.createdByFullname
         };
 
         const isSimilarToSelected =
@@ -255,6 +258,7 @@ const LendingCalendar = ({
                             )}
 
                             {timeRanges.map((range, idx) => (
+                              <Tooltip content={range.createdByFullname}>
                               <Link
                                 key={idx}
                                 href={`/lending/${range.lendableObjectId}/request/${range.requestId}
@@ -264,6 +268,7 @@ const LendingCalendar = ({
                                   {!fully && `${range.start}-${range.end}`}
                                 </div>
                               </Link>
+                              </Tooltip>
                             ))}
                           </div>
                         </div>
