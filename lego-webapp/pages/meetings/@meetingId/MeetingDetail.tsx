@@ -8,6 +8,7 @@ import {
   Modal,
   Page,
   Tooltip,
+  Dropdown,
 } from '@webkom/lego-bricks';
 import { isEmpty } from 'lodash-es';
 import { ListRestart, Pencil } from 'lucide-react';
@@ -24,7 +25,6 @@ import {
   ContentMain,
 } from '~/components/Content';
 import DisplayContent from '~/components/DisplayContent';
-import Dropdown from '~/components/Dropdown';
 import { ProfilePicture } from '~/components/Image';
 import InfoList from '~/components/InfoList';
 import LegoReactions from '~/components/LegoReactions';
@@ -176,7 +176,7 @@ const MeetingDetails = () => {
       ?.count ?? false;
   const infoItems = [
     meeting.isTemplate
-      ? {}
+      ? null
       : {
           key: 'Din status',
           value: statusMe ? statusesText[statusMe] : 'Ukjent',
@@ -263,9 +263,6 @@ const MeetingDetails = () => {
                           </span>
                         </Flex>
                       </button>
-                      {index !== meeting.reportChangelogs.length - 1 && (
-                        <Dropdown.Divider />
-                      )}
                     </Dropdown.ListItem>
                   ))}
                 </Dropdown.List>
