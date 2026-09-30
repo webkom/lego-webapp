@@ -13,10 +13,358 @@
 
 .modalContent {
   overflow: hidden;
+  height: min(65vh, 540px);
+}
+
+.searchContainer {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.searchControls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: var(--spacing-sm);
 }
 
 .searchInput {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.groupSuggestions {
+  position: absolute;
+  z-index: 2;
+  top: calc(100% + var(--spacing-xs));
+  right: 0;
+  left: 0;
+  max-height: min(240px, 45vh);
+  overflow-y: auto;
+  padding: var(--spacing-xs);
+  border: 1px solid var(--border-gray);
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-white);
+  box-shadow: 0 4px 12px
+    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 12%);
+}
+
+.groupSuggestion {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  color: var(--lego-font-color);
+  text-align: left;
+}
+
+.groupSuggestion:hover,
+.selectedGroupSuggestion {
+  background-color: var(--additive-background);
+}
+
+.groupSuggestionType {
   flex-shrink: 0;
+  padding: 2px var(--spacing-sm);
+  border: 1px solid var(--border-gray);
+  border-radius: 999px;
+  background-color: var(--additive-background);
+  color: var(--placeholder-color);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+}
+
+.groupSuggestionType[data-group-type='klasse'],
+.activeFilterChip[data-group-type='klasse'] {
+  border-color: var(--color-green-2);
+  background-color: var(--color-green-1);
+  color: var(--color-green-8);
+}
+
+.groupSuggestionType[data-group-type='komite'],
+.activeFilterChip[data-group-type='komite'] {
+  border-color: var(--color-red-2);
+  background-color: var(--color-red-1);
+  color: var(--color-red-8);
+}
+
+.groupSuggestionType[data-group-type='interesse'],
+.activeFilterChip[data-group-type='interesse'] {
+  border-color: var(--color-orange-2);
+  background-color: var(--color-orange-1);
+  color: var(--color-orange-8);
+}
+
+.groupSuggestionType[data-group-type='styre'],
+.activeFilterChip[data-group-type='styre'] {
+  border-color: var(--color-blue-2);
+  background-color: var(--color-blue-1);
+  color: var(--color-blue-8);
+}
+
+.groupSuggestionType[data-group-type='revy'],
+.activeFilterChip[data-group-type='revy'] {
+  border-color: var(--color-purple-2);
+  background-color: var(--color-purple-1);
+  color: var(--color-purple-8);
+}
+
+.groupSuggestionType[data-group-type='studieretning'],
+.activeFilterChip[data-group-type='studieretning'] {
+  border-color: var(--color-yellow-2);
+  background-color: var(--color-yellow-1);
+  color: var(--color-yellow-8);
+}
+
+.emptyGroupSuggestions {
+  padding: var(--spacing-sm);
+  color: var(--placeholder-color);
+  font-size: var(--font-size-sm);
+}
+
+.activeFilterBar {
+  display: flex;
+  flex-shrink: 0;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+}
+
+.activeFilterChips {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.activeFilterChip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: 2px var(--spacing-xs) 2px var(--spacing-sm);
+  border: 1px solid var(--border-gray);
+  border-radius: 999px;
+  background-color: var(--additive-background);
+  color: var(--lego-font-color);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--easing-fast);
+  transition-property: background-color, border-color, color;
+}
+
+.activeFilterChip:hover,
+.activeFilterChip[data-group-type]:hover {
+  border-color: var(--lego-red-color);
+  background-color: var(--color-red-1);
+  color: var(--lego-red-color);
+}
+
+.activeFilterChip:focus-visible,
+.activeFilterChip[data-group-type]:focus-visible {
+  border-color: var(--lego-red-color);
+  background-color: var(--color-red-1);
+  color: var(--lego-red-color);
+  outline: 2px solid var(--lego-red-color);
+}
+
+.activeFilterMeta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  margin-left: auto;
+  flex-shrink: 0;
+  min-height: 26px;
+}
+
+.activeFilterClear {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  background: none;
+  color: var(--placeholder-color);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--easing-fast);
+  transition-property: color, background-color;
+}
+
+.activeFilterClear:hover {
+  color: var(--lego-font-color);
+}
+
+.activeFilterClear:focus-visible {
+  color: var(--lego-red-color);
+}
+
+.activeFilterMetaDivider {
+  color: var(--border-gray);
+  user-select: none;
+}
+
+.activeFilterCount {
+  color: var(--placeholder-color);
+  font-size: var(--font-size-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.filterPickerTrigger {
+  position: relative;
+  display: inline-flex;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1.5px solid var(--border-gray);
+  border-radius: var(--border-radius-md);
+  background-color: inherit;
+  color: var(--placeholder-color);
+}
+
+.filterPickerTrigger:hover,
+.filterPickerTrigger[data-hovered],
+.filterPickerTrigger[aria-expanded='true'] {
+  border-color: var(--color-gray-4);
+  background-color: var(--additive-background);
+  color: var(--lego-font-color);
+}
+
+.filterPickerTrigger:focus-visible,
+.filterPickerTrigger[data-focus-visible] {
+  outline: 2px solid var(--lego-font-color);
+  outline-offset: 2px;
+}
+
+.filterPickerCount {
+  position: absolute;
+  top: var(--spacing-xs);
+  right: var(--spacing-xs);
+  display: inline-flex;
+  min-width: var(--spacing-md);
+  height: var(--spacing-md);
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border-radius: 999px;
+  background-color: var(--lego-red-color);
+  color: var(--inverted-font-color);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.filterPickerPopover {
+  box-sizing: border-box;
+  z-index: 310;
+  width: min(330px, calc(100vw - var(--spacing-xl)));
+  max-height: 360px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--spacing-sm);
+  border: 1px solid var(--border-gray);
+  border-radius: var(--border-radius-md);
+  outline: none;
+  background-color: var(--color-white);
+  box-shadow: 0 4px 12px
+    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 12%);
+}
+
+.filterPickerPanel {
+  flex-basis: 100%;
+  max-height: min(300px, 45vh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--spacing-sm);
+  border: 1px solid var(--border-gray);
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-white);
+}
+
+.filterPickerDialog {
+  outline: none;
+}
+
+.filterPickerSection + .filterPickerSection {
+  padding-top: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+  border-top: 1px solid var(--border-gray);
+}
+
+.filterPickerSectionTitle {
+  margin: 0 0 var(--spacing-xs);
+  color: var(--placeholder-color);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.filterPickerOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.filterPickerOption {
+  display: flex;
+  width: 100%;
+  min-height: 38px;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  color: var(--lego-font-color);
+  text-align: left;
+}
+
+.filterPickerOption[data-hovered],
+.filterPickerOptionSelected {
+  background-color: var(--additive-background);
+}
+
+.filterPickerOption[data-focus-visible] {
+  outline: 2px solid var(--lego-font-color);
+  outline-offset: -2px;
+}
+
+.filterPickerOptionMeta {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.filterPickerOptionCheck {
+  opacity: 0;
+  color: var(--lego-red-color);
+}
+
+.filterPickerOptionCheckVisible {
+  opacity: 1;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .list {
@@ -118,28 +466,4 @@
 .opacity {
   transition: opacity var(--linear-fast);
   opacity: 0.4;
-}
-
-.groupFilters {
-  position: relative;
-  flex-shrink: 0;
-  overflow: hidden;
-}
-
-.collapsedIndicator {
-  position: absolute;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  height: 50%;
-  background: linear-gradient(to bottom, transparent, var(--color-white) 90%);
-}
-
-.groupFilterButton {
-  cursor: pointer;
-
-  &.selected {
-    background-color: var(--lego-font-color);
-    color: var(--inverted-font-color);
-  }
 }
