@@ -4,7 +4,6 @@ import styles from './InfoBubble.module.css';
 import type { HTMLAttributes, ReactNode } from 'react';
 
 type Props = {
-  /** Icon from lucide */
   iconNode: ReactNode;
 
   /** Text under icon */
