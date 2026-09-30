@@ -1,12 +1,16 @@
 import { useEffect, useRef } from 'react';
 import { Websockets as WebsocketsAT } from '~/redux/actionTypes';
+import type { AsyncActionType } from '~/redux/actionTypes';
 
 export const TransientSocketEventTypes = {
   ...WebsocketsAT,
   ATTENDANCE_REGISTERED: 'Websockets.TRANSIENT.ATTENDANCE_REGISTERED',
-};
-export type TransientSocketEventType =
-  (typeof TransientSocketEventTypes)[keyof typeof TransientSocketEventTypes];
+} as const;
+
+type StatusValues<T> = T extends AsyncActionType ? T[keyof T] : T;
+export type TransientSocketEventType = StatusValues<
+  (typeof TransientSocketEventTypes)[keyof typeof TransientSocketEventTypes]
+>;
 
 type SocketMeta = Record<string, unknown>;
 
