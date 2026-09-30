@@ -82,6 +82,13 @@ const registrationsSlice = createSlice({
           };
         },
       );
+      addCase(Event.SOCKET_PRESENCE.SUCCESS, (state, action: AnyAction) => {
+        const { id, presence, presenceDate } = action.payload;
+        if (!state.entities[id]) {
+          return;
+        }
+        state.entities[id] = { ...state.entities[id], presence, presenceDate };
+      });
       addCase(Event.UPDATE_REGISTRATION.SUCCESS, (state, action: AnyAction) => {
         const registration = normalize(action.payload, registrationSchema)
           .entities.registrations?.[action.payload.id];

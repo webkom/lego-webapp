@@ -10,7 +10,7 @@ import {
   selectEventById,
 } from '~/redux/slices/events';
 import { useParams } from '~/utils/useParams';
-import styles from '../abacard/Abacard.module.css';
+import styles from './Attendees.module.css';
 import { RegisteredTable, UnregisteredTable } from './RegistrationTables';
 import type { AdministrateEvent } from '~/redux/models/Event';
 
