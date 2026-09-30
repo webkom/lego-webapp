@@ -2,6 +2,7 @@ import { Card, Flex, HeroPage, Icon, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { CircleCheck, CircleX, Plus } from 'lucide-react';
+import { useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Paginator from '~/components/Paginator';
 import Tag from '~/components/Tags/Tag';
@@ -11,6 +12,7 @@ import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
 import { selectAllPolls } from '~/redux/slices/polls';
 import { selectPaginationNext } from '~/redux/slices/selectors';
+import useListEntranceAnimation from '~/utils/useListEntranceAnimation';
 import styles from './PollsList.module.css';
 
 const PollsList = () => {
@@ -27,6 +29,9 @@ const PollsList = () => {
   const dispatch = useAppDispatch();
 
   usePreparedEffect('fetchPolls', () => dispatch(fetchAll()), []);
+
+  const listRef = useRef<HTMLElement>(null);
+  useListEntranceAnimation(listRef, polls.map((poll) => poll.id).join());
 
   return (
     <HeroPage
@@ -53,7 +58,7 @@ const PollsList = () => {
             );
           }}
         >
-          <section className={styles.pollsList}>
+          <section ref={listRef} className={styles.pollsList}>
             {polls.map((poll) => (
               <a key={poll.id} href={`/polls/${poll.id}`}>
                 <Card isHoverable className={styles.pollListItem}>

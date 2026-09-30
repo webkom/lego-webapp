@@ -179,9 +179,7 @@ const ArticleList = () => {
       }
     >
       <Helmet title="Artikler" />
-      <HeroPage.Section
-        title={title}
-      >
+      <HeroPage.Section title={title}>
         <Paginator
           hasMore={pagination.hasMore}
           fetching={pagination.fetching}
