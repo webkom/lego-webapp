@@ -100,7 +100,7 @@ const LendingCalendar = ({
             overlapEnd.format('HH:mm') === '23:59',
           requestId: availability.requestId,
           lendableObjectId: lendableObject.id,
-          createdByFullname: availability.createdByFullname
+          createdByFullname: availability.createdByFullname,
         };
 
         const isSimilarToSelected =
@@ -258,17 +258,17 @@ const LendingCalendar = ({
                             )}
 
                             {timeRanges.map((range, idx) => (
-                              <Tooltip content={range.createdByFullname}>
                               <Link
                                 key={idx}
                                 href={`/lending/${range.lendableObjectId}/request/${range.requestId}
                                     `}
                               >
-                                <div className={styles.timeRange}>
-                                  {!fully && `${range.start}-${range.end}`}
-                                </div>
+                                <Tooltip content={range.createdByFullname}>
+                                  <div className={styles.timeRange}>
+                                    {!fully && `${range.start}-${range.end}`}
+                                  </div>
+                                </Tooltip>
                               </Link>
-                              </Tooltip>
                             ))}
                           </div>
                         </div>
