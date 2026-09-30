@@ -24,9 +24,9 @@ import { selectArticles } from '~/redux/slices/articles';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import { selectPopularTags } from '~/redux/slices/tags';
 import { selectUsersByIds } from '~/redux/slices/users';
+import useListEntranceAnimation from '~/utils/useListEntranceAnimation';
 import useQuery from '~/utils/useQuery';
 import styles from './articles.module.css';
-import useArticleListAnimation from './useArticleListAnimation';
 import type { SpotlightItem } from '~/components/Spotlight';
 import type { PublicArticle } from '~/redux/models/Article';
 
@@ -120,11 +120,41 @@ const ArticleList = () => {
 
   const [latest] = articles;
   const gridRef = useRef<HTMLDivElement>(null);
-  useArticleListAnimation(
+  useListEntranceAnimation(
     gridRef,
     articles.map((article) => article.id).join(),
   );
   const selectedTags = query.tag.split(',').filter(Boolean);
+
+  const title = (
+    <Flex column gap="var(--spacing-md)">
+      <Flex gap="var(--spacing-sm)">
+        {selectedTags.length > 0
+          ? selectedTags.map((tag) => (
+              <span key={tag} className={styles.tagName}>
+                #{tag}
+              </span>
+            ))
+          : 'Alle artikler'}
+      </Flex>
+      <Tags>
+        {tags.map((tag) => {
+          const isSelected = selectedTags.includes(tag.tag);
+          const selectLink = [...selectedTags, tag.tag].join(',');
+          return (
+            <Tag
+              tag={tag.tag}
+              key={tag.tag}
+              color="blue"
+              active={isSelected}
+              link={isSelected ? '/articles/' : `/articles?tag=${selectLink}`}
+            />
+          );
+        })}
+        <Tag tag="Vis alle tags..." link="/tags" color="gray" />
+      </Tags>
+    </Flex>
+  );
 
   return (
     <HeroPage
@@ -150,35 +180,7 @@ const ArticleList = () => {
     >
       <Helmet title="Artikler" />
       <HeroPage.Section
-        title={
-          selectedTags.length > 0
-            ? selectedTags.map((tag) => (
-                <span key={tag} className={styles.tagName}>
-                  #{tag}
-                </span>
-              ))
-            : 'Alle artikler'
-        }
-        headerActions={
-          <Tags>
-            {tags.map((tag) => {
-              const isSelected = selectedTags.includes(tag.tag);
-              const selectLink = [...selectedTags, tag.tag].join(',');
-              return (
-                <Tag
-                  tag={tag.tag}
-                  key={tag.tag}
-                  color="blue"
-                  active={isSelected}
-                  link={
-                    isSelected ? '/articles/' : `/articles?tag=${selectLink}`
-                  }
-                />
-              );
-            })}
-            <Tag tag="Vis alle tags..." link="/tags" color="gray" />
-          </Tags>
-        }
+        title={title}
       >
         <Paginator
           hasMore={pagination.hasMore}
