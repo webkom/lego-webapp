@@ -15,6 +15,11 @@ const meta = {
     show: false,
     toggle: () => {},
   },
+  argTypes: {
+    children: {
+      control: false,
+    },
+  },
   render: function Render(args: ComponentProps<typeof Dropdown>) {
     const [show, setShow] = useState(args.show);
     return <Dropdown {...args} show={show} toggle={() => setShow(!show)} />;
