@@ -103,6 +103,7 @@ steps:
       SEARCH_BACKEND: 'postgres'
       ELASTICSEARCH_HOST: 'ignored'
       CORS_ORIGIN_DOMAINS: 'frontend:3000'
+      ABAID_SECRET_KEY: "lego-dev"
     when: *checks
 
   - name: legocypresshelper
@@ -338,6 +339,6 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 9624ca6211c89a4b4cf21ad4b8616d312a12158bbc1f82810b19ef5ef9dd55ef
+hmac: f9b6622417385f3896e3477419813e26ac2e09f9565a6554bee2b8db6645cf8e
 
 ...
