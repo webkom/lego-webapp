@@ -2,13 +2,13 @@ import style from './style.module.css';
 
 const Content = () => {
   return (
-    <body className="style.body">
-      <header className="style.header">
+    <div className={style.body}>
+      <header className={style.header}>
         <h1>My Header</h1>
         <p>Resize the browser window to see the responsive effect.</p>
       </header>
 
-      <ul className="topnav">
+      <ul className={style.topnav}>
         <li>
           <a href="#">Home</a>
         </li>
@@ -23,7 +23,7 @@ const Content = () => {
         </li>
       </ul>
 
-      <div className="flex-container">
+      <div className={style.flexContainer}>
         <div>
           <h2>Side</h2>
           <p>
@@ -59,7 +59,7 @@ const Content = () => {
           </p>
         </div>
       </div>
-    </body>
+    </div>
   );
 };
 export default Content;
