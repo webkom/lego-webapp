@@ -8,7 +8,8 @@ export type SidebarOptions = {
   title?: string;
   side: 'left' | 'right';
   icon: string;
-  content: ReactNode;
+  className?: string;
+  content: ReactNode | ((props: { close?: () => void }) => ReactNode);
 };
 
 type Props = {
@@ -29,8 +30,14 @@ const PageContainer = ({
   const sidebarComponent =
     sidebar &&
     ((props: { close?: () => void }) => (
-      <Sidebar title={sidebar.title} close={props.close}>
-        {sidebar.content}
+      <Sidebar
+        title={sidebar.title}
+        close={props.close}
+        className={sidebar.className}
+      >
+        {typeof sidebar.content === 'function'
+          ? sidebar.content(props)
+          : sidebar.content}
       </Sidebar>
     ));
 
