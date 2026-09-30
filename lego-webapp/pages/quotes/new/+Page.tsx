@@ -114,6 +114,7 @@ const AddQuote = () => {
                       contentTarget: '' as ContentTarget,
                       reactionsGrouped: [],
                       createdAt: moment(),
+                      createdBy: null,
                       tags: [],
                     }}
                     useReactions={false}

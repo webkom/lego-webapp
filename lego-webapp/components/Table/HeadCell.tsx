@@ -151,7 +151,7 @@ const HeadCell = <T extends { id: EntityId }>({
               inputRef={searchInputRef}
               removeBorder
               placeholder={filterMessage}
-              value={filters[filterIndex]}
+              value={filters[filterIndex]?.[0]}
               onChange={(e) => toggleFilter(filterIndex, e.target.value)}
               onKeyDown={({ keyCode }) => {
                 if (keyCode === 13) {

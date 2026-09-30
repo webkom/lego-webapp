@@ -27,7 +27,7 @@ const Option = (props: Props) => {
 const MultipleChoice = (props: Props) => {
   return (
     <Flex alignItems="center">
-      <RadioButton value={false} className={styles.option} />
+      <RadioButton defaultChecked={false} className={styles.option} />
       <Field
         onChange={props.onChange}
         name={`${props.option}.optionText`}

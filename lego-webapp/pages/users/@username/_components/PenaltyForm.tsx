@@ -16,12 +16,12 @@ import { createValidator, isInteger, required } from '~/utils/validation';
 import styles from './Penalties.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { FormApi } from 'final-form';
-import type { searchMapping } from '~/redux/slices/search';
+import type { SearchResult } from '~/redux/slices/search';
 
 type FormValues = {
   reason: string;
   weight: string | number;
-  sourceEvent: (typeof searchMapping)['events.event'];
+  sourceEvent?: SearchResult;
 };
 
 const TypedLegoForm = LegoFinalForm<FormValues>;
@@ -49,6 +49,7 @@ const PenaltyForm = ({ userId }: Props) => {
       addPenalty({
         ...values,
         user: userId,
+        weight: Number(values.weight),
         sourceEvent: values.sourceEvent?.value,
       }),
     ).then(() => {
