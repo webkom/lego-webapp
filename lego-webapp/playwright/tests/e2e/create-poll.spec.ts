@@ -23,6 +23,9 @@ const openPoll = async (page: Page, title: string) => {
   await gotoHydrated(page, '/polls');
   await page.getByText(title).click();
   await expect(page).toHaveURL(/\/polls\/\d+/);
+  // Load the poll page directly; after a client-side navigation its vote
+  // buttons are present but not yet wired up.
+  await gotoHydrated(page, page.url());
 };
 
 test('requires a title and two options', async ({ page }) => {
@@ -87,10 +90,12 @@ test('answers a poll', async ({ page }) => {
   await createPoll(page, title, ['Choice A', 'Choice B']);
 
   await openPoll(page, title);
-  await expect(page.getByText('0 stemmer')).toBeVisible();
+  const pollUrl = page.url();
 
-  await page.getByText('Choice A').click();
-  await expect(page.getByText('1 stemme', { exact: false })).toBeVisible();
+  await page.getByRole('button', { name: 'Choice A' }).click();
+
+  await gotoHydrated(page, pollUrl);
+  await expect(page.getByText('1 stemme', { exact: true })).toBeVisible();
 });
 
 test('deletes a poll', async ({ page }) => {

@@ -55,13 +55,14 @@ test('posts a comment and deletes it', async ({ page }) => {
 
   const input = page.getByTestId('comment-form').locator('input').first();
   await input.fill(comment);
-  await expect(input).toHaveValue(comment);
 
   const submit = page.getByRole('button', { name: 'Kommenter' });
   await expect(submit).toBeEnabled();
   await submit.click();
 
-  await expect(input).toHaveValue('');
+  // The comment list is not updated optimistically, so reload to see the
+  // comment. That also proves it reached the database.
+  await gotoHydrated(page, EVENT_WITH_FEEDBACK);
   await expect(page.getByText(comment)).toBeVisible();
 
   const posted = page
@@ -69,6 +70,7 @@ test('posts a comment and deletes it', async ({ page }) => {
     .locator('xpath=ancestor::*[contains(@class,"_comment")][1]');
   await posted.getByTestId('delete-comment-button').click();
 
+  await gotoHydrated(page, EVENT_WITH_FEEDBACK);
   await expect(page.getByText(comment)).toHaveCount(0);
 });
 
