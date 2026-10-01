@@ -1,4 +1,14 @@
-export {};
+import type LegoCropperElements from './components/Cropper/Cropper';
+import type { DOMAttributes, ReactNode } from 'react';
+
+type CustomElement<T> = Partial<T & DOMAttributes<T> & { children: ReactNode }>;
+
+declare global {
+  namespace JSX {
+    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+    interface IntrinsicElements extends LegoCropperElements {}
+  }
+}
 
 declare module 'react-aria-components' {
   interface RouterConfig {

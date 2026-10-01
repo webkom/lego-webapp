@@ -15,9 +15,6 @@ catalogs:
     classnames:
       specifier: ^2.5.1
       version: 2.5.1
-    eslint:
-      specifier: ^9.39.5
-      version: 9.39.5
     lucide-react:
       specifier: ^0.483.0
       version: 0.483.0
@@ -360,8 +357,8 @@ importers:
         specifier: 'catalog:'
         version: 2.5.1
       cropperjs:
-        specifier: ^1.6.2
-        version: 1.6.2
+        specifier: ^2.2.0
+        version: 2.2.0
       lucide-react:
         specifier: 'catalog:'
         version: 0.483.0(react@18.3.1)
@@ -377,9 +374,6 @@ importers:
       react-aria-components:
         specifier: 'catalog:'
         version: 1.7.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-cropper:
-        specifier: ^2.3.3
-        version: 2.3.3(react@18.3.1)
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
@@ -654,6 +648,39 @@ packages:
 
   '@brillout/vite-plugin-server-entry@0.7.19':
     resolution: {integrity: sha512-XIT5xAB4x3XPTLF+WfXI92zFAcIcYZqkFkYY1tpg7wrsTWMzllRF2Fbnzy8S/Dilsw9y1qJOHUVrmLtNp2/6Yw==}
+
+  '@cropper/element-canvas@2.2.0':
+    resolution: {integrity: sha512-H0Ay2ZSZrxWLP/8fSudH9hghsgIJh9fCgEmpfzD7MnQbE8HdQKljnoRxbrjuFT7Y0rmf405Sp9PmNA6T4twegw==}
+
+  '@cropper/element-crosshair@2.2.0':
+    resolution: {integrity: sha512-RXNhlsCd7lPTTjR2rfUEYghaL5bkqiU70qojJCUz1EIKfLriToDztjlsw3TZKJUBHYA+JOnmTBDFTnizoMUN1w==}
+
+  '@cropper/element-grid@2.2.0':
+    resolution: {integrity: sha512-1hxHLi7Jrek/xxeG12a9+TO18Ot4pCG4V9Zh+A0GMLsfFjrd2k/kl0wOq0x1isNNrP3kkIw47FdID2iWR8A48A==}
+
+  '@cropper/element-handle@2.2.0':
+    resolution: {integrity: sha512-+WPzHWF96RtLTAtotIcQQ6Sx3zVLQdK+qbaM2yKa841Iz60gQ3qKk7Jl5ndy2OgkEfxZaJI/3lWyf1RMGs/TEw==}
+
+  '@cropper/element-image@2.2.0':
+    resolution: {integrity: sha512-J0zBFMEfW6yuAmXoP6S+ZdNJy5J2duVsUS0N2o3D/HxHiVo4Vm3jrSexasu/Vfvwe4Lv0nmZ/10KW3RxhrvDCQ==}
+
+  '@cropper/element-selection@2.2.0':
+    resolution: {integrity: sha512-ATtWeEb1J/scQ98ins2jy4YbVOqz13F54jDk4Mm7OCpG0fzDseOujSLoIP8y26gtY7XGQXvn8WiFBbIZbeSgxQ==}
+
+  '@cropper/element-shade@2.2.0':
+    resolution: {integrity: sha512-fiurnjecablA8+17GoOjiNrzKWe85Q6h9JLbPJkxKCQxcxqpjEsOdGu3YlRxaBYcYvr6wH9tghufOlUfYJS9nw==}
+
+  '@cropper/element-viewer@2.2.0':
+    resolution: {integrity: sha512-w6uO7m7PwBWKynMwj8DYkJHFXrHC6Xxvcp5Y+tSxhfcNtOvw92FDncqRLYv+xHQoCDXEvfCqJyrTx9nIiZgiLQ==}
+
+  '@cropper/element@2.2.0':
+    resolution: {integrity: sha512-Kckk7TiWt3Cf9MvSfmMx7ZOIuN1rzIUIwIPQSqSj0Sl6gj6opo+CPax+fREvyvVKEzAug7L0sQFZ0TL4H5LsNw==}
+
+  '@cropper/elements@2.2.0':
+    resolution: {integrity: sha512-OQiVvEjIQUbMAUGpFrI/L95elHNIXjdlSxxzeywbU6C93PdPypXeGQfOSLQ43zUYmFutWNb7jTrHvgb3JaE+VQ==}
+
+  '@cropper/utils@2.2.0':
+    resolution: {integrity: sha512-wTrpZl+F4Kr2hzovqjztSexWUU+EVK1CxPymbYgFYoAS/NZXwCDsrvikJQn+HYZVxjqyo/ClnFxA0fG+tFy6Hw==}
 
   '@csstools/cascade-layer-name-parser@2.0.4':
     resolution: {integrity: sha512-7DFHlPuIxviKYZrOiwVU/PiHLm3lLUR23OMuEEtfEOQTOp9hzQ2JjdY6X5H18RVuUPJqSCI+qNnD5iOLMVE0bA==}
@@ -3670,6 +3697,9 @@ packages:
 
   cropperjs@1.6.2:
     resolution: {integrity: sha512-nhymn9GdnV3CqiEHJVai54TULFAE3VshJTXSqSJKa8yXAKyBKDWdhHarnlIPrshJ0WMFTGuFvG02YjLXfPiuOA==}
+
+  cropperjs@2.2.0:
+    resolution: {integrity: sha512-7egO+tXxt3jGHQcO6x4k1CVoMIlEu+4Klixc6ejspKOAns7onlC/lEi5tRi3qbuHVcATK7rqaZyp8LzynPz6Cg==}
 
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
@@ -6701,7 +6731,7 @@ snapshots:
       '@babel/types': 7.29.8
       '@jridgewell/remapping': 2.3.5
       convert-source-map: 2.0.0
-      debug: 4.4.3(supports-color@8.1.1)
+      debug: 4.4.3
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -6785,7 +6815,7 @@ snapshots:
       '@babel/parser': 7.29.8
       '@babel/template': 7.29.7
       '@babel/types': 7.29.8
-      debug: 4.4.3(supports-color@8.1.1)
+      debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
 
@@ -6806,6 +6836,72 @@ snapshots:
     dependencies:
       '@brillout/import': 0.2.6
       '@brillout/picocolors': 1.0.31
+
+  '@cropper/element-canvas@2.2.0':
+    dependencies:
+      '@cropper/element': 2.2.0
+      '@cropper/utils': 2.2.0
+
+  '@cropper/element-crosshair@2.2.0':
+    dependencies:
+      '@cropper/element': 2.2.0
+      '@cropper/utils': 2.2.0
+
+  '@cropper/element-grid@2.2.0':
+    dependencies:
+      '@cropper/element': 2.2.0
+      '@cropper/utils': 2.2.0
+
+  '@cropper/element-handle@2.2.0':
+    dependencies:
+      '@cropper/element': 2.2.0
+      '@cropper/utils': 2.2.0
+
+  '@cropper/element-image@2.2.0':
+    dependencies:
+      '@cropper/element': 2.2.0
+      '@cropper/element-canvas': 2.2.0
+      '@cropper/utils': 2.2.0
+
+  '@cropper/element-selection@2.2.0':
+    dependencies:
+      '@cropper/element': 2.2.0
+      '@cropper/element-canvas': 2.2.0
+      '@cropper/element-image': 2.2.0
+      '@cropper/utils': 2.2.0
+
+  '@cropper/element-shade@2.2.0':
+    dependencies:
+      '@cropper/element': 2.2.0
+      '@cropper/element-canvas': 2.2.0
+      '@cropper/element-selection': 2.2.0
+      '@cropper/utils': 2.2.0
+
+  '@cropper/element-viewer@2.2.0':
+    dependencies:
+      '@cropper/element': 2.2.0
+      '@cropper/element-canvas': 2.2.0
+      '@cropper/element-image': 2.2.0
+      '@cropper/element-selection': 2.2.0
+      '@cropper/utils': 2.2.0
+
+  '@cropper/element@2.2.0':
+    dependencies:
+      '@cropper/utils': 2.2.0
+
+  '@cropper/elements@2.2.0':
+    dependencies:
+      '@cropper/element': 2.2.0
+      '@cropper/element-canvas': 2.2.0
+      '@cropper/element-crosshair': 2.2.0
+      '@cropper/element-grid': 2.2.0
+      '@cropper/element-handle': 2.2.0
+      '@cropper/element-image': 2.2.0
+      '@cropper/element-selection': 2.2.0
+      '@cropper/element-shade': 2.2.0
+      '@cropper/element-viewer': 2.2.0
+
+  '@cropper/utils@2.2.0': {}
 
   '@csstools/cascade-layer-name-parser@2.0.4(@csstools/css-parser-algorithms@3.0.5(@csstools/css-tokenizer@3.0.4))(@csstools/css-tokenizer@3.0.4)':
     dependencies:
@@ -7083,7 +7179,7 @@ snapshots:
   '@eslint/eslintrc@2.1.4':
     dependencies:
       ajv: 6.15.0
-      debug: 4.4.3(supports-color@8.1.1)
+      debug: 4.4.3
       espree: 9.6.1
       globals: 13.24.0
       ignore: 5.3.2
@@ -7176,7 +7272,7 @@ snapshots:
   '@humanwhocodes/config-array@0.13.0':
     dependencies:
       '@humanwhocodes/object-schema': 2.0.3
-      debug: 4.4.3(supports-color@8.1.1)
+      debug: 4.4.3
       minimatch: 3.1.5
     transitivePeerDependencies:
       - supports-color
@@ -9485,7 +9581,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/tsconfig-utils': 8.70.1(typescript@5.6.3)
       '@typescript-eslint/types': 8.70.1
-      debug: 4.4.3(supports-color@8.1.1)
+      debug: 4.4.3
       typescript: 5.6.3
     transitivePeerDependencies:
       - supports-color
@@ -9560,7 +9656,7 @@ snapshots:
       '@typescript-eslint/tsconfig-utils': 8.70.1(typescript@5.6.3)
       '@typescript-eslint/types': 8.70.1
       '@typescript-eslint/visitor-keys': 8.70.1
-      debug: 4.4.3(supports-color@8.1.1)
+      debug: 4.4.3
       minimatch: 10.2.5
       semver: 7.8.5
       tinyglobby: 0.2.17
@@ -10251,6 +10347,11 @@ snapshots:
 
   cropperjs@1.6.2: {}
 
+  cropperjs@2.2.0:
+    dependencies:
+      '@cropper/elements': 2.2.0
+      '@cropper/utils': 2.2.0
+
   cross-spawn@7.0.6:
     dependencies:
       path-key: 3.1.1
@@ -10388,11 +10489,19 @@ snapshots:
     dependencies:
       ms: 2.0.0
 
+  debug@3.2.7:
+    dependencies:
+      ms: 2.1.3
+
   debug@3.2.7(supports-color@8.1.1):
     dependencies:
       ms: 2.1.3
     optionalDependencies:
       supports-color: 8.1.1
+
+  debug@4.4.3:
+    dependencies:
+      ms: 2.1.3
 
   debug@4.4.3(supports-color@8.1.1):
     dependencies:
@@ -10662,7 +10771,7 @@ snapshots:
 
   eslint-import-resolver-node@0.3.9:
     dependencies:
-      debug: 3.2.7(supports-color@8.1.1)
+      debug: 3.2.7
       is-core-module: 2.16.2
       resolve: 1.22.12
     transitivePeerDependencies:
@@ -10698,7 +10807,7 @@ snapshots:
 
   eslint-module-utils@2.12.0(eslint-import-resolver-node@0.3.9)(eslint@8.57.1):
     dependencies:
-      debug: 3.2.7(supports-color@8.1.1)
+      debug: 3.2.7
     optionalDependencies:
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
@@ -10767,7 +10876,7 @@ snapshots:
       array.prototype.findlastindex: 1.2.5
       array.prototype.flat: 1.3.3
       array.prototype.flatmap: 1.3.3
-      debug: 3.2.7(supports-color@8.1.1)
+      debug: 3.2.7
       doctrine: 2.1.0
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
@@ -10879,7 +10988,7 @@ snapshots:
       ajv: 6.15.0
       chalk: 4.1.2
       cross-spawn: 7.0.6
-      debug: 4.4.3(supports-color@8.1.1)
+      debug: 4.4.3
       doctrine: 3.0.0
       escape-string-regexp: 4.0.0
       eslint-scope: 7.2.2
@@ -11343,7 +11452,7 @@ snapshots:
   http-proxy-agent@7.0.2:
     dependencies:
       agent-base: 7.1.4
-      debug: 4.4.3(supports-color@8.1.1)
+      debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
     optional: true
@@ -11364,7 +11473,7 @@ snapshots:
   https-proxy-agent@7.0.6:
     dependencies:
       agent-base: 7.1.4
-      debug: 4.4.3(supports-color@8.1.1)
+      debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
     optional: true
