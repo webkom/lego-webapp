@@ -95,7 +95,7 @@ const ConsentStatus = ({
           <TextWithIcon
             iconNode={<CircleHelp />}
             content=""
-            tooltipContentIcon={
+            tooltipContent={
               <>
                 Du samtykke{hasEnded ? 't' : 'r'} til bilder på abakus.no og
                 sosiale medier for {readableEventSemester}.

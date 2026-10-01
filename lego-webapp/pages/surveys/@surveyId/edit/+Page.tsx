@@ -41,7 +41,7 @@ const EditSurveyPage = () => {
 
   const onSubmit = (surveyData: FormSubmitSurvey): Promise<void> =>
     dispatch(editSurvey({ surveyId, ...surveyData })).then(() =>
-      navigate('..', { relative: 'path' }),
+      navigate(`/surveys/${surveyId}`),
     );
 
   if (!survey) {
