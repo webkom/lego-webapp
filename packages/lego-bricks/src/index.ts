@@ -42,3 +42,4 @@ export {
   useNavigate,
 } from './RouterContext';
 export { ImageUpload, type DropFile } from './components/ImageUpload';
+export { Cropper, useCropper } from './components/Cropper';
