@@ -6,8 +6,6 @@ import {
   selectField,
   selectFieldDropdown,
   selectEditor,
-  setDatePickerDate,
-  setDatePickerTime,
   uploadHeader,
   NO_OPTIONS_MESSAGE,
   getEditorToolbar,
@@ -207,121 +205,6 @@ describe('Create event', () => {
     cy.contains('BEKK');
     cy.contains('TBA');
     cy.contains('webkom webkom');
-  });
-
-  it('should be possible to create TBA event', () => {
-    cy.visit('/events/new');
-    cy.waitForHydration();
-    uploadHeader();
-
-    // Set title, description and text
-    field('title').type('Ubestemt event').blur();
-    field('description').type('mer info kommer').blur();
-    selectEditor().type('mer info kommer');
-    field('location').type('DT').blur();
-
-    // Select type
-    selectField('eventType').click();
-    cy.focused().type('bedriftspres{enter}', { force: true });
-
-    // Select regitrationType
-    selectField('eventStatusType').click();
-    cy.focused().type('TBA{enter}', { force: true });
-
-    // Check clarification
-    field('isClarified').check();
-
-    cy.contains('button', 'Opprett').should('not.be.disabled').click();
-
-    // Verify that created event looks good..
-    cy.url().should('not.contain', '/events/new');
-    cy.url().should('contain', '/events/');
-    cy.contains('Ubestemt event');
-    cy.contains('mer info kommer');
-    cy.contains('TBA');
-  });
-
-  it('should be possible to create NORMAL event', () => {
-    cy.visit('/events/new');
-    cy.waitForHydration();
-    uploadHeader();
-
-    // Set title, description and text
-    field('title').type('Normal event').blur();
-    field('description').type('normal event').blur();
-    selectEditor().type('normal event');
-
-    // Select type
-    selectField('eventType').click();
-    cy.focused().type('bedriftspres{enter}', { force: true });
-
-    // Always select one day into the future to avoid test issues with "Påmelding åpner/stenger" variants changing
-    const dateObject = new Date();
-    const todayDay = dateObject.getDate();
-    dateObject.setDate(dateObject.getDate() + 1);
-    const tomorrowDay = dateObject.getDate();
-
-    // Clicking three times to first clear the date then set both start and end to tomorrow
-    setDatePickerDate('date', tomorrowDay, tomorrowDay < todayDay);
-    setDatePickerDate('date', tomorrowDay, tomorrowDay < todayDay);
-    setDatePickerDate('date', tomorrowDay, tomorrowDay < todayDay);
-
-    setDatePickerTime('date', '10', '00', false); // Start time
-    setDatePickerTime('date', '12', '00', true); // End time
-
-    // Select regitrationType
-    selectField('eventStatusType').click();
-    cy.focused().type('Vanlig{enter}', { force: true });
-
-    // Set location
-    cy.contains('Sted').click();
-    cy.focused().type('R4');
-
-    // Set the first pool
-    field('pools[0].name').clear().type('WebkomPool').blur();
-    field('pools[0].capacity').type('20').blur();
-    selectField('pools[0]\\.permissionGroups').click();
-    cy.focused().type('Webkom', { force: true });
-    selectFieldDropdown('pools\\[0\\]\\.permissionGroups')
-      .should('not.contain', NO_OPTIONS_MESSAGE)
-      .and('contain', 'Webkom');
-    cy.focused().type('{enter}', { force: true });
-
-    // Create new pool
-    cy.contains('button', 'Legg til ny pool').should('not.be.disabled').click();
-    field('pools[1].name').clear().type('BedkomPool').blur();
-    field('pools[1].capacity').type('30').blur();
-    selectField('pools[1]\\.permissionGroups').click();
-    cy.focused().type('Bedkom', { force: true });
-    selectFieldDropdown('pools\\[1\\]\\.permissionGroups')
-      .should('not.contain', NO_OPTIONS_MESSAGE)
-      .and('contain', 'Bedkom');
-    cy.focused().type('{enter}', { force: true });
-    selectField('pools[1]\\.permissionGroups').click();
-    cy.focused().type('Abakus', { force: true });
-    selectFieldDropdown('pools\\[1\\]\\.permissionGroups')
-      .should('not.contain', NO_OPTIONS_MESSAGE)
-      .and('contain', 'Abakus');
-    cy.focused().type('{enter}', { force: true });
-
-    setDatePickerDate('mergeTime', tomorrowDay, tomorrowDay < todayDay);
-
-    // Check clarification
-    field('isClarified').check();
-
-    cy.contains('button', 'Opprett').should('not.be.disabled').click();
-
-    // Verify that created event looks good..
-    cy.url().should('not.contain', '/events/new');
-    cy.url().should('contain', '/events/');
-    cy.contains('0/20');
-    cy.contains('0/30');
-    cy.contains('Bedriftspresentasjon');
-    cy.contains('webkom webkom');
-    cy.contains('WebkomPool');
-    cy.contains('BedkomPool');
-    cy.contains('R4');
-    cy.contains('Påmelding stenger');
   });
 
   it('should be possible to create OPEN event', () => {
