@@ -11,7 +11,7 @@ import useAttendanceCheckReveal from './useAttendanceCheckReveal';
 
 type Props = {
   fullName: string;
-  username: string;
+  qr: string | null;
   grade?: string;
   hidden: boolean;
 };
@@ -39,27 +39,28 @@ const AttendanceAnimation = () => {
   );
 };
 
-const AbaIdFront = ({ fullName, username, grade, hidden }: Props) => {
+const AbaIdFront = ({ fullName, qr, grade, hidden }: Props) => {
   const qrCode = useMemo(
-    () => (
-      <QRCode
-        value={username}
-        ecLevel="H"
-        size={236}
-        quietZone={8}
-        bgColor="#ffffff"
-        fgColor="#000000"
-        qrStyle="fluid"
-        eyeRadius={{ outer: 20, inner: 5 }}
-        logoImage={abakusBall}
-        logoWidth={50}
-        logoHeight={50}
-        logoPadding={3}
-        logoPaddingStyle="circle"
-        removeQrCodeBehindLogo
-      />
-    ),
-    [username],
+    () =>
+      qr && (
+        <QRCode
+          value={qr}
+          ecLevel="H"
+          size={236}
+          quietZone={8}
+          bgColor="#ffffff"
+          fgColor="#000000"
+          qrStyle="fluid"
+          eyeRadius={{ outer: 20, inner: 5 }}
+          logoImage={abakusBall}
+          logoWidth={50}
+          logoHeight={50}
+          logoPadding={3}
+          logoPaddingStyle="circle"
+          removeQrCodeBehindLogo
+        />
+      ),
+    [qr],
   );
 
   return (

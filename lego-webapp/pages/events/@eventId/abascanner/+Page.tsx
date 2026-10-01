@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import AbaScanner from '~/pages/events/@eventId/abascanner/_components/AbaScanner';
 import {
   fetchAdministrate,
+  markQrPresent,
   markUsernamePresent,
 } from '~/redux/actions/EventActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
@@ -50,12 +51,14 @@ const AbaScannerPage = () => {
 
   const markPresent = (username: string) =>
     dispatch(markUsernamePresent(eventId, username));
+  const markPresentByQr = (qr: string) => dispatch(markQrPresent(eventId, qr));
 
   return (
     <>
       <Helmet title="AbaScanner" />
       <AbaScanner
         markPresent={markPresent}
+        markPresentByQr={markPresentByQr}
         eventHref={`/events/${event?.slug ?? eventId}`}
         eventTitle={event?.title ?? ''}
         presentCount={presentCount}

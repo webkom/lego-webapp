@@ -5,6 +5,11 @@ import type { EntityId } from '@reduxjs/toolkit';
 import type { Thunk, Action } from 'app/types';
 import type { DetailedEvent } from '~/redux/models/Event';
 import type { Presence, ReadRegistration } from '~/redux/models/Registration';
+import type { PublicUser } from '~/redux/models/User';
+
+export type RegistrationSearchResult = Omit<ReadRegistration, 'user'> & {
+  user: PublicUser;
+};
 
 export const waitinglistPoolId = -1;
 
@@ -264,12 +269,23 @@ export function updateFeedback(
 }
 
 export function markUsernamePresent(eventId: EntityId, username: string) {
-  return callAPI<ReadRegistration>({
+  return callAPI<RegistrationSearchResult>({
     types: Event.UPDATE_REGISTRATION,
     endpoint: `/events/${eventId}/registration_search/`,
     method: 'POST',
     body: {
       username,
+    },
+  });
+}
+
+export function markQrPresent(eventId: EntityId, qr: string) {
+  return callAPI<RegistrationSearchResult>({
+    types: Event.UPDATE_REGISTRATION,
+    endpoint: `/events/${eventId}/registration_search/`,
+    method: 'POST',
+    body: {
+      qr,
     },
   });
 }
