@@ -1,3 +1,4 @@
+import trofe_casino_winner from 'assets/trophies/casino_26_winner_trophy.svg';
 import christmas_calendar_25 from 'assets/trophies/christmas-calendar-25.png';
 import easter_contender_25 from 'assets/trophies/easter-contender-trophy-25.png';
 import easter_contender_26 from 'assets/trophies/easter-contender-trophy-26.png';
@@ -405,7 +406,7 @@ export const AchievementsInfo: Record<
       description: 'Vunnet på veldedighetsfest 2026',
       rarity: 2,
       hidden: false,
-      image: trofe_sjeldenhetsgrad_3,
+      image: trofe_casino_winner,
     },
   ],
 };
