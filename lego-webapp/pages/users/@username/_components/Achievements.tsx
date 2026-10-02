@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import Collapsible from '~/components/Collapsible/Collapsible';
 import { TitleWithRarity } from '~/pages/achievements/+Page';
 import { getAchievementInfo } from '~/utils/achievementConstants';
+import { getTrophySkin } from '~/utils/trophyPattern';
 import styles from './UserProfile.module.css';
 import type { Achievement } from '~/redux/models/User';
 
@@ -48,6 +49,7 @@ export const Achievements = ({
           if (!achievementInfo) {
             return null;
           }
+          const skin = getTrophySkin(e);
 
           return (
             <Tooltip
@@ -64,6 +66,13 @@ export const Achievements = ({
                   </p>
                   <p>Oppnådd {moment(e.updatedAt).format('D. MMMM YYYY')}</p>
                   <p>{e.percentage.toFixed(1)}% har denne!</p>
+                  {skin && (
+                    <p>
+                      Mønster #{skin.pattern}
+                      <br />
+                      {skin.label} - {skin.hand}
+                    </p>
+                  )}
                   <TitleWithRarity rarity={achievementInfo.rarity} />
                 </div>
               }
@@ -75,7 +84,7 @@ export const Achievements = ({
                   className={styles.trophyCardImage}
                 >
                   <img
-                    src={achievementInfo.image ?? ''}
+                    src={skin?.image ?? achievementInfo.image ?? ''}
                     alt="Trofe"
                     height="7vh"
                     className={styles.trophyImage}
