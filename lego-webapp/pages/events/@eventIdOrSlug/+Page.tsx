@@ -150,7 +150,7 @@ const EventDetail = () => {
   return (
     <Page
       cover={
-        event?.eventType === EventType.INTEREST_EVENT ? undefined : (
+        event?.cover && (
           <YoutubeCover
             image={event?.cover || event?.company?.logo}
             imagePlaceholder={
