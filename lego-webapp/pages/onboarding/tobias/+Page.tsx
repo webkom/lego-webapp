@@ -1,4 +1,3 @@
-import { User, User2, User2Icon } from 'lucide-react';
 import styles from './style.module.css';
 
 const Content = () => {

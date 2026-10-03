@@ -165,6 +165,11 @@ const rolePriority: Record<RoleType, number> = {
   photo_admin: 3,
   graphic_admin: 3,
   social_media_admin: 3,
+  booking_admin: 3,
+  purchasing_manager: 3,
+  event_manager: 3,
+  snackoverflow_manager: 3,
+  operations_manager: 3,
 };
 
 const sortMemberships = (
