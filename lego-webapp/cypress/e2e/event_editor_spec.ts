@@ -75,7 +75,14 @@ describe('Editor', () => {
     );
 
     // Wait for image to appear
-    cy.get('.cropper-container').should('be.visible');
+    cy.get('cropper-image')
+      .shadow()
+      .find('img')
+      .its(0)
+      .should((img) => {
+        expect(img.naturalWidth).to.be.gt(0);
+        expect(img.complete).to.equal(true);
+      });
 
     cy.get(t('Modal__content'))
       .get('button')
