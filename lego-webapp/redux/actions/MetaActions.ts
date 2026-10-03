@@ -34,7 +34,9 @@ type MetaPayload = {
   isAllowed: AllowedPages;
 };
 
-export type FetchMetaSuccessAction = ResolvedPromiseAction<MetaPayload>;
+export type FetchMetaSuccessAction = ResolvedPromiseAction<MetaPayload> & {
+  type: typeof Meta.FETCH.SUCCESS;
+};
 
 export function fetchMeta() {
   return callAPI<MetaPayload>({

@@ -1,8 +1,8 @@
 import 'isomorphic-fetch';
 
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
-export class HttpError extends Error {
-  response: Response | undefined;
+export class HttpError<T = unknown> extends Error {
+  response: HttpResponse<T> | undefined;
 }
 export type HttpResponse<T> = {
   jsonData?: T | typeof undefined;

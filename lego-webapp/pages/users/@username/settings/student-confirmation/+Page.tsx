@@ -18,6 +18,7 @@ import { useAppDispatch } from '~/redux/hooks';
 import { useCurrentUser } from '~/redux/slices/auth';
 import styles from '../../../registration/RegistrationPage.module.css';
 import type { RejectedPromiseAction } from '~/redux/middlewares/promiseMiddleware';
+import type { HttpError } from '~/utils/fetchJSON';
 
 const NotEligibleInfo = () => (
   <div className={styles.notEligibleInfo}>
@@ -63,9 +64,13 @@ const StudentConfirmation = () => {
           .then((res) => {
             setAuthRes(res.payload);
           })
-          .catch((err: RejectedPromiseAction) => {
-            setAuthRes(err.payload.response.jsonData);
-          });
+          .catch(
+            (
+              err: RejectedPromiseAction<HttpError<ConfirmStudentAuthResponse>>,
+            ) => {
+              setAuthRes(err.payload.response?.jsonData);
+            },
+          );
         clearSearchParams();
       }
     };
@@ -165,9 +170,9 @@ const StudentConfirmation = () => {
       </Button>
 
       <Modal
-        show={showMemberModal}
+        isOpen={showMemberModal}
+        onOpenChange={setShowMemberModal}
         contentClassName={styles.membershipModalContent}
-        onHide={() => setShowMemberModal(false)}
       >
         <Card severity="success">
           <Card.Header>Din studentstatus ble godkjent!</Card.Header>

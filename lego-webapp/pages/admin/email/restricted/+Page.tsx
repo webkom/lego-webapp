@@ -11,8 +11,8 @@ import { selectRestrictedMails } from '~/redux/slices/restrictedMails';
 import type { ListRestrictedMail } from '~/redux/models/RestrictedMail';
 
 const RestrictedMails = () => {
-  const restrictedMails = useAppSelector<ListRestrictedMail[]>(
-    selectRestrictedMails,
+  const restrictedMails = useAppSelector(
+    selectRestrictedMails<ListRestrictedMail>,
   );
   const fetching = useAppSelector((state) => state.restrictedMails.fetching);
 

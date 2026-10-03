@@ -4,11 +4,12 @@ export type AsyncActionType = {
   FAILURE: `${string}.FAILURE`;
 };
 
-export const generateStatuses = (name: string): AsyncActionType => ({
-  BEGIN: `${name}.BEGIN`,
-  SUCCESS: `${name}.SUCCESS`,
-  FAILURE: `${name}.FAILURE`,
-});
+export const generateStatuses = <Name extends string>(name: Name) =>
+  ({
+    BEGIN: `${name}.BEGIN`,
+    SUCCESS: `${name}.SUCCESS`,
+    FAILURE: `${name}.FAILURE`,
+  }) as const satisfies AsyncActionType;
 
 export const Event = {
   FETCH: generateStatuses('Event.FETCH'),
@@ -356,4 +357,4 @@ export const Websockets = {
   ERROR: 'Websockets.ERROR',
   GROUP_JOIN: generateStatuses('Websockets.GROUP_JOIN'),
   GROUP_LEAVE: generateStatuses('Websockets.GROUP_LEAVE'),
-};
+} as const;
