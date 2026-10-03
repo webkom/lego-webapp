@@ -3,15 +3,15 @@ import { useLayoutEffect } from 'react';
 import { agendaEase } from '~/pages/events/interest/_components/useAgendaAnimations';
 import type { RefObject } from 'react';
 
-const useArticleListAnimation = (
-  gridRef: RefObject<HTMLDivElement | null>,
+const useListEntranceAnimation = (
+  containerRef: RefObject<HTMLElement | null>,
   itemsKey: string,
 ) => {
   useLayoutEffect(() => {
-    const grid = gridRef.current;
-    if (!grid) return;
+    const container = containerRef.current;
+    if (!container) return;
 
-    const unmarked = (Array.from(grid.children) as HTMLElement[]).filter(
+    const unmarked = (Array.from(container.children) as HTMLElement[]).filter(
       (el) => !el.dataset.animated,
     );
     unmarked.forEach((el) => {
@@ -47,7 +47,7 @@ const useArticleListAnimation = (
       tween.kill();
       gsap.set(unmarked, { clearProps: 'transform,opacity' });
     };
-  }, [gridRef, itemsKey]);
+  }, [containerRef, itemsKey]);
 };
 
-export default useArticleListAnimation;
+export default useListEntranceAnimation;
