@@ -1,4 +1,4 @@
-import { c, a, t, selectTab } from '~/cypress/support/utils';
+import { c, t } from '~/cypress/support/utils';
 
 describe('Navigate throughout app', () => {
   beforeEach(() => {
@@ -19,6 +19,7 @@ describe('Navigate throughout app', () => {
     cy.url().should('contain', path);
   };
 
+<<<<<<< HEAD
   it('should be able to navigate to events', () => {
     cy.visit('/');
     cy.waitForHydration();
@@ -133,6 +134,8 @@ describe('Navigate throughout app', () => {
     cy.contains('Dine møter');
   });
 
+=======
+>>>>>>> b770f0da1 (Migrate test to pw)
   it('should be able to access the extended menu', () => {
     cy.visit('/');
     cy.waitForHydration();
@@ -203,6 +206,7 @@ describe('Navigate throughout app', () => {
 
     // Lending is currently featureflagged and was removed from this test
   });
+<<<<<<< HEAD
 
   it('should be able to log out', () => {
     cy.visit('/');
@@ -221,4 +225,6 @@ describe('Navigate throughout app', () => {
     cy.contains('Velkommen til Abakus');
     cy.contains('Logg inn');
   });
+=======
+>>>>>>> b770f0da1 (Migrate test to pw)
 });

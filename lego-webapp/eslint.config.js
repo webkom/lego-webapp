@@ -14,6 +14,12 @@ export default tseslint.config(
   {
     ignores: [
       'dist/*',
+
+      // Playwright output
+      'playwright-report/**',
+      'blob-report/**',
+      'test-results/**',
+      'playwright/.auth/**',
       // Temporary compiled files
       '**/*.ts.build-*.mjs',
 
