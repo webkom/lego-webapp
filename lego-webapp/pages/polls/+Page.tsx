@@ -64,20 +64,19 @@ const PollsList = () => {
                 <Card isHoverable className={styles.pollListItem}>
                   <Flex justifyContent="space-between">
                     <Card.Header>{poll.title}</Card.Header>
-                    <div
-                      className={cx(styles.pollDate, styles.largeViewportOnly)}
-                    >
-                      <Time time={poll.createdAt} wordsAgo />
-                    </div>
                   </Flex>
-                  <div
-                    className={cx(styles.pollDate, styles.smallViewportOnly)}
-                  >
-                    <Time time={poll.createdAt} wordsAgo />
-                  </div>
 
                   <Flex wrap justifyContent="space-between" alignItems="center">
-                    <span>{`${poll.totalVotes} ${poll.totalVotes === 1 ? 'stemme' : 'stemmer'}`}</span>
+                    <Flex
+                      alignItems="baseline"
+                      gap={5}
+                      style={{ flexBasis: 'auto' }}
+                    >
+                      <span>{`${poll.totalVotes} ${poll.totalVotes === 1 ? 'stemme' : 'stemmer'}`}</span>
+                      <div className={cx(styles.pollDate)}>
+                        <Time time={poll.createdAt} wordsAgo />
+                      </div>
+                    </Flex>
                     {poll.hasAnswered ? (
                       <Tag
                         tag="Svart"

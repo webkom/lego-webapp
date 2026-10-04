@@ -5,7 +5,7 @@ import PageContainer from './PageContainer';
 import type { ReactNode } from 'react';
 
 type HeroPageProps = {
-  title?: ReactNode;
+  title: ReactNode;
   lead?: ReactNode;
   actions?: ReactNode;
   aside?: ReactNode;
@@ -34,7 +34,7 @@ const HeroPage = ({
         className={styles.hero}
       >
         <div className={styles.heroText}>
-          {title && <h1>{title}</h1>}
+          <h1>{title}</h1>
           {lead && <p className={styles.lead}>{lead}</p>}
           {actions && (
             <Flex
