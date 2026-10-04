@@ -140,7 +140,7 @@ export function triggerAchievementRecheck() {
     types: Achievement.RECHECK,
     meta: {
       errorMessage: 'Sjekking av trofeer feilet.',
-      successMessage: 'Sjekking af trofeer fullført.',
+      successMessage: 'Sjekking av trofeer fullført.',
     },
   });
 }
