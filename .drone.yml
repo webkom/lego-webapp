@@ -277,6 +277,7 @@ steps:
     environment:
      TZ: Europe/Oslo
      PLAYWRIGHT_BASE_URL: http://frontend:3000
+     PLAYWRIGHT_API_BASE_URL: http://api:8000
     commands:
       - ./wait-for-it.sh -t 180 frontend:3000
       - ./wait-for-it.sh -t 480 api:8000
