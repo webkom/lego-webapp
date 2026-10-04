@@ -266,6 +266,24 @@ steps:
       - corepack enable
       - pnpm --filter lego-webapp exec cypress run --component --config video=false,screenshotOnRunFailure=false
 
+  - name: playwright_tests
+    image: mcr.microsoft.com/playwright:v1.63.0-noble
+    shm_size: 512m
+    when: *checks
+    depends_on:
+      - setup
+      - frontend
+      - cypress_e2e
+    environment:
+     TZ: Europe/Oslo
+     PLAYWRIGHT_BASE_URL: http://frontend:3000
+    commands:
+      - ./wait-for-it.sh -t 180 frontend:3000
+      - ./wait-for-it.sh -t 480 api:8000
+      - npm i -g corepack
+      - corepack enable
+      - pnpm --filter lego-webapp exec playwright test
+
   - name: docker
     image: plugins/docker
     when:
@@ -339,6 +357,6 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: f9b6622417385f3896e3477419813e26ac2e09f9565a6554bee2b8db6645cf8e
+hmac: c43aee1451d2e1525fe234cf13928596b5df3d46ebfc51edebb09ab440aebb98
 
 ...
