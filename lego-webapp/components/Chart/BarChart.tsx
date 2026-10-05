@@ -30,7 +30,7 @@ const DistributionBarChart = ({
         right: 30,
       }}
     >
-      <XAxis dataKey=" " />
+      <XAxis tick={false} />
       <YAxis />
       <Bar
         dataKey={'count'}
