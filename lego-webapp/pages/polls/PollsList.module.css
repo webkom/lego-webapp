@@ -12,13 +12,17 @@
 }
 
 .pollListItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
   color: var(--lego-font-color);
 }
 
-.success {
-  color: var(--success-color);
-}
-
-.danger {
-  color: var(--danger-color);
+.pollDate {
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-sm);
+  flex-shrink: 0;
+  margin-left: 0;
+  margin-bottom: var(--spacing-xs);
 }

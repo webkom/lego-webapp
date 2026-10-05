@@ -27,7 +27,7 @@ describe('Polls', () => {
     cy.visit('/polls');
     cy.waitForHydration();
 
-    cy.contains('a', 'Lag ny').click();
+    cy.contains('a', 'Ny avstemning').click();
 
     cy.url().should('include', `/polls/new`);
 
