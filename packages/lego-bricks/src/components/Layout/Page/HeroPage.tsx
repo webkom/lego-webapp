@@ -91,7 +91,7 @@ const HeroPageSection = ({
           side: sidebar.side,
           icon: sidebar.icon,
           render: renderSidebar,
-        title: sidebar.title
+          title: sidebar.title,
         }
       }
     >
@@ -111,7 +111,12 @@ const HeroPageSection = ({
           >
             {title && <h2>{title}</h2>}
             {sidebar ? (
-              <Flex justifyContent="flex-end" wrap alignItems="center" gap="var(--spacing-sm)">
+              <Flex
+                justifyContent="flex-end"
+                wrap
+                alignItems="center"
+                gap="var(--spacing-sm)"
+              >
                 {headerActions}
                 <SidebarTrigger />
               </Flex>
