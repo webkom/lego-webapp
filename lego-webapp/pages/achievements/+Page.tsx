@@ -1,5 +1,6 @@
 import { Card, Flex, Icon, Tooltip } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { groupBy, maxBy } from 'lodash-es';
 import { Ghost } from 'lucide-react';
 import { useEffect } from 'react';
 import { navigate } from 'vike/client/router';
@@ -125,9 +126,7 @@ const AchievementGroup = ({
                     alt="Trofe"
                     className={cx(
                       styles.achievement,
-                      achievementGroup.isLeveled
-                        ? userLevel < achievement.level && styles.unachieved
-                        : userLevel !== achievement.level && styles.unachieved,
+                      !achievement.achieved && styles.unachieved,
                     )}
                   />
                 </Card>
@@ -202,11 +201,33 @@ const Overview = () => {
         ...achievement,
         level: index,
         identifier: identifier,
+        achieved: group.isLeveled
+          ? index <= achievedLevel
+          : index === achievedLevel,
       })),
     };
   });
 
-  const filteredAchievementsGrouped = groupedAchievements.filter((group) => {
+  const displayGroups = Object.values(
+    groupBy(groupedAchievements, (g) => g.collection?.name ?? g.identifier),
+  ).map((groups) => {
+    const { collection } = groups[0];
+    if (!collection) return groups[0];
+    const achievements = groups.flatMap((g) => g.achievements);
+    const best = maxBy(
+      achievements.filter((a) => a.achieved),
+      'rarity',
+    );
+    return {
+      ...groups[0],
+      ...collection,
+      isLeveled: false,
+      achievements,
+      userAchievedLevel: best ? achievements.indexOf(best) : -1,
+    };
+  });
+
+  const filteredAchievementsGrouped = displayGroups.filter((group) => {
     if (query.completed === 'all') return true;
     if (query.completed === 'true') return group.userAchievedLevel >= 0;
     if (query.completed === 'false') return group.userAchievedLevel < 0;
