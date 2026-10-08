@@ -105,6 +105,7 @@ export type CompanyEventStatistics = {
   eventCount: number;
   averageParticipants: number;
   averageWaitingList: number;
+  averageFill: number;
 };
 
 export function fetchEventStatistics(

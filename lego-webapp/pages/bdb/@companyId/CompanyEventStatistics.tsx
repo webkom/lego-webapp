@@ -1,5 +1,6 @@
 import { Card, Flex } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { round } from 'lodash-es';
 import { useMemo, useState } from 'react';
 import { SelectInput } from '~/components/Form';
 import { Tag } from '~/components/Tags';
@@ -19,9 +20,6 @@ const toSemesterOption = (semester: CompanySemester): SemesterOption => ({
   label: semesterToHumanReadable(semester.semester, semester.year),
   value: semester.id,
 });
-
-const formatNumber = (value: number) =>
-  value.toLocaleString('no-NO', { maximumFractionDigits: 1 });
 
 type Props = {
   companyId: EntityId;
@@ -60,14 +58,17 @@ const CompanyEventStatistics = ({ companyId }: Props) => {
     semesterOptions.find((option) => option.value === semesterId) ?? null;
 
   const metrics = [
-    { title: 'arrangementer', value: statistics?.eventCount },
     {
-      title: 'gjennomsnittlig antall deltakere',
+      title: 'deltakere',
       value: statistics?.averageParticipants,
     },
     {
-      title: 'gjennomsnittlig antall på venteliste',
+      title: 'på venteliste',
       value: statistics?.averageWaitingList,
+    },
+    {
+      title: 'fyllgrad',
+      value: round(statistics?.averageFill ?? 0, 4) * 100 + '%',
     },
   ];
 
@@ -105,12 +106,16 @@ const CompanyEventStatistics = ({ companyId }: Props) => {
           />
         </Flex>
       </Flex>
+      <Flex gap="var(--spacing-sm)" margin="0 0 var(--spacing-md) 0">
+        Gjennomsnitt av
+        <Tag color="gray" tag={statistics?.eventCount ?? 0} /> arrangementer:
+      </Flex>
       <Flex wrap gap="var(--spacing-md)">
         {metrics.map((metric) => (
           <Tag
             className={styles.statisticTag}
             key={metric.title}
-            tag={`${metric.value === undefined ? '-' : formatNumber(metric.value)} ${metric.title}`}
+            tag={`${metric.value === undefined ? '-' : metric.value} ${metric.title}`}
             color="gray"
           />
         ))}
