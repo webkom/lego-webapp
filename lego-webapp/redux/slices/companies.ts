@@ -7,7 +7,6 @@ import { addCommentCases } from '~/redux/slices/comments';
 import { selectAllJoblistings } from '~/redux/slices/joblistings';
 import { isNotNullish } from '~/utils';
 import { selectCompanySemesterEntities } from './companySemesters';
-import { selectAllEvents } from './events';
 import { selectUserEntities } from './users';
 import type { EntityId, AnyAction } from '@reduxjs/toolkit';
 import type { Semester } from 'app/models';
@@ -20,7 +19,6 @@ import type {
   UnknownCompany,
 } from '~/redux/models/Company';
 import type CompanySemester from '~/redux/models/CompanySemester';
-import type { ListEvent } from '~/redux/models/Event';
 import type { PublicUser, UnknownUser } from '~/redux/models/User';
 import type { RootState } from '~/redux/rootReducer';
 
@@ -203,17 +201,6 @@ export const transformSemesterStatuses = (
     };
   });
 
-export const selectEventsForCompany = createSelector(
-  selectAllEvents<ListEvent>,
-  (_: RootState, companyId: EntityId) => companyId,
-  (events, companyId) => {
-    if (!companyId || !events) return [];
-    return events.filter(
-      (event) =>
-        event.company && Number(event.company.id) === Number(companyId),
-    );
-  },
-);
 export const selectJoblistingsForCompany = createSelector(
   selectAllJoblistings,
   (_: RootState, companyId?: EntityId) => companyId,

@@ -38,13 +38,14 @@ import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
 import {
   selectCompanyById,
-  selectEventsForCompany,
   selectJoblistingsForCompany,
 } from '~/redux/slices/companies';
+import { selectAllEvents } from '~/redux/slices/events';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import { useParams } from '~/utils/useParams';
 import styles from './Company.module.css';
 import type { DetailedCompany } from '~/redux/models/Company';
+import type { ListEvent } from '~/redux/models/Event';
 
 const CompanyDetail = () => {
   const [viewOldEvents, setViewOldEvents] = useState(false);
@@ -73,7 +74,7 @@ const CompanyDetail = () => {
   const fetchingCompany = useAppSelector((state) => state.companies.fetching);
   const showSkeleton = fetchingCompany && isEmpty(company);
   const companyEvents = useAppSelector((state) =>
-    selectEventsForCompany(state, companyId),
+    selectAllEvents<ListEvent>(state, { pagination }),
   );
   const joblistings = useAppSelector((state) =>
     selectJoblistingsForCompany(state, companyId),
@@ -111,13 +112,10 @@ const CompanyDetail = () => {
       }),
     );
 
-  const sortedEvents = companyEvents.sort(
-    (a, b) => moment(b.startTime).unix() - moment(a.startTime).unix(),
-  );
-  const upcomingEvents = sortedEvents.filter((event) =>
+  const upcomingEvents = companyEvents.filter((event) =>
     moment().isBefore(moment(event.startTime)),
   );
-  const oldEvents = sortedEvents.filter((event) =>
+  const oldEvents = companyEvents.filter((event) =>
     moment().isAfter(moment(event.startTime)),
   );
 
