@@ -9,7 +9,7 @@ import { SideModal } from './utils/SideModal';
 import type { ReactNode } from 'react';
 
 type Props = {
-  title?: ReactNode;
+  title: ReactNode;
   close?: () => void;
   className?: string;
   children: ReactNode;
@@ -21,7 +21,7 @@ export const Sidebar = ({ title, close, className, children }: Props) => {
       {close && (
         <Icon iconNode={<X />} className={styles.close} onPress={close} />
       )}
-      {title && <h2>{title}</h2>}
+      <h2>{title}</h2>
       {children}
     </Flex>
   );
