@@ -1,4 +1,4 @@
-import { Card, Flex, Icon } from '@webkom/lego-bricks';
+import { Flex, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useMemo } from 'react';
@@ -163,11 +163,6 @@ const BdbPage = () => {
 
   return (
     <ContentMain>
-      <Card severity="info">
-        <Card.Header>Tips</Card.Header>
-        Du kan endre semesterstatuser ved å trykke på dem i listen!
-      </Card>
-
       <Flex width="fit-content">
         <Icon
           iconNode={<ChevronLeft />}
