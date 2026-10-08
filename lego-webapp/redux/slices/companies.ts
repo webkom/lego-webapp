@@ -17,7 +17,6 @@ import type {
   AdminListCompany,
   SemesterStatus,
   StudentCompanyContact,
-  UnknownCompany,
 } from '~/redux/models/Company';
 import type CompanySemester from '~/redux/models/CompanySemester';
 import type { ListEvent } from '~/redux/models/Event';
@@ -183,12 +182,6 @@ export const selectTransformedAdminCompanyById = createSelector(
         ) as TransformedAdminDetailCompany)
       : undefined,
 );
-
-export const selectActiveCompanies = createSelector(
-  selectAllCompanies,
-  (companies) =>
-    companies.filter((company) => 'active' in company && company.active),
-) as <T extends UnknownCompany>(state: RootState) => T[];
 
 export const transformSemesterStatuses = (
   companySemesterEntities: Record<EntityId, CompanySemester>,

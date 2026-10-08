@@ -16,13 +16,11 @@ import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import useQuery from '~/utils/useQuery';
 import SemesterStatus from '../SemesterStatus';
 import {
-  contactStatuses,
   getClosestCompanySemester,
   getCompanySemesterBySlug,
   getSemesterSlugById,
   getSemesterSlugOffset,
   getSemesterStatus,
-  getStatusDisplayName,
   semesterToHumanReadable,
 } from '../utils';
 import type { ColumnProps } from '~/components/Table';
@@ -30,12 +28,10 @@ import type CompanySemester from '~/redux/models/CompanySemester';
 import type { TransformedStudentCompanyContact } from '~/redux/slices/companies';
 
 const companiesDefaultQuery = {
-  active: '' as '' | 'true' | 'false',
   name: '',
   studentContacts: '',
   semester: '',
   search: '',
-  status: '',
 };
 
 const BdbPage = () => {
@@ -137,14 +133,6 @@ const BdbPage = () => {
           company={company}
         />
       ),
-      filter: contactStatuses.map((status) => ({
-        value: status,
-        label: getStatusDisplayName(status),
-      })),
-      inlineFiltering: false,
-      filterOptions: {
-        multiSelect: true,
-      },
     },
     {
       title: 'Studentkontakter',
@@ -170,18 +158,6 @@ const BdbPage = () => {
             ))}
           </Flex>
         ),
-    },
-    {
-      // Using an empty column for filtering
-      title: '',
-      dataIndex: 'active',
-      maxWidth: 50,
-      render: () => '',
-      filterIndex: 'active',
-      filter: [
-        { value: 'true', label: 'Aktiv' },
-        { value: 'false', label: 'Inaktiv' },
-      ],
     },
   ];
 
