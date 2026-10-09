@@ -7,6 +7,15 @@ import {
   Image,
 } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import {
+  BriefcaseBusiness,
+  Facebook,
+  Ghost,
+  House,
+  Instagram,
+  Mail,
+  Users,
+} from 'lucide-react';
 import moment from 'moment-timezone';
 import bannerDarkMode from '~/assets/om-abakus-banner-dark-mode.png';
 import bannerLightMode from '~/assets/om-abakus-banner.png';
@@ -75,7 +84,7 @@ const LandingPage: PageRenderer<null> = () => {
       </h2>
 
       <Flex className={styles.emailContainer}>
-        <Icon name="mail" size={40} className={styles.emailIcon} />
+        <Icon iconNode={<Mail />} size={40} className={styles.emailIcon} />
         <div>
           <h3>E-post</h3>
           {loggedIn && (
@@ -115,7 +124,7 @@ const LandingPage: PageRenderer<null> = () => {
       </Flex>
 
       <Flex className={styles.socialMediaContainer}>
-        <Icon name="people" size={40} className={styles.emailIcon} />
+        <Icon iconNode={<Users />} size={40} className={styles.emailIcon} />
         <div>
           <h3>Sosiale medier</h3>
           <p>
@@ -124,7 +133,7 @@ const LandingPage: PageRenderer<null> = () => {
           </p>
           <Flex wrap gap="var(--spacing-md)">
             <div className={styles.socialMediaType}>
-              <Icon name="logo-facebook" size={40} />
+              <Icon iconNode={<Facebook />} size={40} />
               <ButtonGroup vertical centered>
                 {socialMedia.facebook.map((page, index) => (
                   <LinkButton
@@ -147,7 +156,7 @@ const LandingPage: PageRenderer<null> = () => {
               </ButtonGroup>
             </div>
             <div className={styles.socialMediaType}>
-              <Icon name="logo-instagram" size={40} />
+              <Icon iconNode={<Instagram />} size={40} />
               <ButtonGroup vertical centered>
                 {socialMedia.instagram.map((page, index) => (
                   <LinkButton flat key={index} href={page.link}>
@@ -157,7 +166,7 @@ const LandingPage: PageRenderer<null> = () => {
               </ButtonGroup>
             </div>
             <div className={styles.socialMediaType}>
-              <Icon name="logo-snapchat" size={40} />
+              <Icon iconNode={<Ghost />} size={40} />
               <ButtonGroup vertical centered>
                 {socialMedia.snapchat.map((page, index) => (
                   <Button flat key={index}>
@@ -172,7 +181,7 @@ const LandingPage: PageRenderer<null> = () => {
 
       <Flex className={styles.locationContainer}>
         <div className={styles.houseIcon}>
-          <Icon name="home" size={40} />
+          <Icon iconNode={<House />} size={40} />
         </div>
         <Flex wrap>
           <div className={styles.locationContainerItem}>
@@ -201,7 +210,11 @@ const LandingPage: PageRenderer<null> = () => {
       </Flex>
 
       <Flex alignItems="center">
-        <Icon name="briefcase" size={40} className={styles.organizationIcon} />
+        <Icon
+          iconNode={<BriefcaseBusiness />}
+          size={40}
+          className={styles.organizationIcon}
+        />
         <div>
           <h3>Organisasjonsnummer</h3>
           <span>{info.organizationNo}</span>

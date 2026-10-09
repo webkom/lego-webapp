@@ -4,9 +4,11 @@ import {
   Page,
   PageCover,
   LinkButton,
+  Icon,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
+import { Menu, Pencil, Plus } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect, type ComponentType } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -163,6 +165,11 @@ const rolePriority: Record<RoleType, number> = {
   photo_admin: 3,
   graphic_admin: 3,
   social_media_admin: 3,
+  booking_admin: 3,
+  purchasing_manager: 3,
+  event_manager: 3,
+  snackoverflow_manager: 3,
+  operations_manager: 3,
 };
 
 const sortMemberships = (
@@ -532,7 +539,7 @@ const PageDetail = () => {
       sidebar={{
         title: 'Om Abakus',
         side: 'left',
-        icon: 'menu',
+        icon: <Menu />,
         content: (
           <PageHierarchy
             pageHierarchy={pageHierarchy}
@@ -542,10 +549,16 @@ const PageDetail = () => {
       }}
       actionButtons={[
         actionGrant.includes('edit') && pageInfo?.editUrl && (
-          <LinkButton href={pageInfo?.editUrl}>Rediger</LinkButton>
+          <LinkButton href={pageInfo?.editUrl}>
+            <Icon iconNode={<Pencil />} size={19} />
+            Rediger
+          </LinkButton>
         ),
         actionGrant.includes('create') && (
-          <LinkButton href="/pages/new">Lag ny</LinkButton>
+          <LinkButton href="/pages/new">
+            <Icon iconNode={<Plus />} size={19} />
+            Lag ny
+          </LinkButton>
         ),
       ]}
       skeleton={showSkeleton}

@@ -12,7 +12,7 @@ import {
   CardFooter,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { BriefcaseBusinessIcon, CalendarIcon } from 'lucide-react';
+import { BriefcaseBusinessIcon, CalendarIcon, Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -139,7 +139,7 @@ const CompaniesPage = () => {
             <FilterSection title="Søk">
               <TextInput
                 type="text"
-                prefix="search"
+                prefixIconNode={<Search />}
                 placeholder="Søk etter bedrifter ..."
                 value={query.search}
                 onChange={(e) => setQueryValue('search')(e.target.value)}

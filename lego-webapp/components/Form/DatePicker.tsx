@@ -1,9 +1,8 @@
-import { Flex, Icon } from '@webkom/lego-bricks';
+import { Flex, Icon, Dropdown } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Calendar } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Calendar } from 'lucide-react';
 import moment, { isMoment } from 'moment-timezone';
 import { useState, useMemo } from 'react';
-import Dropdown from '~/components/Dropdown';
 import createMonthlyCalendar from '~/utils/createMonthlyCalendar';
 import parseDateValue from '~/utils/parseDateValue';
 import styles from './DatePicker.module.css';
@@ -301,7 +300,7 @@ const DatePicker = ({
           alignItems="center"
           className={styles.header}
         >
-          <Icon onPress={onPrev} name="arrow-back-outline" />
+          <Icon onPress={onPrev} iconNode={<ArrowLeft />} />
           <span>
             {range
               ? `${startDate.format('MMMM YYYY')} - ${
@@ -311,7 +310,7 @@ const DatePicker = ({
                 }`
               : date.format('MMMM YYYY')}
           </span>
-          <Icon onPress={onNext} name="arrow-forward-outline" />
+          <Icon onPress={onNext} iconNode={<ArrowRight />} />
         </Flex>
 
         {range ? (

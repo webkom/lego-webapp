@@ -1,4 +1,4 @@
-@import url('styles/custom-media.css');
+@import '../../../custom-media.css';
 
 .page {
   gap: var(--spacing-xxl);
@@ -30,8 +30,6 @@
     margin: 0;
     font-size: 3.5rem;
     font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1.05;
 
     @media (--mobile-device) {
       font-size: 2.75rem;
@@ -47,11 +45,6 @@
   }
 }
 
-.spotlight {
-  flex: 1;
-  min-width: min(360px, 100%);
-}
-
 .lead {
   margin: var(--spacing-md) 0 0;
   max-width: 600px;
@@ -64,14 +57,41 @@
   margin-top: var(--spacing-lg);
 }
 
-.secondaryAction {
-  background-color: var(--lego-background-color);
-  border: 2px solid var(--color-red-6);
-  color: var(--color-red-6);
+.aside {
+  flex: 1;
+  min-width: min(360px, 100%);
+}
 
-  &[data-hovered] {
-    background-color: var(--color-gray-1);
-    border-color: var(--lego-red-color-hover);
-    color: var(--lego-red-color-hover);
+.section {
+  gap: var(--spacing-lg);
+  padding: 0 var(--spacing-md);
+  scroll-margin-top: var(--spacing-md);
+}
+
+.sectionHeader {
+  position: relative;
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.divider {
+  padding-bottom: var(--spacing-md);
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: var(--border-radius-lg);
+    right: var(--border-radius-lg);
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--border-gray) 48px,
+      var(--border-gray) calc(100% - 48px),
+      transparent
+    );
   }
 }

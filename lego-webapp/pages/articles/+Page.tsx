@@ -1,7 +1,18 @@
-import { Image, LinkButton, Page } from '@webkom/lego-bricks';
+import {
+  BaseCard,
+  CardFooter,
+  Flex,
+  Image,
+  HeroPage,
+  LinkButton,
+  Icon,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Plus } from 'lucide-react';
+import { useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Paginator from '~/components/Paginator';
+import Spotlight from '~/components/Spotlight';
 import Tags from '~/components/Tags';
 import Tag from '~/components/Tags/Tag';
 import Time from '~/components/Time';
@@ -13,11 +24,21 @@ import { selectArticles } from '~/redux/slices/articles';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import { selectPopularTags } from '~/redux/slices/tags';
 import { selectUsersByIds } from '~/redux/slices/users';
+import useListEntranceAnimation from '~/utils/useListEntranceAnimation';
 import useQuery from '~/utils/useQuery';
 import styles from './articles.module.css';
+import type { SpotlightItem } from '~/components/Spotlight';
 import type { PublicArticle } from '~/redux/models/Article';
 
-const HEADLINE_EVENTS = 2;
+const toArticleSpotlightItem = (article: PublicArticle): SpotlightItem => ({
+  id: article.id,
+  url: `/articles/${article.slug}`,
+  title: article.title,
+  cover: article.cover,
+  coverPlaceholder: article.coverPlaceholder,
+  time: article.createdAt,
+  timeFormat: 'DD. MMM YYYY',
+});
 
 export const ArticleListItem = ({ article }: { article: PublicArticle }) => {
   const authors = useAppSelector((state) =>
@@ -25,44 +46,45 @@ export const ArticleListItem = ({ article }: { article: PublicArticle }) => {
   );
 
   return (
-    <div className={styles.item}>
-      <a href={`/articles/${article.slug}`} className={styles.imageLink}>
+    <a href={`/articles/${article.slug}`} className={styles.cardLink}>
+      <BaseCard hoverable shadow className={styles.card}>
         <Image
+          className={styles.cover}
           src={article.cover}
-          alt="Forsidebilde"
+          alt={`Forsidebilde til ${article.title}`}
           placeholder={article.coverPlaceholder}
         />
-      </a>
-      <h2 className={styles.itemTitle}>
-        <a href={`/articles/${article.slug}`}>{article.title}</a>
-      </h2>
-
-      <span className={styles.itemInfo}>
-        {authors.map((author) => (
-          <span key={author.username}>
-            <a
-              href={`/users/${author.username}`}
-              className={styles.overviewAuthor}
-            >
-              {' '}
-              {author.fullName}
-            </a>{' '}
+        <Flex column gap="var(--spacing-sm)" className={styles.content}>
+          <h2 className={styles.title}>{article.title}</h2>
+          {article.description && (
+            <p className={styles.description}>{article.description}</p>
+          )}
+          {article.tags?.length > 0 && (
+            <Tags className={styles.tags}>
+              {article.tags.map((tag) => (
+                <Tag tag={tag} key={tag} />
+              ))}
+            </Tags>
+          )}
+        </Flex>
+        <CardFooter
+          variant="border"
+          className={styles.footer}
+          alignItems="center"
+          justifyContent="space-between"
+          gap="var(--spacing-sm)"
+        >
+          <span className={styles.authors}>
+            {authors.map((author) => author.fullName).join(', ')}
           </span>
-        ))}
-
-        <Time time={article.createdAt} format="DD.MM.YYYY HH:mm" />
-
-        {article.tags?.length > 0 && (
-          <Tags className={styles.tagline}>
-            {article.tags.map((tag) => (
-              <Tag tag={tag} key={tag} />
-            ))}
-          </Tags>
-        )}
-      </span>
-
-      <p className={styles.itemDescription}>{article.description}</p>
-    </div>
+          <Time
+            time={article.createdAt}
+            format="DD.MM.YYYY"
+            className={styles.date}
+          />
+        </CardFooter>
+      </BaseCard>
+    </a>
   );
 };
 
@@ -96,40 +118,68 @@ const ArticleList = () => {
     [query],
   );
 
-  const headlineEvents = articles.slice(0, HEADLINE_EVENTS);
-  const normalEvents = articles.slice(HEADLINE_EVENTS);
+  const [latest] = articles;
+  const gridRef = useRef<HTMLDivElement>(null);
+  useListEntranceAnimation(
+    gridRef,
+    articles.map((article) => article.id).join(),
+  );
+  const selectedTags = query.tag.split(',').filter(Boolean);
 
-  return (
-    <Page
-      title="Artikler"
-      actionButtons={
-        actionGrant.includes('create') && (
-          <LinkButton href="/articles/new">Ny artikkel</LinkButton>
-        )
-      }
-    >
-      <Helmet title="Artikler" />
+  const title = (
+    <Flex column gap="var(--spacing-md)">
+      <Flex gap="var(--spacing-sm)">
+        {selectedTags.length > 0
+          ? selectedTags.map((tag) => (
+              <span key={tag} className={styles.tagName}>
+                #{tag}
+              </span>
+            ))
+          : 'Alle artikler'}
+      </Flex>
       <Tags>
         {tags.map((tag) => {
-          const isSelected = query && query.tag === tag.tag;
+          const isSelected = selectedTags.includes(tag.tag);
+          const selectLink = [...selectedTags, tag.tag].join(',');
           return (
             <Tag
               tag={tag.tag}
               key={tag.tag}
               color="blue"
               active={isSelected}
-              link={isSelected ? '/articles/' : `/articles?tag=${tag.tag}`}
+              link={isSelected ? '/articles/' : `/articles?tag=${selectLink}`}
             />
           );
         })}
-        <Tag
-          tag="Vis alle tags ..."
-          key="viewmore"
-          link="/tags/"
-          color="gray"
-        />
+        <Tag tag="Vis alle tags..." link="/tags" color="gray" />
       </Tags>
-      <section className={styles.frontpage}>
+    </Flex>
+  );
+
+  return (
+    <HeroPage
+      title="Artikler"
+      lead="Nyheter, reportasjer og oppdateringer fra Abakus."
+      actions={
+        <>
+          {actionGrant.includes('create') && (
+            <LinkButton dark href="/articles/new">
+              <Icon iconNode={<Plus />} size={20} />
+              Ny artikkel
+            </LinkButton>
+          )}
+        </>
+      }
+      aside={
+        <Spotlight
+          items={latest ? [toArticleSpotlightItem(latest)] : []}
+          fetching={pagination.fetching && !latest}
+          heading="Siste artikkel"
+        />
+      }
+    >
+      <Helmet title="Artikler" />
+      <HeroPage.Section title={title}>
         <Paginator
           hasMore={pagination.hasMore}
           fetching={pagination.fetching}
@@ -142,21 +192,14 @@ const ArticleList = () => {
             );
           }}
         >
-          <div className={styles.overview}>
-            <div className={styles.headline}>
-              {headlineEvents.map((article) => (
-                <ArticleListItem key={article.id} article={article} />
-              ))}
-            </div>
-            <div className={styles.normal}>
-              {normalEvents.map((article) => (
-                <ArticleListItem key={article.id} article={article} />
-              ))}
-            </div>
+          <div ref={gridRef} className={styles.grid}>
+            {articles.map((article) => (
+              <ArticleListItem key={article.id} article={article} />
+            ))}
           </div>
         </Paginator>
-      </section>
-    </Page>
+      </HeroPage.Section>
+    </HeroPage>
   );
 };
 

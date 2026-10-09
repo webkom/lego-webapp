@@ -1,5 +1,6 @@
-import { Card, Flex, LinkButton } from '@webkom/lego-bricks';
+import { Card, Flex, LinkButton, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Plus } from 'lucide-react';
 import moment from 'moment';
 import { ContentMain } from '~/components/Content';
 import Table from '~/components/Table';
@@ -10,8 +11,8 @@ import { selectRestrictedMails } from '~/redux/slices/restrictedMails';
 import type { ListRestrictedMail } from '~/redux/models/RestrictedMail';
 
 const RestrictedMails = () => {
-  const restrictedMails = useAppSelector<ListRestrictedMail[]>(
-    selectRestrictedMails,
+  const restrictedMails = useAppSelector(
+    selectRestrictedMails<ListRestrictedMail>,
   );
   const fetching = useAppSelector((state) => state.restrictedMails.fetching);
 
@@ -85,6 +86,7 @@ const RestrictedMails = () => {
         <Flex alignItems="center" justifyContent="space-between">
           <h3>Dine begrensede e-poster</h3>
           <LinkButton href={'/admin/email/restricted/new'}>
+            <Icon iconNode={<Plus />} size={19} />
             Opprett en begrenset e-post
           </LinkButton>
         </Flex>

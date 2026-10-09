@@ -1,4 +1,10 @@
-import { ConfirmModal, Flex, LinkButton, Skeleton } from '@webkom/lego-bricks';
+import {
+  ConfirmModal,
+  Flex,
+  LinkButton,
+  Skeleton,
+  Icon,
+} from '@webkom/lego-bricks';
 import cx from 'classnames';
 import gsap from 'gsap';
 import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
@@ -270,6 +276,7 @@ const GroupsSection = () => {
           )}
           {actionGrant.includes('create') && (
             <LinkButton dark href="/interest-groups/new" size="small">
+              <Icon iconNode={<Plus />} size={16} />
               Lag ny interessegruppe
             </LinkButton>
           )}

@@ -1,6 +1,7 @@
-import { Card, Flex, LinkButton, Page } from '@webkom/lego-bricks';
+import { Card, Flex, LinkButton, Page, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
+import { Pencil, Plus } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import Banner from '~/components/Banner';
 import { ContentSection, ContentMain } from '~/components/Content';
@@ -28,7 +29,10 @@ const BannerOverview = () => {
     <Page
       title={'Bannere'}
       actionButtons={
-        <LinkButton href={`/admin/banners/new/`}>Lag ny</LinkButton>
+        <LinkButton href={`/admin/banners/new/`}>
+          <Icon iconNode={<Plus />} size={19} />
+          Lag ny
+        </LinkButton>
       }
       back={sudoAdminAccess ? { href: '/sudo' } : { href: '/' }}
     >
@@ -135,6 +139,7 @@ const BannerItem = ({ banner }: { banner: BannerType }) => {
           href={`/admin/banners/${banner.id}/edit/`}
           className={styles.editButton}
         >
+          <Icon iconNode={<Pencil />} size={19} />
           Rediger
         </LinkButton>
       </Flex>

@@ -1,6 +1,7 @@
 import { Icon, Skeleton } from '@webkom/lego-bricks';
 import { EditorContent } from '@webkom/lego-editor';
 import '@webkom/lego-editor/dist/style.css';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { type CSSProperties, useRef, useState } from 'react';
 import styles from './CollapsibleDisplayContent.module.css';
 
@@ -59,7 +60,7 @@ function CollapsibleDisplayContent({
             onPress={() => {
               setIsOpened(!isOpened);
             }}
-            name={isOpened ? 'chevron-up' : 'chevron-down'}
+            iconNode={isOpened ? <ChevronUp /> : <ChevronDown />}
             className={styles.showMoreIcon}
             size={30}
           />

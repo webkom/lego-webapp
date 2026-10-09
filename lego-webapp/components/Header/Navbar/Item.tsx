@@ -1,4 +1,7 @@
-import { Flex, Icon } from '@webkom/lego-bricks';
+import { Flex, Icon, Dropdown } from '@webkom/lego-bricks';
+import cx from 'classnames';
+import { ChevronRight } from 'lucide-react';
+import { Link } from '~/components/Link';
 import TextWithIcon from '~/components/TextWithIcon';
 import styles from './Item.module.css';
 import type { ReactNode } from 'react';
@@ -12,7 +15,7 @@ export type ItemProps = {
 
 export const Item = ({ icon, title, href, description }: ItemProps) => {
   return (
-    <a href={href} className={styles.item}>
+    <Link href={href} className={cx(Dropdown.itemClassName, styles.item)}>
       {icon ? (
         <TextWithIcon iconNode={icon} content={title} />
       ) : (
@@ -21,11 +24,11 @@ export const Item = ({ icon, title, href, description }: ItemProps) => {
           <Icon
             size={18}
             className={styles.titleIcon}
-            name="chevron-forward-outline"
+            iconNode={<ChevronRight />}
           />
         </Flex>
       )}
       {description && <p className={styles.description}>{description}</p>}
-    </a>
+    </Link>
   );
 };

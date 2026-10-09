@@ -16,7 +16,6 @@ export type TagColors =
 
 type Props = {
   tag: string | ReactNode;
-  icon?: string;
   iconNode?: ReactNode;
   iconSize?: number;
   color?: TagColors;
@@ -33,7 +32,6 @@ type Props = {
  */
 const Tag = ({
   tag,
-  icon,
   iconNode,
   iconSize,
   color = 'red',
@@ -66,7 +64,6 @@ const Tag = ({
         className={cx(styles.tag, styles[color], className)}
         style={{ color: textColor, backgroundColor: backgroundColor }}
       >
-        {icon && !iconNode && <Icon name={icon} size={iconSize ?? 16} />}
         {iconNode && <Icon iconNode={iconNode} size={iconSize ?? 16} />}
         {tag}
       </Flex>

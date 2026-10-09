@@ -1,3 +1,4 @@
+import trofe_casino_winner from 'assets/trophies/casino_26_winner_trophy.svg';
 import christmas_calendar_25 from 'assets/trophies/christmas-calendar-25.png';
 import easter_contender_25 from 'assets/trophies/easter-contender-trophy-25.png';
 import easter_contender_26 from 'assets/trophies/easter-contender-trophy-26.png';
@@ -46,6 +47,7 @@ export const AchievementIdentifier = {
   easter_2026: 'easter_2026',
   christmas_calendar: 'christmas_calendar',
   perfect_week: 'perfect_week',
+  charity_event_2026: 'charity_event_2026',
 } as const;
 
 export type AchievementIdentifier =
@@ -398,9 +400,33 @@ export const AchievementsInfo: Record<
       image: trofe_sjeldenhetsgrad_6,
     },
   ],
+  charity_event_2026: [
+    {
+      name: 'Casino Royale 2026',
+      description: 'Vunnet på veldedighetsfest 2026',
+      rarity: 2,
+      hidden: false,
+      image: trofe_casino_winner,
+    },
+  ],
 };
 
-export type DetailedAchievementData = AchievementData & { level?: number };
+export type DetailedAchievementData = AchievementData & {
+  level?: number;
+  achieved?: boolean;
+};
+
+export type AchievementCollection = { name: string; description: string };
+
+const EASTER_COLLECTION: AchievementCollection = {
+  name: 'Webkom Påskeeggjakten',
+  description: 'Premier fra Webkom påskeeggjakten',
+};
+
+const CASINO_COLLECTION: AchievementCollection = {
+  name: 'Veldedighetsfest',
+  description: 'Vunnet på veldedighetsfest',
+};
 
 export type AchievementGroupInfo = {
   identifier: AchievementIdentifier;
@@ -409,6 +435,7 @@ export type AchievementGroupInfo = {
   userAchievedLevel?: number;
   achievements: DetailedAchievementData[];
   isLeveled: boolean; // Does requirements(level2) => requirements(level1)
+  collection?: AchievementCollection;
 };
 
 // Name and description defined here function as default values
@@ -508,6 +535,7 @@ export const GroupedAchievementsInfo: AchievementGroupInfo[] = [
     description: "Premier fra Webkom's påskeeggjakt 2024",
     achievements: AchievementsInfo['easter_2024'],
     isLeveled: false,
+    collection: EASTER_COLLECTION,
   },
   {
     identifier: 'easter_2025',
@@ -515,6 +543,7 @@ export const GroupedAchievementsInfo: AchievementGroupInfo[] = [
     description: "Premier fra Webkom's påskeeggjakt 2025",
     achievements: AchievementsInfo['easter_2025'],
     isLeveled: false,
+    collection: EASTER_COLLECTION,
   },
   {
     identifier: 'easter_2026',
@@ -522,6 +551,7 @@ export const GroupedAchievementsInfo: AchievementGroupInfo[] = [
     description: "Premier fra Webkom's påskeeggjakt 2026",
     achievements: AchievementsInfo['easter_2026'],
     isLeveled: false,
+    collection: EASTER_COLLECTION,
   },
   {
     identifier: 'christmas_calendar',
@@ -536,6 +566,14 @@ export const GroupedAchievementsInfo: AchievementGroupInfo[] = [
     description: 'Deltatt på alle arrangementer i minst én uke',
     achievements: AchievementsInfo['perfect_week'],
     isLeveled: true,
+  },
+  {
+    identifier: 'charity_event_2026',
+    name: 'Casino Royale 2026',
+    description: 'Vunnet på veldedighetsfest 2026',
+    achievements: AchievementsInfo['charity_event_2026'],
+    isLeveled: false,
+    collection: CASINO_COLLECTION,
   },
 ];
 

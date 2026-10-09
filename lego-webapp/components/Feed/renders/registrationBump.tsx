@@ -1,4 +1,5 @@
 import { Icon } from '@webkom/lego-bricks';
+import { CalendarArrowUp } from 'lucide-react';
 import AggregatedFeedActivity, {
   FeedActivityVerb,
 } from '~/redux/models/FeedActivity';
@@ -35,7 +36,7 @@ const RegistrationBumpRenderer: ActivityRenderer<FeedActivityVerb.RegistrationBu
       );
     },
     Content: () => null,
-    Icon: () => <Icon name="calendar" />,
+    Icon: () => <Icon iconNode={<CalendarArrowUp />} />,
     getNotificationUrl: (aggregatedActivity) => {
       const events = getEvents(aggregatedActivity);
 

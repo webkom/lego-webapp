@@ -22,6 +22,7 @@ interface Registration {
   pool: EntityId;
   event: EntityId;
   presence: Presence;
+  presenceDate: Dateish | null;
   feedback: string;
   sharedMemberships: unknown;
   status: EventRegistrationStatus;
@@ -90,6 +91,7 @@ export type DetailedRegistration = Pick<
   | 'pool'
   | 'event'
   | 'presence'
+  | 'presenceDate'
   | 'feedback'
   | 'status'
   | 'registrationDate'

@@ -1,13 +1,12 @@
-import type { IonIcon } from './components/Icon/IonIcons';
+import type LegoCropperElements from './components/Cropper/Cropper';
 import type { DOMAttributes, ReactNode } from 'react';
 
 type CustomElement<T> = Partial<T & DOMAttributes<T> & { children: ReactNode }>;
 
 declare module 'react' {
   namespace JSX {
-    interface IntrinsicElements {
-      ['ion-icon']: CustomElement<IonIcon>;
-    }
+    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+    interface IntrinsicElements extends LegoCropperElements {}
   }
 }
 

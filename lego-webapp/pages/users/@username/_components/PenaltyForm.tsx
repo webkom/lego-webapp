@@ -1,4 +1,5 @@
 import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import { Check, Plus } from 'lucide-react';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
 import {
@@ -15,12 +16,12 @@ import { createValidator, isInteger, required } from '~/utils/validation';
 import styles from './Penalties.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { FormApi } from 'final-form';
-import type { searchMapping } from '~/redux/slices/search';
+import type { SearchResult } from '~/redux/slices/search';
 
 type FormValues = {
   reason: string;
   weight: string | number;
-  sourceEvent: (typeof searchMapping)['events.event'];
+  sourceEvent?: SearchResult;
 };
 
 const TypedLegoForm = LegoFinalForm<FormValues>;
@@ -48,6 +49,7 @@ const PenaltyForm = ({ userId }: Props) => {
       addPenalty({
         ...values,
         user: userId,
+        weight: Number(values.weight),
         sourceEvent: values.sourceEvent?.value,
       }),
     ).then(() => {
@@ -79,7 +81,14 @@ const PenaltyForm = ({ userId }: Props) => {
       <div>
         {!sent ? (
           <Button onPress={handleHide}>
-            {!showForm ? 'Gi ny prikk' : 'Avbryt'}
+            {!showForm ? (
+              <>
+                <Icon iconNode={<Plus />} size={19} />
+                Gi ny prikk
+              </>
+            ) : (
+              'Avbryt'
+            )}
           </Button>
         ) : (
           <Flex
@@ -87,7 +96,7 @@ const PenaltyForm = ({ userId }: Props) => {
             gap="var(--spacing-sm)"
             className={styles.successMessage}
           >
-            <Icon name="checkmark-outline" className={styles.success} />
+            <Icon iconNode={<Check />} className={styles.success} />
             <span>Prikken er registrert!</span>
           </Flex>
         )}

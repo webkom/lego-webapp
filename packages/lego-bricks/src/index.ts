@@ -15,6 +15,7 @@ export { Tooltip } from './components/Tooltip';
 export {
   Page,
   PageContainer,
+  HeroPage,
   PageCover,
   Sidebar,
   Flex,
@@ -22,6 +23,7 @@ export {
   FilterSection,
 } from './components/Layout';
 export { Card } from './components/Card';
+export { Dropdown } from './components/Dropdown';
 export { BaseCard, CardContent, CardFooter } from './components/Card/BaseCard';
 export { Icon, BadgeIcon } from './components/Icon';
 export { Image } from './components/Image';
@@ -40,3 +42,4 @@ export {
   useNavigate,
 } from './RouterContext';
 export { ImageUpload, type DropFile } from './components/ImageUpload';
+export { Cropper, useCropper } from './components/Cropper';

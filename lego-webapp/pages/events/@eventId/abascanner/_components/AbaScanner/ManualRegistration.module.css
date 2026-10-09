@@ -1,0 +1,37 @@
+.content {
+  height: min(70dvh, 640px);
+}
+
+.list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.row {
+  min-height: 60px;
+  border-bottom: 1px solid var(--border-gray);
+}
+
+.person {
+  flex: 1;
+  min-width: 0;
+}
+
+.name {
+  overflow: hidden;
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  font-size: var(--font-size-sm);
+  color: var(--secondary-font-color);
+}
+
+.present {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--success-color);
+}

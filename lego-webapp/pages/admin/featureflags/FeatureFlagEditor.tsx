@@ -5,8 +5,10 @@ import {
   Flex,
   LoadingPage,
   Page,
+  Icon,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Trash2 } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { navigate } from 'vike/client/router';
@@ -168,6 +170,7 @@ const FeatureFlagEditor = () => {
                 >
                   {({ openConfirmModal }) => (
                     <Button onPress={openConfirmModal} danger>
+                      <Icon iconNode={<Trash2 />} size={19} />
                       Slett
                     </Button>
                   )}

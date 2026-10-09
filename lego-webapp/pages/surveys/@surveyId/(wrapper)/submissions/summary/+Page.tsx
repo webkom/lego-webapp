@@ -1,4 +1,5 @@
 import { Flex, Icon, Skeleton, Tooltip } from '@webkom/lego-bricks';
+import { Eye, EyeOff } from 'lucide-react';
 import { ReactNode, useContext } from 'react';
 import EmptyState from '~/components/EmptyState';
 import { SurveysRouteContext } from '~/pages/surveys/@surveyId/(wrapper)/SurveysRouteContext';
@@ -58,9 +59,7 @@ const SubmissionsSummary = () => {
                         : hideAnswer(survey.id, submission.id, answer.id),
                     )
                   }
-                  name={
-                    answer.hideFromPublic ? 'eye-outline' : 'eye-off-outline'
-                  }
+                  iconNode={answer.hideFromPublic ? <Eye /> : <EyeOff />}
                 />
               </Tooltip>
             </Flex>

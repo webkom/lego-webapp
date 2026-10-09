@@ -1,6 +1,7 @@
 import TreeView from 'react-treeview';
 import { generateTreeStructure } from '~/utils';
 import './GroupTree.css';
+import type { PublicGroup } from '~/redux/models/Group';
 
 // Returns the URL that a group in the tree should point to.
 // Re-uses the selected tab if there is one.
@@ -52,7 +53,7 @@ function generateTreeView(groups, pathname) {
 }
 
 type Props = {
-  groups: Array<Record<string, any>>;
+  groups: Pick<PublicGroup, 'id' | 'name' | 'parent'>[];
   pathname: string;
 };
 

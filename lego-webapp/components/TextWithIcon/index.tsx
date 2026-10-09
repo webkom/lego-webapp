@@ -4,8 +4,7 @@ import styles from './TextWithIcon.module.css';
 import type { ReactElement, ReactNode } from 'react';
 
 export type TextWithIconProps = {
-  iconName?: string;
-  iconNode?: ReactNode;
+  iconNode: ReactNode;
   className?: string;
   content: ReactNode;
   tooltipContent?: ReactElement<any>;
@@ -15,7 +14,6 @@ export type TextWithIconProps = {
 };
 
 const TextWithIcon = ({
-  iconName,
   iconNode,
   className,
   content,
@@ -26,7 +24,6 @@ const TextWithIcon = ({
 }: TextWithIconProps) => {
   const icon = (
     <Icon
-      name={iconName}
       iconNode={iconNode}
       className={styles.infoIcon}
       size={size ? size : undefined}

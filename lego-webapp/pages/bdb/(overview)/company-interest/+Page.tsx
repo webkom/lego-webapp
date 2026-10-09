@@ -7,7 +7,7 @@ import {
   Tooltip,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { FileDown, Trash2 } from 'lucide-react';
+import { FileDown, Pencil, Trash2 } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { ContentMain } from '~/components/Content';
 import SelectInput from '~/components/Form/SelectInput';
@@ -260,6 +260,7 @@ const CompanyInterestList = () => {
           />
         </Flex>
         <LinkButton href="/bdb/company-interest/semesters">
+          <Icon iconNode={<Pencil />} size={19} />
           Endre aktive semestre
         </LinkButton>
       </Flex>

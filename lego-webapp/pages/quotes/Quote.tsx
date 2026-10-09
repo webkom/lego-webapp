@@ -1,7 +1,7 @@
-import { Card, Flex } from '@webkom/lego-bricks';
+import { Card, Flex, Dropdown } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { Ellipsis } from 'lucide-react';
 import { useState } from 'react';
-import Dropdown from '~/components/Dropdown';
 import Reactions from '~/components/Reactions';
 import Reaction from '~/components/Reactions/Reaction';
 import Time from '~/components/Time';
@@ -92,7 +92,7 @@ const Quote = ({
               show={displayAdmin}
               toggle={toggleDisplayAdmin}
               closeOnContentClick
-              iconName="ellipsis-horizontal"
+              iconNode={<Ellipsis />}
             >
               <Dropdown.List>
                 {currentUser?.username !== quote.createdBy?.username && (

@@ -1,4 +1,5 @@
 import { Icon } from '@webkom/lego-bricks';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useMemo } from 'react';
 import { Keyboard } from '~/utils/constants';
 import parseDateValue from '~/utils/parseDateValue';
@@ -34,11 +35,11 @@ const TimePickerInput = ({
   return (
     <div className={styles.timePickerInput} data-test-id="time-picker-input">
       <button type="button" onClick={onNext} className={styles.arrowUp}>
-        <Icon justifyContent="center" name="chevron-up-outline" />
+        <Icon justifyContent="center" iconNode={<ChevronUp />} />
       </button>
       <TextInput onKeyDown={handleKeyDown} centered {...props} />
       <button type="button" onClick={onPrev} className={styles.arrowDown}>
-        <Icon justifyContent="center" name="chevron-down-outline" />
+        <Icon justifyContent="center" iconNode={<ChevronDown />} />
       </button>
     </div>
   );

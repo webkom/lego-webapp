@@ -7,7 +7,7 @@ import type { ReactNode } from 'react';
 export type SidebarOptions = {
   title?: string;
   side: 'left' | 'right';
-  icon: string;
+  icon: ReactNode;
   content: ReactNode;
 };
 

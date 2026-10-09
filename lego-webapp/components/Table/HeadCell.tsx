@@ -1,4 +1,4 @@
-import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import { Button, Flex, Icon, Dropdown } from '@webkom/lego-bricks';
 import {
   ChevronDown,
   ChevronUp,
@@ -8,7 +8,6 @@ import {
   SlidersHorizontal,
 } from 'lucide-react';
 import { useEffect, useRef } from 'react';
-import Dropdown from '~/components/Dropdown';
 import { TextInput, RadioButton, CheckBox } from '~/components/Form';
 import styles from './Table.module.css';
 import type { ColumnProps, Filters, IsShown, ShowColumn, Sort } from './index';
@@ -152,7 +151,7 @@ const HeadCell = <T extends { id: EntityId }>({
               inputRef={searchInputRef}
               removeBorder
               placeholder={filterMessage}
-              value={filters[filterIndex]}
+              value={filters[filterIndex]?.[0]}
               onChange={(e) => toggleFilter(filterIndex, e.target.value)}
               onKeyDown={({ keyCode }) => {
                 if (keyCode === 13) {

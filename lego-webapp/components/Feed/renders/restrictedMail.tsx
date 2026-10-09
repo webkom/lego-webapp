@@ -1,4 +1,5 @@
 import { Icon } from '@webkom/lego-bricks';
+import { AtSign } from 'lucide-react';
 import { FeedActivityVerb } from '~/redux/models/FeedActivity';
 import type ActivityRenderer from '~/components/Feed/ActivityRenderer';
 
@@ -11,7 +12,7 @@ const RestrictedMailSentRenderer: ActivityRenderer<FeedActivityVerb.RestrictedMa
   {
     Header: () => <b>Begrenset e-post sendt ut til alle mottakere</b>,
     Content: () => null,
-    Icon: () => <Icon name="at" />,
+    Icon: () => <Icon iconNode={<AtSign />} />,
     getNotificationUrl: (aggregatedActivity) => {
       const latestActivity = aggregatedActivity.lastActivity;
       const mail = aggregatedActivity.context[latestActivity.object];

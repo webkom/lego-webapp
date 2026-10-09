@@ -1,4 +1,5 @@
 import { Icon } from '@webkom/lego-bricks';
+import { Users } from 'lucide-react';
 import { GroupType } from 'app/models';
 import DisplayContent from '~/components/DisplayContent';
 import { FeedActivityVerb } from '~/redux/models/FeedActivity';
@@ -46,7 +47,7 @@ const GroupJoinRenderer: ActivityRenderer<FeedActivityVerb.GroupJoin> = {
       </div>
     );
   },
-  Icon: () => <Icon name="people-outline" />,
+  Icon: () => <Icon iconNode={<Users />} />,
   getNotificationUrl: (aggregatedActivity) => {
     const latestActivity = aggregatedActivity.lastActivity;
     const group = aggregatedActivity.context[latestActivity.target];

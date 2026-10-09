@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import { AlarmClock, Clock, MapPin } from 'lucide-react';
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
 import Pill from '~/components/Pill';
@@ -60,7 +61,7 @@ const CalendarEvent = ({ event }: { event: ListEvent }) => {
       </h3>
       <p className={styles.popoverEventDescription}>{description}</p>
       <TextWithIcon
-        iconName="time-outline"
+        iconNode={<Clock />}
         content={
           <strong>
             {moment.duration(endTime.diff(startTime)) <
@@ -77,13 +78,13 @@ const CalendarEvent = ({ event }: { event: ListEvent }) => {
         className={styles.textWithIcon}
       />
       <TextWithIcon
-        iconName="location-outline"
+        iconNode={<MapPin />}
         content={<strong>{event.location}</strong>}
         className={styles.textWithIcon}
       />
       {event.activationTime && (
         <TextWithIcon
-          iconName="alarm-outline"
+          iconNode={<AlarmClock />}
           content={
             <strong>
               Påmelding <Time time={event.activationTime} format="ll HH:mm" />

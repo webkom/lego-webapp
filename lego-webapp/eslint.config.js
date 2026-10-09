@@ -30,10 +30,7 @@ export default tseslint.config(
   eslintPluginImportX.flatConfigs.typescript,
   react.configs.flat.recommended,
   react.configs.flat['jsx-runtime'],
-  {
-    ...reactHooks.configs.recommended,
-    plugins: { 'react-hooks': reactHooks },
-  },
+  reactHooks.configs['recommended-latest'],
   {
     languageOptions: {
       parserOptions: {

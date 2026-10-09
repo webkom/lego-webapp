@@ -4,11 +4,12 @@ export type AsyncActionType = {
   FAILURE: `${string}.FAILURE`;
 };
 
-export const generateStatuses = (name: string): AsyncActionType => ({
-  BEGIN: `${name}.BEGIN`,
-  SUCCESS: `${name}.SUCCESS`,
-  FAILURE: `${name}.FAILURE`,
-});
+export const generateStatuses = <Name extends string>(name: Name) =>
+  ({
+    BEGIN: `${name}.BEGIN`,
+    SUCCESS: `${name}.SUCCESS`,
+    FAILURE: `${name}.FAILURE`,
+  }) as const satisfies AsyncActionType;
 
 export const Event = {
   FETCH: generateStatuses('Event.FETCH'),
@@ -28,6 +29,7 @@ export const Event = {
   SOCKET_UNREGISTRATION: generateStatuses('Event.SOCKET_UNREGISTRATION'),
   SOCKET_PAYMENT: generateStatuses('Event.SOCKET_PAYMENT'),
   SOCKET_INITIATE_PAYMENT: generateStatuses('Event.SOCKET_INITIATE_PAYMENT'),
+  SOCKET_PRESENCE: generateStatuses('Event.SOCKET_PRESENCE'),
   SOCKET_EVENT_UPDATED: 'SOCKET_EVENT_UPDATED',
   FOLLOW: generateStatuses('Event.FOLLOW'),
   UNFOLLOW: generateStatuses('Event.UNFOLLOW'),
@@ -200,6 +202,7 @@ export const NotificationsFeed = {
 export const User = {
   FETCH: generateStatuses('User.FETCH'),
   FETCH_LEADERBOARD: generateStatuses('User.FETCH_LEADERBOARD'),
+  FETCH_ABAID_QR: generateStatuses('User.FETCH_ABAID_QR'),
   UPDATE: generateStatuses('User.UPDATE'),
   PASSWORD_CHANGE: generateStatuses('User.PASSWORD_CHANGE'),
   LOGIN: generateStatuses('User.LOGIN'),
@@ -354,4 +357,4 @@ export const Websockets = {
   ERROR: 'Websockets.ERROR',
   GROUP_JOIN: generateStatuses('Websockets.GROUP_JOIN'),
   GROUP_LEAVE: generateStatuses('Websockets.GROUP_LEAVE'),
-};
+} as const;

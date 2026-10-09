@@ -1,3 +1,5 @@
+import type { PieLabelRenderProps } from 'recharts';
+
 export interface DistributionDataPoint {
   name: string;
   count: number;
@@ -15,26 +17,16 @@ export const CHART_COLORS = [
   'var(--color-purple-7)',
 ];
 
-type GraphProps = {
-  cx: number;
-  cy: number;
-  midAngle: number;
-  innerRadius: number;
-  outerRadius: number;
-  percent: number;
-  index: number;
-};
-
 const RADIAN = Math.PI / 180;
 
 export const renderCustomizedLabel = ({
   cx,
   cy,
-  midAngle,
+  midAngle = 0,
   innerRadius,
   outerRadius,
-  percent,
-}: GraphProps) => {
+  percent = 0,
+}: PieLabelRenderProps) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);

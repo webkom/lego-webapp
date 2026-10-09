@@ -6,12 +6,13 @@ import {
   LinkButton,
 } from '@webkom/lego-bricks';
 import {
+  Contact,
   Copy,
-  UserCog,
   FilePieChart,
   Pencil,
   Trash2,
-  Contact,
+  TriangleAlert,
+  UserCog,
 } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState } from 'react';
@@ -51,7 +52,7 @@ const DeleteButton = ({ eventId, title }: ButtonProps) => {
           <TextInput
             id="delete-event"
             type="text"
-            prefix="warning"
+            prefixIconNode={<TriangleAlert />}
             placeholder="Arrangementnavn"
             onChange={(e) => setEventName(e.target.value)}
           />
@@ -106,10 +107,7 @@ const Admin = ({ actionGrant, event }: Props) => {
 
         <ButtonGroup vertical>
           {showRegisterButton && (
-            <LinkButton
-              success
-              href={`/events/${event.id}/administrate/abacard`}
-            >
+            <LinkButton success href={`/events/${event.id}/abascanner`}>
               <Icon iconNode={<Contact />} size={19} />
               Registrer oppmøte
             </LinkButton>

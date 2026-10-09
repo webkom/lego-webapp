@@ -5,10 +5,11 @@ import {
   FilterSection,
   LinkButton,
   Button,
+  Icon,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash-es';
-import { FolderOpen } from 'lucide-react';
+import { FolderOpen, Plus } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import EmptyState from '~/components/EmptyState';
 import { CheckBox } from '~/components/Form';
@@ -84,7 +85,10 @@ const LendingAdmin = () => {
       actionButtons={
         <>
           {actionGrant.includes('create') && (
-            <LinkButton href="/lending/new">Nytt utlånsobjekt</LinkButton>
+            <LinkButton href="/lending/new">
+              <Icon iconNode={<Plus />} size={19} />
+              Nytt utlånsobjekt
+            </LinkButton>
           )}
         </>
       }

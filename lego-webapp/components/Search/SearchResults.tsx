@@ -1,8 +1,20 @@
 import { Flex, Icon, Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import {
+  BookImage,
+  BookOpenText,
+  BriefcaseBusiness,
+  CalendarRange,
+  CircleHelp,
+  Info,
+  LoaderCircle,
+  Tags,
+  Users,
+} from 'lucide-react';
 import Time from '~/components/Time';
 import { ProfilePicture } from '../Image';
 import styles from './Search.module.css';
+import type { ReactNode } from 'react';
 import type { SearchResult } from '~/redux/slices/search';
 
 type SearchResultItemProps = {
@@ -18,6 +30,19 @@ type SearchResultProps = {
   selectedIndex: number;
   query: string;
 };
+
+const searchResultIcons: Record<string, ReactNode> = {
+  book: <BookOpenText />,
+  calendar: <CalendarRange />,
+  'information-circle': <Info />,
+  image: <BookImage />,
+  briefcase: <BriefcaseBusiness />,
+  pricetags: <Tags />,
+  people: <Users />,
+};
+
+export const getSearchResultIcon = (icon?: string) =>
+  (icon && searchResultIcons[icon]) || <CircleHelp />;
 
 const ResultIcon = ({ result }) => {
   switch (result.iconType) {
@@ -41,14 +66,18 @@ const ResultIcon = ({ result }) => {
         );
       } else {
         return (
-          <Icon name="help" size={28} className={styles.searchResultItemIcon} />
+          <Icon
+            iconNode={<CircleHelp />}
+            size={28}
+            className={styles.searchResultItemIcon}
+          />
         );
       }
     default:
     case 'icon':
       return (
         <Icon
-          name={result.icon ?? 'help'}
+          iconNode={getSearchResultIcon(result.icon)}
           size={28}
           className={styles.searchResultItemIcon}
         />
@@ -91,7 +120,8 @@ const SearchResults = ({
     return (
       <div className={styles.results}>
         <p className={styles.searchingText}>
-          <i className="fa fa-spinner fa-spin" /> Søker ...
+          <Icon iconNode={<LoaderCircle />} size={18} className={styles.spin} />
+          Søker ...
         </p>
       </div>
     );

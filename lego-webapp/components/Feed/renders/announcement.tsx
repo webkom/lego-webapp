@@ -1,4 +1,5 @@
 import { Icon } from '@webkom/lego-bricks';
+import { Megaphone } from 'lucide-react';
 import { FeedActivityVerb } from '~/redux/models/FeedActivity';
 import { contextRender } from '../context';
 import styles from '../context.module.css';
@@ -28,7 +29,7 @@ const AnnouncementRenderer: ActivityRenderer<FeedActivityVerb.Announcement> = {
     );
   },
   Content: () => null,
-  Icon: () => <Icon name="chatbubbles" />,
+  Icon: () => <Icon iconNode={<Megaphone />} />,
   getNotificationUrl: () => `/timeline`,
 };
 

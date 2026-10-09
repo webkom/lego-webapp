@@ -1,4 +1,5 @@
 import { Icon } from '@webkom/lego-bricks';
+import { CalendarCheck } from 'lucide-react';
 import AggregatedFeedActivity, {
   FeedActivityVerb,
 } from '~/redux/models/FeedActivity';
@@ -35,7 +36,7 @@ const AdminRegistrationRenderer: ActivityRenderer<FeedActivityVerb.AdminRegistra
       );
     },
     Content: () => null,
-    Icon: () => <Icon name="calendar" />,
+    Icon: () => <Icon iconNode={<CalendarCheck />} />,
     getNotificationUrl: (aggregatedActivity) => {
       const events = getEvents(aggregatedActivity);
 

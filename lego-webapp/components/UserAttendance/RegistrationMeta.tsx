@@ -1,5 +1,14 @@
 import { Flex, Skeleton } from '@webkom/lego-bricks';
-import { CircleHelp } from 'lucide-react';
+import {
+  Camera,
+  CircleAlert,
+  CircleCheck,
+  CircleHelp,
+  CirclePause,
+  CircleX,
+  Monitor,
+  Share2,
+} from 'lucide-react';
 import { PhotoConsentDomain } from 'app/models';
 import TextWithIcon from '~/components/TextWithIcon';
 import styles from '~/pages/events/@eventIdOrSlug/EventDetail.module.css';
@@ -80,13 +89,13 @@ const ConsentStatus = ({
       return (
         <Flex gap="var(--spacing-xs)">
           <TextWithIconWrapper
-            iconName="camera-outline"
+            iconNode={<Camera />}
             content={`Du samtykke${hasEnded ? 't' : 'r'} til bilder `}
           />
           <TextWithIcon
             iconNode={<CircleHelp />}
             content=""
-            tooltipContentIcon={
+            tooltipContent={
               <>
                 Du samtykke{hasEnded ? 't' : 'r'} til bilder på abakus.no og
                 sosiale medier for {readableEventSemester}.
@@ -101,7 +110,7 @@ const ConsentStatus = ({
     if (!isConsentingWeb && !isConsentingSoMe) {
       return (
         <TextWithIconWrapper
-          iconName="close-circle-outline"
+          iconNode={<CircleX />}
           content={`Du samtykker ikke til bilder for semesteret ${readableEventSemester}`}
         />
       );
@@ -110,7 +119,7 @@ const ConsentStatus = ({
     if (isConsentingWeb && !isConsentingSoMe) {
       return (
         <TextWithIconWrapper
-          iconName="desktop-outline"
+          iconNode={<Monitor />}
           content={`Du samtykker kun til bilder på abakus.no for semesteret ${readableEventSemester}`}
         />
       );
@@ -119,7 +128,7 @@ const ConsentStatus = ({
     if (!isConsentingWeb && isConsentingSoMe) {
       return (
         <TextWithIconWrapper
-          iconName="share-social-outline"
+          iconNode={<Share2 />}
           content={`Du samtykker kun til bilder på sosiale medier for semesteret ${readableEventSemester}`}
         />
       );
@@ -129,7 +138,7 @@ const ConsentStatus = ({
   if (LEGACY_photoConsent === 'PHOTO_CONSENT') {
     return (
       <TextWithIconWrapper
-        iconName="checkmark-circle-outline"
+        iconNode={<CircleCheck />}
         content="Du samtykker til bilder fra dette arrangementet"
       />
     );
@@ -138,7 +147,7 @@ const ConsentStatus = ({
   if (LEGACY_photoConsent === 'PHOTO_NOT_CONSENT') {
     return (
       <TextWithIconWrapper
-        iconName="close-circle-outline"
+        iconNode={<CircleX />}
         content="Du samtykker ikke til bilder fra dette arrangementet"
       />
     );
@@ -147,7 +156,7 @@ const ConsentStatus = ({
   if (LEGACY_photoConsent === 'UNKNOWN' && hasEnded) {
     return (
       <TextWithIconWrapper
-        iconName="alert-circle-outline"
+        iconNode={<CircleAlert />}
         content="Du tok ikke stilling til bildesamtykke på dette arrangementet"
       />
     );
@@ -155,7 +164,7 @@ const ConsentStatus = ({
 
   return (
     <TextWithIconWrapper
-      iconName="alert-circle-outline"
+      iconNode={<CircleAlert />}
       content="Dette arrangement krever bildesamtykke"
     />
   );
@@ -172,7 +181,7 @@ const PresenceStatus = ({
     case 'NOT_PRESENT':
       return (
         <TextWithIconWrapper
-          iconName="alert-circle-outline"
+          iconNode={<CircleAlert />}
           content="Du møtte ikke opp"
         />
       );
@@ -180,7 +189,7 @@ const PresenceStatus = ({
     case 'PRESENT':
       return (
         <TextWithIconWrapper
-          iconName="checkmark-circle-outline"
+          iconNode={<CircleCheck />}
           content="Du møtte opp"
         />
       );
@@ -189,7 +198,7 @@ const PresenceStatus = ({
       if (!hasEnded) return null;
       return (
         <TextWithIconWrapper
-          iconName="help-circle-outline"
+          iconNode={<CircleHelp />}
           content="Oppmøte ble ikke sjekket"
         />
       );
@@ -212,7 +221,7 @@ const PaymentStatus = ({
     case paymentPending:
       return (
         <TextWithIconWrapper
-          iconName="alert-circle-outline"
+          iconNode={<CircleAlert />}
           content="Betaling pågår"
         />
       );
@@ -221,7 +230,7 @@ const PaymentStatus = ({
     case paymentSuccess:
       return (
         <TextWithIconWrapper
-          iconName="checkmark-circle-outline"
+          iconNode={<CircleCheck />}
           content="Du har betalt"
         />
       );
@@ -229,7 +238,7 @@ const PaymentStatus = ({
     case paymentCardDeclined:
       return (
         <TextWithIconWrapper
-          iconName="alert-circle-outline"
+          iconNode={<CircleAlert />}
           content="Du har ikke betalt. Kortet du prøvde å betale med ble ikke godtatt"
         />
       );
@@ -237,7 +246,7 @@ const PaymentStatus = ({
     case paymentCardExpired:
       return (
         <TextWithIconWrapper
-          iconName="alert-circle-outline"
+          iconNode={<CircleAlert />}
           content="Du har ikke betalt. Kortet du prøvde å betale med har gått ut på dato"
         />
       );
@@ -245,7 +254,7 @@ const PaymentStatus = ({
     default:
       return (
         <TextWithIconWrapper
-          iconName="alert-circle-outline"
+          iconNode={<CircleAlert />}
           content="Du har ikke betalt"
         />
       );
@@ -272,7 +281,7 @@ const RegistrationMeta = ({
     <Flex column gap="var(--spacing-sm)" className={styles.registrationMeta}>
       {!registration && fiveMinutesBeforeActivation && (
         <TextWithIconWrapper
-          iconName="close-circle-outline"
+          iconNode={<CircleX />}
           content={`Du ${hasEnded ? 'var' : 'er'} ikke påmeldt`}
         />
       )}
@@ -282,7 +291,7 @@ const RegistrationMeta = ({
             <>
               {!hasEnded && (
                 <TextWithIconWrapper
-                  iconName="checkmark-circle-outline"
+                  iconNode={<CircleCheck />}
                   content={
                     <>
                       Du er påmeldt og samtykker til{' '}
@@ -296,7 +305,7 @@ const RegistrationMeta = ({
             </>
           ) : (
             <TextWithIconWrapper
-              iconName="pause-circle-outline"
+              iconNode={<CirclePause />}
               content={
                 waitingListPosition === undefined ? (
                   <>Du {hasEnded ? 'stod' : 'står'} på venteliste</>
@@ -335,7 +344,7 @@ const RegistrationMeta = ({
           />
           {hasEnded && (
             <TextWithIconWrapper
-              iconName="checkmark-circle-outline"
+              iconNode={<CircleCheck />}
               content={
                 <>
                   Du samtykket til{' '}

@@ -29,12 +29,12 @@ describe('The Home Page and Login', () => {
     cy.get('[name=password]').type('Webkom123{enter}');
 
     // Click dropdown for user
-    cy.get(t('dropdown') + ' ' + c('_content')).should('not.exist');
+    cy.get(t('dropdown-content')).should('not.exist');
     cy.get('header ' + c('_menu'))
       .find(c('_image'))
       .click();
 
-    cy.get(t('dropdown') + ' ' + c('_content')).should((dropdown) => {
+    cy.get(t('dropdown-content')).should((dropdown) => {
       expect(dropdown).to.contain(username);
       expect(dropdown).to.contain('Innstillinger');
       expect(dropdown).to.contain('Møte');

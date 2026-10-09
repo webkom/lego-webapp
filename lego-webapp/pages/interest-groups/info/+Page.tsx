@@ -1,5 +1,6 @@
-import { LinkButton, Page } from '@webkom/lego-bricks';
+import { LinkButton, Page, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Pencil } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import DisplayContent from '~/components/DisplayContent';
 import { fetchPage } from '~/redux/actions/PageActions';
@@ -32,7 +33,10 @@ const InterestGroupQuestions = () => {
       actionButtons={
         actionGrant.includes('edit') &&
         pageInfo?.editUrl && (
-          <LinkButton href={pageInfo?.editUrl}>Rediger</LinkButton>
+          <LinkButton href={pageInfo?.editUrl}>
+            <Icon iconNode={<Pencil />} size={19} />
+            Rediger
+          </LinkButton>
         )
       }
     >

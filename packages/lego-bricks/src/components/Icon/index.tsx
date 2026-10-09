@@ -7,8 +7,7 @@ import type { PressEvent } from '@react-types/shared/src/events';
 import type { ComponentProps, ReactElement, ReactNode } from 'react';
 
 type Props = {
-  name?: string /** name from ionicons: https://ionic.io/ionicons */;
-  iconNode?: ReactNode /** iconNode from lucide: https://lucide.dev/icons/ */;
+  iconNode: ReactNode /** iconNode from lucide: https://lucide.dev/icons/ */;
   className?: string;
   size?: number;
   strokeWidth?: number;
@@ -19,12 +18,11 @@ type Props = {
   edit?: boolean; // name: pencil
   info?: boolean;
   disabled?: boolean;
-} & Omit<ComponentProps<typeof Flex>, 'onClick'>;
+} & Omit<ComponentProps<typeof Flex<'div'>>, 'onClick' | 'ref'>;
 
 export const Icon = forwardRef<HTMLButtonElement & HTMLAnchorElement, Props>(
   (
     {
-      name = 'star',
       iconNode,
       className,
       style = {},
@@ -50,16 +48,10 @@ export const Icon = forwardRef<HTMLButtonElement & HTMLAnchorElement, Props>(
       disabled && styles.disabled,
     );
 
-    const iconElement = iconNode ? (
-      <>
-        {cloneElement(iconNode as ReactElement<Props>, {
-          size,
-          strokeWidth,
-        })}
-      </>
-    ) : (
-      <ion-icon name={name}></ion-icon>
-    );
+    const iconElement = cloneElement(iconNode as ReactElement<Props>, {
+      size,
+      strokeWidth,
+    });
 
     return (
       <Flex

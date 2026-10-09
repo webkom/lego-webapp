@@ -5,9 +5,10 @@ import {
   LinkButton,
   LoadingIndicator,
   Page,
+  Icon,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { FolderOpen } from 'lucide-react';
+import { FolderOpen, Plus } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import EmptyState from '~/components/EmptyState';
 import { SelectInput } from '~/components/Form';
@@ -15,6 +16,7 @@ import QuoteList from '~/pages/quotes/QuoteList';
 import { fetchEmojis } from '~/redux/actions/EmojiActions';
 import { fetchAll, fetchQuote } from '~/redux/actions/QuoteActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EntityType } from '~/redux/models/entities';
 import { selectQuoteById, selectQuotes } from '~/redux/slices/quotes';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
@@ -53,7 +55,7 @@ const QuotePage = () => {
     selectPaginationNext({
       endpoint: `/quotes/`,
       query: query,
-      entity: 'quotes',
+      entity: EntityType.Quotes,
     })(state),
   );
   const showFetchMore = !isSingle && pagination.hasMore;
@@ -122,6 +124,7 @@ const QuotePage = () => {
             </LinkButton>
           ),
           <LinkButton key="add" href="/quotes/new">
+            <Icon iconNode={<Plus />} size={19} />
             Legg til sitat
           </LinkButton>,
         ]

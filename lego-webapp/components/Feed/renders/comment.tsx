@@ -1,4 +1,5 @@
 import { Icon } from '@webkom/lego-bricks';
+import { MessageCircle } from 'lucide-react';
 import DisplayContent from '~/components/DisplayContent';
 import { FeedActivityVerb } from '~/redux/models/FeedActivity';
 import { contextRender } from '../context';
@@ -24,7 +25,7 @@ const CommentRenderer: ActivityRenderer<FeedActivityVerb.Comment> = {
   Content: ({ activity }) => (
     <DisplayContent content={activity.extraContext.content} />
   ),
-  Icon: () => <Icon name="chatbubble" />,
+  Icon: () => <Icon iconNode={<MessageCircle />} />,
   getNotificationUrl: (aggregatedActivity) => {
     const latestActivity = aggregatedActivity.lastActivity;
     const comment = aggregatedActivity.context[latestActivity.target];

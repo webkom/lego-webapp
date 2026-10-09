@@ -11,11 +11,11 @@ interface LendableObject {
   location: string;
   canLend: boolean;
   actionGrant: ActionGrant;
-  availability?: availabilityLendableObject[];
+  availability?: AvailabilityLendableObject[];
   category: FilterLendingCategory;
 }
 
-interface availabilityLendableObject {
+interface AvailabilityLendableObject {
   start: Dateish;
   end: Dateish;
   createdByFullname?: string;

@@ -1,4 +1,4 @@
-import { BadgeIcon, LoadingIndicator } from '@webkom/lego-bricks';
+import { BadgeIcon, LoadingIndicator, Dropdown } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { Bell, BellOff, BellRing } from 'lucide-react';
@@ -6,6 +6,7 @@ import { useState } from 'react';
 import EmptyState from '~/components/EmptyState';
 import ErrorBoundary from '~/components/ErrorBoundary';
 import { SpanTag } from '~/components/Feed/Tag';
+import { Link } from '~/components/Link';
 import Time from '~/components/Time';
 import { fetchNotificationFeed } from '~/redux/actions/FeedActions';
 import {
@@ -15,7 +16,6 @@ import {
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectNotifications } from '~/redux/slices/feeds';
 import { selectUnreadNotificationsCount } from '~/redux/slices/notificationsFeed';
-import Dropdown from '../Dropdown';
 import { getActivityRenderer } from '../Feed';
 import styles from './HeaderNotifications.module.css';
 import type AggregatedFeedActivity from '~/redux/models/FeedActivity';
@@ -30,28 +30,22 @@ const NotificationElement = ({
   if (activityRenderer) {
     const { Icon, Header } = activityRenderer;
     return (
-      <a href={activityRenderer.getNotificationUrl(notification)}>
-        <div
-          className={cx(
-            styles.notification,
-            !notification.read && styles.unRead,
-          )}
-        >
-          <div className={styles.innerNotification}>
-            <div className={styles.icon}>
-              <Icon />
-            </div>
-            <div>
-              <Header aggregatedActivity={notification} tag={SpanTag} />
-              <Time
-                time={notification.updatedAt}
-                wordsAgo
-                className={styles.updatedAt}
-              />
-            </div>
-          </div>
+      <Link
+        href={activityRenderer.getNotificationUrl(notification)}
+        className={cx(styles.notification, !notification.read && styles.unRead)}
+      >
+        <div className={styles.icon}>
+          <Icon />
         </div>
-      </a>
+        <div className={styles.content}>
+          <Header aggregatedActivity={notification} tag={SpanTag} />
+          <Time
+            time={notification.updatedAt}
+            wordsAgo
+            className={styles.updatedAt}
+          />
+        </div>
+      </Link>
     );
   }
 

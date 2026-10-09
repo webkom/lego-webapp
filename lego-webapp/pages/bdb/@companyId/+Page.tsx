@@ -12,7 +12,17 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash-es';
-import { Trash2 } from 'lucide-react';
+import {
+  BriefcaseBusiness,
+  ChartColumn,
+  Globe,
+  Mail,
+  MapPin,
+  Pencil,
+  Phone,
+  Plus,
+  Trash2,
+} from 'lucide-react';
 import moment from 'moment-timezone';
 import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -265,27 +275,27 @@ const BdbDetail = () => {
   const companyInfo = [
     {
       text: company.website,
-      icon: 'globe-outline',
+      icon: <Globe />,
       link: true,
     },
     {
       text: company.address,
-      icon: 'location-outline',
+      icon: <MapPin />,
       link: false,
     },
     {
       text: company.phone,
-      icon: 'call-outline',
+      icon: <Phone />,
       link: false,
     },
     {
       text: company.companyType,
-      icon: 'briefcase-outline',
+      icon: <BriefcaseBusiness />,
       link: false,
     },
     {
       text: company.paymentMail,
-      icon: 'mail-outline',
+      icon: <Mail />,
       link: false,
     },
   ];
@@ -393,7 +403,7 @@ const BdbDetail = () => {
     ) : (
       <Flex className={styles.companyContactActions}>
         <Icon
-          name="pencil"
+          iconNode={<Pencil />}
           edit
           size={20}
           disabled={isLocked}
@@ -489,7 +499,7 @@ const BdbDetail = () => {
           >
             <Icon
               to={`/surveys/${event.survey}`}
-              name="bar-chart-outline"
+              iconNode={<ChartColumn />}
               size={20}
             />
           </Tooltip>
@@ -580,6 +590,7 @@ const BdbDetail = () => {
       }}
       actionButtons={
         <LinkButton key="edit" href={`/bdb/${companyId}/edit`}>
+          <Icon iconNode={<Pencil />} size={19} />
           Rediger
         </LinkButton>
       }
@@ -601,7 +612,7 @@ const BdbDetail = () => {
             ? companyInfo.map((info, index) => (
                 <TextWithIcon
                   key={index}
-                  iconName={info.icon}
+                  iconNode={info.icon}
                   content={<Skeleton className={companyStyles.companyInfo} />}
                 />
               ))
@@ -611,7 +622,7 @@ const BdbDetail = () => {
                   info.text && (
                     <TextWithIcon
                       key={info.text}
-                      iconName={info.icon}
+                      iconNode={info.icon}
                       content={
                         info.link ? (
                           <a href={info.text}>{company.name}</a>
@@ -630,6 +641,7 @@ const BdbDetail = () => {
           <Flex wrap justifyContent="space-between" alignItems="center">
             <h3>Studentkontakter</h3>
             <LinkButton href={`/bdb/${company.id}/student-contacts/edit`}>
+              <Icon iconNode={<Pencil />} size={19} />
               Rediger studentkontakter
             </LinkButton>
           </Flex>
@@ -649,6 +661,7 @@ const BdbDetail = () => {
           <Flex wrap justifyContent="space-between" alignItems="center">
             <h3>Bedriftskontakter</h3>
             <LinkButton href={`/bdb/${company.id}/company-contacts/new`}>
+              <Icon iconNode={<Plus />} size={19} />
               Legg til bedriftskontakt
             </LinkButton>
           </Flex>
@@ -669,6 +682,7 @@ const BdbDetail = () => {
           <Flex wrap justifyContent="space-between" alignItems="center">
             <h3>Semesterstatuser</h3>
             <LinkButton href={`/bdb/${company.id}/semesters/new`}>
+              <Icon iconNode={<Plus />} size={19} />
               Legg til nytt semester
             </LinkButton>
           </Flex>

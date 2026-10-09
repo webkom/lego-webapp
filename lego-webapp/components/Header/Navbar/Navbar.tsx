@@ -1,5 +1,5 @@
+import { Dropdown } from '@webkom/lego-bricks';
 import { useState } from 'react';
-import Dropdown from '~/components/Dropdown';
 import { Link } from '~/components/Link';
 import { useIsLoggedIn } from '~/redux/slices/auth';
 import AboutDropdown from './AboutDropdown';

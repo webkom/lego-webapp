@@ -1,9 +1,8 @@
-import { Button, Flex, LinkButton, PageContainer } from '@webkom/lego-bricks';
+import { Button, HeroPage, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { GroupType } from 'app/models';
 import Spotlight from '~/components/Spotlight';
-import styles from '~/pages/events/interest/InterestEvents.module.css';
 import EventAgenda from '~/pages/events/interest/_components/EventAgenda';
 import GroupsSection from '~/pages/events/interest/_components/GroupsSection';
 import useInterestEvents from '~/pages/events/interest/useInterestEvents';
@@ -30,54 +29,38 @@ const InterestEvents = () => {
   );
 
   return (
-    <PageContainer card={false}>
+    <HeroPage
+      title="Interessegrupper"
+      lead="Lavterskel sosiale grupper drevet av studenter. Det kan være klatring, LAN, brettspill, løping eller cavasøndag!"
+      actions={
+        <>
+          <Button
+            dark
+            onPress={() =>
+              document
+                .getElementById('grupper')
+                ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }
+          >
+            Bli med i en gruppe
+          </Button>
+          <LinkButton ghost href="/interest-groups/info">
+            Praktisk info
+          </LinkButton>
+        </>
+      }
+      aside={
+        <Spotlight
+          items={featured ? [toInterestSpotlightItem(featured)] : []}
+          fetching={upcoming.fetching}
+          heading="Neste arrangement"
+        />
+      }
+    >
       <Helmet title="Interessegruppearrangementer" />
-      <Flex column className={styles.page}>
-        <Flex
-          component="section"
-          wrap
-          alignItems="flex-start"
-          className={styles.hero}
-        >
-          <div className={styles.heroText}>
-            <h1>Interessegrupper</h1>
-            <p className={styles.lead}>
-              Lavterskel sosiale grupper drevet av studenter. Det kan være
-              klatring, LAN, brettspill, løping eller cavasøndag!
-            </p>
-            <Flex
-              wrap
-              alignItems="center"
-              gap="var(--spacing-md)"
-              className={styles.heroActions}
-            >
-              <Button
-                dark
-                onPress={() =>
-                  document
-                    .getElementById('grupper')
-                    ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                }
-              >
-                Bli med i en gruppe
-              </Button>
-              <LinkButton ghost href="/interest-groups/info">
-                Praktisk info
-              </LinkButton>
-            </Flex>
-          </div>
-          <div className={styles.spotlight}>
-            <Spotlight
-              items={featured ? [toInterestSpotlightItem(featured)] : []}
-              fetching={upcoming.fetching}
-              heading="Neste arrangement"
-            />
-          </div>
-        </Flex>
-        <EventAgenda />
-        <GroupsSection />
-      </Flex>
-    </PageContainer>
+      <EventAgenda />
+      <GroupsSection />
+    </HeroPage>
   );
 };
 

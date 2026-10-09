@@ -4,15 +4,23 @@ import {
   Modal,
   Image,
   LoadingIndicator,
+  Dropdown,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { throttle } from 'lodash-es';
-import { Download, Pencil } from 'lucide-react';
+import {
+  ArrowLeft,
+  ArrowRight,
+  Download,
+  Ellipsis,
+  Image as ImageIcon,
+  Pencil,
+  Trash2,
+} from 'lucide-react';
 import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { useSwipeable, RIGHT, LEFT } from 'react-swipeable';
 import { navigate } from 'vike/client/router';
 import CommentView from '~/components/Comments/CommentView';
-import Dropdown from '~/components/Dropdown';
 import PropertyHelmet, {
   type PropertyGenerator,
 } from '~/components/PropertyHelmet';
@@ -326,7 +334,7 @@ const GalleryPictureModal = ({ children }: PropsWithChildren) => {
               toggle={toggleDropdown}
               closeOnContentClick
               className={styles.dropdown}
-              iconName="ellipsis-horizontal"
+              iconNode={<Ellipsis />}
               container={modalRef.current}
             >
               <Dropdown.List>
@@ -360,7 +368,7 @@ const GalleryPictureModal = ({ children }: PropsWithChildren) => {
                         className={styles.dropdownLink}
                       >
                         Sett som album cover
-                        <Icon name="image-outline" size={24} />
+                        <Icon iconNode={<ImageIcon />} size={24} />
                       </a>
                     </Dropdown.ListItem>,
                     <Dropdown.Divider key="divider" />,
@@ -376,7 +384,7 @@ const GalleryPictureModal = ({ children }: PropsWithChildren) => {
                         {clickedDeletePicture === Number(pictureId)
                           ? 'Er du sikker?'
                           : 'Slett'}
-                        <Icon name="trash-outline" />
+                        <Icon iconNode={<Trash2 />} />
                       </button>
                     </Dropdown.ListItem>,
                   ]}
@@ -410,7 +418,7 @@ const GalleryPictureModal = ({ children }: PropsWithChildren) => {
           >
             <Icon
               onPress={previousGalleryPicture}
-              name="arrow-back-outline"
+              iconNode={<ArrowLeft />}
               size={40}
               disabled={isFirstImage}
             />
@@ -419,7 +427,7 @@ const GalleryPictureModal = ({ children }: PropsWithChildren) => {
             ) : (
               <Icon
                 onPress={nextGalleryPicture}
-                name="arrow-forward-outline"
+                iconNode={<ArrowRight />}
                 size={40}
                 disabled={isLastLoadedImage}
               />
