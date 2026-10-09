@@ -136,7 +136,7 @@ steps:
       - npm i -g corepack
       - corepack enable
       - pnpm config set store-dir .pnpm-store
-      - pnpm install --frozen-lockfile
+      - pnpm install --frozen-lockfile --libc=glibc --libc=musl
 
   - name: build
     image: node:26-alpine
@@ -339,6 +339,6 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: f9b6622417385f3896e3477419813e26ac2e09f9565a6554bee2b8db6645cf8e
+hmac: b6ca3ee23ee86e60e0e837aaaf075b739dce3df4fdeb7bccf5aa161e03d4aaef
 
 ...
