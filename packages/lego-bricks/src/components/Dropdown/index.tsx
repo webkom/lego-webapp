@@ -8,6 +8,7 @@ import type {
   ReactNode,
   ReactPortal,
   HTMLAttributes,
+  RefObject,
 } from 'react';
 import type { DOMContainer } from 'react-overlays/useWaitForDOMRef';
 
@@ -40,7 +41,7 @@ export const Dropdown = ({
   rootClose,
   container,
 }: Props) => {
-  const triggerRef = useRef(null);
+  const triggerRef = useRef<HTMLElement>(null) as RefObject<HTMLElement>;
 
   return (
     <ComponentClass
