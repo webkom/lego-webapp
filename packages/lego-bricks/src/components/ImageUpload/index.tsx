@@ -1,11 +1,10 @@
 import cx from 'classnames';
 import { Image as ImageIcon, Images, Trash2, Upload } from 'lucide-react';
-import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
-import { Cropper } from 'react-cropper';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { type Accept, useDropzone } from 'react-dropzone';
-import 'cropperjs/dist/cropper.css';
 import { Button } from '../Button';
 import { ButtonGroup } from '../Button/ButtonGroup';
+import { useCropper } from '../Cropper';
 import { Icon } from '../Icon';
 import { Image } from '../Image';
 import { Flex } from '../Layout';
@@ -148,12 +147,11 @@ export const ImageUpload = ({
   id,
   ...props
 }: Props) => {
-  const cropper = useRef<Cropper>();
-  const [cropReady, setCropReady] = useState(false);
   const [cropOpen, setCropOpen] = useState(inModal);
   const [files, setFiles] = useState<DropFile[]>([]);
   const file: DropFile | undefined = files[0];
   const [img, setImg] = useState<string | undefined>(props.img);
+  const { Cropper, withCroppedBlob, isReady: cropperReady } = useCropper();
 
   useEffect(() => {
     setImg(props.img);
@@ -170,7 +168,6 @@ export const ImageUpload = ({
       const file = droppedFiles[0];
       file.preview = URL.createObjectURL(file);
       setFiles([file]);
-      setCropReady(false);
       setCropOpen(true);
     }
 
@@ -179,19 +176,14 @@ export const ImageUpload = ({
     }
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (crop && !props.multiple && file) {
-      const { name } = file;
-      const croppedCanvas = cropper.current?.getCroppedCanvas();
-      if (croppedCanvas) {
-        croppedCanvas.toBlob((image) => {
-          if (!image) return;
-          const file = new File([image], name);
-          props.onSubmit(file);
+      await withCroppedBlob((image) => {
+        if (image) {
+          props.onSubmit(new File([image], file.name));
           setImg(URL.createObjectURL(image));
-          closeModal();
-        });
-      }
+        }
+      });
     }
 
     if (props.multiple && files.length) {
@@ -247,15 +239,9 @@ export const ImageUpload = ({
           )}
           {preview && (
             <Cropper
-              onInitialized={(c) => {
-                cropper.current = c;
-              }}
-              ready={() => setCropReady(true)}
               src={preview}
               className={styles.cropper}
               aspectRatio={aspectRatio}
-              guides={false}
-              autoCropArea={1}
             />
           )}
           {props.multiple && !crop && (
@@ -277,7 +263,7 @@ export const ImageUpload = ({
               secondary
               disabled={
                 (files.length === 0 && !preview) ||
-                (!!preview && crop && !props.multiple && !cropReady)
+                (!!preview && crop && !props.multiple && !cropperReady)
               }
               onPress={onSubmit}
             >

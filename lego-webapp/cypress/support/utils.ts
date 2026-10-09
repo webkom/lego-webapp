@@ -174,7 +174,7 @@ export const uploadHeader = () => {
     c('_coverImage') + ' ' + c('_placeholderContainer') + ' > span',
     'images/screenshot.png',
   );
-  cy.get('.cropper-move').click();
+  cy.get('cropper-selection').click();
   cy.get(t('Modal__content'))
     .get('button')
     .contains('Last opp')
