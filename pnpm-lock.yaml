@@ -149,8 +149,8 @@ importers:
         specifier: ^0.0.7
         version: 0.0.7
       moment:
-        specifier: ^2.30.1
-        version: 2.30.1
+        specifier: ^2.31.0
+        version: 2.31.0
       moment-timezone:
         specifier: ^0.6.2
         version: 0.6.2
@@ -645,6 +645,9 @@ packages:
 
   '@brillout/json-serializer@0.5.25':
     resolution: {integrity: sha512-/Ahv1XIHAYyROWfyOQZxbxmkvM3ef3aMPPzEC0EfkyZUFb88y/nFFwCFvYUjE20MGoF8/9Z1jIy7ihkpkE+maw==}
+
+  '@brillout/json-serializer@0.5.27':
+    resolution: {integrity: sha512-D+Pc40tS6mme3dtlQzOD+nqP+yAWHQ+KX7gcJJ3DRs02pbqBh/6FBk/OWkLuNyaI0rgedh4KYla/xCSg0jArEw==}
 
   '@brillout/picocolors@1.0.31':
     resolution: {integrity: sha512-xFCPBefU/AevF8XkwXSd/jIHA0fWw+mZ/gd5x2WOc5ysG7keHnU8m0gwY2Bvq5lvTyjwT4tiyow6fnMoYdmSqw==}
@@ -5053,8 +5056,8 @@ packages:
   moment-timezone@0.6.2:
     resolution: {integrity: sha512-lDsQv8FoGdBUdf0+TjGsq2orxKuXdwFlQ6Zw6TX3xIcTwTfEpCLyKqvEauvCHJ8iu3KBV8+uPhlv70YsNGdUBQ==}
 
-  moment@2.30.1:
-    resolution: {integrity: sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==}
+  moment@2.31.0:
+    resolution: {integrity: sha512-0acOTfMiWOheYS4eoWb80yYMb/JLvVv9SHbs2PehaDzfUG0Bw855SKyk0IKTnPGa5+U2bmi3W68l1+sGLX/pvw==}
 
   mrmime@2.0.1:
     resolution: {integrity: sha512-Y3wQdFg2Va6etvQ5I82yUhGdsKrcYox6p7FfL1LbK2J4V01F9TGlepTIhnK24t7koZibmg82KGglhA1XK5IsLQ==}
@@ -6605,6 +6608,18 @@ packages:
       utf-8-validate:
         optional: true
 
+  ws@8.22.0:
+    resolution: {integrity: sha512-Ydggc987+RO0AnWtZ/7Wq9FtNvcrL1b/RO0ud9mWjUPgDrsAAwQSF51sm2hm1XofbU/4jkpGEsLFsZZxU+1DOg==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
   wsl-utils@0.1.0:
     resolution: {integrity: sha512-h3Fbisa2nKGPxCpm89Hk33lBLsnaGBvctQopaBSOW/uIs6FTe1ATyAnKFJrzVs9vpGdsTe73WF3V4lIsk4Gacw==}
     engines: {node: '>=18'}
@@ -6797,6 +6812,9 @@ snapshots:
   '@brillout/import@0.2.6': {}
 
   '@brillout/json-serializer@0.5.25': {}
+
+  '@brillout/json-serializer@0.5.27':
+    optional: true
 
   '@brillout/picocolors@1.0.31': {}
 
@@ -11651,7 +11669,7 @@ snapshots:
       whatwg-encoding: 3.1.1
       whatwg-mimetype: 4.0.0
       whatwg-url: 14.2.0
-      ws: 8.21.3
+      ws: 8.22.0
       xml-name-validator: 5.0.0
     transitivePeerDependencies:
       - bufferutil
@@ -11892,9 +11910,9 @@ snapshots:
 
   moment-timezone@0.6.2:
     dependencies:
-      moment: 2.30.1
+      moment: 2.31.0
 
-  moment@2.30.1: {}
+  moment@2.31.0: {}
 
   mrmime@2.0.1: {}
 
@@ -12649,7 +12667,7 @@ snapshots:
   react-streaming@0.4.20(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@brillout/import': 0.2.6
-      '@brillout/json-serializer': 0.5.25
+      '@brillout/json-serializer': 0.5.27
       '@brillout/picocolors': 1.0.31
       isbot-fast: 1.2.0
       react: 18.3.1
@@ -13758,6 +13776,9 @@ snapshots:
   wrappy@1.0.2: {}
 
   ws@8.21.3: {}
+
+  ws@8.22.0:
+    optional: true
 
   wsl-utils@0.1.0:
     dependencies:
