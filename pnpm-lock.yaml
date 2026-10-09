@@ -50,9 +50,6 @@ importers:
 
   .:
     dependencies:
-      '@webkom/react-prepare':
-        specifier: link:../react-prepare
-        version: link:../react-prepare
       prettier:
         specifier: ^3.5.3
         version: 3.5.3
