@@ -188,11 +188,11 @@ importers:
         specifier: ^14.3.8
         version: 14.3.8(react@18.3.1)
       react-final-form:
-        specifier: ^6.5.9
-        version: 6.5.9(final-form@4.20.10)(react@18.3.1)
+        specifier: ^7.0.1
+        version: 7.0.1(final-form@4.20.10)(react@18.3.1)
       react-final-form-arrays:
         specifier: ^3.1.4
-        version: 3.1.4(final-form-arrays@3.1.0(final-form@4.20.10))(final-form@4.20.10)(react-final-form@6.5.9(final-form@4.20.10)(react@18.3.1))(react@18.3.1)
+        version: 3.1.4(final-form-arrays@3.1.0(final-form@4.20.10))(final-form@4.20.10)(react-final-form@7.0.1(final-form@4.20.10)(react@18.3.1))(react@18.3.1)
       react-helmet-async:
         specifier: ^2.0.5
         version: 2.0.5(react@18.3.1)
@@ -5615,10 +5615,10 @@ packages:
       react: ^18.3.1
       react-final-form: ^6.2.1
 
-  react-final-form@6.5.9:
-    resolution: {integrity: sha512-x3XYvozolECp3nIjly+4QqxdjSSWfcnpGEL5K8OBT6xmGrq5kBqbA6+/tOqoom9NwqIPPbxPNsOViFlbKgowbA==}
+  react-final-form@7.0.1:
+    resolution: {integrity: sha512-8K1ITLecBI7F+jCxiMA/JI1amHT/+klQB+nhl5YFZu3R1sQftbiQk/UfwRDvE7ZxIqIvCf8nYLDQRrfwaDT3kQ==}
     peerDependencies:
-      final-form: ^4.20.4
+      final-form: ^5.0.0
       react: ^18.3.1
 
   react-helmet-async@2.0.5:
@@ -12694,15 +12694,15 @@ snapshots:
 
   react-fast-compare@3.2.2: {}
 
-  react-final-form-arrays@3.1.4(final-form-arrays@3.1.0(final-form@4.20.10))(final-form@4.20.10)(react-final-form@6.5.9(final-form@4.20.10)(react@18.3.1))(react@18.3.1):
+  react-final-form-arrays@3.1.4(final-form-arrays@3.1.0(final-form@4.20.10))(final-form@4.20.10)(react-final-form@7.0.1(final-form@4.20.10)(react@18.3.1))(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.29.7
       final-form: 4.20.10
       final-form-arrays: 3.1.0(final-form@4.20.10)
       react: 18.3.1
-      react-final-form: 6.5.9(final-form@4.20.10)(react@18.3.1)
+      react-final-form: 7.0.1(final-form@4.20.10)(react@18.3.1)
 
-  react-final-form@6.5.9(final-form@4.20.10)(react@18.3.1):
+  react-final-form@7.0.1(final-form@4.20.10)(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.29.7
       final-form: 4.20.10
