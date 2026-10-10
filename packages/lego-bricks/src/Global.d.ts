@@ -3,10 +3,16 @@ import type { DOMAttributes, ReactNode } from 'react';
 
 type CustomElement<T> = Partial<T & DOMAttributes<T> & { children: ReactNode }>;
 
-declare global {
+declare module 'react' {
   namespace JSX {
     // eslint-disable-next-line @typescript-eslint/no-empty-object-type
     interface IntrinsicElements extends LegoCropperElements {}
+  }
+}
+
+declare module 'react-tiny-popover' {
+  namespace JSX {
+    type Element = React.JSX.Element;
   }
 }
 

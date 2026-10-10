@@ -6,7 +6,7 @@ import type { ReactNode, ReactElement } from 'react';
 
 type Props = {
   openReportDialog?: boolean;
-  children: ReactElement | ReactElement[];
+  children: ReactElement<any> | ReactElement<any>[];
   hidden?: boolean;
 
   /* Reset error when this prop changes */

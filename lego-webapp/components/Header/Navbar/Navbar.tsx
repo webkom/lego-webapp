@@ -12,7 +12,7 @@ type NavbarLink = {
   title: string;
   to: string;
   visibility: 'logged-in-only' | 'logged-out-only' | 'always';
-  dropdown?: ReactElement;
+  dropdown?: ReactElement<any>;
 };
 
 const Navbar = () => {
