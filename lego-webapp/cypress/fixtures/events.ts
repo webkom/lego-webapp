@@ -55,7 +55,6 @@ const EVENT: UserDetailedEvent = {
     id: 1,
     name: 'Netcompany',
     logo: '',
-    active: true,
   },
   comments: [],
   pools: [],
