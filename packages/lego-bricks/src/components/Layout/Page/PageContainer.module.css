@@ -17,7 +17,9 @@ div.card {
   background: var(--lego-card-color);
   box-shadow: var(--shadow-sm);
   border-radius: var(--border-radius-lg);
-  overflow: hidden;
+
+  /* Not hidden: that makes the card a scroll container and breaks sticky sidebars */
+  overflow: clip;
   padding: 0;
 }
 

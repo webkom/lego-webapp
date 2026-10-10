@@ -32,11 +32,6 @@ export {
   ProgressBar,
 } from './components/LoadingIndicator';
 export { MeterBar } from './components/MeterBar';
-export {
-  LineSidebar,
-  type LineSidebarItem,
-  type LineSidebarProps,
-} from './components/LineSidebar';
 export { Modal, ConfirmModal } from './components/Modal';
 export { Skeleton } from './components/Skeleton';
 export {
