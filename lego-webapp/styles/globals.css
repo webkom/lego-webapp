@@ -13,6 +13,7 @@
 
 html {
   font-size: var(--font-size-md);
+  scrollbar-gutter: stable;
 }
 
 button {
