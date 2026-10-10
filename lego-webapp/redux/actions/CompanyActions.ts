@@ -101,6 +101,30 @@ export const fetchEventsForCompany = ({
   });
 };
 
+export type CompanyEventStatistics = {
+  eventCount: number;
+  averageParticipants: number;
+  averageWaitingList: number;
+  averageFill: number;
+};
+
+export function fetchEventStatistics(
+  companyId: EntityId,
+  fromSemesterId: EntityId,
+  toSemesterId: EntityId,
+) {
+  return callAPI<CompanyEventStatistics>({
+    types: Company.FETCH_EVENT_STATISTICS,
+    endpoint: `/bdb/${companyId}/event-statistics/${createQueryString({
+      from_semester: String(fromSemesterId),
+      to_semester: String(toSemesterId),
+    })}`,
+    meta: {
+      errorMessage: 'Henting av arrangementsstatistikk feilet',
+    },
+  });
+}
+
 export function addCompany(data: Record<string, any>) {
   return callAPI<DetailedCompany>({
     types: Company.ADD,

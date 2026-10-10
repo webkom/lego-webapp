@@ -173,6 +173,7 @@ export const Company = {
   FETCH_SEMESTERS: generateStatuses('Company.FETCH_SEMESTERS'),
   ADD_SEMESTER: generateStatuses('Company.ADD_SEMESTER'),
   EDIT_SEMESTER: generateStatuses('Company.EDIT_SEMESTER'),
+  FETCH_EVENT_STATISTICS: generateStatuses('Company.FETCH_EVENT_STATISTICS'),
 };
 
 export const Quote = {
