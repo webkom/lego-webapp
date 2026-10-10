@@ -1,0 +1,291 @@
+.sectionNav {
+  --row-height: 2.125rem;
+  --page-row-height: 2rem;
+  --panel-duration: 250ms;
+  --pages-padding-top: 0.125rem;
+  --rod-x: 1.0625rem;
+  --rod-width: 1.5px;
+  --bead-size: 0.5rem;
+  --bead-halo: rgba(255, 0, 0, var(--low-alpha));
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  width: 100%;
+  min-width: 0;
+
+  /* Lets the nav shrink to the drawer's height, so the list scrolls inside it */
+  min-height: 0;
+  color: var(--lego-font-color);
+}
+
+.header {
+  flex: none;
+  padding-inline: var(--spacing-sm);
+}
+
+.scroller {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.list,
+.pageList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sectionButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  width: 100%;
+  min-height: var(--row-height);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-md);
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.25;
+  text-align: left;
+  transition: background-color var(--linear-slow);
+}
+
+.sectionLabel {
+  flex: 1;
+  min-width: 0;
+}
+
+.activeSection .sectionLabel {
+  font-weight: 600;
+}
+
+.chevron {
+  flex: none;
+  color: var(--secondary-font-color);
+  transition: transform var(--easing-medium);
+}
+
+.chevronOpen {
+  transform: rotate(90deg);
+}
+
+.panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition:
+    grid-template-rows var(--panel-duration) var(--ease-out),
+    visibility 0s linear var(--panel-duration);
+}
+
+.panelOpen {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition: grid-template-rows var(--panel-duration) var(--ease-out);
+}
+
+.pages {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.pages::before {
+  position: absolute;
+  top: 0;
+  bottom: calc(
+    var(--spacing-xs) + var(--page-row-height) / 2 - var(--bead-size) / 2
+  );
+  left: calc(var(--rod-x) - var(--rod-width) / 2);
+  width: var(--rod-width);
+  border-radius: var(--rod-width);
+  background-color: var(--border-gray);
+  content: '';
+}
+
+.pageList {
+  padding-block: var(--pages-padding-top) var(--spacing-xs);
+}
+
+.page {
+  position: relative;
+  height: var(--page-row-height);
+}
+
+.page::before {
+  position: absolute;
+  top: calc(var(--page-row-height) / 2 - var(--bead-size) / 2);
+  left: calc(var(--rod-x) - var(--bead-size) / 2);
+  width: var(--bead-size);
+  height: var(--bead-size);
+  border-radius: 50%;
+  background-color: var(--secondary-font-color);
+  content: '';
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity var(--linear-fast),
+    transform var(--easing-fast);
+}
+
+/*
+ * The bead: the red dot from the logo, strung on the rod. Within a section it
+ * slides between pages. Between sections it runs off the end of its rod
+ * towards the new section, and a bead runs onto that section's rod from the
+ * side it came from, so it reads as one bead travelling.
+ */
+.bead {
+  --bead-y: calc(
+    var(--pages-padding-top) + (var(--bead-index) + 0.5) *
+      var(--page-row-height) - var(--bead-size) / 2
+  );
+  --bead-edge: calc(-1 * var(--bead-size));
+
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: calc(var(--rod-x) - var(--bead-size) / 2);
+  width: var(--bead-size);
+  height: var(--bead-size);
+  border-radius: 50%;
+  background-color: var(--lego-red-color);
+  box-shadow: 0 0 0 3px var(--bead-halo);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(var(--bead-y)) scale(0.4);
+  transition:
+    transform 200ms ease-in,
+    opacity var(--linear-fast);
+}
+
+.beadOn {
+  opacity: 1;
+  transform: translateY(var(--bead-y)) scale(1);
+  transition:
+    transform 320ms var(--ease-out),
+    opacity var(--linear-fast);
+}
+
+.bead[data-motion$='-end'] {
+  --bead-edge: 100%;
+}
+
+.bead[data-motion^='exit'] {
+  animation: beadExit 220ms ease-in forwards;
+}
+
+/* Delayed so the bead arrives as the one leaving the other section is gone */
+.bead[data-motion^='enter'] {
+  animation: beadEnter 360ms var(--ease-out) 120ms backwards;
+}
+
+@keyframes beadExit {
+  from {
+    top: 0;
+    opacity: 1;
+    transform: translateY(var(--bead-y)) scale(1);
+  }
+
+  60% {
+    opacity: 1;
+  }
+
+  to {
+    top: var(--bead-edge);
+    opacity: 0;
+    transform: translateY(0) scale(0.4);
+  }
+}
+
+@keyframes beadEnter {
+  from {
+    top: var(--bead-edge);
+    opacity: 0;
+    transform: translateY(0) scale(0.4);
+  }
+
+  40% {
+    opacity: 1;
+  }
+}
+
+.pageLink {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin-left: var(--spacing-lg);
+  padding: 0 var(--spacing-sm);
+  border-radius: var(--border-radius-md);
+  color: var(--secondary-font-color);
+  line-height: 1.25;
+  transition:
+    background-color var(--linear-slow),
+    color var(--easing-medium);
+}
+
+.activePageLink {
+  color: var(--lego-font-color);
+  font-weight: 600;
+}
+
+.pageLabel {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (hover: hover) {
+  .sectionButton:hover,
+  .pageLink:hover {
+    background-color: var(--additive-background);
+  }
+
+  .pageLink:hover {
+    color: var(--lego-font-color);
+  }
+
+  .page:hover::before {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+}
+
+.sectionButton:focus-visible,
+.pageLink:focus-visible {
+  outline: 2px solid var(--lego-red-color);
+  outline-offset: -2px;
+}
+
+@media (pointer: coarse) {
+  .sectionNav {
+    --row-height: 2.75rem;
+    --page-row-height: 2.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .panelOpen,
+  .chevron,
+  .page::before,
+  .bead,
+  .beadOn {
+    transition: none;
+  }
+
+  .bead[data-motion] {
+    animation: none;
+  }
+}

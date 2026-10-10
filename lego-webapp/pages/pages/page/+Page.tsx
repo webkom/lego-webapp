@@ -520,6 +520,7 @@ const PageDetail = () => {
   const showSkeleton = page === undefined;
   const activePageRenderer =
     getFlatPageExtraContentRenderer(sectionName, pageSlug) ?? PageRenderer;
+
   return (
     <Page
       title={readmeIfy(pageInfo?.title)}
@@ -536,6 +537,7 @@ const PageDetail = () => {
         )
       }
       sidebar={{
+        title: 'Om Abakus',
         side: 'left',
         icon: <Menu />,
         className: styles.aboutSidebar,
