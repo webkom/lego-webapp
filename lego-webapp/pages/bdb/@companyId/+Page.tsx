@@ -8,13 +8,11 @@ import {
   Page,
   LinkButton,
   PageCover,
-  Tooltip,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash-es';
 import {
   BriefcaseBusiness,
-  ChartColumn,
   Globe,
   Mail,
   MapPin,
@@ -38,6 +36,7 @@ import EmptyState from '~/components/EmptyState';
 import { TextInput } from '~/components/Form';
 import JoblistingItem from '~/components/JoblistingItem';
 import joblistingStyles from '~/components/JoblistingItem/JoblistingItem.module.css';
+import { Link } from '~/components/Link';
 import Table from '~/components/Table';
 import TextWithIcon from '~/components/TextWithIcon';
 import Time from '~/components/Time';
@@ -64,10 +63,10 @@ import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
 import { selectCommentsByIds } from '~/redux/slices/comments';
 import {
-  selectEventsForCompany,
   selectJoblistingsForCompany,
   selectTransformedAdminCompanyById,
 } from '~/redux/slices/companies';
+import { selectAllEvents } from '~/redux/slices/events';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import truncateString from '~/utils/truncateString';
 import { useParams } from '~/utils/useParams';
@@ -197,16 +196,15 @@ const BdbDetail = () => {
     selectCommentsByIds(state, company?.comments),
   );
 
-  const companyEvents = useAppSelector((state) =>
-    selectEventsForCompany(state, companyId),
-  );
-
   const { pagination: eventsPagination } = useAppSelector(
     selectPaginationNext({
       endpoint: '/events/',
       entity: EntityType.Events,
       query: eventsQuery,
     }),
+  );
+  const companyEvents = useAppSelector((state) =>
+    selectAllEvents<ListEvent>(state, { pagination: eventsPagination }),
   );
   const showFetchMoreEvents = eventsPagination.hasMore;
 
@@ -480,29 +478,13 @@ const BdbDetail = () => {
       render: (startTime) => <Time time={startTime} format="DD.MM.YYYY" />,
     },
     {
-      title: 'Sted',
-      dataIndex: 'location',
-    },
-    {
-      title: 'Beskrivelse',
-      dataIndex: 'description',
-      centered: false,
-    },
-    {
       title: '',
       dataIndex: '',
       render: (_, event) =>
         event.survey && (
-          <Tooltip
-            content="Spørreundersøkelse"
-            className={styles.surveyContainer}
-          >
-            <Icon
-              to={`/surveys/${event.survey}`}
-              iconNode={<ChartColumn />}
-              size={20}
-            />
-          </Tooltip>
+          <Link href={`/surveys/${event.survey}/submissions/summary`}>
+            Resultater spørreundersøkelse
+          </Link>
         ),
     },
   ];
