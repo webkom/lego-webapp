@@ -95,3 +95,46 @@
     );
   }
 }
+
+.sectionBody {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-xl);
+
+  &.sidebarLeft {
+    flex-direction: row-reverse;
+  }
+
+  @media (--mobile-device) {
+    gap: var(--spacing-lg);
+  }
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.sidebar {
+  position: sticky;
+  top: var(--spacing-md);
+  flex: 0 0 16rem;
+
+  /* The filters are available through the trigger in the section header */
+  @media (--medium-viewport) {
+    display: none;
+  }
+
+  /* Reset the default (card page) sidebar styles to fit in the card */
+  &.sidebar > * {
+    min-width: 0;
+    max-width: none;
+    height: auto;
+    padding: var(--spacing-md) var(--spacing-lg) var(--spacing-lg);
+    background: none;
+  }
+
+  h2 {
+    font-size: var(--font-size-lg);
+  }
+}

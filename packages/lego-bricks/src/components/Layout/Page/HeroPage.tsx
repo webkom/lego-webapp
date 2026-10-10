@@ -1,7 +1,10 @@
 import cx from 'classnames';
+import { BaseCard } from '../../Card/BaseCard';
 import Flex from '../Flex';
 import styles from './HeroPage.module.css';
 import PageContainer from './PageContainer';
+import { Sidebar, SidebarContext, SidebarTrigger } from './Sidebar';
+import type { SidebarOptions } from './PageContainer';
 import type { ReactNode } from 'react';
 
 type HeroPageProps = {
@@ -58,6 +61,7 @@ type HeroPageSectionProps = {
   title?: ReactNode;
   headerActions?: ReactNode;
   divider?: boolean;
+  sidebar?: SidebarOptions;
   id?: string;
   className?: string;
   children: ReactNode;
@@ -67,31 +71,81 @@ const HeroPageSection = ({
   title,
   headerActions,
   divider = true,
+  sidebar,
   id,
   className,
   children,
-}: HeroPageSectionProps) => (
-  <Flex
-    column
-    component="section"
-    id={id}
-    className={cx(styles.section, className)}
-  >
-    {(title || headerActions) && (
+}: HeroPageSectionProps) => {
+  const renderSidebar =
+    sidebar &&
+    ((props: { close?: () => void }) => (
+      <Sidebar title={sidebar.title} close={props.close}>
+        {sidebar.content}
+      </Sidebar>
+    ));
+
+  return (
+    <SidebarContext.Provider
+      value={
+        renderSidebar && {
+          side: sidebar.side,
+          icon: sidebar.icon,
+          render: renderSidebar,
+          title: sidebar.title,
+        }
+      }
+    >
       <Flex
-        wrap
-        alignItems="center"
-        justifyContent="space-between"
-        gap="var(--spacing-md)"
-        className={cx(styles.sectionHeader, divider && styles.divider)}
+        column
+        component="section"
+        id={id}
+        className={cx(styles.section, className)}
       >
-        {title && <h2>{title}</h2>}
-        {headerActions}
+        {(title || headerActions || sidebar) && (
+          <Flex
+            wrap
+            alignItems="center"
+            justifyContent="space-between"
+            gap="var(--spacing-md)"
+            className={cx(styles.sectionHeader, divider && styles.divider)}
+          >
+            {title && <h2>{title}</h2>}
+            {sidebar ? (
+              <Flex
+                justifyContent="flex-end"
+                wrap
+                alignItems="center"
+                gap="var(--spacing-sm)"
+              >
+                {headerActions}
+                <SidebarTrigger />
+              </Flex>
+            ) : (
+              headerActions
+            )}
+          </Flex>
+        )}
+        {renderSidebar ? (
+          <div
+            className={cx(
+              styles.sectionBody,
+              sidebar.side === 'left' && styles.sidebarLeft,
+            )}
+          >
+            <Flex column gap="var(--spacing-lg)" className={styles.content}>
+              {children}
+            </Flex>
+            <BaseCard shadow className={styles.sidebar}>
+              {renderSidebar({})}
+            </BaseCard>
+          </div>
+        ) : (
+          children
+        )}
       </Flex>
-    )}
-    {children}
-  </Flex>
-);
+    </SidebarContext.Provider>
+  );
+};
 
 HeroPage.Section = HeroPageSection;
 

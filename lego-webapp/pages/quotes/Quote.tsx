@@ -1,6 +1,6 @@
-import { Card, Flex, Dropdown } from '@webkom/lego-bricks';
+import { Card, Flex, Dropdown, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Ellipsis } from 'lucide-react';
+import { CircleCheck, CircleX, Ellipsis, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import Reactions from '~/components/Reactions';
 import Reaction from '~/components/Reactions/Reaction';
@@ -96,17 +96,25 @@ const Quote = ({
             >
               <Dropdown.List>
                 {currentUser?.username !== quote.createdBy?.username && (
-                  <Dropdown.ListItem>
-                    <button
-                      onClick={() =>
-                        quote.approved
-                          ? dispatch(unapprove(quote.id))
-                          : dispatch(approve(quote.id))
-                      }
-                    >
-                      {quote.approved ? 'Fjern godkjenning' : 'Godkjenn'}
-                    </button>
-                  </Dropdown.ListItem>
+                  <>
+                    <Dropdown.ListItem>
+                      <button
+                        onClick={() =>
+                          quote.approved
+                            ? dispatch(unapprove(quote.id))
+                            : dispatch(approve(quote.id))
+                        }
+                      >
+                        {quote.approved ? 'Fjern godkjenning' : 'Godkjenn'}
+                        <Icon
+                          iconNode={
+                            quote.approved ? <CircleX /> : <CircleCheck />
+                          }
+                        />
+                      </button>
+                    </Dropdown.ListItem>
+                    <Dropdown.Divider />
+                  </>
                 )}
 
                 {!deleting ? (
@@ -122,12 +130,14 @@ const Quote = ({
                       }}
                     >
                       Slett
+                      <Icon iconNode={<Trash2 />} />
                     </button>
                   </Dropdown.ListItem>
                 ) : (
-                  <Dropdown.ListItem>
+                  <Dropdown.ListItem danger>
                     <button onClick={() => dispatch(deleteQuote(quote.id))}>
                       Er du sikker?
+                      <Icon iconNode={<Trash2 />} />
                     </button>
                   </Dropdown.ListItem>
                 )}
