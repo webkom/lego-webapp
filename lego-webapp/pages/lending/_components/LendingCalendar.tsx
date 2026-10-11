@@ -33,6 +33,8 @@ const LendingCalendar = ({
 }: LendingCalendarProps) => {
   const [currentMonth, setCurrentMonth] = useState(moment());
 
+  const calendarDays = createMonthlyCalendar(currentMonth);
+
   const dispatch = useAppDispatch();
 
   const lendableObject = useAppSelector((state) =>
@@ -48,8 +50,10 @@ const LendingCalendar = ({
 
       return dispatch(
         fetchLendableObjectAvailability(lendableObjectId, {
-          year: currentMonth.year(),
-          month: currentMonth.month() + 1,
+          date_after: calendarDays[0].day.format('YYYY-MM-DD'),
+          date_before: calendarDays[calendarDays.length - 1].day.format(
+            'YYYY-MM-DD',
+          ),
         }),
       );
     },
@@ -208,11 +212,11 @@ const LendingCalendar = ({
         <tbody>
           {Array.from(
             {
-              length: Math.ceil(createMonthlyCalendar(currentMonth).length / 7),
+              length: Math.ceil(calendarDays.length / 7),
             },
             (_, i) => (
               <tr key={i}>
-                {createMonthlyCalendar(currentMonth)
+                {calendarDays
                   .slice(i * 7, i * 7 + 7)
                   .map((dateProps, j) => {
                     const selectedTimeRange = getSelectedTimeRange(
