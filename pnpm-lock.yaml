@@ -19,8 +19,8 @@ catalogs:
       specifier: ^9.39.5
       version: 9.39.5
     lucide-react:
-      specifier: ^0.483.0
-      version: 0.483.0
+      specifier: ^1.52.0
+      version: 1.52.0
     postcss-custom-media:
       specifier: ^11.0.5
       version: 11.0.5
@@ -144,7 +144,7 @@ importers:
         version: 4.18.1
       lucide-react:
         specifier: 'catalog:'
-        version: 0.483.0(react@18.3.1)
+        version: 1.52.0(@types/react@18.3.18)(react@18.3.1)
       minireset.css:
         specifier: ^0.0.7
         version: 0.0.7
@@ -364,7 +364,7 @@ importers:
         version: 2.2.0
       lucide-react:
         specifier: 'catalog:'
-        version: 0.483.0(react@18.3.1)
+        version: 1.52.0(@types/react@18.3.18)(react@18.3.1)
       postcss-custom-media:
         specifier: 'catalog:'
         version: 11.0.5(postcss@8.5.26)
@@ -500,7 +500,7 @@ importers:
         version: 2.5.1
       lucide-react:
         specifier: 'catalog:'
-        version: 0.483.0(react@18.3.1)
+        version: 1.52.0(@types/react@18.3.18)(react@18.3.1)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -5017,10 +5017,14 @@ packages:
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
 
-  lucide-react@0.483.0:
-    resolution: {integrity: sha512-WldsY17Qb/T3VZdMnVQ9C3DDIP7h1ViDTHVdVGnLZcvHNg30zH/MTQ04RTORjexoGmpsXroiQXZ4QyR0kBy0FA==}
+  lucide-react@1.52.0:
+    resolution: {integrity: sha512-TUgPtl5ZI9WgxOcbu4ckaC5B3l1qxPQrCMgb6OfUB9owx/OvSJfcf93SMgUWAxRw5/1XDfh9uI5F5iNGXCcGDQ==}
     peerDependencies:
+      '@types/react': '*'
       react: ^18.3.1
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
 
   lz-string@1.5.0:
     resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
@@ -11982,9 +11986,11 @@ snapshots:
     dependencies:
       yallist: 3.1.1
 
-  lucide-react@0.483.0(react@18.3.1):
+  lucide-react@1.52.0(@types/react@18.3.18)(react@18.3.1):
     dependencies:
       react: 18.3.1
+    optionalDependencies:
+      '@types/react': 18.3.18
 
   lz-string@1.5.0: {}
 
