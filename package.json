@@ -27,7 +27,7 @@
     "url": "github.com/webkom/lego-webapp"
   },
   "dependencies": {
-    "prettier": "^3.5.3"
+    "prettier": "^3.9.9"
   },
   "prettier": {
     "singleQuote": true
