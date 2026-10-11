@@ -79,8 +79,14 @@ const HeroPageSection = ({
   const renderSidebar =
     sidebar &&
     ((props: { close?: () => void }) => (
-      <Sidebar title={sidebar.title} close={props.close}>
-        {sidebar.content}
+      <Sidebar
+        title={sidebar.title}
+        close={props.close}
+        className={sidebar.className}
+      >
+        {typeof sidebar.content === 'function'
+          ? sidebar.content(props)
+          : sidebar.content}
       </Sidebar>
     ));
 
