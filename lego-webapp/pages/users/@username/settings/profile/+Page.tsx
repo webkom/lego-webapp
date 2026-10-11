@@ -1,7 +1,8 @@
 import { Accordion, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { ChevronRight, Github, Linkedin, Mail } from 'lucide-react';
+import { ChevronRight, Mail } from 'lucide-react';
 import { Field } from 'react-final-form';
+import { Github, Linkedin } from '~/components/BrandIcons';
 import { ContentMain } from '~/components/Content';
 import {
   Form,
