@@ -33,7 +33,9 @@
     "singleQuote": true
   },
   "pnpm": {
-    "overrides": {}
+    "overrides": {
+      "esbuild": "^0.25.0"
+    }
   },
   "packageManager": "pnpm@10.34.6"
 }
