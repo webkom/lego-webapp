@@ -36,6 +36,7 @@
     "@webkom/lego-bricks": "workspace:*",
     "@webkom/lego-editor": "workspace:*",
     "@webkom/react-prepare": "^1.2.0",
+    "@yudiel/react-qr-scanner": "^2.6.0",
     "classnames": "catalog:",
     "cookie": "^1.0.2",
     "express": "^4.22.3",
@@ -74,7 +75,6 @@
     "react-infinite-scroller": "^1.2.6",
     "react-overlays": "^5.2.1",
     "react-phone-number-input": "^3.4.16",
-    "react-qr-reader": "^3.0.0-beta-1",
     "react-qrcode-logo": "^3.0.0",
     "react-redux": "^9.2.0",
     "react-select": "^5.10.2",
@@ -94,7 +94,8 @@
     "vike-react": "^0.5.13",
     "vike-server": "1.0.12",
     "vite-plugin-cjs-interop": "^2.2.0",
-    "zxcvbn": "^4.4.2"
+    "zxcvbn": "^4.4.2",
+    "zxing-wasm": "3.1.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.20.0",
