@@ -48,7 +48,7 @@ export const Icon = forwardRef<HTMLButtonElement & HTMLAnchorElement, Props>(
       disabled && styles.disabled,
     );
 
-    const iconElement = cloneElement(iconNode as ReactElement, {
+    const iconElement = cloneElement(iconNode as ReactElement<Props>, {
       size,
       strokeWidth,
     });

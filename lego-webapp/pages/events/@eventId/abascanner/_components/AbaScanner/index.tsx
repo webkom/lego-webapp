@@ -155,6 +155,8 @@ const AbaScanner = ({
           containerStyle={{ width: '100%', height: 'var(--camera-height)' }}
           videoContainerStyle={{ height: '100%', paddingTop: 0 }}
           videoStyle={{ objectFit: 'cover' }}
+          videoId="video"
+          scanDelay={500}
         />
         {activeStatus && (
           <div

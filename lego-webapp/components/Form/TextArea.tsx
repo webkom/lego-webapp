@@ -7,7 +7,7 @@ import type { ComponentProps, RefObject } from 'react';
 
 type Props = {
   className?: string;
-  inputRef?: RefObject<HTMLTextAreaElement>;
+  inputRef?: RefObject<HTMLTextAreaElement | null>;
   readOnly?: boolean;
 } & ComponentProps<typeof Textarea>;
 

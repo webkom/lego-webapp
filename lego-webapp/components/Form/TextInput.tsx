@@ -12,7 +12,7 @@ type Props = {
   prefixIconNode?: ReactNode;
   suffix?: string;
   className?: string;
-  inputRef?: RefObject<HTMLInputElement>;
+  inputRef?: RefObject<HTMLInputElement | null>;
   disabled?: boolean;
   readOnly?: boolean;
   placeholder?: string;

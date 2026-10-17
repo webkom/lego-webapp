@@ -20,7 +20,7 @@ import type { ListEvent } from '~/redux/models/Event';
 
 const ShareButton = ({ slug }: { slug: string }) => {
   const [copied, setCopied] = useState(false);
-  const copyTimeout = useRef<ReturnType<typeof setTimeout>>();
+  const copyTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const share = () => {
     navigator.clipboard
