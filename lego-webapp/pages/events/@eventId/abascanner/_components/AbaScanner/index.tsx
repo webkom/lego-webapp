@@ -1,9 +1,14 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
+import {
+  IDetectedBarcode,
+  Scanner,
+  type TrackFunction,
+} from '@yudiel/react-qr-scanner';
 import { get } from 'lodash-es';
 import { Scan, Search, X } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect, useRef, useState } from 'react';
-import { QrReader } from 'react-qr-reader';
+import loadZXingWasm from '~/utils/loadZXingWasm';
 import styles from './AbaScanner.module.css';
 import AttendanceProgress from './AttendanceProgress';
 import ManualRegistration from './ManualRegistration';
@@ -14,10 +19,37 @@ import useScanSounds from './useScanSounds';
 import type { RegistrationSearchResult } from '~/redux/actions/EventActions';
 import type { SelectedAdminRegistration } from '~/redux/slices/events';
 
+// TODO: This file should be client only
+
+loadZXingWasm();
+
 type MarkPresentResult = Promise<{ payload: RegistrationSearchResult }>;
 
 const RESUME_DELAY_MS = 2000;
 const CARD_GONE_MS = 2500;
+
+const outlineCode: TrackFunction = (detectedCodes, ctx) => {
+  ctx.lineWidth = 2;
+  ctx.lineJoin = 'round';
+  ctx.strokeStyle = 'white';
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+  const radius = 10;
+  for (const { cornerPoints } of detectedCodes) {
+    const n = cornerPoints.length;
+    ctx.beginPath();
+    ctx.moveTo(
+      (cornerPoints[0].x + cornerPoints[n - 1].x) / 2,
+      (cornerPoints[0].y + cornerPoints[n - 1].y) / 2,
+    );
+    cornerPoints.forEach((curr, i) => {
+      const next = cornerPoints[(i + 1) % n];
+      ctx.arcTo(curr.x, curr.y, next.x, next.y, radius);
+    });
+    ctx.closePath();
+  }
+  ctx.fill();
+  ctx.stroke();
+};
 
 type Props = {
   markPresent: (username: string) => MarkPresentResult;
@@ -141,20 +173,28 @@ const AbaScanner = ({
             <Icon iconNode={<Search />} size={22} strokeWidth={1.5} />
           </button>
         </Flex>
-        <QrReader
-          onResult={(res) => {
-            if (res) {
-              onScan(res.getText());
+        <Scanner
+          formats={['qr_code']}
+          onScan={(detectedCodes: IDetectedBarcode[]) => {
+            if (detectedCodes.length > 0) {
+              onScan(detectedCodes[0].rawValue);
             } else if (Date.now() - lastSeenAt.current > CARD_GONE_MS) {
               lastScanned.current = null;
             }
           }}
+          allowMultiple
+          tracker={outlineCode}
+          components={{ finder: false }}
+          sound={false}
           constraints={{
             facingMode: 'environment',
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
           }}
-          containerStyle={{ width: '100%', height: 'var(--camera-height)' }}
-          videoContainerStyle={{ height: '100%', paddingTop: 0 }}
-          videoStyle={{ objectFit: 'cover' }}
+          styles={{
+            container: { width: '100%', height: 'var(--camera-height)' },
+            video: { objectFit: 'cover' },
+          }}
         />
         {activeStatus && (
           <div
