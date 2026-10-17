@@ -16,7 +16,7 @@ import { BriefcaseBusinessIcon, CalendarIcon, Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import InfiniteScroll from 'react-infinite-scroller';
-import { CheckBox, TextInput } from '~/components/Form';
+import { TextInput } from '~/components/Form';
 import { fetchAll } from '~/redux/actions/CompanyActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
@@ -87,7 +87,6 @@ const CompanyList = ({ companies = [] }: CompanyListProps) => (
 
 export const companiesDefaultQuery = {
   search: '',
-  showInactive: 'false' as 'true' | 'false',
 };
 
 const CompaniesPage = () => {
@@ -127,7 +126,7 @@ const CompaniesPage = () => {
           query: { ...query, search: debouncedSearch },
         }),
       ),
-    [query.showInactive, debouncedSearch],
+    [debouncedSearch],
   );
 
   return (
@@ -135,27 +134,15 @@ const CompaniesPage = () => {
       title="Bedrifter"
       sidebar={filterSidebar({
         children: (
-          <>
-            <FilterSection title="Søk">
-              <TextInput
-                type="text"
-                prefixIconNode={<Search />}
-                placeholder="Søk etter bedrifter ..."
-                value={query.search}
-                onChange={(e) => setQueryValue('search')(e.target.value)}
-              />
-            </FilterSection>
-            <CheckBox
-              id="showInactive"
-              label="Vis inaktive bedrifter"
-              checked={query.showInactive === 'true'}
-              onChange={() =>
-                setQueryValue('showInactive')(
-                  query.showInactive === 'true' ? 'false' : 'true',
-                )
-              }
+          <FilterSection title="Søk">
+            <TextInput
+              type="text"
+              prefixIconNode={<Search />}
+              placeholder="Søk etter bedrifter ..."
+              value={query.search}
+              onChange={(e) => setQueryValue('search')(e.target.value)}
             />
-          </>
+          </FilterSection>
         ),
       })}
       actionButtons={

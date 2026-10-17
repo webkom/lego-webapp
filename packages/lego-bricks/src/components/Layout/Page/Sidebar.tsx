@@ -1,7 +1,6 @@
 import cx from 'classnames';
-import { FilterX, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { createContext, useContext } from 'react';
-import { useClearSearchParams, useLocation } from '../../../RouterContext';
 import { Button } from '../../Button';
 import { Icon } from '../../Icon';
 import Flex from '../Flex';
@@ -10,39 +9,19 @@ import { SideModal } from './utils/SideModal';
 import type { ReactNode } from 'react';
 
 type Props = {
-  title?: ReactNode;
+  title: ReactNode;
   close?: () => void;
   className?: string;
   children: ReactNode;
 };
 
 export const Sidebar = ({ title, close, className, children }: Props) => {
-  const { search } = useLocation();
-  const clearSearchParams = useClearSearchParams();
-
   return (
     <Flex className={cx(styles.sidebar, className)} column>
       {close && (
         <Icon iconNode={<X />} className={styles.close} onPress={close} />
       )}
-      {title && (
-        <Flex
-          wrap
-          alignItems="center"
-          gap="var(--spacing-sm)"
-          className={styles.title}
-        >
-          <h2>{title}</h2>
-          {title === 'Filter' && (
-            <Icon
-              iconNode={<FilterX />}
-              onPress={clearSearchParams}
-              disabled={!search}
-              size={20}
-            />
-          )}
-        </Flex>
-      )}
+      <h2>{title}</h2>
       {children}
     </Flex>
   );
@@ -51,6 +30,7 @@ export const Sidebar = ({ title, close, className, children }: Props) => {
 type ContextContent = {
   side: 'right' | 'left';
   icon: ReactNode;
+  title?: string;
   render: (props: { close: () => void }) => ReactNode;
 };
 
@@ -67,6 +47,7 @@ export const SidebarTrigger = () => {
         trigger={
           <Button className={cx(styles.sidebarTrigger, styles.mobileOnly)}>
             <Icon iconNode={sidebarContext.icon} size={22} />
+            {sidebarContext.title}
           </Button>
         }
       >

@@ -19,7 +19,6 @@ import {
 import LegoFinalForm from '~/components/Form/LegoFinalForm';
 import SubmissionError from '~/components/Form/SubmissionError';
 import { SubmitButton } from '~/components/Form/SubmitButton';
-import ToggleSwitch from '~/components/Form/ToggleSwitch';
 import {
   addCompany,
   deleteCompany,
@@ -46,7 +45,6 @@ type FormValues = {
   companyType?: string;
   website?: string;
   address?: string;
-  active?: boolean | 'true' | 'false';
   phone?: string;
   paymentMail?: string;
 };
@@ -98,7 +96,6 @@ const CompanyEditor = () => {
         name: '',
         description: '',
         website: '',
-        active: 'true',
         phone: '',
         companyType: '',
         paymentMail: '',
@@ -108,7 +105,6 @@ const CompanyEditor = () => {
         name: company.name,
         description: company.description,
         website: company.website,
-        active: company.active,
         phone: company.phone,
         companyType: company.companyType,
         paymentMail: company.paymentMail,
@@ -210,12 +206,6 @@ const CompanyEditor = () => {
                 component={TextInput.Field}
               />
             </RowSection>
-
-            <Field
-              name="active"
-              label="Aktiv bedrift?"
-              component={ToggleSwitch.Field}
-            />
 
             <SubmissionError />
             <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>

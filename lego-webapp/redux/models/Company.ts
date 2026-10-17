@@ -76,7 +76,6 @@ export interface StudentCompanyContact {
 interface Company {
   id: EntityId;
   name: string;
-  active: boolean;
   description?: string;
   website?: string;
   companyType?: string;
@@ -109,12 +108,11 @@ export type ListCompany = Pick<
   | 'logo'
   | 'logoPlaceholder'
   | 'thumbnail'
-  | 'active'
 >;
 
 export type AdminListCompany = Pick<
   Company,
-  'id' | 'name' | 'semesterStatuses' | 'studentContacts' | 'active'
+  'id' | 'name' | 'semesterStatuses' | 'studentContacts'
 >;
 
 export type DetailedCompany = Pick<
@@ -157,7 +155,6 @@ export type AdminDetailCompany = Pick<
   | 'comments'
   | 'contentTarget'
   | 'semesterStatuses'
-  | 'active'
   | 'logo'
   | 'files'
   | 'companyContacts'

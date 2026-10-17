@@ -1,4 +1,7 @@
-import { Filter } from 'lucide-react';
+import { Filter, FilterX } from 'lucide-react';
+import { useClearSearchParams, useLocation } from '../../../RouterContext';
+import { Button } from '../../Button';
+import { Icon } from '../../Icon';
 import Flex from '../Flex';
 import type Page from './Page';
 import type { ComponentProps, ReactNode } from 'react';
@@ -10,7 +13,7 @@ type Args = {
   children: ReactNode;
 };
 export const filterSidebar = ({
-  title = 'Filter',
+  title = 'Filtrering',
   side = 'right',
   icon = <Filter />,
   children,
@@ -22,9 +25,22 @@ export const filterSidebar = ({
     content: (
       <Flex column gap="var(--spacing-lg)">
         {children}
+        <ClearFiltersButton />
       </Flex>
     ),
   };
+};
+
+const ClearFiltersButton = () => {
+  const { search } = useLocation();
+  const clearSearchParams = useClearSearchParams();
+
+  return (
+    <Button onPress={clearSearchParams} disabled={!search}>
+      <Icon iconNode={<FilterX />} size={19} />
+      Fjern filtrering
+    </Button>
+  );
 };
 
 type SectionProps = {
