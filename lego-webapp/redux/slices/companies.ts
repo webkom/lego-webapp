@@ -12,6 +12,7 @@ import { selectUserEntities } from './users';
 import type { EntityId, AnyAction } from '@reduxjs/toolkit';
 import type { Semester } from 'app/models';
 import type { Overwrite } from 'utility-types';
+import type { CompanyEventStatistics } from '~/redux/actions/CompanyActions';
 import type {
   AdminDetailCompany,
   AdminListCompany,
@@ -25,9 +26,22 @@ import type { PublicUser, UnknownUser } from '~/redux/models/User';
 import type { RootState } from '~/redux/rootReducer';
 
 const legoAdapter = createLegoAdapter(EntityType.Companies);
+
+type ExtraCompaniesState = {
+  eventStatistics: Record<string, CompanyEventStatistics>;
+};
+
+const eventStatisticsKey = (
+  companyId: EntityId,
+  fromSemesterId: EntityId,
+  toSemesterId: EntityId,
+) => `${companyId}-${fromSemesterId}-${toSemesterId}`;
+
 const companiesSlice = createSlice({
   name: EntityType.Companies,
-  initialState: legoAdapter.getInitialState(),
+  initialState: legoAdapter.getInitialState<ExtraCompaniesState>({
+    eventStatistics: {},
+  }),
   reducers: {},
   extraReducers: legoAdapter.buildReducers({
     fetchActions: [Company.FETCH],
@@ -98,6 +112,16 @@ const companiesSlice = createSlice({
         },
       );
 
+      addCase(
+        Company.FETCH_EVENT_STATISTICS.SUCCESS,
+        (state, action: AnyAction) => {
+          const { companyId, fromSemesterId, toSemesterId } = action.meta;
+          state.eventStatistics[
+            eventStatisticsKey(companyId, fromSemesterId, toSemesterId)
+          ] = action.payload;
+        },
+      );
+
       addCommentCases(EntityType.Companies, addCase);
     },
   }),
@@ -110,6 +134,18 @@ export const {
   selectById: selectCompanyById,
   selectAllPaginated: selectAllPaginatedCompanies,
 } = legoAdapter.getSelectors((state: RootState) => state.companies);
+
+export const selectCompanyEventStatistics = (
+  state: RootState,
+  companyId: EntityId,
+  fromSemesterId?: EntityId,
+  toSemesterId?: EntityId,
+): CompanyEventStatistics | undefined =>
+  fromSemesterId === undefined || toSemesterId === undefined
+    ? undefined
+    : state.companies.eventStatistics[
+        eventStatisticsKey(companyId, fromSemesterId, toSemesterId)
+      ];
 
 export type TransformedStudentCompanyContact = Overwrite<
   StudentCompanyContact,

@@ -8,10 +8,10 @@ import { sortSemesterChronologically } from '~/pages/bdb/company-interest/utils'
 import { semesterToHumanReadable } from '~/pages/bdb/utils';
 import { fetchEventStatistics } from '~/redux/actions/CompanyActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectCompanyEventStatistics } from '~/redux/slices/companies';
 import { selectAllCompanySemesters } from '~/redux/slices/companySemesters';
 import styles from './CompanyEventStatistics.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { CompanyEventStatistics as CompanyEventStatisticsType } from '~/redux/actions/CompanyActions';
 import type CompanySemester from '~/redux/models/CompanySemester';
 
 type SemesterOption = { label: string; value: EntityId };
@@ -40,16 +40,23 @@ const CompanyEventStatistics = ({ companyId }: Props) => {
   const fromSemesterId = selectedFromSemesterId ?? latestSemesterId;
   const toSemesterId = selectedToSemesterId ?? latestSemesterId;
 
-  const [statistics, setStatistics] = useState<CompanyEventStatisticsType>();
+  const statistics = useAppSelector((state) =>
+    selectCompanyEventStatistics(
+      state,
+      companyId,
+      fromSemesterId,
+      toSemesterId,
+    ),
+  );
+  const hasCachedStatistics = statistics !== undefined;
 
   usePreparedEffect(
     'fetchCompanyEventStatistics',
     () =>
       fromSemesterId &&
       toSemesterId &&
-      dispatch(
-        fetchEventStatistics(companyId, fromSemesterId, toSemesterId),
-      ).then((response) => setStatistics(response.payload)),
+      !hasCachedStatistics &&
+      dispatch(fetchEventStatistics(companyId, fromSemesterId, toSemesterId)),
     [companyId, fromSemesterId, toSemesterId],
   );
 

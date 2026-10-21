@@ -120,6 +120,9 @@ export function fetchEventStatistics(
       to_semester: String(toSemesterId),
     })}`,
     meta: {
+      companyId,
+      fromSemesterId,
+      toSemesterId,
       errorMessage: 'Henting av arrangementsstatistikk feilet',
     },
   });
