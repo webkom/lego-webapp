@@ -48,8 +48,14 @@ const LendingCalendar = ({
 
       return dispatch(
         fetchLendableObjectAvailability(lendableObjectId, {
+<<<<<<< HEAD
           year: currentMonth.year(),
           month: currentMonth.month() + 1,
+=======
+          date_after: calendarDays[0].day.format('YYYY-MM-DD'),
+          date_before:
+            calendarDays[calendarDays.length - 1].day.format('YYYY-MM-DD'),
+>>>>>>> 534e31833 (Fix prettier)
         }),
       );
     },
@@ -212,6 +218,7 @@ const LendingCalendar = ({
             },
             (_, i) => (
               <tr key={i}>
+<<<<<<< HEAD
                 {createMonthlyCalendar(currentMonth)
                   .slice(i * 7, i * 7 + 7)
                   .map((dateProps, j) => {
@@ -227,54 +234,66 @@ const LendingCalendar = ({
                       isFullyUnavailable(dateProps.day);
                     const inSelectedRange = isInSelectedRange(dateProps.day);
                     const isEndpoint = isSelectedEndpoint(dateProps.day);
+=======
+                {calendarDays.slice(i * 7, i * 7 + 7).map((dateProps, j) => {
+                  const selectedTimeRange = getSelectedTimeRange(dateProps.day);
+                  const timeRanges = getUnavailableTimeRanges(
+                    selectedTimeRange,
+                    dateProps.day,
+                  );
+                  const fully =
+                    timeRanges.length > 0 && isFullyUnavailable(dateProps.day);
+                  const inSelectedRange = isInSelectedRange(dateProps.day);
+                  const isEndpoint = isSelectedEndpoint(dateProps.day);
+>>>>>>> 534e31833 (Fix prettier)
 
-                    return (
-                      <td
-                        key={j}
+                  return (
+                    <td
+                      key={j}
+                      className={cx(
+                        styles.dayCell,
+                        dateProps.day.isSame(moment(), 'day') && styles.today,
+                      )}
+                    >
+                      <div
                         className={cx(
-                          styles.dayCell,
-                          dateProps.day.isSame(moment(), 'day') && styles.today,
+                          styles.calendarDayWrapper,
+                          dateProps.prevOrNextMonth && styles.prevOrNextMonth,
+                          inSelectedRange && styles.inSelectedRange,
+                          isEndpoint && styles.selectedEndpoint,
                         )}
                       >
-                        <div
-                          className={cx(
-                            styles.calendarDayWrapper,
-                            dateProps.prevOrNextMonth && styles.prevOrNextMonth,
-                            inSelectedRange && styles.inSelectedRange,
-                            isEndpoint && styles.selectedEndpoint,
-                          )}
-                        >
-                          <div className={styles.dayNumber}>
-                            {dateProps.day.date()}
-                          </div>
-
-                          <div className={styles.inlineTimes}>
-                            {selectedTimeRange && (
-                              <div className={styles.selectedTimeRange}>
-                                {selectedTimeRange.fullDay
-                                  ? ''
-                                  : `${selectedTimeRange.start}-${selectedTimeRange.end}`}
-                              </div>
-                            )}
-
-                            {timeRanges.map((range, idx) => (
-                              <Link
-                                key={idx}
-                                href={`/lending/${range.lendableObjectId}/request/${range.requestId}
-                                    `}
-                              >
-                                <Tooltip content={range.createdByFullname}>
-                                  <div className={styles.timeRange}>
-                                    {!fully && `${range.start}-${range.end}`}
-                                  </div>
-                                </Tooltip>
-                              </Link>
-                            ))}
-                          </div>
+                        <div className={styles.dayNumber}>
+                          {dateProps.day.date()}
                         </div>
-                      </td>
-                    );
-                  })}
+
+                        <div className={styles.inlineTimes}>
+                          {selectedTimeRange && (
+                            <div className={styles.selectedTimeRange}>
+                              {selectedTimeRange.fullDay
+                                ? ''
+                                : `${selectedTimeRange.start}-${selectedTimeRange.end}`}
+                            </div>
+                          )}
+
+                          {timeRanges.map((range, idx) => (
+                            <Link
+                              key={idx}
+                              href={`/lending/${range.lendableObjectId}/request/${range.requestId}
+                                    `}
+                            >
+                              <Tooltip content={range.createdByFullname}>
+                                <div className={styles.timeRange}>
+                                  {!fully && `${range.start}-${range.end}`}
+                                </div>
+                              </Tooltip>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    </td>
+                  );
+                })}
               </tr>
             ),
           )}
