@@ -7,6 +7,8 @@
   --light-card-color: #fff;
   --dark-card-color: #222;
 
+  --inverse-card-color: var(--dark-card-color);
+
   --light-font-color: #0d0d0d;
   --dark-font-color: #f2f2f2;
 
@@ -198,6 +200,8 @@
   --lego-card-color: var(--dark-card-color);
   --lego-font-color: var(--dark-font-color);
   --lego-card-transparent: rgba(34, 34, 34, 0.9);
+
+  --inverse-card-color: var(--light-card-color);
 
   --secondary-font-color: #aaa;
 

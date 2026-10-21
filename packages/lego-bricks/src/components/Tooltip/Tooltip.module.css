@@ -1,16 +1,16 @@
 :root {
-  --tooltip-background: var(--lego-font-color);
+  --tooltip-background: var(--inverse-card-color);
 }
 
 .tooltip {
   animation: fade-in 0.2s;
   max-width: 300px;
-  padding: var(--spacing-xs) var(--spacing-sm);
+  padding: 0.75rem;
   background: var(--tooltip-background);
-  color: var(--inverted-font-color);
+  color: var(--color-gray-3);
   border-radius: var(--border-radius-md);
   z-index: 1;
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-sm);
   font-weight: normal;
 
   /* A small "border" added to the box-shadow
