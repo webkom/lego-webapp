@@ -1,11 +1,7 @@
-import {
-  HeroPage,
-} from '@webkom/lego-bricks';
+import { HeroPage } from '@webkom/lego-bricks';
 
 const GameDisplay = () => {
-    return (
-        <HeroPage title="Spill"></HeroPage>
-    )
-}
+  return <HeroPage title="Spill"></HeroPage>;
+};
 
-export default GameDisplay
+export default GameDisplay;

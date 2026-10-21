@@ -1,5 +1,5 @@
 const ChristmasCalendarOverview = () => {
-    return;
+  return;
 };
 
-export default ChristmasCalendarOverview
+export default ChristmasCalendarOverview;
