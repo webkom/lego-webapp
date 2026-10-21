@@ -3,5 +3,10 @@ import type { Config } from 'vike/types';
 
 export default {
   extends: [vikeServer],
-  server: 'server/index.ts',
+  server: {
+    entry: {
+      index: 'server/index.ts',
+      instrument: 'server/instrument.ts',
+    },
+  },
 } satisfies Config;

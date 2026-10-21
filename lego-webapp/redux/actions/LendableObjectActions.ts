@@ -77,6 +77,8 @@ export const fetchLendableObjectAvailability = (
   query: {
     year?: number;
     month?: number;
+    date_after?: string;
+    date_before?: string;
   },
 ) =>
   callAPI<[string, string][]>({

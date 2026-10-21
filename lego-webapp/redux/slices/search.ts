@@ -90,6 +90,7 @@ export const searchMapping: SearchMapping = {
     iconType: 'icon',
     label: 'title',
     title: 'title',
+    date: 'createdAt',
     type: 'Artikkel',
     picture: 'cover',
     color: '#52B0EC',

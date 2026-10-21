@@ -11,7 +11,7 @@
     "start": "echo '\\033[0;31mUse `pnpm dev` instead\\033[0m' && pnpm dev",
     "start:staging": "echo '\\033[0;31mUse `pnpm dev:staging` instead\\033[0m' && pnpm dev:staging",
     "build": "vike build",
-    "preview": "NODE_ENV=production node dist/server/index.js",
+    "preview": "NODE_ENV=production node --import ./dist/server/instrument.js dist/server/index.js",
     "preview:staging": "API_URL=https://lego-staging.abakus.no/api/v1 BASE_URL=https://lego-staging.abakus.no WS_URL=wss://ws-staging.abakus.no CAPTCHA_KEY=1x00000000000000000000AA ENVIRONMENT=local_staging pnpm preview",
     "ssr": "echo '\\033[0;31mUse `pnpm preview` instead\\033[0m' && pnpm preview",
     "ssr:staging": "echo '\\033[0;31mUse `pnpm preview:staging` instead\\033[0m' && pnpm preview:staging",
