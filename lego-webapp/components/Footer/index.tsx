@@ -1,10 +1,10 @@
 import { Flex, Icon, Image, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { Facebook, Instagram, Linkedin, Slack } from 'lucide-react';
 import moment from 'moment-timezone';
 import bekk from '~/assets/bekk_short_white.svg';
 import octocat from '~/assets/octocat.png';
+import { Facebook, Instagram, Linkedin, Slack } from '~/components/BrandIcons';
 import { fetchSystemStatus } from '~/redux/actions/StatusActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { useIsLoggedIn } from '~/redux/slices/auth';
