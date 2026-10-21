@@ -10,6 +10,7 @@ describe('reducers', () => {
         actionGrant: [],
         paginationNext: {},
         fetching: false,
+        eventStatistics: {},
         ids: [2, 3],
         entities: {
           2: {
@@ -89,6 +90,7 @@ describe('reducers', () => {
         actionGrant: [],
         paginationNext: {},
         fetching: false,
+        eventStatistics: {},
         ids: [3],
         entities: {
           3: {
@@ -146,6 +148,7 @@ describe('reducers', () => {
         actionGrant: [],
         paginationNext: {},
         fetching: false,
+        eventStatistics: {},
         ids: [3],
         entities: {
           3: {
@@ -195,6 +198,7 @@ describe('reducers', () => {
         actionGrant: [],
         paginationNext: {},
         fetching: false,
+        eventStatistics: {},
         ids: [2, 3],
         entities: {
           2: {
@@ -268,6 +272,7 @@ describe('reducers', () => {
         actionGrant: [],
         paginationNext: {},
         fetching: false,
+        eventStatistics: {},
         ids: [3],
         entities: {
           3: {
@@ -320,6 +325,7 @@ describe('reducers', () => {
         actionGrant: [],
         paginationNext: {},
         fetching: false,
+        eventStatistics: {},
         ids: [3],
         entities: {
           3: {
@@ -356,6 +362,40 @@ describe('reducers', () => {
               },
             ],
           },
+        },
+      });
+    });
+  });
+
+  describe('company event statistics', () => {
+    it('Company.FETCH_EVENT_STATISTICS.SUCCESS', () => {
+      const prevState: ReturnType<typeof companies> = {
+        actionGrant: [],
+        paginationNext: {},
+        fetching: false,
+        eventStatistics: {},
+        ids: [],
+        entities: {},
+      };
+      const statistics = {
+        eventCount: 2,
+        averageParticipants: 30,
+        averageWaitingList: 4.5,
+        averageFill: 0.75,
+      };
+      const newState = companies(prevState, {
+        type: Company.FETCH_EVENT_STATISTICS.SUCCESS,
+        meta: {
+          companyId: 1,
+          fromSemesterId: 2,
+          toSemesterId: 3,
+        },
+        payload: statistics,
+      });
+      expect(newState).toEqual({
+        ...prevState,
+        eventStatistics: {
+          '1-2-3': statistics,
         },
       });
     });
