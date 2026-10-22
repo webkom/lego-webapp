@@ -9,13 +9,11 @@ import { isNotNullish } from '~/utils';
 import { selectCompanySemesterEntities } from './companySemesters';
 import { selectUserEntities } from './users';
 import type { EntityId, AnyAction } from '@reduxjs/toolkit';
-import type { Semester } from 'app/models';
 import type { Overwrite } from 'utility-types';
 import type { CompanyEventStatistics } from '~/redux/actions/CompanyActions';
 import type {
   AdminDetailCompany,
   AdminListCompany,
-  SemesterStatus,
   StudentCompanyContact,
 } from '~/redux/models/Company';
 import type CompanySemester from '~/redux/models/CompanySemester';
@@ -45,34 +43,34 @@ const companiesSlice = createSlice({
     deleteActions: [Company.DELETE],
     extraCases: (addCase) => {
       addCase(
-        Company.ADD_SEMESTER_STATUS.SUCCESS,
+        Company.ADD_SEMESTER_FILES.SUCCESS,
         (state, action: AnyAction) => {
           const { companyId } = action.meta;
           const company = state.entities[companyId] as AdminDetailCompany;
-          company.semesterStatuses ??= [];
-          company.semesterStatuses.push(action.payload);
+          company.semesterFiles ??= [];
+          company.semesterFiles.push(action.payload);
         },
       );
       addCase(
-        Company.EDIT_SEMESTER_STATUS.SUCCESS,
+        Company.EDIT_SEMESTER_FILES.SUCCESS,
         (state, action: AnyAction) => {
-          const { companyId, semesterStatusId } = action.meta;
+          const { companyId, semesterFilesId } = action.meta;
           const company = state.entities[companyId] as AdminDetailCompany;
-          const index = company.semesterStatuses?.findIndex(
-            (s) => s.id === semesterStatusId,
+          const index = company.semesterFiles?.findIndex(
+            (files) => files.id === semesterFilesId,
           );
-          if (index === undefined || company.semesterStatuses === undefined)
+          if (index === undefined || company.semesterFiles === undefined)
             return;
-          company.semesterStatuses[index] = action.payload;
+          company.semesterFiles[index] = action.payload;
         },
       );
       addCase(
-        Company.DELETE_SEMESTER_STATUS.SUCCESS,
+        Company.DELETE_SEMESTER_FILES.SUCCESS,
         (state, action: AnyAction) => {
-          const { companyId, semesterStatusId } = action.meta;
+          const { companyId, semesterFilesId } = action.meta;
           const company = state.entities[companyId] as AdminDetailCompany;
-          company.semesterStatuses = company.semesterStatuses?.filter(
-            (status) => status.id !== semesterStatusId,
+          company.semesterFiles = company.semesterFiles?.filter(
+            (files) => files.id !== semesterFilesId,
           );
         },
       );
@@ -149,11 +147,6 @@ export type TransformedStudentCompanyContact = Overwrite<
   { semester: CompanySemester; user: PublicUser }
 >;
 
-export type TransformedSemesterStatus = Overwrite<
-  SemesterStatus,
-  { semester: Semester }
-> & { year: number };
-
 export type TransformedAdminCompany<
   T extends AdminDetailCompany | AdminListCompany =
     | AdminDetailCompany
@@ -162,7 +155,6 @@ export type TransformedAdminCompany<
   T,
   {
     studentContacts?: TransformedStudentCompanyContact[];
-    semesterStatuses: TransformedSemesterStatus[];
   }
 >;
 export type TransformedAdminDetailCompany =
@@ -181,10 +173,6 @@ const transformCompany = (
       semester: companySemesterEntities[studentContact.semester],
       user: userEntities[studentContact.user],
     })),
-  semesterStatuses: transformSemesterStatuses(
-    companySemesterEntities,
-    company.semesterStatuses ?? [],
-  ),
 });
 
 export const selectTransformedAdminCompanies = createSelector(
@@ -216,19 +204,6 @@ export const selectTransformedAdminCompanyById = createSelector(
         ) as TransformedAdminDetailCompany)
       : undefined,
 );
-
-export const transformSemesterStatuses = (
-  companySemesterEntities: Record<EntityId, CompanySemester>,
-  semesterStatuses: SemesterStatus[],
-) =>
-  semesterStatuses.map((semesterStatus) => {
-    const companySemester = companySemesterEntities[semesterStatus.semester];
-    return {
-      ...semesterStatus,
-      year: companySemester?.year,
-      semester: companySemester?.semester,
-    };
-  });
 
 export const selectJoblistingsForCompany = createSelector(
   selectAllJoblistings,

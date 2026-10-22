@@ -4,25 +4,18 @@ import type { Dateish } from 'app/models';
 import type { AutocompleteContentType } from '~/redux/models/Autocomplete';
 import type { ContentTarget } from '~/utils/contentTarget';
 
-export enum NonEventContactStatus {
-  BEDEX = 'bedex',
-  INTERESTED = 'interested',
-  NOT_INTERESTED = 'not_interested',
-  CONTACTED = 'contacted',
-  NOT_CONTACTED = 'not_contacted',
+export const INTERESTED = 'interested';
+
+export type CompanySemesterStatus = EventType | typeof INTERESTED;
+
+export interface SemesterStatus {
+  semester: EntityId;
+  statuses: CompanySemesterStatus[];
 }
 
-export type CompanySemesterContactStatus =
-  | EventType.BREAKFAST_TALK
-  | EventType.COMPANY_PRESENTATION
-  | EventType.COURSE
-  | EventType.LUNCH_PRESENTATION
-  | NonEventContactStatus;
-
-interface CompleteSemesterStatus {
+export interface SemesterFiles {
   id: EntityId;
   semester: EntityId;
-  contactedStatus: CompanySemesterContactStatus[];
   contract?: string;
   statistics?: string;
   evaluation?: string;
@@ -30,26 +23,6 @@ interface CompleteSemesterStatus {
   statisticsName?: string;
   evaluationName?: string;
 }
-
-export type SemesterStatus = Pick<
-  CompleteSemesterStatus,
-  'id' | 'semester' | 'contactedStatus'
->;
-
-export type DetailedSemesterStatus = Pick<
-  CompleteSemesterStatus,
-  | 'id'
-  | 'semester'
-  | 'contactedStatus'
-  | 'contract'
-  | 'statistics'
-  | 'evaluation'
-  | 'contractName'
-  | 'statisticsName'
-  | 'evaluationName'
->;
-
-export type AnySemesterStatus = SemesterStatus | DetailedSemesterStatus;
 
 export interface CompanyContact {
   id: EntityId;
@@ -87,6 +60,7 @@ interface Company {
   joblistingCount?: number;
   thumbnail?: string;
   semesterStatuses?: SemesterStatus[];
+  semesterFiles?: SemesterFiles[];
   studentContacts?: StudentCompanyContact[];
   paymentMail: string;
   comments: EntityId[];
@@ -155,6 +129,7 @@ export type AdminDetailCompany = Pick<
   | 'comments'
   | 'contentTarget'
   | 'semesterStatuses'
+  | 'semesterFiles'
   | 'logo'
   | 'files'
   | 'companyContacts'

@@ -14,10 +14,10 @@ import {
 import LegoFinalForm from '~/components/Form/LegoFinalForm';
 import SubmissionError from '~/components/Form/SubmissionError';
 import { SubmitButton } from '~/components/Form/SubmitButton';
-import { getContactStatuses, semesterCodeToName } from '~/pages/bdb/utils';
+import { semesterCodeToName } from '~/pages/bdb/utils';
 import {
   addSemester,
-  addSemesterStatus,
+  addSemesterFiles,
   fetchAllAdmin,
   fetchSemesters,
 } from '~/redux/actions/CompanyActions';
@@ -28,19 +28,12 @@ import { selectAllCompanySemesters } from '~/redux/slices/companySemesters';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import { useParams } from '~/utils/useParams';
 import { createValidator, required } from '~/utils/validation';
-import SemesterStatusContent from '../../../SemesterStatusContent';
 import styles from './AddSemester.module.css';
-import type {
-  AdminDetailCompany,
-  CompanySemesterContactStatus,
-} from '~/redux/models/Company';
+import type { AdminDetailCompany } from '~/redux/models/Company';
 
 type FormValues = {
   year: number;
   semester: Semester;
-  semesterStatus: {
-    contactedStatus: CompanySemesterContactStatus[];
-  };
 };
 
 const TypedLegoForm = LegoFinalForm<FormValues>;
@@ -70,7 +63,7 @@ const AddSemester = () => {
   );
 
   const [submit, setSubmit] = useState(false);
-  const [foundSemesterStatus, setFoundSemesterStatus] = useState<{
+  const [foundSemesterFiles, setFoundSemesterFiles] = useState<{
     semester: Semester;
     year: number;
   }>();
@@ -79,10 +72,8 @@ const AddSemester = () => {
     return <LoadingIndicator loading />;
   }
 
-  const onSubmit = ({ year, semester, semesterStatus }: FormValues) => {
-    setFoundSemesterStatus(undefined);
-
-    const contactedStatus = semesterStatus.contactedStatus;
+  const onSubmit = ({ year, semester }: FormValues) => {
+    setFoundSemesterFiles(undefined);
 
     if (!submit) return;
 
@@ -92,20 +83,19 @@ const AddSemester = () => {
     );
 
     if (globalSemester) {
-      const foundSemesterStatus = company.semesterStatuses?.find(
-        (semesterStatus) => semesterStatus.semester === globalSemester.id,
+      const foundSemesterFiles = company.semesterFiles?.find(
+        (semesterFiles) => semesterFiles.semester === globalSemester.id,
       );
 
-      if (foundSemesterStatus) {
-        setFoundSemesterStatus({ semester, year });
+      if (foundSemesterFiles) {
+        setFoundSemesterFiles({ semester, year });
         return;
       }
 
       return dispatch(
-        addSemesterStatus({
+        addSemesterFiles({
           companyId,
           semester: globalSemester.id,
-          contactedStatus,
         }),
       ).then(() => {
         navigate(`/bdb/${companyId}/`);
@@ -119,10 +109,9 @@ const AddSemester = () => {
       }),
     ).then((response) => {
       dispatch(
-        addSemesterStatus({
+        addSemesterFiles({
           companyId,
           semester: response.payload.result,
-          contactedStatus,
         }),
       ).then(() => {
         navigate(`/bdb/${companyId}/`);
@@ -133,14 +122,11 @@ const AddSemester = () => {
   const initialValues: FormValues = {
     year: moment().year(),
     semester: moment().month() > 6 ? Semester.Spring : Semester.Autumn,
-    semesterStatus: {
-      contactedStatus: [],
-    },
   };
 
   return (
     <Page
-      title="Legg til semesterstatus"
+      title="Legg til semester"
       back={{
         href: `/bdb/${companyId}/`,
       }}
@@ -149,7 +135,9 @@ const AddSemester = () => {
         <Card severity="info">
           <Card.Header>Hint</Card.Header>
           <span>
-            Du kan legge til status for flere semestre samtidig på BDB-forsiden!
+            Semestre med arrangementer eller interesseskjema vises automatisk.
+            Legg til et semester her for å laste opp filer før det har skjedd
+            noe.
           </span>
         </Card>
 
@@ -189,33 +177,14 @@ const AddSemester = () => {
                 className={styles.yearForm}
               />
 
-              <label className={styles.label}>Status</label>
-              <Field name="semesterStatus">
-                {({ input }) => (
-                  <div className={styles.semesterStatus}>
-                    <SemesterStatusContent
-                      contactedStatus={input.value.contactedStatus}
-                      editFunction={(status) => {
-                        input.onChange({
-                          contactedStatus: getContactStatuses(
-                            input.value.contactedStatus,
-                            status,
-                          ),
-                        });
-                      }}
-                    />
-                  </div>
-                )}
-              </Field>
-
-              {foundSemesterStatus && (
+              {foundSemesterFiles && (
                 <Card severity="danger">
                   <Card.Header>Feil</Card.Header>
                   <span>
-                    Denne bedriften har allerede et registrert semester status
-                    for {semesterCodeToName(foundSemesterStatus.semester)}{' '}
-                    {foundSemesterStatus.year}. Du kan endre denne på bedriftens
-                    side.
+                    Denne bedriften har allerede registrert{' '}
+                    {semesterCodeToName(foundSemesterFiles.semester)}{' '}
+                    {foundSemesterFiles.year}. Du kan laste opp filer på
+                    bedriftens side.
                   </span>
                 </Card>
               )}

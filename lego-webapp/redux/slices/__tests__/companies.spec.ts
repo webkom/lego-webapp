@@ -4,8 +4,8 @@ import companies from '../companies';
 import type { UnknownCompany } from '~/redux/models/Company';
 
 describe('reducers', () => {
-  describe('companies semester status', () => {
-    it('Company.ADD_SEMESTER_STATUS.SUCCESS', () => {
+  describe('companies semester files', () => {
+    it('Company.ADD_SEMESTER_FILES.SUCCESS', () => {
       const prevState: ReturnType<typeof companies> = {
         actionGrant: [],
         paginationNext: {},
@@ -18,11 +18,10 @@ describe('reducers', () => {
           } as UnknownCompany,
           3: {
             id: 3,
-            semesterStatuses: [
+            semesterFiles: [
               {
                 id: 1,
                 semester: 1,
-                contactedStatus: ['not_interested'],
               },
             ],
           } as UnknownCompany,
@@ -30,25 +29,23 @@ describe('reducers', () => {
       };
       const actions = [
         {
-          type: Company.ADD_SEMESTER_STATUS.SUCCESS,
+          type: Company.ADD_SEMESTER_FILES.SUCCESS,
           meta: {
             companyId: 3,
           },
           payload: {
             id: 12,
             semester: 2,
-            contactedStatus: ['course'],
           },
         },
         {
-          type: Company.ADD_SEMESTER_STATUS.SUCCESS,
+          type: Company.ADD_SEMESTER_FILES.SUCCESS,
           meta: {
             companyId: 2,
           },
           payload: {
             id: 13,
             semester: 1,
-            contactedStatus: ['course'],
           },
         },
       ];
@@ -59,33 +56,30 @@ describe('reducers', () => {
         entities: {
           2: {
             id: 2,
-            semesterStatuses: [
+            semesterFiles: [
               {
                 id: 13,
                 semester: 1,
-                contactedStatus: ['course'],
               },
             ],
           },
           3: {
             id: 3,
-            semesterStatuses: [
+            semesterFiles: [
               {
                 id: 1,
                 semester: 1,
-                contactedStatus: ['not_interested'],
               },
               {
                 id: 12,
                 semester: 2,
-                contactedStatus: ['course'],
               },
             ],
           },
         },
       });
     });
-    it('Company.EDIT_SEMESTER_STATUS.SUCCESS', () => {
+    it('Company.EDIT_SEMESTER_FILES.SUCCESS', () => {
       const prevState: ReturnType<typeof companies> = {
         actionGrant: [],
         paginationNext: {},
@@ -95,31 +89,28 @@ describe('reducers', () => {
         entities: {
           3: {
             id: 3,
-            semesterStatuses: [
+            semesterFiles: [
               {
                 id: 1,
                 semester: 1,
-                contactedStatus: ['not_interested'],
               },
               {
                 id: 2,
                 semester: 2,
-                contactedStatus: ['not_interested'],
               },
             ],
           } as UnknownCompany,
         },
       };
       const action = {
-        type: Company.EDIT_SEMESTER_STATUS.SUCCESS,
+        type: Company.EDIT_SEMESTER_FILES.SUCCESS,
         meta: {
           companyId: 3,
-          semesterStatusId: 1,
+          semesterFilesId: 1,
         },
         payload: {
           id: 1,
           semester: 1,
-          contactedStatus: ['course'],
         },
       };
       expect(companies(prevState, action)).toEqual({
@@ -127,23 +118,21 @@ describe('reducers', () => {
         entities: {
           3: {
             id: 3,
-            semesterStatuses: [
+            semesterFiles: [
               {
                 id: 1,
                 semester: 1,
-                contactedStatus: ['course'],
               },
               {
                 id: 2,
                 semester: 2,
-                contactedStatus: ['not_interested'],
               },
             ],
           },
         },
       });
     });
-    it('Company.DELETE_SEMESTER_STATUS.SUCCESS', () => {
+    it('Company.DELETE_SEMESTER_FILES.SUCCESS', () => {
       const prevState: ReturnType<typeof companies> = {
         actionGrant: [],
         paginationNext: {},
@@ -153,26 +142,24 @@ describe('reducers', () => {
         entities: {
           3: {
             id: 3,
-            semesterStatuses: [
+            semesterFiles: [
               {
                 id: 1,
                 semester: 2,
-                contactedStatus: ['course'],
               },
               {
                 id: 2,
                 semester: 1,
-                contactedStatus: ['not_interested'],
               },
             ],
           } as UnknownCompany,
         },
       };
       const action = {
-        type: Company.DELETE_SEMESTER_STATUS.SUCCESS,
+        type: Company.DELETE_SEMESTER_FILES.SUCCESS,
         meta: {
           companyId: 3,
-          semesterStatusId: 1,
+          semesterFilesId: 1,
         },
       };
       expect(companies(prevState, action)).toEqual({
@@ -180,11 +167,10 @@ describe('reducers', () => {
         entities: {
           3: {
             id: 3,
-            semesterStatuses: [
+            semesterFiles: [
               {
                 id: 2,
                 semester: 1,
-                contactedStatus: ['not_interested'],
               },
             ],
           },

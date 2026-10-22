@@ -1,92 +1,29 @@
 import moment from 'moment';
-import { EventTypeConfig, colorForEventType } from '~/pages/events/utils';
-import { NonEventContactStatus } from '~/redux/models/Company';
-import { EventType } from '~/redux/models/Event';
+import { EventTypeConfig } from '~/pages/events/utils';
+import { INTERESTED } from '~/redux/models/Company';
 import type { ConfigProperties } from '../events/utils';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Semester } from 'app/models';
-import type { CompanySemesterContactStatus } from '~/redux/models/Company';
+import type { CompanySemesterStatus } from '~/redux/models/Company';
 import type CompanySemester from '~/redux/models/CompanySemester';
 import type { PublicUser } from '~/redux/models/User';
-import type {
-  TransformedAdminCompany,
-  TransformedSemesterStatus,
-  TransformedStudentCompanyContact,
-} from '~/redux/slices/companies';
+import type { TransformedStudentCompanyContact } from '~/redux/slices/companies';
 
-export const NonEventContactStatusConfig: Record<
-  NonEventContactStatus,
+export const SemesterStatusConfig: Record<
+  CompanySemesterStatus,
   ConfigProperties
 > = {
-  [NonEventContactStatus.BEDEX]: {
-    displayName: 'Bedex',
-    color: colorForEventType(EventType.ALTERNATIVE_PRESENTATION),
-    textColor: 'var(--color-absolute-white)',
-  },
-  [NonEventContactStatus.INTERESTED]: {
+  ...EventTypeConfig,
+  [INTERESTED]: {
     displayName: 'Interessert',
     color: 'var(--success-color)',
     textColor: '#000',
   },
-  [NonEventContactStatus.NOT_INTERESTED]: {
-    displayName: 'Ikke interessert',
-    color: 'var(--danger-color)',
-    textColor: 'var(--color-absolute-white)',
-  },
-  [NonEventContactStatus.CONTACTED]: {
-    displayName: 'Kontaktet',
-    color: 'var(--color-yellow-5)',
-    textColor: '#000',
-  },
-  [NonEventContactStatus.NOT_CONTACTED]: {
-    displayName: 'Ikke kontaktet',
-    color: 'var(--additive-background)',
-    textColor: 'var(--lego-font-color)',
-  },
 };
 
-export const contactStatuses: CompanySemesterContactStatus[] = [
-  EventType.BREAKFAST_TALK,
-  EventType.COMPANY_PRESENTATION,
-  EventType.COURSE,
-  EventType.LUNCH_PRESENTATION,
-  ...(Object.keys(NonEventContactStatusConfig) as NonEventContactStatus[]),
-];
-
-export const getStatusDisplayName = (
-  status: CompanySemesterContactStatus = NonEventContactStatus.NOT_CONTACTED,
-) =>
-  EventTypeConfig[status]?.displayName ||
-  NonEventContactStatusConfig[status]?.displayName;
-
-export const getStatusColor = (
-  status: CompanySemesterContactStatus = NonEventContactStatus.NOT_CONTACTED,
-) =>
-  EventTypeConfig[status]?.color || NonEventContactStatusConfig[status]?.color;
-
-export const getStatusTextColor = (
-  status: CompanySemesterContactStatus = NonEventContactStatus.NOT_CONTACTED,
-) =>
-  EventTypeConfig[status]?.textColor ||
-  NonEventContactStatusConfig[status]?.textColor;
-
-export const sortStatusesByProminence = (
-  statuses: CompanySemesterContactStatus[],
-): CompanySemesterContactStatus[] => {
-  // Create a copy of the array before sorting
-  return [...statuses].sort((a, b) => {
-    return contactStatuses.indexOf(a) - contactStatuses.indexOf(b);
-  });
-};
-
-export const selectMostProminentStatus = (
-  statuses: CompanySemesterContactStatus[] = [],
-) => {
-  return (
-    contactStatuses.find((status) => statuses.includes(status)) ||
-    NonEventContactStatus.NOT_CONTACTED
-  );
-};
+export const semesterStatuses = Object.keys(
+  SemesterStatusConfig,
+) as CompanySemesterStatus[];
 
 export const semesterNameOf = (index: number) => {
   const indexToSemesterName = {
@@ -106,29 +43,6 @@ export const semesterCodeToName = (code: Semester) => {
   };
   return codeToName[code] || '-';
 };
-export const sortByYearThenSemester = (
-  a: TransformedSemesterStatus,
-  b: TransformedSemesterStatus,
-): number => {
-  const semesterCodeToPriority = {
-    spring: 0,
-    autumn: 1,
-  };
-  return a.year !== b.year
-    ? b.year - a.year
-    : semesterCodeToPriority[b.semester] - semesterCodeToPriority[a.semester];
-};
-
-export const getSemesterStatus = (
-  company: TransformedAdminCompany,
-  companySemester: CompanySemester,
-) =>
-  company.semesterStatuses.find(
-    (semesterStatus) =>
-      semesterStatus.year == companySemester.year &&
-      semesterStatus.semester == companySemester.semester,
-  );
-
 export type GroupedStudentContactsBySemester = {
   id: EntityId;
   semester: CompanySemester;
@@ -243,41 +157,4 @@ export const getClosestCompanySemester = (
   if (closestSemesterIndex === undefined) return undefined;
 
   return companySemesters[closestSemesterIndex];
-};
-
-export const getContactStatuses = (
-  contactStatuses: CompanySemesterContactStatus[],
-  statusString: CompanySemesterContactStatus,
-) => {
-  const statuses = new Set(contactStatuses);
-
-  if (statuses.has(statusString)) {
-    statuses.delete(statusString);
-  } else {
-    statuses.add(statusString);
-  }
-
-  // Remove 'not contacted' if anything else is selected
-  if (statuses.size > 1 && statuses.has(NonEventContactStatus.NOT_CONTACTED)) {
-    statuses.delete(NonEventContactStatus.NOT_CONTACTED);
-  }
-
-  // Remove 'contacted', 'not_interested and 'interested'
-  // as statuses if any the other statuses are selected
-  if (
-    statuses.size > 1 &&
-    statusString !== NonEventContactStatus.NOT_CONTACTED
-  ) {
-    [
-      NonEventContactStatus.CONTACTED,
-      NonEventContactStatus.NOT_INTERESTED,
-      NonEventContactStatus.INTERESTED,
-    ].forEach((status) => {
-      if (status !== statusString) {
-        statuses.delete(status);
-      }
-    });
-  }
-
-  return Array.from(statuses);
 };

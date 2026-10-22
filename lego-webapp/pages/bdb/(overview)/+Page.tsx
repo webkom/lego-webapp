@@ -16,11 +16,12 @@ import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import useQuery from '~/utils/useQuery';
 import SemesterStatus from '../SemesterStatus';
 import {
+  SemesterStatusConfig,
   getClosestCompanySemester,
   getCompanySemesterBySlug,
   getSemesterSlugById,
   getSemesterSlugOffset,
-  getSemesterStatus,
+  semesterStatuses,
   semesterToHumanReadable,
 } from '../utils';
 import type { ColumnProps } from '~/components/Table';
@@ -32,6 +33,7 @@ const companiesDefaultQuery = {
   studentContacts: '',
   semester: '',
   search: '',
+  status: '',
 };
 
 const BdbPage = () => {
@@ -117,22 +119,24 @@ const BdbPage = () => {
     {
       title: 'Status',
       dataIndex: `status`,
-      padding: 0,
       render: (_, company) => (
         <SemesterStatus
-          semesterStatus={
-            currentCompanySemester &&
-            getSemesterStatus(company, currentCompanySemester)
+          statuses={
+            company.semesterStatuses?.find(
+              (semesterStatus) =>
+                semesterStatus.semester === currentCompanySemester?.id,
+            )?.statuses ?? []
           }
-          semester={
-            currentCompanySemester && {
-              semester: currentCompanySemester?.semester,
-              year: currentCompanySemester.year,
-            }
-          }
-          company={company}
         />
       ),
+      filter: semesterStatuses.map((status) => ({
+        value: status,
+        label: SemesterStatusConfig[status].displayName,
+      })),
+      inlineFiltering: false,
+      filterOptions: {
+        multiSelect: true,
+      },
     },
     {
       title: 'Studentkontakter',
