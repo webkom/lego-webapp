@@ -64,14 +64,14 @@ const LendableObject = ({
               {truncateString(lendableObject.title, 25)}
             </h3>
           </Flex>
-          <p title={formattedGroups}>
+          <div className={styles.infoBoxItem} title={formattedGroups}>
             <Icon iconNode={<Contact />} size={18} />
             {readmeIfy(truncateString(formattedGroups, 15))}
-          </p>
-          <p>
+          </div>
+          <div className={styles.infoBoxItem}>
             {<Icon iconNode={<Package />} size={18} />}
             {lendableObject.location}
-          </p>
+          </div>
         </CardFooter>
       </BaseCard>
     </a>

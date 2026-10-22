@@ -83,7 +83,7 @@
     margin-right: var(--spacing-xs);
   }
 
-  p {
+  .infoBoxItem {
     display: flex;
     align-items: center;
     font-size: var(--font-size-sm);
