@@ -15,9 +15,8 @@ import type {
   AdminListCompany,
   CompanyContact,
   DetailedCompany,
-  DetailedSemesterStatus,
   ListCompany,
-  SemesterStatus,
+  SemesterFiles,
 } from '~/redux/models/Company';
 import type CompanySemester from '~/redux/models/CompanySemester';
 
@@ -168,58 +167,63 @@ export function deleteCompany(companyId: EntityId) {
   });
 }
 
-export function addSemesterStatus({
+type SemesterFilesBody = Partial<
+  Record<'contract' | 'statistics' | 'evaluation', string | null>
+>;
+
+export function addSemesterFiles({
   companyId,
   ...data
 }: {
   companyId: EntityId;
-} & Omit<SemesterStatus, 'id'>) {
-  return callAPI<DetailedSemesterStatus>({
-    types: Company.ADD_SEMESTER_STATUS,
-    endpoint: `/companies/${companyId}/semester-statuses/`,
+  semester: EntityId;
+} & SemesterFilesBody) {
+  return callAPI<SemesterFiles>({
+    types: Company.ADD_SEMESTER_FILES,
+    endpoint: `/companies/${companyId}/semester-files/`,
     method: 'POST',
     body: data,
     meta: {
-      errorMessage: 'Legg til semesterstatus feilet',
+      errorMessage: 'Legg til semester feilet',
       companyId,
     },
   });
 }
 
-export function editSemesterStatus({
+export function editSemesterFiles({
   companyId,
-  semesterStatusId,
+  semesterFilesId,
   ...data
 }: {
   companyId: EntityId;
-  semesterStatusId: EntityId;
-} & Partial<SemesterStatus>) {
-  return callAPI<DetailedSemesterStatus>({
-    types: Company.EDIT_SEMESTER_STATUS,
-    endpoint: `/companies/${companyId}/semester-statuses/${semesterStatusId}/`,
+  semesterFilesId: EntityId;
+} & SemesterFilesBody) {
+  return callAPI<SemesterFiles>({
+    types: Company.EDIT_SEMESTER_FILES,
+    endpoint: `/companies/${companyId}/semester-files/${semesterFilesId}/`,
     method: 'PATCH',
     body: data,
     meta: {
-      errorMessage: 'Endring av semester status feilet',
+      errorMessage: 'Endring av semesterfiler feilet',
       companyId,
-      semesterStatusId,
+      semesterFilesId,
     },
   });
 }
 
-export function deleteSemesterStatus(
+export function deleteSemesterFiles(
   companyId: EntityId,
-  semesterStatusId: EntityId,
+  semesterFilesId: EntityId,
 ) {
   return callAPI({
-    types: Company.DELETE_SEMESTER_STATUS,
-    endpoint: `/companies/${companyId}/semester-statuses/${semesterStatusId}/`,
+    types: Company.DELETE_SEMESTER_FILES,
+    endpoint: `/companies/${companyId}/semester-files/${semesterFilesId}/`,
     method: 'DELETE',
     meta: {
       companyId,
-      semesterStatusId,
-      errorMessage: 'Sletting av semesterstatus feilet',
-      successMessage: 'Semesterstatus slettet',
+      semesterFilesId,
+      errorMessage: 'Sletting av semesterfiler feilet',
+      successMessage: 'Semesterfiler slettet',
     },
   });
 }
@@ -328,7 +332,7 @@ export function addSemester({
   year,
   semester,
 }: Pick<CompanySemester, 'year' | 'semester'>) {
-  return callAPI<DetailedSemesterStatus>({
+  return callAPI<CompanySemester>({
     types: Company.ADD_SEMESTER,
     endpoint: `/company-semesters/`,
     method: 'POST',
@@ -356,7 +360,7 @@ export function editSemester({
   semester: Semester;
   activeInterestForm: boolean;
 }) {
-  return callAPI<DetailedSemesterStatus>({
+  return callAPI<CompanySemester>({
     types: Company.EDIT_SEMESTER,
     endpoint: `/company-semesters/${id}/`,
     method: 'PATCH',

@@ -50,10 +50,11 @@ import {
 import companyStyles from '~/pages/companies/@companyId/Company.module.css';
 import { displayNameForEventType } from '~/pages/events/utils';
 import {
+  addSemesterFiles,
   deleteCompanyContact,
+  deleteSemesterFiles,
   editCompanyContact,
-  deleteSemesterStatus,
-  editSemesterStatus,
+  editSemesterFiles,
   fetchAdmin,
   fetchSemesters,
 } from '~/redux/actions/CompanyActions';
@@ -66,6 +67,7 @@ import {
   selectJoblistingsForCompany,
   selectTransformedAdminCompanyById,
 } from '~/redux/slices/companies';
+import { selectCompanySemesterEntities } from '~/redux/slices/companySemesters';
 import { selectAllEvents } from '~/redux/slices/events';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import truncateString from '~/utils/truncateString';
@@ -73,6 +75,7 @@ import { useParams } from '~/utils/useParams';
 import { EMAIL_REGEX } from '~/utils/validation';
 import styles from '../bdb.module.css';
 import CompanyEventStatistics from './CompanyEventStatistics';
+import type { EntityId } from '@reduxjs/toolkit';
 import type {
   ColumnProps,
   EditCellContext,
@@ -81,21 +84,31 @@ import type {
   TableEditableProps,
 } from '~/components/Table';
 import type { GroupedStudentContactsBySemester } from '~/pages/bdb/utils';
-import type { CompanyContact } from '~/redux/models/Company';
+import type {
+  CompanyContact,
+  CompanySemesterStatus,
+  SemesterFiles,
+} from '~/redux/models/Company';
+import type CompanySemester from '~/redux/models/CompanySemester';
 import type { ListEvent } from '~/redux/models/Event';
-import type { TransformedSemesterStatus } from '~/redux/slices/companies';
+
+type FileType = 'contract' | 'statistics' | 'evaluation';
+
+type SemesterRow = {
+  id: EntityId;
+  semester: CompanySemester;
+  statuses: CompanySemesterStatus[];
+  files?: SemesterFiles;
+};
 
 type RenderFileProps = {
-  semesterStatus: TransformedSemesterStatus;
-  type: string;
-  removeFile: (
-    type: string,
-    semesterStatus: TransformedSemesterStatus,
-  ) => Promise<unknown>;
+  semesterRow: SemesterRow;
+  type: FileType;
+  removeFile: (type: FileType, semesterRow: SemesterRow) => Promise<unknown>;
   addFile: (
     fileToken: string,
-    type: string,
-    semesterStatus: TransformedSemesterStatus,
+    type: FileType,
+    semesterRow: SemesterRow,
   ) => Promise<unknown>;
 };
 
@@ -136,20 +149,21 @@ const editableCompanyContactFromDraft = (
   phone: editDraftValueToString(draft.phone),
 });
 
-export const RenderFile = ({
+const RenderFile = ({
   type,
-  semesterStatus,
+  semesterRow,
   removeFile,
   addFile,
 }: RenderFileProps) => {
-  const name = semesterStatus[type + 'Name'];
+  const file = semesterRow.files?.[type];
+  const name = semesterRow.files?.[`${type}Name`];
 
-  if (semesterStatus[type]) {
+  if (file) {
     return (
       <span className={styles.deleteFile}>
         <span>
           {name ? (
-            <a href={semesterStatus[type]}>{truncateString(name, 30)}</a>
+            <a href={file}>{truncateString(name, 30)}</a>
           ) : (
             <span className="secondaryFontColor">-</span>
           )}
@@ -157,7 +171,7 @@ export const RenderFile = ({
         <ConfirmModal
           title="Slett fil"
           message="Er du sikker på at du vil slette denne filen?"
-          onConfirm={() => removeFile(type, semesterStatus)}
+          onConfirm={() => removeFile(type, semesterRow)}
           closeOnConfirm
         >
           {({ openConfirmModal }) => (
@@ -175,7 +189,7 @@ export const RenderFile = ({
 
   return (
     <FileUpload
-      onChange={(fileToken) => addFile(fileToken, type, semesterStatus)}
+      onChange={(fileToken) => addFile(fileToken, type, semesterRow)}
     />
   );
 };
@@ -185,6 +199,7 @@ const BdbDetail = () => {
   const company = useAppSelector((state) =>
     selectTransformedAdminCompanyById(state, companyId),
   );
+  const companySemesterEntities = useAppSelector(selectCompanySemesterEntities);
   const fetchingCompany = useAppSelector((state) => state.companies.fetching);
   const showSkeleton = fetchingCompany && isEmpty(company);
 
@@ -239,33 +254,79 @@ const BdbDetail = () => {
     [company?.studentContacts],
   );
 
+  const semesterRows = useMemo(() => {
+    const semesterIds = new Set([
+      ...(company?.semesterStatuses ?? []).map(({ semester }) => semester),
+      ...(company?.semesterFiles ?? []).map(({ semester }) => semester),
+    ]);
+    return Array.from(semesterIds)
+      .flatMap((semesterId): SemesterRow[] => {
+        const semester = companySemesterEntities[semesterId];
+        if (!semester) return [];
+        return [
+          {
+            id: semesterId,
+            semester,
+            statuses:
+              company?.semesterStatuses?.find(
+                (semesterStatus) => semesterStatus.semester === semesterId,
+              )?.statuses ?? [],
+            files: company?.semesterFiles?.find(
+              (semesterFiles) => semesterFiles.semester === semesterId,
+            ),
+          },
+        ];
+      })
+      .sort((a, b) =>
+        a.semester.year !== b.semester.year
+          ? b.semester.year - a.semester.year
+          : a.semester.semester === 'autumn'
+            ? -1
+            : 1,
+      );
+  }, [
+    company?.semesterStatuses,
+    company?.semesterFiles,
+    companySemesterEntities,
+  ]);
+
   if (!company || !('semesterStatuses' in company)) {
     return <LoadingIndicator loading />;
   }
 
   const addFileToSemester = async (
     fileToken: string,
-    type: string,
-    semesterStatus,
+    type: FileType,
+    { semester, files }: SemesterRow,
   ) => {
-    const sendableSemester = {
-      semesterStatusId: semesterStatus.id,
-      companyId: company.id,
-      contactedStatus: semesterStatus.contactedStatus,
-      [type]: fileToken,
-    };
-    await dispatch(editSemesterStatus(sendableSemester));
+    await dispatch(
+      files
+        ? editSemesterFiles({
+            companyId: company.id,
+            semesterFilesId: files.id,
+            [type]: fileToken,
+          })
+        : addSemesterFiles({
+            companyId: company.id,
+            semester: semester.id,
+            [type]: fileToken,
+          }),
+    );
     navigate(`/bdb/${companyId}/`);
   };
 
-  const removeFileFromSemester = async (type: string, semesterStatus) => {
-    const sendableSemester = {
-      semesterStatusId: semesterStatus.id,
-      contactedStatus: semesterStatus.contactedStatus,
-      companyId: company.id,
-      [type]: null,
-    };
-    await dispatch(editSemesterStatus(sendableSemester));
+  const removeFileFromSemester = async (
+    type: FileType,
+    { files }: SemesterRow,
+  ) => {
+    if (!files) return;
+    await dispatch(
+      editSemesterFiles({
+        companyId: company.id,
+        semesterFilesId: files.id,
+        [type]: null,
+      }),
+    );
     navigate(`/bdb/${companyId}/`);
   };
 
@@ -490,71 +551,64 @@ const BdbDetail = () => {
     },
   ];
 
-  const semesterColumns: ColumnProps<TransformedSemesterStatus>[] = [
+  const semesterColumns: ColumnProps<SemesterRow>[] = [
     {
       title: 'Semester',
       dataIndex: 'semester',
-      render: (_, semesterStatus: TransformedSemesterStatus) =>
-        semesterToHumanReadable(semesterStatus.semester, semesterStatus.year),
+      render: (_, { semester }: SemesterRow) =>
+        semesterToHumanReadable(semester.semester, semester.year),
     },
     {
       title: 'Status',
-      dataIndex: 'contactedStatus',
-      padding: 0,
-      render: (_, semesterStatus: TransformedSemesterStatus) => (
-        <SemesterStatus
-          semesterStatus={semesterStatus}
-          company={company}
-          semester={{
-            semester: semesterStatus.semester,
-            year: semesterStatus.year,
-          }}
-        />
+      dataIndex: 'statuses',
+      render: (_, { statuses }: SemesterRow) => (
+        <SemesterStatus statuses={statuses} />
       ),
     },
-    ...[
-      ['Kontrakt', 'contract'],
-      ['Statistikk', 'statistics'],
-      ['Evaluering', 'evaluation'],
-    ].map(([title, type]) => {
-      return {
-        title: title,
-        dataIndex: type,
-        render: (_, semesterStatus: TransformedSemesterStatus) => (
-          <RenderFile
-            semesterStatus={semesterStatus}
-            type={type}
-            addFile={addFileToSemester}
-            removeFile={removeFileFromSemester}
-          />
-        ),
-      };
-    }),
+    ...(
+      [
+        ['Kontrakt', 'contract'],
+        ['Statistikk', 'statistics'],
+        ['Evaluering', 'evaluation'],
+      ] as const
+    ).map(([title, type]) => ({
+      title,
+      dataIndex: type,
+      render: (_, semesterRow: SemesterRow) => (
+        <RenderFile
+          semesterRow={semesterRow}
+          type={type}
+          addFile={addFileToSemester}
+          removeFile={removeFileFromSemester}
+        />
+      ),
+    })),
     {
       title: '',
       dataIndex: '',
-      render: (_, semesterStatus: TransformedSemesterStatus) => (
-        <ConfirmModal
-          title="Slett semesterstatus"
-          message={`Er du sikker på at du vil slette semesterstatusen for ${semesterToHumanReadable(
-            semesterStatus.semester,
-            semesterStatus.year,
-          )}? Alle filer for dette semesteret vil bli slettet.`}
-          onConfirm={() =>
-            dispatch(deleteSemesterStatus(company.id, semesterStatus.id))
-          }
-          closeOnConfirm
-        >
-          {({ openConfirmModal }) => (
-            <Icon
-              onPress={openConfirmModal}
-              iconNode={<Trash2 />}
-              danger
-              size={20}
-            />
-          )}
-        </ConfirmModal>
-      ),
+      render: (_, { semester, files }: SemesterRow) =>
+        files && (
+          <ConfirmModal
+            title="Slett semesterfiler"
+            message={`Er du sikker på at du vil slette alle filer for ${semesterToHumanReadable(
+              semester.semester,
+              semester.year,
+            )}?`}
+            onConfirm={() =>
+              dispatch(deleteSemesterFiles(company.id, files.id))
+            }
+            closeOnConfirm
+          >
+            {({ openConfirmModal }) => (
+              <Icon
+                onPress={openConfirmModal}
+                iconNode={<Trash2 />}
+                danger
+                size={20}
+              />
+            )}
+          </ConfirmModal>
+        ),
     },
   ];
 
@@ -666,21 +720,21 @@ const BdbDetail = () => {
 
           <Flex column gap="var(--spacing-sm)">
             <Flex wrap justifyContent="space-between" alignItems="center">
-              <h3>Semesterstatuser</h3>
+              <h3>Semestre</h3>
               <LinkButton href={`/bdb/${company.id}/semesters/new`}>
                 <Icon iconNode={<Plus />} size={19} />
                 Legg til nytt semester
               </LinkButton>
             </Flex>
-            {company.semesterStatuses?.length > 0 ? (
+            {semesterRows.length > 0 ? (
               <Table
                 columns={semesterColumns}
-                data={company.semesterStatuses}
+                data={semesterRows}
                 hasMore={false}
                 loading={showSkeleton}
               />
             ) : (
-              <EmptyState body="Ingen semesterstatuser registrert" />
+              <EmptyState body="Ingen semestre registrert" />
             )}
           </Flex>
 

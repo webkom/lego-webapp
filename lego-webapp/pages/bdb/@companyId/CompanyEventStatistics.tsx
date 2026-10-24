@@ -67,15 +67,15 @@ const CompanyEventStatistics = ({ companyId }: Props) => {
   const metrics = [
     {
       title: 'deltakere',
-      value: statistics?.averageParticipants,
+      value: round(statistics?.averageParticipants ?? 0, 2),
     },
     {
       title: 'på venteliste',
-      value: statistics?.averageWaitingList,
+      value: round(statistics?.averageWaitingList ?? 0, 2),
     },
     {
       title: 'fyllgrad',
-      value: round(statistics?.averageFill ?? 0, 4) * 100 + '%',
+      value: round((statistics?.averageFill ?? 0) * 100, 2) + '%',
     },
   ];
 
@@ -122,7 +122,7 @@ const CompanyEventStatistics = ({ companyId }: Props) => {
           <Tag
             className={styles.statisticTag}
             key={metric.title}
-            tag={`${metric.value === undefined ? '-' : metric.value} ${metric.title}`}
+            tag={`${metric.value} ${metric.title}`}
             color="gray"
           />
         ))}
