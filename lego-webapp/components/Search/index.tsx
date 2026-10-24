@@ -18,6 +18,15 @@ import {
   getAllLinksFiltered,
 } from './utils';
 
+const CASCADE_STAGGER_MS = 12;
+const MAX_CASCADE_WINDOW_MS = 200;
+
+const getCascadeStepMs = (itemCount: number) =>
+  Math.min(
+    CASCADE_STAGGER_MS,
+    MAX_CASCADE_WINDOW_MS / Math.max(itemCount - 1, 1),
+  );
+
 type SearchProps = {
   closing: boolean;
   onClosed: () => void;
@@ -102,9 +111,20 @@ const Search = ({ closing, onClosed }: SearchProps) => {
     [allowed, loggedIn, query],
   );
 
+  const externalLinksCascadeStart = regularLinks.length + 1;
+  const adminLinksCascadeStart =
+    externalLinksCascadeStart +
+    (externalLinks.length > 0 ? externalLinks.length + 1 : 0);
+  const quickLinkItemCount =
+    adminLinksCascadeStart +
+    (adminLinks.length > 0 ? adminLinks.length + 1 : 0);
+  const quickLinksCascadeStepMs = getCascadeStepMs(quickLinkItemCount);
+  const filteredLinksCascadeStepMs = getCascadeStepMs(filteredLinks.length + 1);
+
   return (
     <div
       className={cx(styles.wrapper, closing && styles.closing)}
+      data-test-id="search-overlay"
       onAnimationEnd={(e) => {
         if (closing && e.target === e.currentTarget) {
           onClosed();
@@ -134,6 +154,8 @@ const Search = ({ closing, onClosed }: SearchProps) => {
                     title="Sider"
                     links={filteredLinks}
                     onCloseSearch={onCloseSearch}
+                    cascadeStartIndex={0}
+                    cascadeStepMs={filteredLinksCascadeStepMs}
                   />
                 </div>
               )}
@@ -144,12 +166,16 @@ const Search = ({ closing, onClosed }: SearchProps) => {
                 title="Sider"
                 links={regularLinks}
                 onCloseSearch={onCloseSearch}
+                cascadeStartIndex={0}
+                cascadeStepMs={quickLinksCascadeStepMs}
               />
               {externalLinks.length > 0 && (
                 <QuickLinks
                   title="Andre tjenester"
                   links={externalLinks}
                   onCloseSearch={onCloseSearch}
+                  cascadeStartIndex={externalLinksCascadeStart}
+                  cascadeStepMs={quickLinksCascadeStepMs}
                 />
               )}
               {adminLinks.length > 0 && (
@@ -157,6 +183,8 @@ const Search = ({ closing, onClosed }: SearchProps) => {
                   title="Admin"
                   links={adminLinks}
                   onCloseSearch={onCloseSearch}
+                  cascadeStartIndex={adminLinksCascadeStart}
+                  cascadeStepMs={quickLinksCascadeStepMs}
                 />
               )}
             </div>
