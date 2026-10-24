@@ -9,7 +9,7 @@ import {
 } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Contact, ImageOff, Package, FolderOpen, Plus } from 'lucide-react';
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import EmptyState from '~/components/EmptyState';
 import { readmeIfy } from '~/components/ReadmeLogo';
 import { useAppSelector } from '~/redux/hooks';
@@ -64,14 +64,14 @@ const LendableObject = ({
               {truncateString(lendableObject.title, 25)}
             </h3>
           </Flex>
-          <p title={formattedGroups}>
+          <div className={styles.infoBoxItem} title={formattedGroups}>
             <Icon iconNode={<Contact />} size={18} />
             {readmeIfy(truncateString(formattedGroups, 15))}
-          </p>
-          <p>
+          </div>
+          <div className={styles.infoBoxItem}>
             {<Icon iconNode={<Package />} size={18} />}
             {lendableObject.location}
-          </p>
+          </div>
         </CardFooter>
       </BaseCard>
     </a>
@@ -79,14 +79,20 @@ const LendableObject = ({
 };
 
 const BackgroundIcon = ({ category }: { category: string }) => {
-  const randomVal = useMemo(() => Math.random(), []);
+  const [randomVal, setRandomVal] = useState<number | null>(null);
+  useEffect(() => setRandomVal(Math.random()), []);
+
   return (
     <Icon
       className={cx(styles.animatedBackgroundIcon, styles.x)}
-      style={{
-        animationDelay: `${randomVal * 5}s`,
-        transform: `translate(${(Math.round(randomVal) * 2 - 1) * (randomVal * 50)}%, ${(Math.round(randomVal) * 2 - 1) * (randomVal * 50)}%)`,
-      }}
+      style={
+        randomVal === null
+          ? undefined
+          : {
+              animationDelay: `${randomVal * 5}s`,
+              transform: `translate(${(Math.round(randomVal) * 2 - 1) * (randomVal * 50)}%, ${(Math.round(randomVal) * 2 - 1) * (randomVal * 50)}%)`,
+            }
+      }
       iconNode={categoryIconMap[category]}
       size={32}
     />
