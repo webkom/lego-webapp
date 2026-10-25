@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { EventTypeConfig } from '~/pages/events/utils';
-import { INTERESTED } from '~/redux/models/Company';
+import { INTERESTED, JOB_POSTING } from '~/redux/models/Company';
 import type { ConfigProperties } from '../events/utils';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Semester } from 'app/models';
@@ -14,6 +14,11 @@ export const SemesterStatusConfig: Record<
   ConfigProperties
 > = {
   ...EventTypeConfig,
+  [JOB_POSTING]: {
+    displayName: 'Jobbannonse',
+    color: '#F28C8C',
+    textColor: '#000',
+  },
   [INTERESTED]: {
     displayName: 'Interessert',
     color: 'var(--success-color)',
