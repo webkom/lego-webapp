@@ -26,17 +26,10 @@ export const SemesterStatusConfig: Record<
   },
 };
 
-export const semesterStatuses = Object.keys(
-  SemesterStatusConfig,
-) as CompanySemesterStatus[];
+export const semesterStatuses = (
+  Object.keys(SemesterStatusConfig) as CompanySemesterStatus[]
+).filter((s) => !['event', 'gala', 'interest_event'].includes(s));
 
-export const semesterNameOf = (index: number) => {
-  const indexToSemesterName = {
-    '0': 'spring',
-    '1': 'autumn',
-  };
-  return indexToSemesterName[index] || 'spring';
-};
 export const semesterToHumanReadable = (semester: Semester, year: number) => {
   const semesterName = semesterCodeToName(semester);
   return `${year} ${semesterName}`;
