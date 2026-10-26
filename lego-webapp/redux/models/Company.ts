@@ -4,9 +4,13 @@ import type { Dateish } from 'app/models';
 import type { AutocompleteContentType } from '~/redux/models/Autocomplete';
 import type { ContentTarget } from '~/utils/contentTarget';
 
+export const JOB_POSTING = 'job_posting';
 export const INTERESTED = 'interested';
 
-export type CompanySemesterStatus = EventType | typeof INTERESTED;
+export type CompanySemesterStatus =
+  | EventType
+  | typeof JOB_POSTING
+  | typeof INTERESTED;
 
 export interface SemesterStatus {
   semester: EntityId;
