@@ -11,6 +11,7 @@ describe('reducers', () => {
         paginationNext: {},
         fetching: false,
         eventStatistics: {},
+        eventCounts: {},
         ids: [2, 3],
         entities: {
           2: {
@@ -85,6 +86,7 @@ describe('reducers', () => {
         paginationNext: {},
         fetching: false,
         eventStatistics: {},
+        eventCounts: {},
         ids: [3],
         entities: {
           3: {
@@ -138,6 +140,7 @@ describe('reducers', () => {
         paginationNext: {},
         fetching: false,
         eventStatistics: {},
+        eventCounts: {},
         ids: [3],
         entities: {
           3: {
@@ -185,6 +188,7 @@ describe('reducers', () => {
         paginationNext: {},
         fetching: false,
         eventStatistics: {},
+        eventCounts: {},
         ids: [2, 3],
         entities: {
           2: {
@@ -259,6 +263,7 @@ describe('reducers', () => {
         paginationNext: {},
         fetching: false,
         eventStatistics: {},
+        eventCounts: {},
         ids: [3],
         entities: {
           3: {
@@ -312,6 +317,7 @@ describe('reducers', () => {
         paginationNext: {},
         fetching: false,
         eventStatistics: {},
+        eventCounts: {},
         ids: [3],
         entities: {
           3: {
@@ -360,6 +366,7 @@ describe('reducers', () => {
         paginationNext: {},
         fetching: false,
         eventStatistics: {},
+        eventCounts: {},
         ids: [],
         entities: {},
       };

@@ -127,6 +127,19 @@ export function fetchEventStatistics(
   });
 }
 
+export function fetchEventCount(semesterId: EntityId) {
+  return callAPI<{ eventCount: number }>({
+    types: Company.FETCH_EVENT_COUNT,
+    endpoint: `/bdb/event-count/${createQueryString({
+      semester_id: String(semesterId),
+    })}`,
+    meta: {
+      semesterId,
+      errorMessage: 'Henting av antall arrangementer feilet',
+    },
+  });
+}
+
 export function addCompany(data: Record<string, any>) {
   return callAPI<DetailedCompany>({
     types: Company.ADD,

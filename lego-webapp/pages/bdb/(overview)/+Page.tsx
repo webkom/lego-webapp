@@ -6,10 +6,17 @@ import { ContentMain } from '~/components/Content';
 import { SelectInput } from '~/components/Form';
 import Table from '~/components/Table';
 import UserLink from '~/components/UserLink';
-import { fetchAllAdmin, fetchSemesters } from '~/redux/actions/CompanyActions';
+import {
+  fetchAllAdmin,
+  fetchEventCount,
+  fetchSemesters,
+} from '~/redux/actions/CompanyActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
-import { selectTransformedAdminCompanies } from '~/redux/slices/companies';
+import {
+  selectSemesterEventCount,
+  selectTransformedAdminCompanies,
+} from '~/redux/slices/companies';
 import { selectAllCompanySemesters } from '~/redux/slices/companySemesters';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
@@ -80,6 +87,10 @@ const BdbPage = () => {
     selectTransformedAdminCompanies(state, { pagination }),
   );
 
+  const eventCount = useAppSelector((state) =>
+    selectSemesterEventCount(state, currentCompanySemester?.id),
+  );
+
   const dispatch = useAppDispatch();
 
   usePreparedEffect(
@@ -94,15 +105,18 @@ const BdbPage = () => {
           query.semester,
           companySemesters,
         );
-        return dispatch(
-          fetchAllAdmin(
-            {
-              ...query,
-              semester_id: semester!.id,
-            },
-            false,
+        return Promise.all([
+          dispatch(
+            fetchAllAdmin(
+              {
+                ...query,
+                semester_id: semester!.id,
+              },
+              false,
+            ),
           ),
-        );
+          dispatch(fetchEventCount(semester!.id)),
+        ]);
       }),
     [query.semester],
   );
@@ -167,61 +181,71 @@ const BdbPage = () => {
 
   return (
     <ContentMain>
-      <Flex width="fit-content">
-        <Icon
-          iconNode={<ChevronLeft />}
-          onPress={() =>
-            setQuery({
-              ...query,
-              semester: getSemesterSlugOffset(
-                currentCompanySemester!.id,
-                companySemesters,
-                'previous',
-              ),
-            })
-          }
-        />
-        <SelectInput
-          name="semester"
-          options={companySemesters
-            .sort((_, b) => (b.semester === 'autumn' ? 1 : -1))
-            .sort((a, b) => b.year - a.year)
-            .map((semester) => ({
-              label: semesterToHumanReadable(semester.semester, semester.year),
-              value: semester.id as number,
-            }))}
-          value={{
-            label: currentCompanySemester
-              ? semesterToHumanReadable(
-                  currentCompanySemester.semester,
-                  currentCompanySemester.year,
-                )
-              : 'Velg semester',
-            value: currentCompanySemester?.id as number,
-          }}
-          onChange={(e) =>
-            setQuery({
-              ...query,
-              semester: getSemesterSlugById(
-                (e as { label: string; value: number }).value,
-                companySemesters,
-              ),
-            })
-          }
-        />
-        <Icon
-          iconNode={<ChevronRight />}
-          onPress={() =>
-            setQuery({
-              ...query,
-              semester: getSemesterSlugOffset(
-                currentCompanySemester!.id,
-                companySemesters,
-                'next',
-              ),
-            })
-          }
-        />
+      <Flex wrap justifyContent="space-between" alignItems="center">
+        <Flex width="fit-content">
+          <Icon
+            iconNode={<ChevronLeft />}
+            onPress={() =>
+              setQuery({
+                ...query,
+                semester: getSemesterSlugOffset(
+                  currentCompanySemester!.id,
+                  companySemesters,
+                  'previous',
+                ),
+              })
+            }
+          />
+          <SelectInput
+            name="semester"
+            options={companySemesters
+              .sort((_, b) => (b.semester === 'autumn' ? 1 : -1))
+              .sort((a, b) => b.year - a.year)
+              .map((semester) => ({
+                label: semesterToHumanReadable(
+                  semester.semester,
+                  semester.year,
+                ),
+                value: semester.id as number,
+              }))}
+            value={{
+              label: currentCompanySemester
+                ? semesterToHumanReadable(
+                    currentCompanySemester.semester,
+                    currentCompanySemester.year,
+                  )
+                : 'Velg semester',
+              value: currentCompanySemester?.id as number,
+            }}
+            onChange={(e) =>
+              setQuery({
+                ...query,
+                semester: getSemesterSlugById(
+                  (e as { label: string; value: number }).value,
+                  companySemesters,
+                ),
+              })
+            }
+          />
+          <Icon
+            iconNode={<ChevronRight />}
+            onPress={() =>
+              setQuery({
+                ...query,
+                semester: getSemesterSlugOffset(
+                  currentCompanySemester!.id,
+                  companySemesters,
+                  'next',
+                ),
+              })
+            }
+          />
+        </Flex>
+        {eventCount !== undefined && (
+          <span>
+            Totalt antall arrangementer: <strong>{eventCount}</strong>
+          </span>
+        )}
       </Flex>
 
       <Table
