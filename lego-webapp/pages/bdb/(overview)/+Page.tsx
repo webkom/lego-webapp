@@ -33,7 +33,7 @@ const companiesDefaultQuery = {
   studentContacts: '',
   semester: '',
   search: '',
-  status: '',
+  status: semesterStatuses.join(','),
 };
 
 const BdbPage = () => {
@@ -227,7 +227,9 @@ const BdbPage = () => {
       <Table
         columns={columns}
         data={companies}
-        onChange={setQuery}
+        onChange={(filters) =>
+          setQuery({ ...filters, status: filters.status ?? '' })
+        }
         loading={pagination.fetching}
         filters={query}
         onLoad={() => {
