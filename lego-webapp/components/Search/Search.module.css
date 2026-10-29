@@ -5,6 +5,7 @@
   inset: 0;
   z-index: 200;
   overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   justify-content: center;
   background-color: var(--inverted-font-color);
@@ -35,11 +36,52 @@
   }
 }
 
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes panel-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+}
+
+@keyframes cascade-in {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .content {
   width: var(--lego-max-width);
   display: flex;
   flex-direction: column;
   gap: var(--spacing-lg);
+  animation: panel-in 160ms cubic-bezier(0.22, 1, 0.36, 1) 15ms both;
+}
+
+.closing .content {
+  animation: panel-out 100ms cubic-bezier(0.4, 0, 1, 1) both;
 }
 
 .inputContainer {
@@ -93,6 +135,8 @@
 }
 
 .sidePanel {
+  --cascade-base-delay: 60ms;
+
   display: flex;
   flex-direction: column;
   gap: var(--spacing-lg);
@@ -107,6 +151,7 @@
   padding: 0 var(--spacing-md);
   gap: var(--spacing-lg);
   overflow-y: auto;
+  overflow-x: hidden;
   /* stylelint-disable indentation */
   background:
   /*
@@ -159,6 +204,8 @@
 
 .quickLinksHeader {
   color: var(--lego-font-color);
+  animation: cascade-in 150ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--cascade-base-delay) + var(--cascade-delay));
 }
 
 .quickLinks {
@@ -174,8 +221,10 @@
   box-sizing: border-box;
   font-size: var(--font-size-lg);
   border-radius: var(--border-radius-md);
-  transition: background-color var(--linear-fast);
   color: var(--lego-font-color);
+  animation: cascade-in 150ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--cascade-base-delay) + var(--cascade-delay));
+  transition: background-color var(--linear-fast);
 
   div {
     min-width: fit-content;
@@ -258,5 +307,18 @@
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+/*
+ * Only the movement is removed: the wrapper's fade must keep running, since
+ * the overlay unmounts on its animationend.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .content,
+  .closing .content,
+  .quickLinksHeader,
+  .quickLink {
+    animation: none;
   }
 }
