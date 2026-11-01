@@ -1,5 +1,5 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
-import { AlarmClock } from 'lucide-react';
+import { AlarmClock, CircleCheckBig, ClockFading } from 'lucide-react';
 import moment from 'moment-timezone';
 import Tag from '~/components/Tags/Tag';
 import Time from '~/components/Time';
@@ -32,11 +32,29 @@ const RegistrationStatusTag = ({
     }
 
     if (event.isAdmitted) {
-      return `Du ${wasIs} påmeldt`;
+      return (
+        <Flex alignItems="center" gap="var(--spacing-xs)">
+          <Icon
+            iconNode={<CircleCheckBig />}
+            size={14}
+            className={utilities.hiddenOnMobile}
+          />
+          Påmeldt
+        </Flex>
+      );
     }
 
     if (event.userReg && event.eventStatusType === EventStatusType.NORMAL) {
-      return `Du ${wasIs} på venteliste`;
+      return (
+        <Flex alignItems="center" gap="var(--spacing-xs)">
+          <Icon
+            iconNode={<ClockFading />}
+            size={14}
+            className={utilities.hiddenOnMobile}
+          />
+          Venteliste
+        </Flex>
+      );
     }
 
     if (event.eventStatusType === 'TBA')

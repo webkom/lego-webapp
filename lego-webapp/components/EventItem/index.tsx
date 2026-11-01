@@ -1,4 +1,4 @@
-import { Flex, Icon, Image, Tooltip } from '@webkom/lego-bricks';
+import { Card, Flex, Icon, Image, Tooltip } from '@webkom/lego-bricks';
 import {
   Calendar,
   CalendarClock,
@@ -6,6 +6,8 @@ import {
   CircleCheckBig,
   Clock,
   Timer,
+  Users,
+  MapPin,
 } from 'lucide-react';
 import moment from 'moment-timezone';
 import Pill from '~/components/Pill';
@@ -68,8 +70,16 @@ const Attendance = ({
 }: {
   event: Parameters<typeof eventAttendanceAbsolute>[0];
 }) => {
-  const attendance = eventAttendanceAbsolute(event);
-  return !!attendance && <Pill>{attendance}</Pill>;
+  const attendance =
+    event.totalCapacity === 0
+      ? 'Åpent for Alle'
+      : eventAttendanceAbsolute(event);
+  return (
+    <Pill className={styles.attendance}>
+      <Icon iconNode={<Users />} size={14} />
+      {attendance}
+    </Pill>
+  );
 };
 
 type RegistrationIconProps = {
@@ -118,7 +128,7 @@ type EventItemProps = {
 
 const EventItem = ({
   event,
-  showTags = true,
+  showTags = event.totalCapacity !== 0,
   eventStyle,
 }: EventItemProps): ReactNode => {
   const isRegistrationOpen = moment(event.activationTime).isBefore(moment());
@@ -201,52 +211,53 @@ const EventItem = ({
     case 'default':
     default:
       return (
-        <a
-          href={`/events/${event.slug}`}
-          style={{
-            borderColor: colorForEventType(event.eventType),
-          }}
-          className={styles.eventItem}
-        >
-          <Flex column gap="var(--spacing-sm)" className="secondaryFontColor">
-            <h3 className={styles.eventItemTitle}>{event.title}</h3>
-            {event.totalCapacity != null && event.totalCapacity > 0 && (
-              <div>
-                <Attendance event={event} />
-              </div>
-            )}
-            <Flex alignItems="center" gap="var(--spacing-sm)">
-              <Icon iconNode={<CalendarClock />} size={16} />
-              <Time
-                time={event.startTime}
-                format={isEventSameYear ? 'D. MMM HH:mm' : 'll HH:mm'}
-              />
-            </Flex>
-            {showTags && (
-              <Flex wrap>
-                {event.tags.map((tag, index) => (
-                  <Tag key={index} tag={tag} />
-                ))}
-              </Flex>
-            )}
-          </Flex>
+        <a href={`/events/${event.slug}`} className={styles.eventItem}>
+          <Card className={styles.card} isHoverable>
+            <div
+              style={{
+                backgroundColor: colorForEventType(event.eventType),
+              }}
+              className={styles.bar}
+            ></div>
+            <Flex column className={styles.info}>
+              <h3 className={styles.eventItemTitle}>{event.title}</h3>
 
-          <Flex column alignItems="flex-end" gap="var(--spacing-sm)">
-            <Flex className={styles.companyLogo}>
+              <Flex className={styles.lowerInfo} column>
+                <Flex alignItems="center" gap="var(--spacing-sm)">
+                  <Icon iconNode={<CalendarClock />} size={16} />
+                  <Time
+                    time={event.startTime}
+                    format={isEventSameYear ? 'D. MMM HH:mm' : 'll HH:mm'}
+                  />
+                </Flex>
+                <Flex alignItems="center" gap="var(--spacing-sm)">
+                  <Icon iconNode={<MapPin />} size={16} />
+                  {event.location}
+                </Flex>
+              </Flex>
+              <Flex gap="var(--spacing-sm)">
+                <Attendance event={event} />
+                {showTags && (
+                  <RegistrationStatusTag
+                    event={event}
+                    isRegistrationOpen={isRegistrationOpen}
+                    isRegistrationSameYear={isRegistrationSameYear}
+                  />
+                )}
+              </Flex>
+            </Flex>
+            <Flex alignItems="flex-end" gap="var(--spacing-sm)">
               {event.cover && (
-                <Image
-                  alt="Forsidebilde"
-                  src={event.cover}
-                  placeholder={event.coverPlaceholder}
-                />
+                <div className={styles.border}>
+                  <Image
+                    alt="Forsidebilde"
+                    src={event.cover}
+                    placeholder={event.coverPlaceholder}
+                  />
+                </div>
               )}
             </Flex>
-            <RegistrationStatusTag
-              event={event}
-              isRegistrationOpen={isRegistrationOpen}
-              isRegistrationSameYear={isRegistrationSameYear}
-            />
-          </Flex>
+          </Card>
         </a>
       );
   }
