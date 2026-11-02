@@ -1,4 +1,4 @@
-import { PageContextProvider } from 'vike-react/usePageContext';
+import { VikeReactProviderPageContext } from 'vike-react/usePageContext';
 import memberships from '~/cypress/fixtures/memberships';
 import GroupMembersList from '~/pages/admin/groups/@groupId/members/GroupMembersList';
 
@@ -10,9 +10,9 @@ const mockPageContext = {
 
 const mountWithPageContext = (component: React.ReactNode) => {
   return cy.mount(
-    <PageContextProvider pageContext={mockPageContext as any}>
+    <VikeReactProviderPageContext pageContext={mockPageContext as any}>
       {component}
-    </PageContextProvider>,
+    </VikeReactProviderPageContext>,
   );
 };
 
