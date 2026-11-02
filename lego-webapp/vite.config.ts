@@ -28,14 +28,18 @@ export default defineConfig({
         'final-form-arrays',
       ],
     }),
+    cjsInterop({
+      client: true,
+      dependencies: ['@gamestdio/websocket'],
+    }),
   ],
   resolve: {
     noExternal: ['react-dropzone'],
     alias: {
-      app: path.resolve(__dirname, './app/'),
-      '~': path.resolve(__dirname, './'),
-      styles: path.resolve(__dirname, './styles/'),
-      assets: path.resolve(__dirname, './assets/'),
+      app: path.resolve(import.meta.dirname, './app/'),
+      '~': path.resolve(import.meta.dirname, './'),
+      styles: path.resolve(import.meta.dirname, './styles/'),
+      assets: path.resolve(import.meta.dirname, './assets/'),
     },
   },
   css: {
@@ -48,11 +52,6 @@ export default defineConfig({
     target: 'es2022',
     sourcemap: true,
     cssCodeSplit: false,
-    rollupOptions: {
-      output: {
-        experimentalMinChunkSize: 50_000,
-      },
-    },
   },
   test: {
     environment: 'jsdom',

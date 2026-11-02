@@ -73,7 +73,7 @@
     "@types/express": "^4.17.21",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "@vitejs/plugin-react": "^4.3.3",
+    "@vitejs/plugin-react": "catalog:",
     "eslint": "catalog:",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
