@@ -3,8 +3,6 @@ import type { Config } from 'vike/types';
 
 export default {
   // https://vike.dev/head-tags
-  // title: 'My Vike App',
-  // description: 'Demo showcasing Vike',
 
   redirects: {
     '/kontakt': '/contact',
@@ -27,5 +25,5 @@ export default {
   lang: 'no',
   stream: 'web',
 
-  extends: vikeReact,
+  extends: [vikeReact],
 } satisfies Config;
