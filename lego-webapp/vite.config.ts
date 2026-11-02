@@ -30,10 +30,8 @@ export default defineConfig({
     }),
     cjsInterop({
       client: true,
-      dependencies: [
-        '@gamestdio/websocket',
-      ]
-    })
+      dependencies: ['@gamestdio/websocket'],
+    }),
   ],
   resolve: {
     noExternal: ['react-dropzone'],
