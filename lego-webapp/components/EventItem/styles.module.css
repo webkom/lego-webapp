@@ -10,8 +10,9 @@
 
 .bar {
   align-self: stretch;
-  width: 10px;
+  width: 5px;
   border-radius: 1rem;
+  flex-shrink: 0;
 }
 
 .card {
@@ -29,6 +30,11 @@
   align-items: stretch;
 }
 
+.eventItemExtraCompact {
+  composes: eventItem;
+  container-name: event-item-extra-compact;
+}
+
 .time {
   color: var(--secondary-font-color);
 }
@@ -42,6 +48,11 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.eventItemTitleCompact {
+  composes: eventItemTitle;
+  -webkit-line-clamp: 1;
 }
 
 .eventTime {
@@ -70,12 +81,46 @@
   width: 450px;
 }
 
+.borderExtraCompact {
+  composes: border;
+  width: 200px;
+}
+
 .border img {
   align-self: center;
   background-color: var(--color-absolute-white);
 }
 
-.companyLogoCompact img {
+.location {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.eventItemExtraCompact .info {
+  min-width: 0;
+}
+
+.lowerInfoCompact {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.lowerInfoCompact > :first-child {
+  flex-shrink: 0;
+}
+
+.locationInfo {
+  min-width: 0;
+}
+
+.locationInfo > :first-child {
+  flex-shrink: 0;
+}
+
+.borderExtraCompact img {
   min-width: 120px;
   max-height: 100%;
   object-fit: contain;
@@ -107,7 +152,7 @@
   white-space: nowrap;
 }
 
-@container event-item (max-width: 800px) {
+@container event-item (max-width: 800px), event-item-extra-compact (max-width: 400px) {
   .card {
     flex-direction: column-reverse;
     padding: var(--margin-innerItem);
@@ -125,6 +170,7 @@
 
   .lowerInfo {
     flex-direction: row;
+    gap: var(--spacing-md);
   }
 
   .info {

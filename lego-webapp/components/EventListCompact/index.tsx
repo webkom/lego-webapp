@@ -2,6 +2,7 @@ import { Flex, Skeleton } from '@webkom/lego-bricks';
 import EmptyState from '~/components/EmptyState';
 import EventItem, { type EventStyle } from '~/components/EventItem';
 import styles from '~/components/EventItem/styles.module.css';
+import listStyles from './styles.module.css';
 import type { ListEvent } from '~/redux/models/Event';
 
 type Props = {
@@ -46,7 +47,7 @@ const EventListCompact = ({
   }
 
   return (
-    <Flex column wrap gap="var(--spacing-md)">
+    <div className={listStyles.eventListCompact}>
       {events.map((event) => (
         <EventItem
           key={event.id}
@@ -55,7 +56,7 @@ const EventListCompact = ({
           eventStyle={eventStyle}
         />
       ))}
-    </Flex>
+    </div>
   );
 };
 export default EventListCompact;

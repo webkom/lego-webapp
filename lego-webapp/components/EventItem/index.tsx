@@ -19,7 +19,11 @@ import { eventAttendanceAbsolute } from '~/utils/eventStatus';
 import RegistrationStatusTag from './RegistrationStatusTag';
 import styles from './styles.module.css';
 import type { ReactNode } from 'react';
-import type { CompleteEvent, ListEvent } from '~/redux/models/Event';
+import type {
+  CompleteEvent,
+  FrontpageEvent,
+  ListEvent,
+} from '~/redux/models/Event';
 
 export type EventStyle = 'default' | 'extra-compact' | 'compact';
 
@@ -83,7 +87,7 @@ const Attendance = ({
 };
 
 type RegistrationIconProps = {
-  event: ListEvent;
+  event: ListEvent | FrontpageEvent;
 };
 
 type TimeStampProps = RegistrationIconProps & { hasCover: boolean };
@@ -121,7 +125,7 @@ const RegistrationIcon = ({ event }: RegistrationIconProps) => {
 };
 
 type EventItemProps = {
-  event: ListEvent;
+  event: ListEvent | FrontpageEvent;
   showTags?: boolean;
   eventStyle?: EventStyle;
 };
@@ -143,28 +147,48 @@ const EventItem = ({
       return (
         <a
           href={`/events/${event.slug}`}
-          style={{
-            borderColor: colorForEventType(event.eventType),
-          }}
-          className={styles.eventItem}
+          className={styles.eventItemExtraCompact}
         >
-          <div>
-            <h4 className={styles.eventItemTitle}>{event.title}</h4>
-            <Time
-              time={event.startTime}
-              format="ll - HH:mm"
-              className={styles.time}
-            />
-          </div>
-          <Flex className={styles.companyLogoExtraCompact}>
-            {event.cover && (
-              <Image
-                alt="Forsidebilde"
-                src={event.cover}
-                placeholder={event.coverPlaceholder}
-              />
-            )}
-          </Flex>
+          <Card className={styles.card} isHoverable>
+            <div
+              style={{
+                backgroundColor: colorForEventType(event.eventType),
+              }}
+              className={styles.bar}
+            ></div>
+            <Flex column className={styles.info}>
+              <h3 className={styles.eventItemTitleCompact}>{event.title}</h3>
+
+              <Flex className={styles.lowerInfoCompact} gap="var(--spacing-md)">
+                <Flex alignItems="center" gap="var(--spacing-sm)">
+                  <Icon iconNode={<CalendarClock />} size={16} />
+                  <Time
+                    time={event.startTime}
+                    format={isEventSameYear ? 'D. MMM HH:mm' : 'll HH:mm'}
+                  />
+                </Flex>
+                <Flex
+                  className={styles.locationInfo}
+                  alignItems="center"
+                  gap="var(--spacing-sm)"
+                >
+                  <Icon iconNode={<MapPin />} size={16} />
+                  <span className={styles.location}>{event.location}</span>
+                </Flex>
+              </Flex>
+            </Flex>
+            <Flex alignItems="flex-end" gap="var(--spacing-sm)">
+              {event.cover && (
+                <div className={styles.borderExtraCompact}>
+                  <Image
+                    alt="Forsidebilde"
+                    src={event.cover}
+                    placeholder={event.coverPlaceholder}
+                  />
+                </div>
+              )}
+            </Flex>
+          </Card>
         </a>
       );
     case 'compact':

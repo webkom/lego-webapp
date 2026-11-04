@@ -6,10 +6,10 @@ import Time from '~/components/Time';
 import { EventStatusType } from '~/redux/models/Event';
 import { useIsLoggedIn } from '~/redux/slices/auth';
 import utilities from '~/styles/utilities.module.css';
-import type { ListEvent } from '~/redux/models/Event';
+import type { FrontpageEvent, ListEvent } from '~/redux/models/Event';
 
 type Props = {
-  event: ListEvent;
+  event: ListEvent | FrontpageEvent;
   isRegistrationOpen: boolean;
   isRegistrationSameYear: boolean;
 };
@@ -44,7 +44,11 @@ const RegistrationStatusTag = ({
       );
     }
 
-    if (event.userReg && event.eventStatusType === EventStatusType.NORMAL) {
+    if (
+      'userReg' in event &&
+      event.userReg &&
+      event.eventStatusType === EventStatusType.NORMAL
+    ) {
       return (
         <Flex alignItems="center" gap="var(--spacing-xs)">
           <Icon
@@ -86,7 +90,11 @@ const RegistrationStatusTag = ({
       return 'green';
     }
 
-    if (event.userReg && event.eventStatusType === EventStatusType.NORMAL) {
+    if (
+      'userReg' in event &&
+      event.userReg &&
+      event.eventStatusType === EventStatusType.NORMAL
+    ) {
       return 'orange';
     }
 
