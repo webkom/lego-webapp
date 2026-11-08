@@ -10,7 +10,6 @@ import {
   MapPin,
 } from 'lucide-react';
 import moment from 'moment-timezone';
-import Pill from '~/components/Pill';
 import Tag from '~/components/Tags/Tag';
 import Time from '~/components/Time';
 import { colorForEventType } from '~/pages/events/utils';
@@ -79,10 +78,13 @@ const Attendance = ({
       ? 'Åpent for Alle'
       : eventAttendanceAbsolute(event);
   return (
-    <Pill className={styles.attendance}>
-      <Icon iconNode={<Users />} size={14} />
-      {attendance}
-    </Pill>
+    <Tag
+      fontSize="var(--font-size-sm)"
+      color="black"
+      iconNode={<Users />}
+      iconSize={14}
+      tag={attendance}
+    />
   );
 };
 

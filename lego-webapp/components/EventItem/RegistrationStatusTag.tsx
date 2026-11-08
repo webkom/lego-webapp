@@ -112,7 +112,13 @@ const RegistrationStatusTag = ({
     return null;
   }
 
-  return <Tag tag={getRegistrationStatus()} color={getTagColor()} />;
+  return (
+    <Tag
+      fontSize="var(--font-size-sm)"
+      tag={getRegistrationStatus()}
+      color={getTagColor()}
+    />
+  );
 };
 
 export default RegistrationStatusTag;
