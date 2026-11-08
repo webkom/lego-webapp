@@ -24,12 +24,6 @@ const RegistrationStatusTag = ({
   const wasIs = isPastTenseNeeded ? 'var' : 'er';
 
   const getRegistrationStatus = () => {
-    if (
-      event.eventStatusType === EventStatusType.OPEN ||
-      event.eventStatusType === EventStatusType.INFINITE
-    ) {
-      return `Arrangementet ${wasIs} åpent for alle`;
-    }
 
     if (event.isAdmitted) {
       return (
@@ -82,6 +76,13 @@ const RegistrationStatusTag = ({
         </Flex>
       );
     }
+
+    if (
+      event.eventStatusType === EventStatusType.OPEN ||
+      event.eventStatusType === EventStatusType.INFINITE
+    ) {
+      return `Arrangementet ${wasIs} åpent for alle`;
+    }
     return 'Du kan ikke melde deg på';
   };
 
@@ -96,13 +97,6 @@ const RegistrationStatusTag = ({
       event.eventStatusType === EventStatusType.NORMAL
     ) {
       return 'orange';
-    }
-
-    if (
-      event.eventStatusType === EventStatusType.OPEN ||
-      event.eventStatusType === EventStatusType.INFINITE
-    ) {
-      return 'red';
     }
 
     return isRegistrationOpen ? 'red' : 'gray';
