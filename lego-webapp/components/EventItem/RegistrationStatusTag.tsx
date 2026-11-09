@@ -1,15 +1,15 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
-import { AlarmClock } from 'lucide-react';
+import { AlarmClock, CircleCheckBig, ClockFading } from 'lucide-react';
 import moment from 'moment-timezone';
 import Tag from '~/components/Tags/Tag';
 import Time from '~/components/Time';
 import { EventStatusType } from '~/redux/models/Event';
 import { useIsLoggedIn } from '~/redux/slices/auth';
 import utilities from '~/styles/utilities.module.css';
-import type { ListEvent } from '~/redux/models/Event';
+import type { FrontpageEvent, ListEvent } from '~/redux/models/Event';
 
 type Props = {
-  event: ListEvent;
+  event: ListEvent | FrontpageEvent;
   isRegistrationOpen: boolean;
   isRegistrationSameYear: boolean;
 };
@@ -24,19 +24,34 @@ const RegistrationStatusTag = ({
   const wasIs = isPastTenseNeeded ? 'var' : 'er';
 
   const getRegistrationStatus = () => {
-    if (
-      event.eventStatusType === EventStatusType.OPEN ||
-      event.eventStatusType === EventStatusType.INFINITE
-    ) {
-      return `Arrangementet ${wasIs} åpent for alle`;
-    }
-
     if (event.isAdmitted) {
-      return `Du ${wasIs} påmeldt`;
+      return (
+        <Flex alignItems="center" gap="var(--spacing-xs)">
+          <Icon
+            iconNode={<CircleCheckBig />}
+            size={14}
+            className={utilities.hiddenOnMobile}
+          />
+          <span>Påmeldt</span>
+        </Flex>
+      );
     }
 
-    if (event.userReg && event.eventStatusType === EventStatusType.NORMAL) {
-      return `Du ${wasIs} på venteliste`;
+    if (
+      'userReg' in event &&
+      event.userReg &&
+      event.eventStatusType === EventStatusType.NORMAL
+    ) {
+      return (
+        <Flex alignItems="center" gap="var(--spacing-xs)">
+          <Icon
+            iconNode={<ClockFading />}
+            size={14}
+            className={utilities.hiddenOnMobile}
+          />
+          <span>Venteliste</span>
+        </Flex>
+      );
     }
 
     if (event.eventStatusType === 'TBA')
@@ -60,6 +75,13 @@ const RegistrationStatusTag = ({
         </Flex>
       );
     }
+
+    if (
+      event.eventStatusType === EventStatusType.OPEN ||
+      event.eventStatusType === EventStatusType.INFINITE
+    ) {
+      return `Arrangementet ${wasIs} åpent for alle`;
+    }
     return 'Du kan ikke melde deg på';
   };
 
@@ -68,15 +90,12 @@ const RegistrationStatusTag = ({
       return 'green';
     }
 
-    if (event.userReg && event.eventStatusType === EventStatusType.NORMAL) {
-      return 'orange';
-    }
-
     if (
-      event.eventStatusType === EventStatusType.OPEN ||
-      event.eventStatusType === EventStatusType.INFINITE
+      'userReg' in event &&
+      event.userReg &&
+      event.eventStatusType === EventStatusType.NORMAL
     ) {
-      return 'red';
+      return 'orange';
     }
 
     return isRegistrationOpen ? 'red' : 'gray';
@@ -86,7 +105,13 @@ const RegistrationStatusTag = ({
     return null;
   }
 
-  return <Tag tag={getRegistrationStatus()} color={getTagColor()} />;
+  return (
+    <Tag
+      fontSize="var(--font-size-sm)"
+      tag={<span>{getRegistrationStatus()}</span>}
+      color={getTagColor()}
+    />
+  );
 };
 
 export default RegistrationStatusTag;

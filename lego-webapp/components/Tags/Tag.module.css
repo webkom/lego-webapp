@@ -82,6 +82,16 @@ html[data-theme='dark'] .tag {
     rgba(var(--label-r), var(--label-g), var(--label-b), 40%);
 }
 
+.black {
+  --label-r: 24;
+  --label-g: 24;
+  --label-b: 24;
+  --label-h: 0;
+  --label-s: 0;
+  --label-l: 9;
+  color: var(--color-black);
+}
+
 .gray {
   --label-r: 237;
   --label-g: 237;

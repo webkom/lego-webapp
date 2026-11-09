@@ -37,6 +37,10 @@
   grid-area: events;
 }
 
+.previousEventsHeading {
+  margin-top: var(--spacing-xl);
+}
+
 .frameMargin {
   margin-top: var(--spacing-lg);
   margin-bottom: var(--spacing-xl);

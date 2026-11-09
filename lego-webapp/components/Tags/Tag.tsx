@@ -12,12 +12,14 @@ export type TagColors =
   | 'cyan'
   | 'blue'
   | 'purple'
-  | 'orange';
+  | 'orange'
+  | 'black';
 
 type Props = {
   tag: string | ReactNode;
   iconNode?: ReactNode;
   iconSize?: number;
+  fontSize?: string;
   color?: TagColors;
   link?: string;
   className?: string;
@@ -34,6 +36,7 @@ const Tag = ({
   tag,
   iconNode,
   iconSize,
+  fontSize,
   color = 'red',
   link,
   className,
@@ -53,7 +56,7 @@ const Tag = ({
           active && styles.active,
         )}
         href={link}
-        style={{ color: textColor, backgroundColor }}
+        style={{ color: textColor, backgroundColor, fontSize }}
       >
         {tag}
       </a>
@@ -62,7 +65,7 @@ const Tag = ({
         gap={gap || 'var(--spacing-xs)'}
         alignItems="center"
         className={cx(styles.tag, styles[color], className)}
-        style={{ color: textColor, backgroundColor: backgroundColor }}
+        style={{ color: textColor, backgroundColor, fontSize }}
       >
         {iconNode && <Icon iconNode={iconNode} size={iconSize ?? 16} />}
         {tag}

@@ -1,0 +1,9 @@
+.eventList {
+  display: grid;
+  gap: var(--spacing-md);
+}
+
+.eventListCompact {
+  display: grid;
+  gap: var(--spacing-sm);
+}
