@@ -261,7 +261,7 @@ const EventItem = ({
                   {event.location}
                 </Flex>
               </Flex>
-              <Flex gap="var(--spacing-sm)">
+              <Flex className={styles.tags} gap="var(--spacing-sm)">
                 <Attendance event={event} />
                 {showTags && (
                   <RegistrationStatusTag

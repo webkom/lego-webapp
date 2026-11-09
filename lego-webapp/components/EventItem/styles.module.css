@@ -59,7 +59,27 @@
   color: var(--secondary-font-color);
 }
 
+.tags {
+  white-space: nowrap;
+}
+
+.tags > div,
+.tags > div > div {
+  min-width: 0;
+}
+
+.tags > :first-child,
+.card > :last-child {
+  flex-shrink: 0;
+}
+
+.tags span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .info {
+  min-width: 0;
   color: var(--secondary-font-color);
   width: 100%;
   height: 100%;

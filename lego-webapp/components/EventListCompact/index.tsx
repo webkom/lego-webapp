@@ -52,7 +52,6 @@ const EventListCompact = ({
         <EventItem
           key={event.id}
           event={event}
-          showTags={false}
           eventStyle={eventStyle}
         />
       ))}

@@ -24,7 +24,6 @@ const RegistrationStatusTag = ({
   const wasIs = isPastTenseNeeded ? 'var' : 'er';
 
   const getRegistrationStatus = () => {
-
     if (event.isAdmitted) {
       return (
         <Flex alignItems="center" gap="var(--spacing-xs)">
@@ -33,7 +32,7 @@ const RegistrationStatusTag = ({
             size={14}
             className={utilities.hiddenOnMobile}
           />
-          Påmeldt
+          <span>Påmeldt</span>
         </Flex>
       );
     }
@@ -50,7 +49,7 @@ const RegistrationStatusTag = ({
             size={14}
             className={utilities.hiddenOnMobile}
           />
-          Venteliste
+          <span>Venteliste</span>
         </Flex>
       );
     }
@@ -109,7 +108,7 @@ const RegistrationStatusTag = ({
   return (
     <Tag
       fontSize="var(--font-size-sm)"
-      tag={getRegistrationStatus()}
+      tag={<span>{getRegistrationStatus()}</span>}
       color={getTagColor()}
     />
   );
