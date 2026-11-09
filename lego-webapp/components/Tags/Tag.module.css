@@ -82,16 +82,14 @@ html[data-theme='dark'] .tag {
     rgba(var(--label-r), var(--label-g), var(--label-b), 40%);
 }
 
-.black,
-html[data-theme='dark'] .black {
-  color: var(--color-gray-7);
-  background: var(--color-gray-1);
-  border-color: var(--color-gray-4);
-}
-
-.black.active {
-  box-shadow: 0 0 0 2.3px
-    color-mix(in srgb, var(--color-black) 40%, transparent);
+.black {
+  --label-r: 24;
+  --label-g: 24;
+  --label-b: 24;
+  --label-h: 0;
+  --label-s: 0;
+  --label-l: 9;
+  color: var(--color-black);
 }
 
 .gray {
