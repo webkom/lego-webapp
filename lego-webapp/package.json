@@ -69,7 +69,7 @@
     "react-dropzone": "^14.3.8",
     "react-final-form": "^6.5.9",
     "react-final-form-arrays": "^3.1.4",
-    "react-helmet-async": "^2.0.5",
+    "react-helmet-async": "^3.0.0",
     "react-image-crop": "^11.0.7",
     "react-infinite-scroller": "^1.2.6",
     "react-overlays": "^5.2.1",
