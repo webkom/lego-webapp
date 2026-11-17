@@ -203,7 +203,7 @@ steps:
     commands:
       - npm i -g corepack
       - corepack enable
-      - pnpm --filter lego-webapp exec cypress install
+      - pnpm --filter lego-webapp exec cypress install --force
 
   - name: frontend
     image: node:26-alpine
