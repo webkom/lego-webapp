@@ -292,10 +292,9 @@ const UserProfile = () => {
               <EventListCompact
                 events={orderBy(upcomingEvents, 'startTime')}
                 noEventsMessage="Du har ingen kommende arrangementer"
-                eventStyle="compact"
                 loading={upcomingEventsPagination.fetching}
               />
-              <h3>
+              <h3 className={styles.previousEventsHeading}>
                 Dine tidligere arrangementer (
                 {!previousEventsPagination.fetching
                   ? (sortedPreviousEvents?.length ?? 0)

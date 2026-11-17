@@ -76,7 +76,7 @@ const EventListGroup = ({
       <h3 className={styles.eventGroupTitle}>{name}</h3>
       <Flex column gap="var(--spacing-md)">
         {events.map((event) => (
-          <EventItem key={event.id} event={event} showTags={false} />
+          <EventItem key={event.id} event={event} />
         ))}
       </Flex>
     </div>
