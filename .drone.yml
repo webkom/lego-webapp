@@ -339,6 +339,6 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: b6ca3ee23ee86e60e0e837aaaf075b739dce3df4fdeb7bccf5aa161e03d4aaef
+hmac: 2b6d41528dee6d2f36c3c7b0e2f3b9f6588a0b931d72c7b3c046219f300cbfe2
 
 ...
