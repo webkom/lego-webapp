@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/node';
 import { parse } from 'cookie';
 import { PageContextServer } from 'vike/types';
 import { useConfig } from 'vike-react/useConfig';
-import { PageContextProvider } from 'vike-react/usePageContext';
+import { VikeReactProviderPageContext } from 'vike-react/usePageContext';
 import { fetchMeta } from '~/redux/actions/MetaActions';
 import { loginAutomaticallyIfPossible } from '~/redux/actions/UserActions';
 import { selectCurrentUser } from '~/redux/slices/auth';
@@ -46,11 +46,11 @@ export async function onBeforeRenderHtml(pageContext: PageContextServer) {
   if (Page)
     try {
       pageContext.preparedStateCode = await prepareWithTimeout(
-        <PageContextProvider pageContext={pageContext}>
+        <VikeReactProviderPageContext pageContext={pageContext}>
           <Wrapper>
             <Page />
           </Wrapper>
-        </PageContextProvider>,
+        </VikeReactProviderPageContext>,
       );
     } catch (error) {
       console.error(error);

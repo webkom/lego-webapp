@@ -53,6 +53,15 @@ export default defineConfig({
     sourcemap: true,
     cssCodeSplit: false,
   },
+  environments: {
+    ssr: {
+      build: {
+        rollupOptions: {
+          input: { instrument: './server/instrument.ts' },
+        },
+      },
+    },
+  },
   test: {
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
