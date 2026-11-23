@@ -1,15 +1,16 @@
 import {
   Button,
-  Flex,
   Icon,
   Skeleton,
   useClearSearchParams,
 } from '@webkom/lego-bricks';
 import { FilterX, FolderOpen } from 'lucide-react';
+import { useRef } from 'react';
 import EmptyState from '~/components/EmptyState';
 import JoblistingItem from '~/components/JoblistingItem';
 import sharedStyles from '~/components/JoblistingItem/JoblistingItem.module.css';
 import { useAppSelector } from '~/redux/hooks';
+import useListEntranceAnimation from '~/utils/useListEntranceAnimation';
 import styles from './JoblistingList.module.css';
 import type { ListJoblisting } from '~/redux/models/Joblisting';
 
@@ -21,6 +22,11 @@ type JobListingsListProps = {
 const JoblistingsList = ({ joblistings, totalCount }: JobListingsListProps) => {
   const fetching = useAppSelector((state) => state.joblistings.fetching);
   const clearSearchParams = useClearSearchParams();
+  const listRef = useRef<HTMLDivElement>(null);
+  useListEntranceAnimation(
+    listRef,
+    joblistings.map((joblisting) => joblisting.id).join(),
+  );
 
   if (joblistings.length === 0 && !fetching) {
     return (
@@ -46,7 +52,7 @@ const JoblistingsList = ({ joblistings, totalCount }: JobListingsListProps) => {
   }
 
   return (
-    <Flex column gap="var(--spacing-sm)">
+    <div ref={listRef} className={styles.list}>
       {fetching && !joblistings.length ? (
         <Skeleton array={5} className={sharedStyles.joblistingItem} />
       ) : (
@@ -54,7 +60,7 @@ const JoblistingsList = ({ joblistings, totalCount }: JobListingsListProps) => {
           <JoblistingItem key={joblisting.id} joblisting={joblisting} />
         ))
       )}
-    </Flex>
+    </div>
   );
 };
 

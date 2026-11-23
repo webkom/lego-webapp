@@ -3,12 +3,16 @@
 .emptyState {
   max-width: 280px;
   text-align: center;
-  margin: 0 auto;
-  margin-top: var(--spacing-xl);
-  margin-bottom: var(--spacing-xl);
+  margin: var(--spacing-xl) auto;
 
   @media (--mobile-device) {
     margin-top: var(--spacing-md);
     margin-bottom: var(--spacing-md);
   }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
 }

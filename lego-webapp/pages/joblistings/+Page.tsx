@@ -1,4 +1,4 @@
-import { filterSidebar, LinkButton, Page, Icon } from '@webkom/lego-bricks';
+import { filterSidebar, HeroPage, Icon, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Plus } from 'lucide-react';
 import moment from 'moment-timezone';
@@ -9,7 +9,9 @@ import JoblistingsList from '~/pages/joblistings/_components/JoblistingList';
 import JoblistingFilters from '~/pages/joblistings/_components/JoblistingRightNav';
 import { fetchAll } from '~/redux/actions/JoblistingActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EntityType } from '~/redux/models/entities';
 import { selectAllJoblistings } from '~/redux/slices/joblistings';
+import { selectPaginationNext } from '~/redux/slices/selectors';
 import { parseQueryString } from '~/utils/useQuery';
 import type { ListJoblisting } from '~/redux/models/Joblisting';
 
@@ -19,6 +21,8 @@ export const defaultJoblistingsQuery = {
   jobTypes: [] as string[],
   workplaces: [] as string[],
 };
+
+const joblistingsFetchQuery = { timeFilter: true };
 
 const MAJOR_CITIES = ['Oslo', 'Trondheim', 'Bergen', 'Tromsø'];
 
@@ -86,7 +90,16 @@ const sortJoblistings = (joblistings: ListJoblisting[], sortType: string) => {
 };
 
 const JoblistingsPage = () => {
-  const unsortedJoblistings = useAppSelector(selectAllJoblistings);
+  const { pagination } = useAppSelector(
+    selectPaginationNext({
+      endpoint: '/joblistings/',
+      query: joblistingsFetchQuery,
+      entity: EntityType.Joblistings,
+    }),
+  );
+  const unsortedJoblistings = useAppSelector((state) =>
+    selectAllJoblistings(state, { pagination }),
+  );
   const pageContext = usePageContext();
 
   const { order, grades, jobTypes, workplaces } = parseQueryString(
@@ -109,31 +122,34 @@ const JoblistingsPage = () => {
 
   usePreparedEffect(
     'fetchJoblistingPage',
-    () => dispatch(fetchAll({ timeFilter: true })),
+    () => dispatch(fetchAll(joblistingsFetchQuery)),
     [],
   );
 
   return (
-    <Page
+    <HeroPage
       title="Jobbannonser"
-      sidebar={filterSidebar({
-        children: <JoblistingFilters />,
-      })}
-      actionButtons={
+      actions={
         actionGrant.includes('create') && (
-          <LinkButton href="/joblistings/new">
-            <Icon iconNode={<Plus />} size={19} />
+          <LinkButton dark href="/joblistings/new">
+            <Icon iconNode={<Plus />} size={20} />
             Ny jobbannonse
           </LinkButton>
         )
       }
     >
       <Helmet title="Karriere" />
-      <JoblistingsList
-        joblistings={joblistings}
-        totalCount={unsortedJoblistings.length}
-      />
-    </Page>
+      <HeroPage.Section
+        sidebar={filterSidebar({
+          children: <JoblistingFilters />,
+        })}
+      >
+        <JoblistingsList
+          joblistings={joblistings}
+          totalCount={unsortedJoblistings.length}
+        />
+      </HeroPage.Section>
+    </HeroPage>
   );
 };
 
