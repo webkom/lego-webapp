@@ -1,74 +1,61 @@
 @import url('styles/custom-media.css');
 
 .joblistingItem {
-  display: flex;
-  align-items: center;
-  padding: var(--spacing-md);
-  margin-left: calc(-1 * var(--spacing-md));
-  gap: var(--spacing-md);
-  min-width: 280px;
-  min-height: 140px;
-  height: fit-content;
+  min-height: 112px;
   border-radius: var(--border-radius-lg);
-  color: var(--lego-font-color);
-  transition: background-color var(--easing-fast);
+  color: inherit;
+}
 
-  &:hover {
-    background-color: var(--additive-background);
-  }
+.joblistingItem > .card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
 
   @media (--mobile-device) {
-    padding: var(--spacing-xs);
-    margin-left: calc(-1 * var(--spacing-xs));
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+  }
+
+  @media (--small-viewport) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--spacing-md);
   }
 }
 
-img.companyLogo {
-  width: 120px;
-  max-height: 80px;
-  min-width: 120px;
-  object-fit: contain;
-  background: white;
+.main {
+  font-size: var(--font-size-sm);
 }
 
-.listItem {
-  flex: 1;
-  justify-content: space-between;
+.secondary {
+  color: var(--secondary-font-color);
+}
+
+.metaItem {
+  display: inline-flex;
+  align-items: center;
   gap: var(--spacing-xs);
-
-  @media (--mobile-device) {
-    flex-direction: column;
-  }
 }
 
-.joblistingItemTitle h3 {
-  font-weight: 600;
+.title {
+  margin: 0;
   font-size: var(--font-size-lg);
-  margin-right: var(--spacing-sm);
-  margin-bottom: var(--spacing-sm);
-  width: 70%;
+}
 
-  & > div {
-    display: inline-block;
+img.logo {
+  width: 112px;
+  height: 80px;
+  padding: var(--spacing-sm);
+  object-fit: contain;
+  border-radius: var(--border-radius-md);
+  background: white;
+
+  @media (--small-viewport) {
+    order: -1;
+    width: 100%;
+    max-width: none;
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--border-gray);
   }
-}
-
-.titleTag {
-  vertical-align: middle;
-  margin-right: var(--spacing-xs);
-}
-
-.joblistingItemBottom {
-  @media (--mobile-device) {
-    flex-direction: column;
-  }
-}
-
-.joblistingCalender {
-  display: flex;
-  gap: var(--spacing-xs);
-}
-
-.pin {
-  transform: rotate(45deg);
 }

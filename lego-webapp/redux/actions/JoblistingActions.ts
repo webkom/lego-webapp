@@ -14,6 +14,9 @@ export function fetchAll(query?: { company?: EntityId; timeFilter?: boolean }) {
     endpoint: '/joblistings/',
     query,
     schema: [joblistingsSchema],
+    pagination: {
+      fetchNext: false,
+    },
     meta: {
       errorMessage: 'Henting av jobbannonser feilet',
     },
