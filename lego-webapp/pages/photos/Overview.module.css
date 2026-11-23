@@ -1,13 +1,7 @@
+@import url('styles/custom-media.css');
+
 .gallery {
   width: 220px;
-}
-
-.galleryTitle {
-  font-weight: bold;
-}
-
-.galleryDescription {
-  font-size: var(--font-size-sm);
 }
 
 .descriptionRow {
@@ -79,11 +73,50 @@
   cursor: pointer;
 }
 
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--spacing-md);
+
+  @media (--mobile-device) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (--small-viewport) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.card {
+  position: relative;
+  color: inherit;
+}
+
+.cover {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.content {
+  flex: 1;
+  padding: var(--spacing-md);
+
+  & h3 {
+    margin: 0;
+  }
+}
+
+.footer {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-sm);
+  color: var(--secondary-font-color);
+}
+
 .pinnedBadge {
   position: absolute;
   top: var(--spacing-xs);
   right: var(--spacing-xs);
-  color: var(--white);
+  color: var(--color-white);
   padding: var(--spacing-xs);
   rotate: 40deg;
 }
