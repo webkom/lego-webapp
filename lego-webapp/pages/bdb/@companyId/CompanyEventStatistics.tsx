@@ -5,7 +5,10 @@ import { useMemo, useState } from 'react';
 import { SelectInput } from '~/components/Form';
 import { Tag } from '~/components/Tags';
 import { sortSemesterChronologically } from '~/pages/bdb/company-interest/utils';
-import { semesterToHumanReadable } from '~/pages/bdb/utils';
+import {
+  getClosestCompanySemester,
+  semesterToHumanReadable,
+} from '~/pages/bdb/utils';
 import { fetchEventStatistics } from '~/redux/actions/CompanyActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectCompanyEventStatistics } from '~/redux/slices/companies';
@@ -33,12 +36,12 @@ const CompanyEventStatistics = ({ companyId }: Props) => {
     () => [...companySemesters].sort(sortSemesterChronologically).reverse(),
     [companySemesters],
   );
-  const latestSemesterId = sortedSemesters[0]?.id;
+  const closestSemesterId = getClosestCompanySemester(companySemesters)?.id;
 
   const [selectedFromSemesterId, setFromSemesterId] = useState<EntityId>();
   const [selectedToSemesterId, setToSemesterId] = useState<EntityId>();
-  const fromSemesterId = selectedFromSemesterId ?? latestSemesterId;
-  const toSemesterId = selectedToSemesterId ?? latestSemesterId;
+  const fromSemesterId = selectedFromSemesterId ?? closestSemesterId;
+  const toSemesterId = selectedToSemesterId ?? closestSemesterId;
 
   const statistics = useAppSelector((state) =>
     selectCompanyEventStatistics(

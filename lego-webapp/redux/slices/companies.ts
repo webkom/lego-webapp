@@ -24,6 +24,7 @@ const legoAdapter = createLegoAdapter(EntityType.Companies);
 
 type ExtraCompaniesState = {
   eventStatistics: Record<string, CompanyEventStatistics>;
+  eventCounts: Record<EntityId, number>;
 };
 
 const eventStatisticsKey = (
@@ -36,6 +37,7 @@ const companiesSlice = createSlice({
   name: EntityType.Companies,
   initialState: legoAdapter.getInitialState<ExtraCompaniesState>({
     eventStatistics: {},
+    eventCounts: {},
   }),
   reducers: {},
   extraReducers: legoAdapter.buildReducers({
@@ -117,6 +119,10 @@ const companiesSlice = createSlice({
         },
       );
 
+      addCase(Company.FETCH_EVENT_COUNT.SUCCESS, (state, action: AnyAction) => {
+        state.eventCounts[action.meta.semesterId] = action.payload.eventCount;
+      });
+
       addCommentCases(EntityType.Companies, addCase);
     },
   }),
@@ -141,6 +147,14 @@ export const selectCompanyEventStatistics = (
     : state.companies.eventStatistics[
         eventStatisticsKey(companyId, fromSemesterId, toSemesterId)
       ];
+
+export const selectSemesterEventCount = (
+  state: RootState,
+  semesterId?: EntityId,
+): number | undefined =>
+  semesterId === undefined
+    ? undefined
+    : state.companies.eventCounts[semesterId];
 
 export type TransformedStudentCompanyContact = Overwrite<
   StudentCompanyContact,
